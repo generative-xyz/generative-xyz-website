@@ -1,0 +1,66 @@
+{
+  "name": "generative-xyz-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:js:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
+    "lint:css": "stylelint **/*.{scss,css}",
+    "lint:css:fix": "stylelint --fix **/*.{scss,css}",
+    "lint:json": "prettier --check \"./**/*.json\"",
+    "lint:json:fix": "prettier --write \"./**/*.json\""
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "@types/node": "18.11.13",
+    "@types/react": "18.0.26",
+    "@types/react-dom": "18.0.9",
+    "next": "13.0.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-redux": "^8.0.5",
+    "reselect": "^4.1.7"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "@next/bundle-analyzer": "^13.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
+    "eslint": "^8.29.0",
+    "eslint-config-next": "^13.0.6",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
+    "sass": "^1.56.2",
+    "stylelint": "^14.16.0",
+    "stylelint-checkstyle-formatter": "^0.1.2",
+    "stylelint-config-standard": "^29.0.0",
+    "stylelint-scss": "^4.3.0",
+    "typescript": "^4.9.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "yarn lint:js:fix"
+    ],
+    "*.{css,scss}": [
+      "yarn lint:css:fix"
+    ],
+    "*.{json}": [
+      "yarn lint:json:fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint --verbose -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged && yarn build"
+    }
+  }
+}
