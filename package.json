@@ -12,7 +12,10 @@
     "lint:css": "stylelint **/*.{scss,css}",
     "lint:css:fix": "stylelint --fix **/*.{scss,css}",
     "lint:json": "prettier --check \"./**/*.json\"",
-    "lint:json:fix": "prettier --write \"./**/*.json\""
+    "lint:json:fix": "prettier --write \"./**/*.json\"",
+    "prepare": "husky install",
+    "commit-msg": "commitlint --edit \"$1\"",
+    "pre-commit": "lint-staged && yarn build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
@@ -36,7 +39,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
-    "husky": "^8.0.2",
+    "husky": "^8.0.0",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
     "sass": "^1.56.2",
@@ -53,14 +56,8 @@
     "*.{css,scss}": [
       "yarn lint:css:fix"
     ],
-    "*.{json}": [
+    "*.json": [
       "yarn lint:json:fix"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint --verbose -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged && yarn build"
-    }
   }
 }
