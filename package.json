@@ -18,15 +18,19 @@
     "pre-commit": "lint-staged && yarn build"
   },
   "dependencies": {
+    "@metamask/providers": "^10.2.1",
     "@reduxjs/toolkit": "^1.9.1",
     "@types/node": "18.11.13",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
+    "dayjs": "^1.11.7",
     "next": "13.0.6",
+    "nextjs-progressbar": "^0.0.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
-    "reselect": "^4.1.7"
+    "reselect": "^4.1.7",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
