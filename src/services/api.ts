@@ -43,7 +43,7 @@ export const get = async <R>(
   config?: RequestConfig
 ): Promise<R> => {
   const requestOptions = {
-    method: HttpMethod.Get,
+    method: HttpMethod.GET,
     ...config,
     headers: getHeader(config?.headers),
   } as RequestInit;
@@ -59,7 +59,7 @@ export const post = async <P, R>(
   config?: RequestConfig
 ): Promise<R> => {
   const requestOptions = {
-    method: HttpMethod.Post,
+    method: HttpMethod.POST,
     ...config,
     headers: getHeader(config?.headers),
     body: JSON.stringify(body),
@@ -76,7 +76,7 @@ export const put = async <P, R>(
   config?: RequestConfig
 ): Promise<R> => {
   const requestOptions = {
-    method: HttpMethod.Put,
+    method: HttpMethod.PUT,
     ...config,
     headers: getHeader(config?.headers),
     body: JSON.stringify(body),
@@ -92,7 +92,7 @@ export const del = async <R>(
   config?: RequestConfig
 ): Promise<R> => {
   const requestOptions = {
-    method: HttpMethod.Delete,
+    method: HttpMethod.DELETE,
     ...config,
     headers: getHeader(config?.headers),
   } as RequestInit;

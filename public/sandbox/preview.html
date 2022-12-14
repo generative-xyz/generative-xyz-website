@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script>
+    const ID = new URLSearchParams(window.location.search).get('id')
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js", {
+          scope: "/sandbox"
+        })
+          .then(reg => {
+            navigator.serviceWorker.addEventListener("message", event => {
+              if (event && event.data && event.data.type === "INDEX_HTML_CONTENTS") {
+                document.open()
+                document.write(event.data.data)
+                document.close()
+              }
+            })
+
+            reg.active.postMessage({
+              type: "GET_INDEX",
+              data: ID
+            })
+          })
+          .catch(err => console.log(err))
+      })
+    }
+  </script>
+</body>
+
+</html>

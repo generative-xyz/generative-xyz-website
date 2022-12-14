@@ -26,6 +26,8 @@ export class WalletManager {
     if (!this.web3Provider) {
       this.initiateWeb3Provider();
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.web3Provider!;
   }
 
@@ -38,6 +40,7 @@ export class WalletManager {
     if (!this.web3Provider) {
       this.initiateMetamaskProvider();
     }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.metamaskProvider!;
   }
 
@@ -93,6 +96,8 @@ export class WalletManager {
         contractAddress
       );
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.contracts[contractAddress]!;
   }
 }

@@ -1,1 +1,1 @@
-export default {};
+export const a = 3;
