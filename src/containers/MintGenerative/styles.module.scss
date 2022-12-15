@@ -1,0 +1,25 @@
+.container {
+  max-width: 1440px;
+  padding: 0 20px;
+  color: var(--text-primary);
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-disabled);
+  font-weight: 700;
+  margin-bottom: 32px;
+
+  > div {
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--text-disabled);
+    flex: 1;
+    text-align: center;
+  }
+
+  .active {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+}

@@ -11,6 +11,7 @@ import {
   SEO_IMAGE,
 } from '@constants/seo-default-info';
 import { WalletProvider } from '@contexts/wallet-context';
+import '../global/theme.scss';
 
 interface MyAppProps extends AppProps {
   Component: {

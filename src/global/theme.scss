@@ -1,0 +1,22 @@
+:root {
+  --text-primary: #000002;
+  --text-black: #1e1e1e;
+  --text-link: #000002;
+  --text-disabled: #a5a5a5;
+}
+
+body {
+  font-family: Inter, sans-serif;
+}
+
+a {
+  color: var(--text-link);
+
+  &:hover {
+    color: blue;
+  }
+}
+
+p {
+  margin: 0;
+}

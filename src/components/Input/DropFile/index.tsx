@@ -32,7 +32,7 @@ export interface IProps {
 
 const DropFile: React.FC<IProps> = ({
   defaultInnerHmtl = (
-    <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
+    <p>Drag &apos;n&apos; drop your zip files here, or click to select files</p>
   ),
   draggingInnerHtml = <p>Drop the files here ...</p>,
   acceptedFileType,
