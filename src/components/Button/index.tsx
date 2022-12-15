@@ -1,4 +1,6 @@
 import React, { PropsWithChildren } from 'react';
+import styles from './styles.module.scss';
+import cs from 'classnames';
 
 type ButtonType = 'button' | 'submit' | 'reset' | undefined;
 
@@ -21,7 +23,12 @@ const Button = React.forwardRef<
     ref: React.ForwardedRef<HTMLButtonElement>
   ) => {
     return (
-      <button type={type} className={className} ref={ref} {...delegatedProps}>
+      <button
+        type={type}
+        className={cs(styles.button, className)}
+        ref={ref}
+        {...delegatedProps}
+      >
         {children}
       </button>
     );

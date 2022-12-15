@@ -4,12 +4,18 @@ import Link from '@components/Link';
 import { LogLevel } from '@enums/log-level';
 import { SandboxFiles } from '@interfaces/sandbox';
 import { processSandboxZipFile } from '@utils/sandbox';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 import log from '@utils/logger';
 import Image from 'next/image';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
+import PlayIcon from 'public/assets/icons/play-icon.svg';
+import RefreshIcon from 'public/assets/icons/refresh-icon.svg';
 import { prettyPrintBytes } from '@utils/units';
+import Checkbox from '@components/Checkbox';
+import SandboxPreview from '@containers/Sandbox/SandboxPreview';
+import ClientOnly from '@components/Utils/ClientOnly';
+import cs from 'classnames';
 
 // type Props = {};
 
@@ -17,7 +23,6 @@ const LOG_PREFIX = 'MintGenerativeStep1';
 
 const Step1 = () => {
   const [file, setFile] = useState<File | null>(null);
-  // console.log('🚀 ~ Step1 ~ file', file);
   const [filesSandbox, setFilesSandbox] = useState<SandboxFiles | null>(null);
   // const [uploadSuccess, setUploadSuccess] = useState(false);
 
@@ -40,6 +45,26 @@ const Step1 = () => {
     }
   };
 
+  const handleReupload = (): void => {
+    setFile(null);
+    setFilesSandbox(null);
+  };
+
+  // TODO: Handle play button action
+  const handleGenerate = (): void => {
+    return;
+  };
+
+  // TODO: Handle refresh button action
+  const handleRefresh = (): void => {
+    return;
+  };
+
+  const fileList = useMemo<string[] | null>(
+    () => (filesSandbox ? Object.keys(filesSandbox) : null),
+    [filesSandbox]
+  );
+
   if (filesSandbox) {
     return (
       <div className={styles.wrapper}>
@@ -52,6 +77,33 @@ const Step1 = () => {
             <div className="">
               {file?.name} ({prettyPrintBytes(file?.size || 0)})
             </div>
+            <ul>
+              {fileList?.map((fileName: string) => (
+                <li key={fileName}>{fileName}</li>
+              ))}
+            </ul>
+            <Button onClick={handleReupload}>Update zip file</Button>
+          </div>
+          <div className={styles.checkboxes}>
+            <Checkbox
+              id="hash"
+              label="I want to keep this hash for the preview of project"
+            />
+            <Checkbox id="confirm" label="My Generative Token works properly" />
+          </div>
+          <Button className="wFull">Next Step</Button>
+        </div>
+        <div className={styles.previewContainer}>
+          <ClientOnly>
+            <SandboxPreview sandboxFiles={filesSandbox} />
+          </ClientOnly>
+          <div className={cs(styles.actionButtons, 'horizontalStack')}>
+            <Image src={PlayIcon} alt={'check icon'} onClick={handleGenerate} />
+            <Image
+              src={RefreshIcon}
+              alt={'check icon'}
+              onClick={handleRefresh}
+            />
           </div>
         </div>
       </div>

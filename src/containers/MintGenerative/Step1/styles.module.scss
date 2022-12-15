@@ -27,6 +27,7 @@
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 80px;
 }
 
 .uploadStatus {
@@ -42,4 +43,28 @@
 .uploadFiles {
   padding: 20px;
   background: #e7e7e7;
+  margin-bottom: 32px;
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.previewContainer {
+  > div:first-of-type {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.actionButtons {
+  justify-content: center;
+  margin-top: 8px;
+
+  > img {
+    cursor: pointer;
+  }
 }
