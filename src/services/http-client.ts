@@ -4,8 +4,12 @@ import { getAccessToken } from '@utils/auth';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
-const getRequestEndpoint = (url: string): string => {
-  return `${API_BASE_URL}${url}`;
+const getRequestEndpoint = (url: string, externalResource = false): string => {
+  if (!externalResource) {
+    return `${API_BASE_URL}${url}`;
+  }
+
+  return url;
 };
 
 const handleResponse = async <T>(response: Response): Promise<T> => {
@@ -48,7 +52,7 @@ export const get = async <R>(
     headers: getHeader(config?.headers),
   } as RequestInit;
 
-  const requestUrl = getRequestEndpoint(url);
+  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);
 };
@@ -65,7 +69,7 @@ export const post = async <P, R>(
     body: JSON.stringify(body),
   } as RequestInit;
 
-  const requestUrl = getRequestEndpoint(url);
+  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);
 };
@@ -82,7 +86,7 @@ export const put = async <P, R>(
     body: JSON.stringify(body),
   } as RequestInit;
 
-  const requestUrl = getRequestEndpoint(url);
+  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);
 };
@@ -97,7 +101,7 @@ export const del = async <R>(
     headers: getHeader(config?.headers),
   } as RequestInit;
 
-  const requestUrl = getRequestEndpoint(url);
+  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);
 };

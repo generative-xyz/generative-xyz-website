@@ -10,6 +10,7 @@ import {
   SEO_DESCRIPTION,
   SEO_IMAGE,
 } from '@constants/seo-default-info';
+import { WalletProvider } from '@contexts/wallet-context';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -52,9 +53,11 @@ export default function App({ Component, pageProps }: MyAppProps) {
       <NextNprogress />
 
       <Provider store={store}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <WalletProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </WalletProvider>
       </Provider>
     </>
   );

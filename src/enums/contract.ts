@@ -1,0 +1,7 @@
+export enum ContractOperationStatus {
+  IDLE = 'IDLE',
+  CALLING = 'CALLING',
+  WAITING_CONFIRMATION = 'WAITING_CONFIRMATION',
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+}
