@@ -22,7 +22,7 @@ RUN apk add --no-cache git curl \
     && cd .next/standalone \
     && node-prune
 
-# Build production
+# Build Production
 FROM node:18-alpine AS PRODUCTION
 WORKDIR /app
 COPY --from=BUILD /app/public ./public
