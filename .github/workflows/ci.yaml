@@ -1,0 +1,35 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "staging", "develop"]
+    tags:
+      - 'v**'
+  pull_request:
+    branches: [ "main", "staging", "develop"]
+
+
+jobs:
+  build-and-push-to-gcr:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get the tag name
+        id: get_tag_name
+        run: |
+          if [[ $GITHUB_REF_NAME == 'staging' || $GITHUB_REF_NAME == 'develop' ]]; then
+            short_sha=$(echo $GITHUB_SHA | head -c 7)
+            echo "IMAGE_TAG=${GITHUB_REF_NAME}-${short_sha}" >> $GITHUB_ENV
+          else
+            echo "IMAGE_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+          fi
+      - uses: RafikFarhad/push-to-gcr-github-action@v4.1
+        with:
+          gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} # can be base64 encoded or plain text
+          registry: gcr.io
+          project_id: generative-365207
+          image_name: generative-xyz-website
+          image_tag: latest,${{ env.IMAGE_TAG }}
+          dockerfile: ./Dockerfile
+          context: ./
+          
