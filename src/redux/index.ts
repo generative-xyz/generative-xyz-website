@@ -3,10 +3,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { combineReducers } from 'redux';
 // Slices
-import counterReducer from './counter/reducer';
+import userReducer from './user/reducer';
 
 const reducer = combineReducers({
-  counter: counterReducer,
+  user: userReducer,
 });
 
 const store = configureStore({

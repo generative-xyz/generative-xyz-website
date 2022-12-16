@@ -75,7 +75,8 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
 
     if (!walletCtx.connectedAddress || !walletCtx.walletManager) {
       try {
-        await walletCtx.verifyWalletState({
+        await walletCtx.connect();
+        await walletCtx.checkAndSwitchChain({
           chainID: params.chainID,
         });
       } catch (err) {

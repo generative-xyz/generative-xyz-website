@@ -1,5 +1,5 @@
 import { HttpMethod } from '@enums/http-method';
-import { RequestConfig } from '@interfaces/http-method';
+import { RequestConfig } from '@interfaces/api/http-method';
 import { getAccessToken } from '@utils/auth';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
