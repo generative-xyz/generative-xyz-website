@@ -1,7 +1,7 @@
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
-} from '@contexts/MintGenerativeContexts';
+} from '@contexts/mint-generative-context';
 import { ReactElement, useContext } from 'react';
 import styles from './styles.module.scss';
 

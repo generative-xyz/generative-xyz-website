@@ -1,7 +1,7 @@
 import DefaultLayout from '@components/Layout/DefaultLayout';
 import MintGenerative from '@containers/MintGenerative';
 import MintGenerativeStep2 from '@containers/MintGenerative/Step2';
-import { MintGenerativeContextProvider } from '@contexts/MintGenerativeContexts';
+import { MintGenerativeContextProvider } from '@contexts/mint-generative-context';
 import { NextPage } from 'next';
 
 const MintGenerativePage: NextPage = () => {

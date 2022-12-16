@@ -7,7 +7,7 @@ import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
-} from '@contexts/MintGenerativeContexts';
+} from '@contexts/mint-generative-context';
 import { LogLevel } from '@enums/log-level';
 import { MintGenerativeStep } from '@enums/mint-generative';
 import { SandboxFiles } from '@interfaces/sandbox';

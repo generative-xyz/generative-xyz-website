@@ -3,7 +3,7 @@ import Input from '@components/Input/TextInput';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
-} from '@contexts/MintGenerativeContexts';
+} from '@contexts/mint-generative-context';
 import { MintGenerativeStep } from '@enums/mint-generative';
 import React, { useContext, useEffect } from 'react';
 import styles from './styles.module.scss';

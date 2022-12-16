@@ -37,7 +37,9 @@
       "@interfaces": ["src/interfaces"],
       "@interfaces/*": ["src/interfaces/*"],
       "@utils": ["src/utils"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@styles": ["src/styles"],
+      "@styles/*": ["src/styles/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],
