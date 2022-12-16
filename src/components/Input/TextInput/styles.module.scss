@@ -1,0 +1,21 @@
+.inputWrapper {
+  .desc {
+    margin-block: 4px;
+    color: var(--text-disabled);
+  }
+
+  input {
+    padding: 16px;
+    width: 90%;
+
+    &::placeholder {
+      color: var(--text-disabled);
+    }
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 50px;
+    resize: none;
+  }
+}
