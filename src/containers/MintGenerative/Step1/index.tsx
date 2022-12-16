@@ -1,29 +1,39 @@
 import Button from '@components/Button';
+import Checkbox from '@components/Checkbox';
 import DropFile from '@components/Input/DropFile';
 import Link from '@components/Link';
+import ClientOnly from '@components/Utils/ClientOnly';
+import SandboxPreview from '@containers/Sandbox/SandboxPreview';
+import {
+  MintGenerativeContext,
+  MintGenerativeContextTypes,
+} from '@contexts/MintGenerativeContexts';
 import { LogLevel } from '@enums/log-level';
+import { MintGenerativeStep } from '@enums/mint-generative';
 import { SandboxFiles } from '@interfaces/sandbox';
-import { processSandboxZipFile } from '@utils/sandbox';
-import React, { useMemo, useState } from 'react';
-import styles from './styles.module.scss';
 import log from '@utils/logger';
+import { processSandboxZipFile } from '@utils/sandbox';
+import { prettyPrintBytes } from '@utils/units';
+import cs from 'classnames';
 import Image from 'next/image';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
 import PlayIcon from 'public/assets/icons/play-icon.svg';
 import RefreshIcon from 'public/assets/icons/refresh-icon.svg';
-import { prettyPrintBytes } from '@utils/units';
-import Checkbox from '@components/Checkbox';
-import SandboxPreview from '@containers/Sandbox/SandboxPreview';
-import ClientOnly from '@components/Utils/ClientOnly';
-import cs from 'classnames';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import styles from './styles.module.scss';
 
 // type Props = {};
 
 const LOG_PREFIX = 'MintGenerativeStep1';
 
 const Step1 = () => {
+  const { setCurrentStep } = useContext(
+    MintGenerativeContext
+  ) as MintGenerativeContextTypes;
+
   const [file, setFile] = useState<File | null>(null);
   const [filesSandbox, setFilesSandbox] = useState<SandboxFiles | null>(null);
+
   // const [uploadSuccess, setUploadSuccess] = useState(false);
 
   const processFile = async (file: File) => {
@@ -60,6 +70,10 @@ const Step1 = () => {
     return;
   };
 
+  useEffect(() => {
+    setCurrentStep(MintGenerativeStep.UPLOAD_PROJECT);
+  }, []);
+
   const fileList = useMemo<string[] | null>(
     () => (filesSandbox ? Object.keys(filesSandbox) : null),
     [filesSandbox]
@@ -91,7 +105,9 @@ const Step1 = () => {
             />
             <Checkbox id="confirm" label="My Generative Token works properly" />
           </div>
-          <Button className="wFull">Next Step</Button>
+          <Link href="/mint-generative/product-detail" className="wFull">
+            Next Step
+          </Link>
         </div>
         <div className={styles.previewContainer}>
           <ClientOnly>

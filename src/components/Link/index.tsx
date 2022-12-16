@@ -4,10 +4,17 @@ import { ReactNode } from 'react';
 type LinkProps = {
   onClick?: () => void;
   children: ReactNode;
-  href: URL | '#';
+  href: string;
+  className?: string;
 };
 
-export default function Link({ onClick, children, href, ...rest }: LinkProps) {
+export default function Link({
+  onClick,
+  children,
+  className,
+  href,
+  ...rest
+}: LinkProps) {
   return (
     <NextLink
       href={href}
@@ -19,6 +26,7 @@ export default function Link({ onClick, children, href, ...rest }: LinkProps) {
             }
           : undefined
       }
+      className={className}
       {...rest}
       passHref
     >
