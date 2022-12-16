@@ -20,8 +20,10 @@ jobs:
           if [[ $GITHUB_REF_NAME == 'staging' || $GITHUB_REF_NAME == 'develop' ]]; then
             short_sha=$(echo $GITHUB_SHA | head -c 7)
             echo "IMAGE_TAG=${GITHUB_REF_NAME}-${short_sha}" >> $GITHUB_ENV
+            echo "ENV=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           else
             echo "IMAGE_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+            echo "ENV=production" >> $GITHUB_ENV
           fi
       - uses: RafikFarhad/push-to-gcr-github-action@v4.1
         with:
@@ -32,4 +34,4 @@ jobs:
           image_tag: latest,${{ env.IMAGE_TAG }}
           dockerfile: ./Dockerfile
           context: ./
-          
+          build_args: ENV=${{ env.ENV }}          
