@@ -3,7 +3,6 @@ import Checkbox from '@components/Checkbox';
 import DropFile from '@components/Input/DropFile';
 import Link from '@components/Link';
 import ClientOnly from '@components/Utils/ClientOnly';
-import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
@@ -72,7 +71,7 @@ const Step1 = () => {
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.UPLOAD_PROJECT);
-  }, []);
+  }, [setCurrentStep]);
 
   const fileList = useMemo<string[] | null>(
     () => (filesSandbox ? Object.keys(filesSandbox) : null),
@@ -111,7 +110,7 @@ const Step1 = () => {
         </div>
         <div className={styles.previewContainer}>
           <ClientOnly>
-            <SandboxPreview sandboxFiles={filesSandbox} />
+            {/* <SandboxPreview sandboxFiles={filesSandbox} /> */}
           </ClientOnly>
           <div className={cs(styles.actionButtons, 'horizontalStack')}>
             <Image src={PlayIcon} alt={'check icon'} onClick={handleGenerate} />

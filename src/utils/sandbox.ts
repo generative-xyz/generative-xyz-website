@@ -4,33 +4,34 @@ import { SandboxFileError } from '@enums/sandbox';
 import { SandboxFiles } from '@interfaces/sandbox';
 import { unzipFile } from '@utils/file';
 import { SNIPPET_HTML } from '@constants/snippet-html';
+import { SNIPPET_SELECTOR } from '@constants/sandbox';
 
 export const processSandboxZipFile = async (
   file: File
 ): Promise<SandboxFiles> => {
   const fileType = await FileType.fromBlob(file);
   if (!fileType || !ZIP_MIMES.includes(fileType.mime)) {
-    throw SandboxFileError.WRONG_FORMAT;
+    throw Error(SandboxFileError.WRONG_FORMAT);
   }
 
   let files;
   try {
     files = await unzipFile(file);
   } catch (err) {
-    throw SandboxFileError.FAILED_UNZIP;
+    throw Error(SandboxFileError.FAILED_UNZIP);
   }
 
   if (!files['index.html']) {
-    throw SandboxFileError.NO_INDEX_HTML;
+    throw Error(SandboxFileError.NO_INDEX_HTML);
   }
 
   const indexContents = await files['index.html'].text();
   const parser = new DOMParser();
   const doc = parser.parseFromString(indexContents, 'text/html');
 
-  const snippet = doc.querySelector('#fxhash-snippet');
+  const snippet = doc.querySelector(SNIPPET_SELECTOR);
   if (!snippet) {
-    throw SandboxFileError.NO_SNIPPET;
+    throw Error(SandboxFileError.NO_SNIPPET);
   }
 
   snippet.innerHTML = SNIPPET_HTML;

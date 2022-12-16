@@ -17,7 +17,7 @@ const Step2 = () => {
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.PRODUCT_DETAIL);
-  }, []);
+  }, [setCurrentStep]);
 
   return (
     <div className={styles.wrapper}>

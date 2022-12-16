@@ -1,9 +1,8 @@
 import NextLink from 'next/link';
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 type LinkProps = {
   onClick?: () => void;
-  children: ReactNode;
   href: string;
   className?: string;
 };
@@ -14,7 +13,7 @@ export default function Link({
   className,
   href,
   ...rest
-}: LinkProps) {
+}: PropsWithChildren<LinkProps>) {
   return (
     <NextLink
       href={href}

@@ -1,9 +1,14 @@
 import s from './styles.module.scss';
-import React, { useMemo, useState } from 'react';
-import { SandboxFiles } from '@interfaces/sandbox';
+import React, { useMemo, useRef, useState } from 'react';
+import {
+  ISandboxRef,
+  RawTokenAttributes,
+  SandboxFiles,
+} from '@interfaces/sandbox';
 import { processSandboxZipFile } from '@utils/sandbox';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
+import { generateHash } from '@utils/generate-data';
 import DropFile from '@components/Input/DropFile';
 import Button from '@components/Button';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
@@ -11,14 +16,34 @@ import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 const LOG_PREFIX = 'Sandbox';
 
 const Sandbox: React.FC = (): React.ReactElement => {
+  const sandboxRef = useRef<ISandboxRef>(null);
   const [file, setFile] = useState<File | null>(null);
   const [filesSandbox, setFilesSandbox] = useState<SandboxFiles | null>(null);
-  // const [error, setError] = useState<string | null>(null);
+  const [hash, setHash] = useState<string>(generateHash());
+  const [attributes, setAttributes] = useState<RawTokenAttributes | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const fileList = useMemo<string[] | null>(
-    () => (filesSandbox ? Object.keys(filesSandbox) : null),
-    [filesSandbox]
-  );
+  const handleIframeLoaded = (): void => {
+    if (sandboxRef.current) {
+      const iframe = sandboxRef.current.getHtmlIframe();
+      if (iframe) {
+        // @ts-ignore: Allow read iframe's window object
+        if (iframe.contentWindow?.$generativeTraits) {
+          // @ts-ignore: Allow read iframe's window object
+          setAttributes(iframe.contentWindow?.$generativeTraits);
+        } else {
+          setAttributes(null);
+        }
+      }
+    }
+  };
+
+  const handleGenerateHash = () => {
+    setHash(generateHash());
+    if (sandboxRef.current && filesSandbox) {
+      sandboxRef.current.reloadIframe();
+    }
+  };
 
   const processFile = async (file: File) => {
     try {
@@ -26,6 +51,7 @@ const Sandbox: React.FC = (): React.ReactElement => {
       setFilesSandbox(files);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
+      setError((err as Error).message);
     }
   };
 
@@ -38,6 +64,11 @@ const Sandbox: React.FC = (): React.ReactElement => {
       processFile(file);
     }
   };
+
+  const fileList = useMemo<string[] | null>(
+    () => (filesSandbox ? Object.keys(filesSandbox) : null),
+    [filesSandbox]
+  );
 
   return (
     <section className={s.sandbox}>
@@ -55,10 +86,32 @@ const Sandbox: React.FC = (): React.ReactElement => {
           onChange={handleChangeFile}
           files={file ? [file] : null}
         />
+        <div className={s.hashContainer}>
+          <div>
+            <p>hash: {hash}</p>
+          </div>
+          <Button onClick={handleGenerateHash}>Generate new hash</Button>
+        </div>
         <Button onClick={handleProccessFile}>Test</Button>
       </div>
+      {error && <div className={s.errorContainer}>{error}</div>}
+      {attributes && (
+        <div className={s.attributesContainer}>
+          <p>Attributes:</p>
+          {Object.entries(attributes).map(([key, value]) => (
+            <p key={key}>
+              key: {key}, val: {`${value}`}
+            </p>
+          ))}
+        </div>
+      )}
       <div className={s.previewContainer}>
-        <SandboxPreview sandboxFiles={filesSandbox} />
+        <SandboxPreview
+          ref={sandboxRef}
+          hash={hash}
+          sandboxFiles={filesSandbox}
+          onLoaded={handleIframeLoaded}
+        />
       </div>
     </section>
   );

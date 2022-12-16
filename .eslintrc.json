@@ -26,6 +26,12 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "error",
-    "no-console": "error"
+    "no-console": "error",
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        "ts-ignore": "allow-with-description"
+      }
+    ]
   }
 }
