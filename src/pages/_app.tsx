@@ -12,6 +12,7 @@ import {
 } from '@constants/seo-default-info';
 import { WalletProvider } from '@contexts/wallet-context';
 import '@styles/index.scss';
+import { MintGenerativeContextProvider } from '@contexts/mint-generative-context';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -55,9 +56,11 @@ export default function App({ Component, pageProps }: MyAppProps) {
 
       <Provider store={store}>
         <WalletProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <MintGenerativeContextProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </MintGenerativeContextProvider>
         </WalletProvider>
       </Provider>
     </>

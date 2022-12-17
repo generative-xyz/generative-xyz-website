@@ -74,7 +74,7 @@ const Step1 = () => {
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.UPLOAD_PROJECT);
-  }, []);
+  }, [setCurrentStep]);
 
   const fileList = useMemo<string[] | null>(
     () => (filesSandbox ? Object.keys(filesSandbox) : null),
