@@ -10,12 +10,12 @@ import {
 } from '@contexts/mint-generative-context';
 import { LogLevel } from '@enums/log-level';
 import { MintGenerativeStep } from '@enums/mint-generative';
-import { SandboxFiles } from '@interfaces/sandbox';
 import log from '@utils/logger';
 import { processSandboxZipFile } from '@utils/sandbox';
 import { prettyPrintBytes } from '@utils/units';
 import cs from 'classnames';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
 import PlayIcon from 'public/assets/icons/play-icon.svg';
 import RefreshIcon from 'public/assets/icons/refresh-icon.svg';
@@ -27,12 +27,14 @@ import styles from './styles.module.scss';
 const LOG_PREFIX = 'MintGenerativeStep1';
 
 const Step1 = () => {
-  const { setCurrentStep } = useContext(
+  const { filesSandbox, setCurrentStep, setFilesSandbox } = useContext(
     MintGenerativeContext
   ) as MintGenerativeContextTypes;
 
+  const router = useRouter();
+
   const [file, setFile] = useState<File | null>(null);
-  const [filesSandbox, setFilesSandbox] = useState<SandboxFiles | null>(null);
+  // const [filesSandbox, setFilesSandbox] = useState<SandboxFiles | null>(null);
 
   // const [uploadSuccess, setUploadSuccess] = useState(false);
 
@@ -105,9 +107,12 @@ const Step1 = () => {
             />
             <Checkbox id="confirm" label="My Generative Token works properly" />
           </div>
-          <Link href="/mint-generative/product-detail" className="wFull">
+          <Button
+            className="wFull"
+            onClick={() => router.push('/mint-generative/product-detail')}
+          >
             Next Step
-          </Link>
+          </Button>
         </div>
         <div className={styles.previewContainer}>
           <ClientOnly>

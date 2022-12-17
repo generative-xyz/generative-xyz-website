@@ -1,4 +1,8 @@
 .wrapper {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+
   input,
   label {
     cursor: pointer;
