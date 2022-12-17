@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState } from 'react';
+import { SandboxFiles } from '@interfaces/sandbox';
+import React, {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useState,
+} from 'react';
 
 type Props = {
   children: React.ReactNode;
@@ -7,6 +14,8 @@ type Props = {
 export type MintGenerativeContextTypes = {
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  filesSandbox: SandboxFiles | null;
+  setFilesSandbox: Dispatch<SetStateAction<SandboxFiles | null>>;
 };
 
 export const MintGenerativeContext =
@@ -14,9 +23,12 @@ export const MintGenerativeContext =
 
 export const MintGenerativeContextProvider = ({ children }: Props) => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [filesSandbox, setFilesSandbox] = useState<SandboxFiles | null>(null);
 
   return (
-    <MintGenerativeContext.Provider value={{ currentStep, setCurrentStep }}>
+    <MintGenerativeContext.Provider
+      value={{ currentStep, setCurrentStep, filesSandbox, setFilesSandbox }}
+    >
       {children}
     </MintGenerativeContext.Provider>
   );

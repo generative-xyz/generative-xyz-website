@@ -8,21 +8,27 @@
   }
 }
 
-.form {
+.inputGroup {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.categories {
-  padding: 20px;
+.methodOptions {
   border: 1px solid #000;
+  padding: 16px;
   margin-top: 8px;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
 
-  label {
-    font-weight: 400;
+  > div {
+    font-weight: 700;
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+
+    &.active {
+      background-color: #d9d9d9;
+    }
   }
 }
