@@ -3,8 +3,14 @@ import { ZIP_MIMES } from '@constants/file';
 import { SandboxFileError } from '@enums/sandbox';
 import { SandboxFiles } from '@interfaces/sandbox';
 import { unzipFile } from '@utils/file';
-import { SNIPPET_HTML } from '@constants/snippet-html';
-import { SNIPPET_SELECTOR } from '@constants/sandbox';
+import {
+  SNIPPET_CONTRACT_HTML,
+  SNIPPET_RANDOM_HTML,
+} from '@constants/snippet-html';
+import {
+  SNIPPET_CONTRACT_CODE_SELECTOR,
+  SNIPPET_RANDOM_CODE_SELECTOR,
+} from '@constants/sandbox';
 
 export const processSandboxZipFile = async (
   file: File
@@ -29,12 +35,18 @@ export const processSandboxZipFile = async (
   const parser = new DOMParser();
   const doc = parser.parseFromString(indexContents, 'text/html');
 
-  const snippet = doc.querySelector(SNIPPET_SELECTOR);
-  if (!snippet) {
-    throw Error(SandboxFileError.NO_SNIPPET);
+  const snippetContract = doc.querySelector(SNIPPET_CONTRACT_CODE_SELECTOR);
+  if (!snippetContract) {
+    throw Error(SandboxFileError.NO_SNIPPET_CONTRACT);
   }
+  snippetContract.innerHTML = SNIPPET_CONTRACT_HTML;
 
-  snippet.innerHTML = SNIPPET_HTML;
+  const snippetRandom = doc.querySelector(SNIPPET_RANDOM_CODE_SELECTOR);
+  if (!snippetRandom) {
+    throw Error(SandboxFileError.NO_SNIPPET_RANDOM);
+  }
+  snippetRandom.innerHTML = SNIPPET_RANDOM_HTML;
+
   const newIndexContents = doc.documentElement.outerHTML;
   files['index.html'] = new Blob([newIndexContents], { type: 'text/html' });
 

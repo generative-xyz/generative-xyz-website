@@ -5,12 +5,16 @@ import {
   ContractOperationCallback,
   ContractOperationHookReturn,
   ContractOperationRequiredParams,
+  ContractOperationReturn,
 } from '@interfaces/contract';
 import { ContractOperationStatus } from '@enums/contract';
 import { WalletContext } from '@contexts/wallet-context';
 
-const useContractOperation = <P extends ContractOperationRequiredParams>(
-  OperationClass: TContractOperation<P>
+const useContractOperation = <
+  P extends ContractOperationRequiredParams,
+  R extends ContractOperationReturn
+>(
+  OperationClass: TContractOperation<P, R>
 ): ContractOperationHookReturn<P> => {
   const walletCtx = useContext(WalletContext);
   const [status, setStatus] = useState<ContractOperationStatus>(
@@ -22,14 +26,16 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
-  const [tx, setTx] = useState<TransactionReceipt | null>(null);
+  const [data, setData] = useState<
+    TransactionReceipt | number | string | boolean | null
+  >(null);
   const [params, setParams] = useState<P | null>(null);
 
   const reset = (): void => {
     setIsLoading(false);
     setIsError(false);
     setIsError(false);
-    setTx(null);
+    setData(null);
     setTxHash(null);
     setParams(null);
     setSuccessMsg(null);
@@ -43,27 +49,27 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
     setIsError(false);
     setSuccessMsg(null);
     setErrMsg(null);
-    setTx(null);
+    setData(null);
     setTxHash(null);
     setParams(params);
     setStatus(ContractOperationStatus.IDLE);
 
-    const statusCallback: ContractOperationCallback = (opStatus, data) => {
+    const statusCallback: ContractOperationCallback = (opStatus, res) => {
       setStatus(opStatus);
 
       if (opStatus === ContractOperationStatus.SUCCESS) {
         setIsSuccess(true);
         setIsLoading(false);
 
-        if (data?.message) {
-          setSuccessMsg(data.message);
+        if (res?.message) {
+          setSuccessMsg(res.message);
         }
 
-        if (data?.transactionHash) {
-          setTxHash(data.transactionHash);
+        if (res?.transactionHash) {
+          setTxHash(res.transactionHash);
         }
-        if (data?.transaction) {
-          setTx(data?.transaction);
+        if (res?.data) {
+          setData(res?.data);
         }
       }
 
@@ -75,7 +81,7 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
 
     if (!walletCtx.connectedAddress || !walletCtx.walletManager) {
       try {
-        await walletCtx.connect();
+        // await walletCtx.connect();
         await walletCtx.checkAndSwitchChain({
           chainID: params.chainID,
         });
@@ -85,7 +91,7 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
       }
     }
 
-    walletCtx.walletManager?.runContractOperation<P>(
+    walletCtx.walletManager?.runContractOperation<P, R>(
       OperationClass,
       params,
       statusCallback
@@ -101,7 +107,7 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
     call,
     reset,
     params,
-    transaction: tx,
+    data: data,
     transactionHash: txHash,
     status,
   };

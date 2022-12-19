@@ -45,9 +45,10 @@ const Sandbox: React.FC = (): React.ReactElement => {
     }
   };
 
-  const processFile = async (file: File) => {
+  const processFile = async (newFile: File) => {
     try {
-      const files = await processSandboxZipFile(file);
+      setError(null);
+      const files = await processSandboxZipFile(newFile);
       setFilesSandbox(files);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);

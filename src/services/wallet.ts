@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
+import { TransactionReceipt } from 'web3-eth';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { provider } from 'web3-core';
@@ -8,6 +9,7 @@ import { AbiItem } from 'web3-utils';
 import {
   TContractOperation,
   ContractOperationCallback,
+  ContractOperationReturn,
 } from '@interfaces/contract';
 import { ContractOperationStatus } from '@enums/contract';
 import { getChainList } from '@services/chain-service';
@@ -61,7 +63,7 @@ export class WalletManager {
 
   isConnected(): boolean {
     try {
-      return (window.ethereum as MetaMaskInpageProvider).isConnected();
+      return this.getMetamaskProvider().isConnected();
     } catch (e) {
       return false;
     }
@@ -236,8 +238,8 @@ export class WalletManager {
     return this.contracts[contractAddress]!;
   }
 
-  async runContractOperation<P>(
-    OperationClass: TContractOperation<P>,
+  async runContractOperation<P, R extends ContractOperationReturn>(
+    OperationClass: TContractOperation<P, R>,
     params: P,
     statusCallback: ContractOperationCallback
   ) {
@@ -249,17 +251,29 @@ export class WalletManager {
       await contractOperation.prepare();
       statusCallback?.(ContractOperationStatus.CALLING);
 
-      const transaction = await contractOperation.call();
+      const res = await contractOperation.call();
 
       statusCallback?.(ContractOperationStatus.WAITING_CONFIRMATION);
 
+      if (
+        typeof res === 'number' ||
+        typeof res === 'boolean' ||
+        typeof res === 'string'
+      ) {
+        return statusCallback?.(ContractOperationStatus.SUCCESS, {
+          transactionHash: '',
+          data: res,
+          message: contractOperation.success(),
+        });
+      }
+
       return statusCallback?.(ContractOperationStatus.SUCCESS, {
-        transactionHash: transaction.transactionHash,
-        transaction: transaction,
+        transactionHash: (res as TransactionReceipt).transactionHash,
+        data: res as TransactionReceipt,
         message: contractOperation.success(),
       });
     } catch (err: unknown) {
-      log('run contract operation error', LogLevel.Error, LOG_PREFIX);
+      log(err as Error, LogLevel.Error, LOG_PREFIX);
 
       return statusCallback?.(ContractOperationStatus.ERROR, {
         error: err,
