@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import { TransactionReceipt } from 'web3-eth';
 import {
   TContractOperation,
   ContractOperationCallback,
@@ -9,13 +8,17 @@ import {
 } from '@interfaces/contract';
 import { ContractOperationStatus } from '@enums/contract';
 import { WalletContext } from '@contexts/wallet-context';
+import log from '@utils/logger';
+import { LogLevel } from '@enums/log-level';
+
+const LOG_PREFIX = 'useContractOperation';
 
 const useContractOperation = <
   P extends ContractOperationRequiredParams,
   R extends ContractOperationReturn
 >(
   OperationClass: TContractOperation<P, R>
-): ContractOperationHookReturn<P> => {
+): ContractOperationHookReturn<P, R> => {
   const walletCtx = useContext(WalletContext);
   const [status, setStatus] = useState<ContractOperationStatus>(
     ContractOperationStatus.IDLE
@@ -26,9 +29,7 @@ const useContractOperation = <
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
-  const [data, setData] = useState<
-    TransactionReceipt | number | string | boolean | null
-  >(null);
+  const [data, setData] = useState<R | null>(null);
   const [params, setParams] = useState<P | null>(null);
 
   const reset = (): void => {
@@ -68,8 +69,9 @@ const useContractOperation = <
         if (res?.transactionHash) {
           setTxHash(res.transactionHash);
         }
-        if (res?.data) {
-          setData(res?.data);
+
+        if (res?.data !== undefined) {
+          setData(res.data as R);
         }
       }
 
@@ -81,11 +83,12 @@ const useContractOperation = <
 
     if (!walletCtx.connectedAddress || !walletCtx.walletManager) {
       try {
-        // await walletCtx.connect();
+        await walletCtx.connect();
         await walletCtx.checkAndSwitchChain({
           chainID: params.chainID,
         });
-      } catch (err) {
+      } catch (err: unknown) {
+        log(err as Error, LogLevel.Error, LOG_PREFIX);
         statusCallback(ContractOperationStatus.ERROR);
         return;
       }
@@ -107,7 +110,7 @@ const useContractOperation = <
     call,
     reset,
     params,
-    data: data,
+    data,
     transactionHash: txHash,
     status,
   };

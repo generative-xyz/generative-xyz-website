@@ -1,6 +1,6 @@
 export type WalletOperationReturn<T> = {
   isSuccess: boolean;
   isError: boolean;
-  message: string | null;
+  message: string;
   data?: T;
 };

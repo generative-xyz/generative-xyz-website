@@ -2,7 +2,6 @@ import Button from '@components/Button';
 import Checkbox from '@components/Checkbox';
 import DropFile from '@components/Input/DropFile';
 import Link from '@components/Link';
-import ClientOnly from '@components/Utils/ClientOnly';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
@@ -109,9 +108,6 @@ const Step1 = () => {
           </Link>
         </div>
         <div className={styles.previewContainer}>
-          <ClientOnly>
-            {/* <SandboxPreview sandboxFiles={filesSandbox} /> */}
-          </ClientOnly>
           <div className={cs(styles.actionButtons, 'horizontalStack')}>
             <Image src={PlayIcon} alt={'check icon'} onClick={handleGenerate} />
             <Image
