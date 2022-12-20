@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import s from './styles.module.scss';
+import React, { useContext, useRef } from 'react';
 import { TransactionReceipt } from 'web3-eth';
 import { WalletContext } from '@contexts/wallet-context';
 import useContractOperation from '@hooks/useContractOperation';
@@ -8,7 +9,6 @@ import { IMintGenerativeProjectParams } from '@interfaces/contract-operations/mi
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import GetParamControlOperation from '@services/contract-operations/parameter-control/get-parameter-control';
 import { IGetParameterControlParams } from '@interfaces/contract-operations/get-parameter-control';
-import { detectLocationFromIP } from '@services/location-detector';
 
 const Profile: React.FC = (): React.ReactElement => {
   const walletCtx = useContext(WalletContext);
@@ -66,12 +66,12 @@ const Profile: React.FC = (): React.ReactElement => {
   //   }
   // }, [walletCtx]);
 
-  useEffect(() => {
-    detectLocationFromIP();
-  }, []);
+  // useEffect(() => {
+  //   detectLocationFromIP();
+  // }, []);
 
   return (
-    <section>
+    <section className={s.profile}>
       <p>{mintProjectFee}</p>
       <p>{params?.key}</p>
       <button onClick={handleConnectWallet}>connect wallet</button>
