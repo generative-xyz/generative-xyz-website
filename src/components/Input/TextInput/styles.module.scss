@@ -4,9 +4,12 @@
     color: var(--text-disabled);
   }
 
-  input {
+  input,
+  textarea {
     padding: 16px;
-    width: 90%;
+    width: 100%;
+    border: 1px solid #000;
+    margin-top: 8px;
 
     &::placeholder {
       color: var(--text-disabled);
@@ -14,8 +17,7 @@
   }
 
   textarea {
-    width: 100%;
-    min-height: 50px;
+    min-height: 60px;
     resize: none;
   }
 }

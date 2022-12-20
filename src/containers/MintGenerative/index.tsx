@@ -2,7 +2,7 @@ import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
 } from '@contexts/mint-generative-context';
-import { ReactElement, useContext } from 'react';
+import { PropsWithChildren, useContext } from 'react';
 import styles from './styles.module.scss';
 
 type StepProps = {
@@ -12,9 +12,6 @@ type StepProps = {
   };
 };
 
-type Props = {
-  pageRender?: ReactElement;
-};
 // const LOG_PREFIX = 'MintGenerative';
 
 const MINT_STEPS = [
@@ -32,7 +29,7 @@ const MINT_STEPS = [
   },
 ];
 
-const MintGenerative = ({ pageRender }: Props) => {
+const MintGenerative = ({ children }: PropsWithChildren) => {
   const { currentStep } = useContext(
     MintGenerativeContext
   ) as MintGenerativeContextTypes;
@@ -52,7 +49,7 @@ const MintGenerative = ({ pageRender }: Props) => {
           <StepItem item={step} key={`mint-step-${step.id}`} />
         ))}
       </div>
-      {pageRender}
+      {children}
     </div>
   );
 };

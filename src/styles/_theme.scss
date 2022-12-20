@@ -5,6 +5,19 @@
   --text-disabled: #a5a5a5;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Inter, sans-serif;
 }
@@ -15,8 +28,4 @@ a {
   &:hover {
     color: blue;
   }
-}
-
-p {
-  margin: 0;
 }

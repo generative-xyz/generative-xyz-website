@@ -7,3 +7,27 @@
   align-items: center;
   gap: 10px;
 }
+
+.justifyBetween {
+  justify-content: space-between;
+}
+
+.textSecondary {
+  color: var(--text-disabled);
+}
+
+.mb8 {
+  margin-bottom: 2rem;
+}
+
+.mb4 {
+  margin-bottom: 1rem;
+}
+
+.mb1 {
+  margin-bottom: 0.25rem;
+}
+
+.block {
+  display: block;
+}

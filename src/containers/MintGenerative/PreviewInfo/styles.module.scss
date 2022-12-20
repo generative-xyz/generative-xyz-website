@@ -1,0 +1,20 @@
+.wrapper {
+  padding: 16px;
+  border: 1px solid #000;
+  height: fit-content;
+  width: fit-content;
+
+  iframe {
+    width: 100%;
+  }
+}
+
+.pieceName {
+  margin-block: 4px;
+  font-size: 24px;
+}
+
+.metaInfo {
+  font-size: 24px;
+  font-weight: 700;
+}
