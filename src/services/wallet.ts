@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
+import { TransactionReceipt } from 'web3-eth';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { provider } from 'web3-core';
@@ -8,11 +9,13 @@ import { AbiItem } from 'web3-utils';
 import {
   TContractOperation,
   ContractOperationCallback,
+  ContractOperationReturn,
 } from '@interfaces/contract';
 import { ContractOperationStatus } from '@enums/contract';
 import { getChainList } from '@services/chain-service';
 import { IResourceChain } from '@interfaces/chain';
 import { WalletOperationReturn } from '@interfaces/wallet';
+import { WalletError } from '@enums/wallet-error';
 
 const LOG_PREFIX = 'WalletManager';
 
@@ -51,6 +54,8 @@ export class WalletManager {
     return this.metamaskProvider!;
   }
 
+  // Wallet simple getters
+
   isInstalled(): boolean {
     try {
       return this.getMetamaskProvider().isMetaMask;
@@ -61,11 +66,24 @@ export class WalletManager {
 
   isConnected(): boolean {
     try {
-      return (window.ethereum as MetaMaskInpageProvider).isConnected();
+      return this.getMetamaskProvider().isConnected();
     } catch (e) {
       return false;
     }
   }
+
+  async isChainSupported(chainID: number): Promise<boolean> {
+    try {
+      const currentChainID = await this.getWeb3Provider().eth.getChainId();
+      return chainID === currentChainID;
+    } catch (err: unknown) {
+      log(err as Error, LogLevel.Error, LOG_PREFIX);
+      return false;
+    }
+  }
+
+  // Wallet methods
+  // Should return WalletOperationReturn for more information
 
   async connect(): Promise<WalletOperationReturn<string | null>> {
     try {
@@ -88,7 +106,7 @@ export class WalletManager {
       return {
         isError: true,
         isSuccess: false,
-        message: 'OK',
+        message: WalletError.FAILED_CONNECT,
         data: null,
       };
     } catch (err: unknown) {
@@ -96,7 +114,7 @@ export class WalletManager {
       return {
         isError: true,
         isSuccess: false,
-        message: '',
+        message: WalletError.FAILED_CONNECT,
         data: null,
       };
     }
@@ -118,7 +136,8 @@ export class WalletManager {
             },
           ],
         });
-      } catch (_: unknown) {
+      } catch (err: unknown) {
+        log(err as Error, LogLevel.Error, LOG_PREFIX);
         this.requestAddChain(chainID);
       }
 
@@ -138,12 +157,17 @@ export class WalletManager {
       return {
         isError: true,
         isSuccess: false,
-        message: 'Can not switch chain',
+        message: WalletError.FAILED_SWITCH_CHAIN,
         data: null,
       };
     }
   }
 
+  /**
+   *
+   * @param chainID
+   * @returns
+   */
   async requestAddChain(
     chainID: number
   ): Promise<WalletOperationReturn<unknown>> {
@@ -157,7 +181,7 @@ export class WalletManager {
         return {
           isError: true,
           isSuccess: false,
-          message: `Chain ID ${chainID} not found`,
+          message: WalletError.FAILED_ADD_CHAIN,
           data: null,
         };
       }
@@ -194,24 +218,14 @@ export class WalletManager {
         message: 'OK',
         data: null,
       };
-    } catch (err: unknown) {
+    } catch (_: unknown) {
       log('can not add chain', LogLevel.Error, LOG_PREFIX);
       return {
         isError: true,
         isSuccess: false,
-        message: `Can not add chain`,
+        message: WalletError.FAILED_ADD_CHAIN,
         data: null,
       };
-    }
-  }
-
-  async isChainSupported(chainID: number): Promise<boolean> {
-    try {
-      const currentChainID = await this.getWeb3Provider().eth.getChainId();
-      return chainID === currentChainID;
-    } catch (err: unknown) {
-      log(err as Error, LogLevel.Error, LOG_PREFIX);
-      return false;
     }
   }
 
@@ -219,6 +233,9 @@ export class WalletManager {
    * Looking for contract in cache
    * creates it if it doesn't exist,
    * and then returns it.
+   * @param contractAddress
+   * @param abi
+   * @returns
    */
   async getContract(
     contractAddress: string,
@@ -236,8 +253,15 @@ export class WalletManager {
     return this.contracts[contractAddress]!;
   }
 
-  async runContractOperation<P>(
-    OperationClass: TContractOperation<P>,
+  /**
+   * Main method to inject and process contract operation
+   * @param OperationClass
+   * @param params
+   * @param statusCallback
+   * @returns
+   */
+  async runContractOperation<P, R extends ContractOperationReturn>(
+    OperationClass: TContractOperation<P, R>,
     params: P,
     statusCallback: ContractOperationCallback
   ) {
@@ -249,17 +273,29 @@ export class WalletManager {
       await contractOperation.prepare();
       statusCallback?.(ContractOperationStatus.CALLING);
 
-      const transaction = await contractOperation.call();
+      const res = await contractOperation.call();
 
       statusCallback?.(ContractOperationStatus.WAITING_CONFIRMATION);
 
+      if (
+        typeof res === 'number' ||
+        typeof res === 'boolean' ||
+        typeof res === 'string'
+      ) {
+        return statusCallback?.(ContractOperationStatus.SUCCESS, {
+          transactionHash: '',
+          data: res,
+          message: contractOperation.success(),
+        });
+      }
+
       return statusCallback?.(ContractOperationStatus.SUCCESS, {
-        transactionHash: transaction.transactionHash,
-        transaction: transaction,
+        transactionHash: (res as TransactionReceipt).transactionHash,
+        data: res as TransactionReceipt,
         message: contractOperation.success(),
       });
     } catch (err: unknown) {
-      log('run contract operation error', LogLevel.Error, LOG_PREFIX);
+      log(err as Error, LogLevel.Error, LOG_PREFIX);
 
       return statusCallback?.(ContractOperationStatus.ERROR, {
         error: err,

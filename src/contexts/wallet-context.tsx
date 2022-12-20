@@ -7,11 +7,13 @@ import React, {
   useState,
 } from 'react';
 import { WalletManager } from '@services/wallet';
-import { linkWallet, unlinkWallet } from '@services/profile-service';
+import { unlinkWallet } from '@services/profile-service';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { useAppDispatch } from '@redux';
-import { resetUser, setUser } from '@redux/user/action';
+import { resetUser } from '@redux/user/action';
+import { WalletError } from '@enums/wallet-error';
+import ClientOnly from '@components/Utils/ClientOnly';
 
 const LOG_PREFIX = 'WalletContext';
 
@@ -54,9 +56,16 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
 
       if (wallet) {
         const isChainSupported = await wallet.isChainSupported(chainID);
-        if (isChainSupported) return;
+        if (!isChainSupported) {
+          throw Error(WalletError.UNSUPPORTED_CHAIN);
+        }
 
-        await wallet.requestSwitchChain(chainID);
+        const walletRes = await wallet.requestSwitchChain(chainID);
+        if (walletRes.isError) {
+          throw Error(walletRes.message);
+        }
+      } else {
+        throw Error(WalletError.NO_INSTANCE);
       }
     },
     []
@@ -65,49 +74,57 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
   const connect = useCallback(async (): Promise<void> => {
     const wallet = walletManagerRef.current;
     if (!wallet) {
-      return;
+      throw Error(WalletError.NO_INSTANCE);
     }
 
-    const walletConnectRes = await wallet.connect();
-    if (!walletConnectRes.isSuccess || !walletConnectRes.data) {
-      return;
+    const walletRes = await wallet.connect();
+    if (!walletRes.isSuccess || !walletRes.data) {
+      throw Error(walletRes.message);
     }
-    const walletAddress = walletConnectRes.data;
+
+    const walletAddress = walletRes.data;
     try {
-      const userRes = await linkWallet({ walletAddress });
-      dispatch(setUser(userRes));
+      // const userRes = await linkWallet({ walletAddress });
+      // dispatch(setUser(userRes));
       setConnectedAddress(walletAddress);
     } catch (err: unknown) {
       log('can not connect wallet', LogLevel.Error, LOG_PREFIX);
+      throw Error(WalletError.FAILED_LINK_WALLET);
     }
   }, [dispatch]);
 
   const disconnect = useCallback(async (): Promise<void> => {
     const wallet = walletManagerRef.current;
     if (!wallet) {
-      return;
+      throw Error(WalletError.NO_INSTANCE);
     }
 
-    const walletConnectRes = await wallet.connect();
-    if (walletConnectRes.isSuccess && walletConnectRes.data) {
-      const walletAddress = walletConnectRes.data;
-      try {
-        await unlinkWallet({ walletAddress });
-        dispatch(resetUser());
-        setConnectedAddress(null);
-      } catch (err: unknown) {
-        log('can not disconnect wallet', LogLevel.Error, LOG_PREFIX);
-      }
+    const walletRes = await wallet.connect();
+    if (!walletRes.isSuccess || !walletRes.data) {
+      throw Error(walletRes.message);
+    }
+
+    const walletAddress = walletRes.data;
+    try {
+      await unlinkWallet({ walletAddress });
+      dispatch(resetUser());
+      setConnectedAddress(null);
+    } catch (err: unknown) {
+      log('can not disconnect wallet', LogLevel.Error, LOG_PREFIX);
+      throw Error(WalletError.FAILED_UNLINK_WALLET);
     }
   }, [dispatch]);
 
   useEffect(() => {
     const walletManagerInstance = new WalletManager();
+    walletManagerRef.current = walletManagerInstance;
     setWalletManager(walletManagerInstance);
   }, []);
 
   useEffect(() => {
-    walletManagerRef.current = walletManager;
+    if (walletManager) {
+      walletManagerRef.current = walletManager;
+    }
   }, [walletManager]);
 
   const contextValues = useMemo((): IWalletContext => {
@@ -128,7 +145,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
 
   return (
     <WalletContext.Provider value={contextValues}>
-      {children}
+      <ClientOnly>{children}</ClientOnly>
     </WalletContext.Provider>
   );
 };

@@ -3,6 +3,7 @@ import cs from 'classnames';
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Accept, ErrorCode, useDropzone } from 'react-dropzone';
 import { prettyPrintBytes } from '@utils/units';
+import { APP_MAX_FILESIZE } from '@constants/config';
 
 const getPrettyError = (code: ErrorCode): string => {
   switch (code) {
@@ -40,8 +41,7 @@ const DropFile: React.FC<IProps> = ({
   onChange,
   onClick,
   className,
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  maxSizeMb = parseInt(process.env.NEXT_PUBLIC_MAX_FILESIZE!),
+  maxSizeMb = parseInt(APP_MAX_FILESIZE),
 }: IProps) => {
   const [error, setError] = useState<string | null>(null);
 

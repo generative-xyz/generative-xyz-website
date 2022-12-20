@@ -1,7 +1,6 @@
 import { WalletManager } from '@services/wallet';
-import { TransactionReceipt } from 'web3-eth';
 
-abstract class ContractOperation<P> {
+abstract class ContractOperation<P, R> {
   walletManager: WalletManager;
   params: P;
 
@@ -12,7 +11,7 @@ abstract class ContractOperation<P> {
 
   abstract prepare(): Promise<void>;
 
-  abstract call(): Promise<TransactionReceipt>;
+  abstract call(): Promise<R>;
 
   abstract success(): string;
 

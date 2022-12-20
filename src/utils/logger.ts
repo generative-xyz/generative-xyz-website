@@ -1,9 +1,11 @@
 import dayjs from 'dayjs';
 import { LogLevel } from '@enums/log-level';
+import { APP_LOG_LEVEL } from '@constants/config';
+import DatadogService from '@services/datadog';
+import { LogItem } from '@interfaces/log';
 
 const selectedLogLevel: LogLevel =
-  (process.env.NEXT_PUBLIC_LOG_LEVEL as undefined | LogLevel) ??
-  LogLevel.Verbose;
+  (APP_LOG_LEVEL as undefined | LogLevel) ?? LogLevel.Verbose;
 
 const logLevelSufficient = (
   logLevel: LogLevel,
@@ -27,8 +29,9 @@ const logLevelSufficient = (
   return logLevelPriority >= allowedLogLevelPriority;
 };
 
-const logToLogSystem = (_: Record<string, unknown>): void => {
-  // TODO - Implement later
+const sendLogToSystem = (logRecord: LogItem): void => {
+  const ddInstance = DatadogService.getInstance();
+  ddInstance.ddLog(logRecord.message, logRecord);
 };
 
 const log = (
@@ -46,7 +49,7 @@ const log = (
 
   const message = `[${logLevel.toUpperCase()}] (${timestamp})${prefix} ${msg}`;
 
-  const eventLogItem: Record<string, unknown> = {
+  const eventLogItem: LogItem = {
     logLevel: logLevel,
     message: msg.toString(),
     timestamp: dayjs().unix(),
@@ -62,14 +65,14 @@ const log = (
       console.error((msg as Error).stack);
       eventLogItem.stackTrace = (msg as Error).stack as string;
     }
-    logToLogSystem(eventLogItem);
+    sendLogToSystem(eventLogItem);
     return;
   }
 
   // eslint-disable-next-line no-console
   console.log(message);
 
-  logToLogSystem(eventLogItem);
+  sendLogToSystem(eventLogItem);
 };
 
 export default log;

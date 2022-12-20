@@ -18,6 +18,8 @@
     "pre-commit": "lint-staged && yarn build"
   },
   "dependencies": {
+    "@datadog/browser-logs": "^4.28.1",
+    "@datadog/browser-rum": "^4.28.1",
     "@metamask/providers": "^10.2.1",
     "@reduxjs/toolkit": "^1.9.1",
     "@types/node": "18.11.13",

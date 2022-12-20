@@ -1,17 +1,24 @@
 import { useContext, useState } from 'react';
-import { TransactionReceipt } from 'web3-eth';
 import {
   TContractOperation,
   ContractOperationCallback,
   ContractOperationHookReturn,
   ContractOperationRequiredParams,
+  ContractOperationReturn,
 } from '@interfaces/contract';
 import { ContractOperationStatus } from '@enums/contract';
 import { WalletContext } from '@contexts/wallet-context';
+import log from '@utils/logger';
+import { LogLevel } from '@enums/log-level';
 
-const useContractOperation = <P extends ContractOperationRequiredParams>(
-  OperationClass: TContractOperation<P>
-): ContractOperationHookReturn<P> => {
+const LOG_PREFIX = 'useContractOperation';
+
+const useContractOperation = <
+  P extends ContractOperationRequiredParams,
+  R extends ContractOperationReturn
+>(
+  OperationClass: TContractOperation<P, R>
+): ContractOperationHookReturn<P, R> => {
   const walletCtx = useContext(WalletContext);
   const [status, setStatus] = useState<ContractOperationStatus>(
     ContractOperationStatus.IDLE
@@ -22,14 +29,14 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
-  const [tx, setTx] = useState<TransactionReceipt | null>(null);
+  const [data, setData] = useState<R | null>(null);
   const [params, setParams] = useState<P | null>(null);
 
   const reset = (): void => {
     setIsLoading(false);
     setIsError(false);
     setIsError(false);
-    setTx(null);
+    setData(null);
     setTxHash(null);
     setParams(null);
     setSuccessMsg(null);
@@ -43,27 +50,28 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
     setIsError(false);
     setSuccessMsg(null);
     setErrMsg(null);
-    setTx(null);
+    setData(null);
     setTxHash(null);
     setParams(params);
     setStatus(ContractOperationStatus.IDLE);
 
-    const statusCallback: ContractOperationCallback = (opStatus, data) => {
+    const statusCallback: ContractOperationCallback = (opStatus, res) => {
       setStatus(opStatus);
 
       if (opStatus === ContractOperationStatus.SUCCESS) {
         setIsSuccess(true);
         setIsLoading(false);
 
-        if (data?.message) {
-          setSuccessMsg(data.message);
+        if (res?.message) {
+          setSuccessMsg(res.message);
         }
 
-        if (data?.transactionHash) {
-          setTxHash(data.transactionHash);
+        if (res?.transactionHash) {
+          setTxHash(res.transactionHash);
         }
-        if (data?.transaction) {
-          setTx(data?.transaction);
+
+        if (res?.data !== undefined) {
+          setData(res.data as R);
         }
       }
 
@@ -79,13 +87,14 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
         await walletCtx.checkAndSwitchChain({
           chainID: params.chainID,
         });
-      } catch (err) {
+      } catch (err: unknown) {
+        log(err as Error, LogLevel.Error, LOG_PREFIX);
         statusCallback(ContractOperationStatus.ERROR);
         return;
       }
     }
 
-    walletCtx.walletManager?.runContractOperation<P>(
+    walletCtx.walletManager?.runContractOperation<P, R>(
       OperationClass,
       params,
       statusCallback
@@ -101,7 +110,7 @@ const useContractOperation = <P extends ContractOperationRequiredParams>(
     call,
     reset,
     params,
-    transaction: tx,
+    data,
     transactionHash: txHash,
     status,
   };

@@ -1,4 +1,5 @@
-import React from 'react';
+import '@styles/index.scss';
+import React, { useEffect } from 'react';
 import { NextComponentType, NextPageContext } from 'next';
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
@@ -13,6 +14,7 @@ import {
 import { WalletProvider } from '@contexts/wallet-context';
 import '@styles/index.scss';
 import { MintGenerativeContextProvider } from '@contexts/mint-generative-context';
+import DatadogService from '@services/datadog';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -27,6 +29,16 @@ export default function App({ Component, pageProps }: MyAppProps) {
   const { title, description, image } = seoInfo;
 
   const Layout = Component.Layout || React.Fragment;
+
+  useEffect(() => {
+    const ddInstance = DatadogService.getInstance();
+    ddInstance.init();
+    ddInstance.startRUMTracking();
+
+    return () => {
+      ddInstance.stopRUMTracking();
+    };
+  }, []);
 
   return (
     <>
