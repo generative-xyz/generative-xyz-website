@@ -51,6 +51,7 @@ export const processSandboxZipFile = async (
   files['index.html'] = new Blob([newIndexContents], { type: 'text/html' });
 
   const record: SandboxFiles = {};
+
   for (const name in files) {
     if (name.slice(-4) === '.svg') {
       files[name] = files[name].slice(0, files[name].size, 'image/svg+xml');

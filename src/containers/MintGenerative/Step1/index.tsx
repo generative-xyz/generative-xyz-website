@@ -17,8 +17,11 @@ import { useRouter } from 'next/router';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
 import PlayIcon from 'public/assets/icons/play-icon.svg';
 import RefreshIcon from 'public/assets/icons/refresh-icon.svg';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
+import SandboxPreview from '@containers/Sandbox/SandboxPreview';
+import { ISandboxRef } from '@interfaces/sandbox';
+import { generateHash } from '@utils/generate-data';
 
 // type Props = {};
 
@@ -28,6 +31,10 @@ const Step1 = () => {
   const { filesSandbox, setCurrentStep, setFilesSandbox } = useContext(
     MintGenerativeContext
   ) as MintGenerativeContextTypes;
+
+  const sandboxRef = useRef<ISandboxRef>(null);
+
+  const hash = generateHash();
 
   const router = useRouter();
 
@@ -72,7 +79,7 @@ const Step1 = () => {
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.UPLOAD_PROJECT);
-  }, [setCurrentStep]);
+  });
 
   const fileList = useMemo<string[] | null>(
     () => (filesSandbox ? Object.keys(filesSandbox) : null),
@@ -113,6 +120,12 @@ const Step1 = () => {
           </Button>
         </div>
         <div className={styles.previewContainer}>
+          <SandboxPreview
+            ref={sandboxRef}
+            hash={hash}
+            sandboxFiles={filesSandbox}
+            // onLoaded={handleIframeLoaded}
+          />
           <div className={cs(styles.actionButtons, 'horizontalStack')}>
             <Image src={PlayIcon} alt={'check icon'} onClick={handleGenerate} />
             <Image

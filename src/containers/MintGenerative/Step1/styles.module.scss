@@ -55,8 +55,7 @@
 
 .previewContainer {
   > div:first-of-type {
-    display: flex;
-    justify-content: center;
+    margin-inline: auto;
   }
 }
 
