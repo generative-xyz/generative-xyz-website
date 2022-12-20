@@ -1,8 +1,11 @@
+import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
 } from '@contexts/mint-generative-context';
-import { PropsWithChildren, useContext } from 'react';
+import { ISandboxRef } from '@interfaces/sandbox';
+import { PropsWithChildren, useContext, useRef } from 'react';
+
 import styles from './styles.module.scss';
 
 type StepProps = {
@@ -30,9 +33,26 @@ const MINT_STEPS = [
 ];
 
 const MintGenerative = ({ children }: PropsWithChildren) => {
-  const { currentStep } = useContext(
+  const { currentStep, filesSandbox, setAttributes, hash } = useContext(
     MintGenerativeContext
   ) as MintGenerativeContextTypes;
+
+  const sandboxRef = useRef<ISandboxRef>(null);
+
+  const handleIframeLoaded = (): void => {
+    if (sandboxRef.current) {
+      const iframe = sandboxRef.current.getHtmlIframe();
+      if (iframe) {
+        // @ts-ignore: Allow read iframe's window object
+        if (iframe.contentWindow?.$generativeTraits) {
+          // @ts-ignore: Allow read iframe's window object
+          setAttributes(iframe.contentWindow?.$generativeTraits);
+        } else {
+          setAttributes(null);
+        }
+      }
+    }
+  };
 
   const StepItem = ({ item }: StepProps) => {
     return (
@@ -49,7 +69,22 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
           <StepItem item={step} key={`mint-step-${step.id}`} />
         ))}
       </div>
-      {children}
+      <div className="grid grid-cols-2">
+        {children}
+        <div
+          className={styles.previewContainer}
+          style={
+            filesSandbox ? { visibility: 'visible' } : { visibility: 'hidden' }
+          }
+        >
+          <SandboxPreview
+            ref={sandboxRef}
+            hash={hash}
+            sandboxFiles={filesSandbox}
+            onLoaded={handleIframeLoaded}
+          />
+        </div>
+      </div>
     </div>
   );
 };

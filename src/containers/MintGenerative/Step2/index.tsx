@@ -6,10 +6,9 @@ import {
   MintGenerativeContextTypes,
 } from '@contexts/mint-generative-context';
 import { MintGenerativeStep } from '@enums/mint-generative';
-import React, { useContext, useEffect } from 'react';
-import PreviewInfo from '../PreviewInfo';
-import styles from './styles.module.scss';
 import { useRouter } from 'next/router';
+import { useContext, useEffect } from 'react';
+import styles from './styles.module.scss';
 
 // type Props = {};
 
@@ -95,7 +94,7 @@ const Step2 = () => {
           Next Step
         </Button>
       </div>
-      <PreviewInfo />
+      {/* <PreviewInfo /> */}
     </div>
   );
 };
