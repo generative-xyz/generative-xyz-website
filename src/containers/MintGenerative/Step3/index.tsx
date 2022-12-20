@@ -1,14 +1,13 @@
+import Button from '@components/Button';
+import Input from '@components/Input/TextInput';
+import Link from '@components/Link';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
 } from '@contexts/mint-generative-context';
 import { MintGenerativeStep } from '@enums/mint-generative';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import Input from '@components/Input/TextInput';
-import Button from '@components/Button';
-import PreviewInfo from '@containers/MintGenerative/PreviewInfo';
-import Link from '@components/Link';
 
 const enum TABS {
   FIXED,
@@ -89,7 +88,7 @@ const Step3 = () => {
           </Button>
         </div>
       </form>
-      <PreviewInfo />
+      {/* <PreviewInfo /> */}
     </div>
   );
 };
