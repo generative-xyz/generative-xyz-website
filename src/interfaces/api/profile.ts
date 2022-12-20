@@ -1,7 +1,3 @@
-export interface ILinkWalletPayload {
-  walletAddress: string;
-}
+import { User } from '@interfaces/user';
 
-export interface IUnlinkWalletPayload {
-  walletAddress: string;
-}
+export type IGetProfileResponse = User;

@@ -110,7 +110,35 @@ export class WalletManager {
         data: null,
       };
     } catch (err: unknown) {
-      log('can not connect to wallet', LogLevel.Error, LOG_PREFIX);
+      log('failed to connect to wallet', LogLevel.Error, LOG_PREFIX);
+      return {
+        isError: true,
+        isSuccess: false,
+        message: WalletError.FAILED_CONNECT,
+        data: null,
+      };
+    }
+  }
+
+  async signMessage(
+    message: string,
+    walletAddress: string
+  ): Promise<WalletOperationReturn<string | null>> {
+    try {
+      const signature = await this.getWeb3Provider().eth.personal.sign(
+        Web3.utils.fromUtf8(message),
+        walletAddress,
+        ''
+      );
+
+      return {
+        isError: false,
+        isSuccess: true,
+        message: '',
+        data: signature,
+      };
+    } catch (err: unknown) {
+      log('failed to sign message', LogLevel.Error, LOG_PREFIX);
       return {
         isError: true,
         isSuccess: false,
@@ -149,7 +177,7 @@ export class WalletManager {
       };
     } catch (err: unknown) {
       log(
-        `can not switch chain, request chain id ${chainID}`,
+        `failed switch chain, request chain id ${chainID}`,
         LogLevel.Error,
         LOG_PREFIX
       );
@@ -219,7 +247,7 @@ export class WalletManager {
         data: null,
       };
     } catch (_: unknown) {
-      log('can not add chain', LogLevel.Error, LOG_PREFIX);
+      log('failed to add chain', LogLevel.Error, LOG_PREFIX);
       return {
         isError: true,
         isSuccess: false,
