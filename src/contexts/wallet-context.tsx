@@ -13,7 +13,6 @@ import { LogLevel } from '@enums/log-level';
 import { useAppDispatch } from '@redux';
 import { resetUser, setUser } from '@redux/user/action';
 import { WalletError } from '@enums/wallet-error';
-import ClientOnly from '@components/Utils/ClientOnly';
 import { clearAuthStorage, setAccessToken } from '@utils/auth';
 import { getProfile } from '@services/profile';
 
@@ -152,7 +151,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
 
   return (
     <WalletContext.Provider value={contextValues}>
-      <ClientOnly>{children}</ClientOnly>
+      {children}
     </WalletContext.Provider>
   );
 };

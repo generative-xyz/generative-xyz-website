@@ -7,7 +7,7 @@ import {
 } from '@contexts/mint-generative-context';
 import { MintGenerativeStep } from '@enums/mint-generative';
 import React, { useContext, useEffect } from 'react';
-import PreviewInfo from '../PreviewInfo';
+import PreviewInfo from '@containers/MintGenerative/PreviewInfo';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/router';
 

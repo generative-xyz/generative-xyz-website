@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { combineReducers } from 'redux';
 // Slices
-import userReducer from './user/reducer';
+import userReducer from '@redux/user/reducer';
 
 const reducer = combineReducers({
   user: userReducer,

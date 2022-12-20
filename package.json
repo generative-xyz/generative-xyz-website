@@ -40,12 +40,14 @@
     "reselect": "^4.1.7",
     "unzipit": "^1.4.0",
     "use-async-effect": "^2.2.7",
+    "uuid": "^9.0.0",
     "web3": "^1.8.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
     "@next/bundle-analyzer": "^13.0.6",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
     "eslint": "^8.29.0",

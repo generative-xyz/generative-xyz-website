@@ -7,7 +7,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import Input from '@components/Input/TextInput';
 import Button from '@components/Button';
-import PreviewInfo from '../PreviewInfo';
+import PreviewInfo from '@containers/MintGenerative/PreviewInfo';
 import Link from '@components/Link';
 
 const enum TABS {

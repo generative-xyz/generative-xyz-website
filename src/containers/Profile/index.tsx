@@ -2,16 +2,13 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { TransactionReceipt } from 'web3-eth';
 import { WalletContext } from '@contexts/wallet-context';
 import useContractOperation from '@hooks/useContractOperation';
-import {
-  GENERATIVE_PROJECT_CONTRACT,
-  PARAM_CONTROL_CONTRACT,
-} from '@constants/contract-address';
+import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import MintGenerativeProjectOperation from '@services/contract-operations/generative-project/mint-generative-project';
 import { IMintGenerativeProjectParams } from '@interfaces/contract-operations/mint-generative-project';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import GetParamControlOperation from '@services/contract-operations/parameter-control/get-parameter-control';
 import { IGetParameterControlParams } from '@interfaces/contract-operations/get-parameter-control';
-import { ParameterControlKey } from '@enums/parameter-key';
+import { detectLocationFromIP } from '@services/location-detector';
 
 const Profile: React.FC = (): React.ReactElement => {
   const walletCtx = useContext(WalletContext);
@@ -20,13 +17,10 @@ const Profile: React.FC = (): React.ReactElement => {
     IMintGenerativeProjectParams,
     TransactionReceipt
   >(MintGenerativeProjectOperation);
-  const {
-    call: getParamControl,
-    data: mintProjectFee,
-    params,
-  } = useContractOperation<IGetParameterControlParams, number>(
-    GetParamControlOperation
-  );
+  const { data: mintProjectFee, params } = useContractOperation<
+    IGetParameterControlParams,
+    number
+  >(GetParamControlOperation);
 
   const handleConnectWallet = async () => {
     await walletCtx.connect();
@@ -62,15 +56,19 @@ const Profile: React.FC = (): React.ReactElement => {
     }
   };
 
+  // useEffect(() => {
+  //   if (walletCtx.walletManager) {
+  //     getParamControl({
+  //       key: ParameterControlKey.CREATE_PROJECT_FEE,
+  //       chainID: NETWORK_CHAIN_ID,
+  //       contractAddress: PARAM_CONTROL_CONTRACT,
+  //     });
+  //   }
+  // }, [walletCtx]);
+
   useEffect(() => {
-    if (walletCtx.walletManager) {
-      getParamControl({
-        key: ParameterControlKey.CREATE_PROJECT_FEE,
-        chainID: NETWORK_CHAIN_ID,
-        contractAddress: PARAM_CONTROL_CONTRACT,
-      });
-    }
-  }, [walletCtx]);
+    detectLocationFromIP();
+  }, []);
 
   return (
     <section>
