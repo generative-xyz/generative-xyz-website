@@ -6,12 +6,14 @@ import { useRouter } from 'next/router';
 
 import DefaultLayout from '@components/Layout/DefaultLayout';
 import MintGenerative from '@containers/MintGenerative';
+import { MintGenerativeContextProvider } from '@contexts/mint-generative-context';
+import ErrorPage from '@pages/404';
 
 const MintGenerativeSubPages = () => {
   const router = useRouter();
   const { subpages } = router.query;
 
-  const renderSubpages = () => {
+  const renderSubPages = () => {
     switch (subpages) {
       case MintGenerativePages.UPLOAD_PROJECT:
         return <MintGenerativeStep1 />;
@@ -23,13 +25,19 @@ const MintGenerativeSubPages = () => {
         return <MintGenerativeStep3 />;
 
       default:
-        return <div>Page Not Found</div>;
+        return;
     }
   };
 
+  if (!renderSubPages()) {
+    return <ErrorPage />;
+  }
+
   return (
     <DefaultLayout>
-      <MintGenerative>{renderSubpages()}</MintGenerative>
+      <MintGenerativeContextProvider>
+        <MintGenerative>{renderSubPages()}</MintGenerative>
+      </MintGenerativeContextProvider>
     </DefaultLayout>
   );
 };

@@ -1,20 +1,18 @@
-import '@styles/index.scss';
-import React, { useEffect } from 'react';
-import { NextComponentType, NextPageContext } from 'next';
-import Head from 'next/head';
-import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
-import NextNprogress from 'nextjs-progressbar';
-import store from '@redux';
 import {
-  SEO_TITLE,
   SEO_DESCRIPTION,
   SEO_IMAGE,
+  SEO_TITLE,
 } from '@constants/seo-default-info';
 import { WalletProvider } from '@contexts/wallet-context';
-import '@styles/index.scss';
-import { MintGenerativeContextProvider } from '@contexts/mint-generative-context';
+import store from '@redux';
 import DatadogService from '@services/datadog';
+import '@styles/index.scss';
+import { NextComponentType, NextPageContext } from 'next';
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import NextNprogress from 'nextjs-progressbar';
+import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -68,11 +66,9 @@ export default function App({ Component, pageProps }: MyAppProps) {
 
       <Provider store={store}>
         <WalletProvider>
-          <MintGenerativeContextProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </MintGenerativeContextProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </WalletProvider>
       </Provider>
     </>
