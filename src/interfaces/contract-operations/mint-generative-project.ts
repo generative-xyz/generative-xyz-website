@@ -7,14 +7,12 @@ export interface IMintGenerativeProjectParams
   mintPrice: string;
   name: string;
   creatorName: string;
-  creatorAddress: string;
   description: string;
   thumbnail: string;
   thirdPartyScripts: Array<string>;
   scripts: Array<string>;
   reservationList: Array<string>;
   mintFee: number;
-  fromWalletAddress: string;
   openMintUnixTimestamp?: number;
   tokenDescription?: string;
   styles?: string;

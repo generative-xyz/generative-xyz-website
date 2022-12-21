@@ -23,7 +23,7 @@ interface IWalletState {
 }
 
 export interface IWalletContext {
-  connectedAddress: string | null;
+  connectedAddress: () => Promise<string | null>;
   walletManager: WalletManager | null;
   checkAndSwitchChain: (params: IWalletState) => Promise<void>;
   connect: () => Promise<void>;
@@ -31,7 +31,7 @@ export interface IWalletContext {
 }
 
 const initialValue: IWalletContext = {
-  connectedAddress: null,
+  connectedAddress: () => new Promise(r => r(null)),
   walletManager: null,
   checkAndSwitchChain: async (_: IWalletState): Promise<void> =>
     new Promise(r => r()),
@@ -44,29 +44,36 @@ export const WalletContext = React.createContext<IWalletContext>(initialValue);
 export const WalletProvider: React.FC<PropsWithChildren> = ({
   children,
 }: PropsWithChildren): React.ReactElement => {
-  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [walletManager, setWalletManager] = useState<WalletManager | null>(
     null
   );
   const walletManagerRef = useRef<WalletManager | null>(walletManager);
   const dispatch = useAppDispatch();
 
+  const connectedAddress = useCallback(async (): Promise<string | null> => {
+    const wallet = walletManagerRef.current;
+    if (!wallet) {
+      throw Error(WalletError.NO_INSTANCE);
+    }
+
+    const walletAddress = await wallet.connectedAddress();
+    return walletAddress;
+  }, []);
+
   const checkAndSwitchChain = useCallback(
     async ({ chainID }: IWalletState): Promise<void> => {
       const wallet = walletManagerRef.current;
 
-      if (wallet) {
-        const isChainSupported = await wallet.isChainSupported(chainID);
-        if (!isChainSupported) {
-          throw Error(WalletError.UNSUPPORTED_CHAIN);
-        }
+      if (!wallet) {
+        throw Error(WalletError.NO_INSTANCE);
+      }
 
+      const isChainSupported = await wallet.isChainSupported(chainID);
+      if (!isChainSupported) {
         const walletRes = await wallet.requestSwitchChain(chainID);
         if (walletRes.isError) {
           throw Error(walletRes.message);
         }
-      } else {
-        throw Error(WalletError.NO_INSTANCE);
       }
     },
     []
@@ -95,7 +102,6 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
       if (!signature) {
         throw Error(WalletError.FAILED_LINK_WALLET);
       }
-
       const { accessToken, refreshToken } = await verifyNonceMessage({
         signature,
         address: walletAddress,
@@ -103,7 +109,6 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
       setAccessToken(accessToken, refreshToken);
       const userRes = await getProfile();
       dispatch(setUser(userRes));
-      setConnectedAddress(walletAddress);
     } catch (err: unknown) {
       log('failed to connect wallet', LogLevel.Error, LOG_PREFIX);
       throw Error(WalletError.FAILED_LINK_WALLET);
@@ -114,7 +119,6 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     try {
       clearAuthStorage();
       dispatch(resetUser());
-      setConnectedAddress(null);
     } catch (err: unknown) {
       log('failed to disconnect wallet', LogLevel.Error, LOG_PREFIX);
       throw Error(WalletError.FAILED_UNLINK_WALLET);

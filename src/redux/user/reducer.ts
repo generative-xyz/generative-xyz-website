@@ -5,12 +5,12 @@ import { setUser, resetUser } from '@redux/user/action';
 const initialState: User = {
   displayName: '',
   bio: '',
-  avatarUrl: '',
+  avatar: '',
   id: '',
   walletAddress: '',
 };
 
-const user = createReducer(initialState, builder =>
+const userReducer = createReducer(initialState, builder =>
   builder
     .addCase(setUser, (state, action) => {
       state = action.payload;
@@ -22,4 +22,4 @@ const user = createReducer(initialState, builder =>
     })
 );
 
-export default user;
+export default userReducer;

@@ -32,7 +32,6 @@ class MintGenerativeProjectOperation extends ContractOperation<
       mintTokenAddress = ROOT_ADDRESS,
       name,
       creatorName,
-      creatorAddress,
       license = 'MIT',
       description,
       thumbnail,
@@ -49,9 +48,10 @@ class MintGenerativeProjectOperation extends ContractOperation<
       openMintUnixTimestamp = dayjs().unix(),
       royalty = 100, // 1%
       mintFee, // In ETH Wei
-      fromWalletAddress,
       contractAddress,
     } = this.params;
+
+    const walletAddress = await this.walletManager.connectedAddress();
 
     // Transform params's shape
     const projectPayload = {
@@ -65,18 +65,20 @@ class MintGenerativeProjectOperation extends ContractOperation<
       _mintPriceAddr: mintTokenAddress,
       _name: name,
       _creator: creatorName,
-      _creatorAddr: creatorAddress,
+      _creatorAddr: walletAddress,
       _license: license,
       _desc: description,
       _image: thumbnail,
-      _social: {
-        _web: socialWeb,
-        _twitter: socialTwitter,
-        _discord: socialDiscord,
-        _medium: socialMedium,
-        _instagram: socialInstagram,
-      },
-      _scriptType: thirdPartyScripts,
+      _social: JSON.parse(
+        JSON.stringify({
+          _web: socialWeb,
+          _twitter: socialTwitter,
+          _discord: socialDiscord,
+          _medium: socialMedium,
+          _instagram: socialInstagram,
+        })
+      ),
+      _scriptType: JSON.parse(JSON.stringify(thirdPartyScripts)),
       _scripts: scripts,
       _styles: styles,
       _completeTime: 0,
@@ -86,14 +88,14 @@ class MintGenerativeProjectOperation extends ContractOperation<
 
     const data = await this.contract.methods
       .mint(
-        projectPayload,
+        JSON.parse(JSON.stringify(projectPayload)),
         reservationList,
         false,
         openMintUnixTimestamp,
         royalty
       )
       .send({
-        from: fromWalletAddress,
+        from: walletAddress,
         to: contractAddress,
         value: mintFee,
       });

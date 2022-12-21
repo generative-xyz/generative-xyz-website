@@ -4,3 +4,9 @@ export type WalletOperationReturn<T> = {
   message: string;
   data?: T;
 };
+
+export interface ProviderRpcError extends Error {
+  message: string;
+  code: number;
+  data?: unknown;
+}

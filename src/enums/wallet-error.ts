@@ -8,3 +8,7 @@ export enum WalletError {
   FAILED_UNLINK_WALLET = 'FAILED_UNLINK_WALLET',
   FAILED_SIGN_MESSAGE = 'FAILED_SIGN_MESSAGE',
 }
+
+export enum WalletErrorCode {
+  USER_REJECTED = 4001,
+}

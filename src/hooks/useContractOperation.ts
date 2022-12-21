@@ -17,7 +17,8 @@ const useContractOperation = <
   P extends ContractOperationRequiredParams,
   R extends ContractOperationReturn
 >(
-  OperationClass: TContractOperation<P, R>
+  OperationClass: TContractOperation<P, R>,
+  requiredConnectWallet: boolean
 ): ContractOperationHookReturn<P, R> => {
   const walletCtx = useContext(WalletContext);
   const [status, setStatus] = useState<ContractOperationStatus>(
@@ -81,9 +82,13 @@ const useContractOperation = <
       }
     };
 
-    if (!walletCtx.connectedAddress || !walletCtx.walletManager) {
+    const walletAddress = await walletCtx.connectedAddress();
+    if (!walletAddress || !walletCtx.walletManager) {
       try {
-        await walletCtx.connect();
+        if (requiredConnectWallet) {
+          await walletCtx.connect();
+        }
+
         await walletCtx.checkAndSwitchChain({
           chainID: params.chainID,
         });

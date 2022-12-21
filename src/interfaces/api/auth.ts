@@ -14,4 +14,5 @@ export interface IVerifyNonceMessagePayload {
 export interface IVerifyNonceMessageResponse {
   accessToken: string;
   refreshToken: string;
+  isVerified: boolean;
 }

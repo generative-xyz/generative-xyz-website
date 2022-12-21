@@ -1,6 +1,6 @@
 import { APIVersion } from '@enums/api-version';
 import { HttpMethod } from '@enums/http-method';
-import { RequestConfig } from '@interfaces/api/http-method';
+import { HttpResponse, RequestConfig } from '@interfaces/api/http-client';
 import { getAccessToken } from '@utils/auth';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
@@ -19,11 +19,12 @@ const getRequestEndpoint = (
 
 const handleResponse = async <T>(response: Response): Promise<T> => {
   return response.text().then((text: string) => {
-    const data = text && JSON.parse(text);
+    const json: HttpResponse<T> = text && JSON.parse(text);
+    const { data, status, error } = json;
 
-    if (!response.ok) {
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
+    if (!response.ok || !status) {
+      const errorMessage = (error && error.message) || response.statusText;
+      return Promise.reject(errorMessage);
     }
 
     return data as T;
@@ -55,8 +56,8 @@ const getRequestOptions = (
     method,
     mode: 'cors',
     credentials: 'same-origin',
-    headers: getHeader(config?.headers),
     ...config,
+    headers: getHeader(config?.headers),
   };
 };
 
@@ -64,7 +65,7 @@ export const get = async <R>(
   url: string,
   config?: RequestConfig
 ): Promise<R> => {
-  const requestOptions = getRequestOptions(HttpMethod.GET, config);
+  const requestOptions: RequestInit = getRequestOptions(HttpMethod.GET, config);
   const requestUrl = getRequestEndpoint(
     url,
     !!config?.externalResource,
@@ -79,7 +80,10 @@ export const post = async <P, R>(
   body: P,
   config?: RequestConfig
 ): Promise<R> => {
-  const requestOptions = getRequestOptions(HttpMethod.POST, config);
+  const requestOptions: RequestInit = {
+    ...getRequestOptions(HttpMethod.POST, config),
+    body: JSON.stringify(body),
+  };
   const requestUrl = getRequestEndpoint(
     url,
     !!config?.externalResource,
@@ -94,7 +98,10 @@ export const put = async <P, R>(
   body: P,
   config?: RequestConfig
 ): Promise<R> => {
-  const requestOptions = getRequestOptions(HttpMethod.PUT, config);
+  const requestOptions: RequestInit = {
+    ...getRequestOptions(HttpMethod.PUT, config),
+    body: JSON.stringify(body),
+  };
   const requestUrl = getRequestEndpoint(
     url,
     !!config?.externalResource,
@@ -108,7 +115,10 @@ export const del = async <R>(
   url: string,
   config?: RequestConfig
 ): Promise<R> => {
-  const requestOptions = getRequestOptions(HttpMethod.POST, config);
+  const requestOptions: RequestInit = getRequestOptions(
+    HttpMethod.POST,
+    config
+  );
   const requestUrl = getRequestEndpoint(
     url,
     !!config?.externalResource,

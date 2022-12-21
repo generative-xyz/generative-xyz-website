@@ -21,12 +21,10 @@ export type ContractOperationData = {
   error?: unknown;
 };
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type ContractOperationCallback = (
   status: ContractOperationStatus,
   data?: ContractOperationData
 ) => void;
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export type ContractOperationHookReturn<P, R> = {
   status: ContractOperationStatus;

@@ -12,10 +12,10 @@ import {
   ContractOperationReturn,
 } from '@interfaces/contract';
 import { ContractOperationStatus } from '@enums/contract';
-import { getChainList } from '@services/chain-service';
+import { getChainList } from '@services/chainlist';
 import { IResourceChain } from '@interfaces/chain';
-import { WalletOperationReturn } from '@interfaces/wallet';
-import { WalletError } from '@enums/wallet-error';
+import { ProviderRpcError, WalletOperationReturn } from '@interfaces/wallet';
+import { WalletError, WalletErrorCode } from '@enums/wallet-error';
 
 const LOG_PREFIX = 'WalletManager';
 
@@ -59,7 +59,7 @@ export class WalletManager {
   isInstalled(): boolean {
     try {
       return this.getMetamaskProvider().isMetaMask;
-    } catch (e) {
+    } catch (_: unknown) {
       return false;
     }
   }
@@ -67,7 +67,7 @@ export class WalletManager {
   isConnected(): boolean {
     try {
       return this.getMetamaskProvider().isConnected();
-    } catch (e) {
+    } catch (_: unknown) {
       return false;
     }
   }
@@ -80,6 +80,16 @@ export class WalletManager {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
       return false;
     }
+  }
+
+  async connectedAddress(): Promise<string | null> {
+    const addresses = await this.getMetamaskProvider().request({
+      method: 'eth_accounts',
+    });
+    if (addresses && Array.isArray(addresses)) {
+      return addresses[0];
+    }
+    return null;
   }
 
   // Wallet methods
@@ -167,6 +177,10 @@ export class WalletManager {
       } catch (err: unknown) {
         log(err as Error, LogLevel.Error, LOG_PREFIX);
         this.requestAddChain(chainID);
+
+        if ((err as ProviderRpcError).code !== WalletErrorCode.USER_REJECTED) {
+          this.requestAddChain(chainID);
+        }
       }
 
       return {
