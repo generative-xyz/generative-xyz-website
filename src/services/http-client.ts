@@ -1,12 +1,17 @@
+import { APIVersion } from '@enums/api-version';
 import { HttpMethod } from '@enums/http-method';
 import { RequestConfig } from '@interfaces/api/http-method';
 import { getAccessToken } from '@utils/auth';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
-const getRequestEndpoint = (url: string, externalResource = false): string => {
+const getRequestEndpoint = (
+  url: string,
+  externalResource = false,
+  version = APIVersion.V1
+): string => {
   if (!externalResource) {
-    return `${API_BASE_URL}${url}`;
+    return `${API_BASE_URL}${version}${url}`;
   }
 
   return url;
@@ -36,23 +41,35 @@ const getHeader = (configHeader?: HeadersInit): HeadersInit => {
 
   const accessToken = getAccessToken();
   if (accessToken) {
-    headers['Authentication'] = `Bearer ${accessToken}`;
+    headers['Authorization'] = `Bearer ${accessToken}`;
   }
 
   return headers;
+};
+
+const getRequestOptions = (
+  method: HttpMethod,
+  config?: RequestConfig
+): RequestInit => {
+  return {
+    method,
+    mode: 'cors',
+    credentials: 'same-origin',
+    headers: getHeader(config?.headers),
+    ...config,
+  };
 };
 
 export const get = async <R>(
   url: string,
   config?: RequestConfig
 ): Promise<R> => {
-  const requestOptions = {
-    method: HttpMethod.GET,
-    ...config,
-    headers: getHeader(config?.headers),
-  } as RequestInit;
-
-  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
+  const requestOptions = getRequestOptions(HttpMethod.GET, config);
+  const requestUrl = getRequestEndpoint(
+    url,
+    !!config?.externalResource,
+    config?.version
+  );
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);
 };
@@ -62,14 +79,12 @@ export const post = async <P, R>(
   body: P,
   config?: RequestConfig
 ): Promise<R> => {
-  const requestOptions = {
-    method: HttpMethod.POST,
-    ...config,
-    headers: getHeader(config?.headers),
-    body: JSON.stringify(body),
-  } as RequestInit;
-
-  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
+  const requestOptions = getRequestOptions(HttpMethod.POST, config);
+  const requestUrl = getRequestEndpoint(
+    url,
+    !!config?.externalResource,
+    config?.version
+  );
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);
 };
@@ -79,14 +94,12 @@ export const put = async <P, R>(
   body: P,
   config?: RequestConfig
 ): Promise<R> => {
-  const requestOptions = {
-    method: HttpMethod.PUT,
-    ...config,
-    headers: getHeader(config?.headers),
-    body: JSON.stringify(body),
-  } as RequestInit;
-
-  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
+  const requestOptions = getRequestOptions(HttpMethod.PUT, config);
+  const requestUrl = getRequestEndpoint(
+    url,
+    !!config?.externalResource,
+    config?.version
+  );
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);
 };
@@ -95,13 +108,12 @@ export const del = async <R>(
   url: string,
   config?: RequestConfig
 ): Promise<R> => {
-  const requestOptions = {
-    method: HttpMethod.DELETE,
-    ...config,
-    headers: getHeader(config?.headers),
-  } as RequestInit;
-
-  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
+  const requestOptions = getRequestOptions(HttpMethod.POST, config);
+  const requestUrl = getRequestEndpoint(
+    url,
+    !!config?.externalResource,
+    config?.version
+  );
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);
 };

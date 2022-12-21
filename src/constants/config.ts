@@ -9,10 +9,21 @@ export const NETWORK_CHAIN_ID: number = parseInt(
   10
 );
 
-// Datadog configs
+// Datadog config
 export const DD_APP_ID = process.env.DD_APP_ID!;
 export const DD_CLIENT_TOKEN = process.env.DD_CLIENT_TOKEN!;
 export const DD_SITE = 'datadoghq.com';
 export const DD_SERVICE = process.env.NEXT_PUBLIC_DD_SERVICE!;
+
+// AA tracking config
+export const AA_BASE_URL =
+  'https://autonomous-analytics-qffztaoryq-uc.a.run.app/api/v1';
+export const AA_CLIENT_TOKEN = process.env.AA_CLIENT_TOKEN!;
+export const AA_PLATFORM = 'web';
+
+// RAPI config
+export const RAPI_URL = 'https://telize-v1.p.rapidapi.com/geoip';
+export const RAPI_HOST = 'telize-v1.p.rapidapi.com';
+export const RAPID_CLIENT_TOKEN = process.env.RAPID_CLIENT_TOKEN!;
 
 /* eslint-enable @typescript-eslint/no-non-null-assertion */

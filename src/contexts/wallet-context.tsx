@@ -7,13 +7,14 @@ import React, {
   useState,
 } from 'react';
 import { WalletManager } from '@services/wallet';
-import { unlinkWallet } from '@services/profile-service';
+import { generateNonceMessage, verifyNonceMessage } from '@services/auth';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { useAppDispatch } from '@redux';
-import { resetUser } from '@redux/user/action';
+import { resetUser, setUser } from '@redux/user/action';
 import { WalletError } from '@enums/wallet-error';
-import ClientOnly from '@components/Utils/ClientOnly';
+import { clearAuthStorage, setAccessToken } from '@utils/auth';
+import { getProfile } from '@services/profile';
 
 const LOG_PREFIX = 'WalletContext';
 
@@ -84,33 +85,38 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
 
     const walletAddress = walletRes.data;
     try {
-      // const userRes = await linkWallet({ walletAddress });
-      // dispatch(setUser(userRes));
+      const { message } = await generateNonceMessage({
+        address: walletAddress,
+      });
+      const { data: signature } = await wallet.signMessage(
+        message,
+        walletAddress
+      );
+      if (!signature) {
+        throw Error(WalletError.FAILED_LINK_WALLET);
+      }
+
+      const { accessToken, refreshToken } = await verifyNonceMessage({
+        signature,
+        address: walletAddress,
+      });
+      setAccessToken(accessToken, refreshToken);
+      const userRes = await getProfile();
+      dispatch(setUser(userRes));
       setConnectedAddress(walletAddress);
     } catch (err: unknown) {
-      log('can not connect wallet', LogLevel.Error, LOG_PREFIX);
+      log('failed to connect wallet', LogLevel.Error, LOG_PREFIX);
       throw Error(WalletError.FAILED_LINK_WALLET);
     }
   }, [dispatch]);
 
   const disconnect = useCallback(async (): Promise<void> => {
-    const wallet = walletManagerRef.current;
-    if (!wallet) {
-      throw Error(WalletError.NO_INSTANCE);
-    }
-
-    const walletRes = await wallet.connect();
-    if (!walletRes.isSuccess || !walletRes.data) {
-      throw Error(walletRes.message);
-    }
-
-    const walletAddress = walletRes.data;
     try {
-      await unlinkWallet({ walletAddress });
+      clearAuthStorage();
       dispatch(resetUser());
       setConnectedAddress(null);
     } catch (err: unknown) {
-      log('can not disconnect wallet', LogLevel.Error, LOG_PREFIX);
+      log('failed to disconnect wallet', LogLevel.Error, LOG_PREFIX);
       throw Error(WalletError.FAILED_UNLINK_WALLET);
     }
   }, [dispatch]);
@@ -145,7 +151,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
 
   return (
     <WalletContext.Provider value={contextValues}>
-      <ClientOnly>{children}</ClientOnly>
+      {children}
     </WalletContext.Provider>
   );
 };

@@ -19,25 +19,27 @@ class DatadogService {
   }
 
   init(): void {
-    // Datadog RUM
-    datadogRum.init({
-      applicationId: DD_APP_ID,
-      clientToken: DD_CLIENT_TOKEN,
-      site: DD_SITE,
-      service: DD_SERVICE,
-      env: APP_ENV,
-      sampleRate: 100,
-      trackResources: true,
-      trackLongTasks: true,
-      trackInteractions: true,
-    });
+    if (APP_ENV === 'production') {
+      // Datadog RUM
+      datadogRum.init({
+        applicationId: DD_APP_ID,
+        clientToken: DD_CLIENT_TOKEN,
+        site: DD_SITE,
+        service: DD_SERVICE,
+        env: APP_ENV,
+        sampleRate: 100,
+        trackResources: true,
+        trackLongTasks: true,
+        trackInteractions: true,
+      });
 
-    // Datadog logs
-    datadogLogs.init({
-      clientToken: DD_CLIENT_TOKEN,
-      site: DD_SITE,
-      sampleRate: 100,
-    });
+      // Datadog logs
+      datadogLogs.init({
+        clientToken: DD_CLIENT_TOKEN,
+        site: DD_SITE,
+        sampleRate: 100,
+      });
+    }
   }
 
   startRUMTracking(): void {

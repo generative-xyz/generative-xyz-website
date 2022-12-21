@@ -1,6 +1,6 @@
 import { User } from '@interfaces/user';
 import { createReducer } from '@reduxjs/toolkit';
-import { setUser, resetUser } from './action';
+import { setUser, resetUser } from '@redux/user/action';
 
 const initialState: User = {
   displayName: '',

@@ -45,32 +45,37 @@ const log = (
 
   const timestamp: string = dayjs().format('YYYY-MM-DD, HH:mm:ss.SSS');
 
-  prefix = prefix ? ` [${prefix}]:` : '';
+  const prettyPrefix = prefix ? ` [${prefix}]:` : '';
 
-  const message = `[${logLevel.toUpperCase()}] (${timestamp})${prefix} ${msg}`;
+  const messagePrefix = `[${logLevel.toUpperCase()}] (${timestamp})${prettyPrefix}`;
 
   const eventLogItem: LogItem = {
-    logLevel: logLevel,
-    message: msg.toString(),
+    logLevel,
+    message: `${messagePrefix} ${msg}`,
     timestamp: dayjs().unix(),
     module: prefix,
   };
 
   // Special case for error since we want to see the stacktrace
   if (logLevel === LogLevel.Error) {
+    if ((msg as Error).message) {
+      eventLogItem.message = `${messagePrefix} ${(msg as Error).message}`;
+    }
     // eslint-disable-next-line no-console
-    console.error(message);
+    console.error(eventLogItem.message);
+
     if ((msg as Error).stack) {
+      eventLogItem.stackTrace = (msg as Error).stack as string;
       // eslint-disable-next-line no-console
       console.error((msg as Error).stack);
-      eventLogItem.stackTrace = (msg as Error).stack as string;
     }
+
     sendLogToSystem(eventLogItem);
     return;
   }
 
   // eslint-disable-next-line no-console
-  console.log(message);
+  console.log(eventLogItem.message);
 
   sendLogToSystem(eventLogItem);
 };

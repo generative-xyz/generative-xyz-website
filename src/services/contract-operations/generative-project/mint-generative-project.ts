@@ -33,7 +33,7 @@ class MintGenerativeProjectOperation extends ContractOperation<
       name,
       creatorName,
       creatorAddress,
-      license = '',
+      license = 'MIT',
       description,
       thumbnail,
       socialWeb = '',
@@ -57,7 +57,11 @@ class MintGenerativeProjectOperation extends ContractOperation<
     const projectPayload = {
       _maxSupply: maxSupply,
       _limit: limitSupply,
-      _mintPrice: this.walletManager.getWeb3Provider().utils.toWei(mintPrice),
+      _mintPrice: this.walletManager
+        .getWeb3Provider()
+        .utils.toNumber(
+          this.walletManager.getWeb3Provider().utils.toWei(mintPrice, 'ether')
+        ),
       _mintPriceAddr: mintTokenAddress,
       _name: name,
       _creator: creatorName,
@@ -65,15 +69,13 @@ class MintGenerativeProjectOperation extends ContractOperation<
       _license: license,
       _desc: description,
       _image: thumbnail,
-      _social: JSON.parse(
-        JSON.stringify({
-          _web: socialWeb,
-          _twitter: socialTwitter,
-          _discord: socialDiscord,
-          _medium: socialMedium,
-          _instagram: socialInstagram,
-        })
-      ),
+      _social: {
+        _web: socialWeb,
+        _twitter: socialTwitter,
+        _discord: socialDiscord,
+        _medium: socialMedium,
+        _instagram: socialInstagram,
+      },
       _scriptType: thirdPartyScripts,
       _scripts: scripts,
       _styles: styles,
@@ -84,7 +86,7 @@ class MintGenerativeProjectOperation extends ContractOperation<
 
     const data = await this.contract.methods
       .mint(
-        JSON.stringify(projectPayload),
+        projectPayload,
         reservationList,
         false,
         openMintUnixTimestamp,
