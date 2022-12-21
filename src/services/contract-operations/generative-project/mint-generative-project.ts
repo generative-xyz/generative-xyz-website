@@ -5,17 +5,21 @@ import dayjs from 'dayjs';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/generative-project.json';
 import { IMintGenerativeProjectParams } from '@interfaces/contract-operations/mint-generative-project';
-import { ROOT_ADDRESS } from '@constants/contract-address';
+import {
+  GENERATIVE_PROJECT_CONTRACT,
+  ROOT_ADDRESS,
+} from '@constants/contract-address';
 
 class MintGenerativeProjectOperation extends ContractOperation<
   IMintGenerativeProjectParams,
   TransactionReceipt
 > {
   contract: Contract | null = null;
+  contractAddress: string = GENERATIVE_PROJECT_CONTRACT;
 
   async prepare(): Promise<void> {
     this.contract = await this.walletManager.getContract(
-      this.params.contractAddress,
+      this.contractAddress,
       ContractABI.abi as Array<AbiItem>
     );
   }
@@ -48,7 +52,6 @@ class MintGenerativeProjectOperation extends ContractOperation<
       openMintUnixTimestamp = dayjs().unix(),
       royalty = 100, // 1%
       mintFee, // In ETH Wei
-      contractAddress,
     } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
@@ -96,7 +99,7 @@ class MintGenerativeProjectOperation extends ContractOperation<
       )
       .send({
         from: walletAddress,
-        to: contractAddress,
+        to: this.contractAddress,
         value: mintFee,
       });
 

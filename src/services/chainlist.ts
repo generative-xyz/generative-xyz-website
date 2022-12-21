@@ -12,7 +12,7 @@ export const getChainList = async (): Promise<Array<IResourceChain>> => {
     const data = await res.json();
     return data as Array<IResourceChain>;
   } catch (err: unknown) {
-    log('get chain list error', LogLevel.Error, LOG_PREFIX);
+    log('Failed to get chain list', LogLevel.Error, LOG_PREFIX);
     return [];
   }
 };

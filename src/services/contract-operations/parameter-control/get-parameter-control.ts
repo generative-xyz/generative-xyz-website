@@ -3,16 +3,18 @@ import { Contract } from 'web3-eth-contract';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/parameter-control.json';
 import { IGetParameterControlParams } from '@interfaces/contract-operations/get-parameter-control';
+import { PARAM_CONTROL_CONTRACT } from '@constants/contract-address';
 
 class GetParamControlOperation extends ContractOperation<
   IGetParameterControlParams,
   number
 > {
   contract: Contract | null = null;
+  contractAddress: string = PARAM_CONTROL_CONTRACT;
 
   async prepare(): Promise<void> {
     this.contract = await this.walletManager.getContract(
-      this.params.contractAddress,
+      this.contractAddress,
       ContractABI.abi as Array<AbiItem>
     );
   }

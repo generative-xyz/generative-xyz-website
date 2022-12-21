@@ -10,6 +10,7 @@ import { ContractOperationStatus } from '@enums/contract';
 import { WalletContext } from '@contexts/wallet-context';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
+import { WalletError } from '@enums/wallet-error';
 
 const LOG_PREFIX = 'useContractOperation';
 
@@ -76,17 +77,32 @@ const useContractOperation = <
         }
       }
 
-      if (status === ContractOperationStatus.ERROR) {
+      if (opStatus === ContractOperationStatus.ERROR) {
         setIsLoading(false);
         setIsError(true);
+
+        if (res?.message) {
+          setErrMsg(res.message);
+        }
       }
     };
 
-    const walletAddress = await walletCtx.connectedAddress();
-    if (!walletAddress || !walletCtx.walletManager) {
+    if (walletCtx.walletManager) {
+      const isInstalled = walletCtx.walletManager.isInstalled();
+      if (!isInstalled) {
+        log(WalletError.NO_METAMASK, LogLevel.Error, LOG_PREFIX);
+        statusCallback(ContractOperationStatus.ERROR, {
+          message: WalletError.NO_METAMASK,
+        });
+        return;
+      }
+
       try {
         if (requiredConnectWallet) {
-          await walletCtx.connect();
+          const walletAddress = await walletCtx.connectedAddress();
+          if (!walletAddress) {
+            await walletCtx.connect();
+          }
         }
 
         await walletCtx.checkAndSwitchChain({
@@ -94,16 +110,22 @@ const useContractOperation = <
         });
       } catch (err: unknown) {
         log(err as Error, LogLevel.Error, LOG_PREFIX);
-        statusCallback(ContractOperationStatus.ERROR);
+        statusCallback(ContractOperationStatus.ERROR, {
+          message: (err as Error).message,
+        });
         return;
       }
+      walletCtx.walletManager?.runContractOperation<P, R>(
+        OperationClass,
+        params,
+        statusCallback
+      );
+    } else {
+      log(WalletError.NO_INSTANCE, LogLevel.Error, LOG_PREFIX);
+      statusCallback(ContractOperationStatus.ERROR, {
+        message: WalletError.NO_INSTANCE,
+      });
     }
-
-    walletCtx.walletManager?.runContractOperation<P, R>(
-      OperationClass,
-      params,
-      statusCallback
-    );
   };
 
   return {

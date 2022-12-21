@@ -13,6 +13,6 @@ export const getProfile = async (): Promise<IGetProfileResponse> => {
     return res;
   } catch (err: unknown) {
     log('failed to get profile', LogLevel.Error, LOG_PREFIX);
-    throw Error('Failed generate nonce message');
+    throw Error('Failed to get profile');
   }
 };

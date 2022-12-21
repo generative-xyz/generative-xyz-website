@@ -3,37 +3,43 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { TransactionReceipt } from 'web3-eth';
 import { WalletContext } from '@contexts/wallet-context';
 import useContractOperation from '@hooks/useContractOperation';
-import {
-  GENERATIVE_PROJECT_CONTRACT,
-  PARAM_CONTROL_CONTRACT,
-} from '@constants/contract-address';
 import MintGenerativeProjectOperation from '@services/contract-operations/generative-project/mint-generative-project';
 import { IMintGenerativeProjectParams } from '@interfaces/contract-operations/mint-generative-project';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import GetParamControlOperation from '@services/contract-operations/parameter-control/get-parameter-control';
 import { IGetParameterControlParams } from '@interfaces/contract-operations/get-parameter-control';
 import { ParameterControlKey } from '@enums/parameter-key';
+import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
+import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
 
 const Profile: React.FC = (): React.ReactElement => {
   const walletCtx = useContext(WalletContext);
   const mintFee = useRef(0);
-  const { call: getParamControl, data: mintProjectFee } = useContractOperation<
-    IGetParameterControlParams,
-    number
-  >(GetParamControlOperation, false);
-  const { call } = useContractOperation<
+  const {
+    call: getParamControl,
+    data: mintProjectFee,
+    errorMessage,
+  } = useContractOperation<IGetParameterControlParams, number>(
+    GetParamControlOperation,
+    false
+  );
+  const { call: mintProject } = useContractOperation<
     IMintGenerativeProjectParams,
     TransactionReceipt
   >(MintGenerativeProjectOperation, true);
+  const { call: mintNFT } = useContractOperation<
+    IMintGenerativeNFTParams,
+    TransactionReceipt
+  >(MintGenerativeNFTOperation, true);
+
   const handleConnectWallet = async () => {
     await walletCtx.connect();
   };
 
-  const handleTest = async () => {
+  const handleTestMintProject = async () => {
     try {
-      call({
+      mintProject({
         chainID: NETWORK_CHAIN_ID,
-        contractAddress: GENERATIVE_PROJECT_CONTRACT,
         maxSupply: 100,
         limitSupply: 100,
         mintPrice: '0.002',
@@ -53,12 +59,23 @@ const Profile: React.FC = (): React.ReactElement => {
     }
   };
 
+  const handleTestMintNFT = async () => {
+    try {
+      mintNFT({
+        projectAddress: '0x7e9b3d83a65c996c1b8df775cffd929350e0b428',
+        mintFee: 0.002,
+        chainID: NETWORK_CHAIN_ID,
+      });
+    } catch (err: unknown) {
+      // console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (walletCtx.walletManager) {
       getParamControl({
         key: ParameterControlKey.CREATE_PROJECT_FEE,
         chainID: NETWORK_CHAIN_ID,
-        contractAddress: PARAM_CONTROL_CONTRACT,
       });
     }
   }, [walletCtx]);
@@ -69,15 +86,13 @@ const Profile: React.FC = (): React.ReactElement => {
     }
   }, [mintProjectFee]);
 
-  // useEffect(() => {
-  //   detectLocationFromIP();
-  // }, []);
-
   return (
     <section className={s.profile}>
       <p>{mintProjectFee}</p>
+      <p>{errorMessage}</p>
       <button onClick={handleConnectWallet}>connect wallet</button>
-      <button onClick={handleTest}>Test mint project</button>
+      <button onClick={handleTestMintProject}>Test mint project</button>
+      <button onClick={handleTestMintNFT}>Test mint token</button>
     </section>
   );
 };

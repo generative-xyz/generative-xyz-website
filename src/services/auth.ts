@@ -38,6 +38,6 @@ export const verifyNonceMessage = async (
     return res;
   } catch (err: unknown) {
     log('failed to verify nonce message', LogLevel.Error, LOG_PREFIX);
-    throw Error('Failed to generate nonce message');
+    throw Error('Failed to verify nonce message');
   }
 };

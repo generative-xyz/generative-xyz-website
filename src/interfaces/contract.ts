@@ -42,5 +42,4 @@ export type ContractOperationHookReturn<P, R> = {
 
 export type ContractOperationRequiredParams = {
   chainID: number;
-  contractAddress: string;
 };
