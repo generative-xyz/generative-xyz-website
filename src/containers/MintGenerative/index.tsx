@@ -4,8 +4,12 @@ import {
   MintGenerativeContextTypes,
 } from '@contexts/mint-generative-context';
 import { ISandboxRef } from '@interfaces/sandbox';
-import { PropsWithChildren, useContext, useRef } from 'react';
+import { PropsWithChildren, useContext, useMemo, useRef } from 'react';
 
+import Button from '@components/Button';
+import { MintGenerativeStep } from '@constants/mint-generative';
+import { Form, Formik } from 'formik';
+import { formInitialValues } from './FormModel/formInitialValues';
 import styles from './styles.module.scss';
 
 type StepProps = {
@@ -54,6 +58,24 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const isLastStep = useMemo(
+    () => currentStep === MintGenerativeStep.SET_PRICE,
+    [currentStep]
+  );
+
+  // const handleSubmit = (values: IMintGenerativeProjectParams, actions: any) => {
+  //   if (isLastStep) {
+  //     console.log('submit form');
+  //   } else {
+  //     console.log('🚀 ~ handleSubmit ~ actions', actions);
+  //     console.log('🚀 ~ handleSubmit ~ values', values);
+  //   }
+  // };
+
+  const handleSubmit = () => {
+    return;
+  };
+
   const StepItem = ({ item }: StepProps) => {
     return (
       <div className={currentStep === item.id ? styles.active : ''}>
@@ -69,8 +91,29 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
           <StepItem item={step} key={`mint-step-${step.id}`} />
         ))}
       </div>
-      <div className="grid grid-cols-2">
-        {children}
+      <div className={`grid ${filesSandbox ? 'grid-cols-2' : ''} }`}>
+        <Formik
+          initialValues={formInitialValues}
+          // validationSchema={currentValidationSchema}
+          onSubmit={handleSubmit}
+        >
+          {() => (
+            <Form id={'mint-generative-form'}>
+              {children}
+              {isLastStep && (
+                <Button
+                  className="wFull"
+                  type="submit"
+                  //  onClick={handleSubmit}
+                  // onClick={() => router.push('/mint-generative/set-price')}
+                >
+                  Publish project
+                </Button>
+              )}
+            </Form>
+          )}
+        </Formik>
+
         <div
           className={styles.previewContainer}
           style={
