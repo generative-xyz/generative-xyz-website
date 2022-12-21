@@ -7,7 +7,7 @@ import {
 } from '@contexts/mint-generative-context';
 import { MintGenerativeStep } from '@enums/mint-generative';
 import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
 import styles from './styles.module.scss';
 
 // type Props = {};
@@ -78,12 +78,13 @@ const Step2 = () => {
 
         <div>
           <label>Labels</label>
-
           <div className={styles.categories}>
             {attributes &&
               Object.entries(attributes).length > 0 &&
               Object.entries(attributes).map(([key, value]) => (
-                <Checkbox id={key} key={key} label={value} />
+                <Fragment key={key}>
+                  {value && <Checkbox id={key} label={key} />}
+                </Fragment>
               ))}
           </div>
         </div>

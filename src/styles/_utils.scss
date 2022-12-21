@@ -8,7 +8,7 @@
   gap: 10px;
 }
 
-.justifyBetween {
+.justify-between {
   justify-content: space-between;
 }
 
@@ -47,4 +47,12 @@
 
 .grid-cols-2 {
   grid-template-columns: repeat(2, 1fr);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.75;
+  }
 }

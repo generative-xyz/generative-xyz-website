@@ -54,7 +54,7 @@ const PreviewInfo = () => {
           onLoaded={handleIframeLoaded}
         />
       </ClientOnly>
-      <div className="horizontalStack justifyBetween">
+      <div className="horizontalStack justify-between">
         <div className="horizontalStack">
           Run
           <Image src={PlayIcon} alt={'check icon'} />
@@ -70,7 +70,7 @@ const PreviewInfo = () => {
         address="0xDa08dD1c849d8DEC0Da09ec541506CefaD6D8F5c"
         wrapperStyle={{ marginBottom: '16px' }}
       />
-      <div className={cx('horizontalStack justifyBetween', styles.metaInfo)}>
+      <div className={cx('horizontalStack justify-between', styles.metaInfo)}>
         <p>0.59 ETH</p>
         <p>0/1 minted</p>
       </div>

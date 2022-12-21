@@ -8,6 +8,7 @@ import { MintGenerativeStep } from '@enums/mint-generative';
 import { useContext, useEffect } from 'react';
 
 import styles from './styles.module.scss';
+import { useFormikContext } from 'formik';
 
 // const enum TABS {
 //   FIXED,
@@ -20,10 +21,15 @@ const Step3 = () => {
   ) as MintGenerativeContextTypes;
 
   // const [tabActive, setTabActive] = useState(TABS.FIXED);
+  const formikProps = useFormikContext();
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.SET_PRICE);
   });
+
+  useEffect(() => {
+    formikProps.setFieldValue('scripts', ['test']);
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -37,17 +43,6 @@ const Step3 = () => {
           if stated otherwise on the corresponding fields.
         </p>
         <div className={styles.inputGroup}>
-          {/* <Input
-            name="edition-num"
-            placeholder="Number here"
-            label="Number of editions *"
-            desc={
-              'how many NFT can be generated using your Token - can only be decreased after publication'
-            }
-            className={styles.input}
-            type="number"
-            required
-          /> */}
           <FormikController
             control="input"
             type="number"
@@ -57,27 +52,6 @@ const Step3 = () => {
             // required
           />
 
-          {/* <div className="">
-            <label className="block mb1">Pricing method *</label>
-            <p className="textSecondary">
-              You will not be able to update the pricing method after
-              publication, only its pricing settings
-            </p>
-            <div className={styles.methodOptions}>
-              <div
-                className={tabActive === TABS.FIXED ? styles.active : ''}
-                onClick={() => setTabActive(TABS.FIXED)}
-              >
-                Fixed price
-              </div>
-              <div
-                className={tabActive === TABS.AUCTION ? styles.active : ''}
-                onClick={() => setTabActive(TABS.AUCTION)}
-              >
-                Dutch auction
-              </div>
-            </div>
-          </div> */}
           <FormikController
             control="input"
             type="number"
@@ -94,26 +68,8 @@ const Step3 = () => {
             // placeholder="Provide a detailed description of your item."
             // required
           />
-          {/* <Input name="price" placeholder="0.00" label="Price" /> */}
-          {/* <Input
-            name="royalties"
-            placeholder="0"
-            label="Royalties*"
-            desc={'in %, between 10 - 25'}
-            className={styles.input}
-            type="number"
-            required
-          /> */}
-          {/* <Button
-            className="wFull"
-            onClick={handleSubmit}
-            // onClick={() => router.push('/mint-generative/set-price')}
-          >
-            Publish project
-          </Button> */}
         </div>
       </div>
-      {/* <PreviewInfo /> */}
     </div>
   );
 };

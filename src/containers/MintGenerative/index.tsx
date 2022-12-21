@@ -1,14 +1,15 @@
+import Button from '@components/Button';
+import { MintGenerativeStep } from '@constants/mint-generative';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
 } from '@contexts/mint-generative-context';
 import { ISandboxRef } from '@interfaces/sandbox';
-import { PropsWithChildren, useContext, useMemo, useRef } from 'react';
-
-import Button from '@components/Button';
-import { MintGenerativeStep } from '@constants/mint-generative';
 import { Form, Formik } from 'formik';
+import { PropsWithChildren, useContext, useMemo, useRef } from 'react';
+import { Stack } from 'react-bootstrap';
+
 import { formInitialValues } from './FormModel/formInitialValues';
 import styles from './styles.module.scss';
 
@@ -67,8 +68,37 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
   const handleSubmit = () => {
     // console.log('🚀 ~ handleSubmit ~ actions', actions);
     // console.log('🚀 ~ handleSubmit ~ values', values);
-
     return;
+  };
+
+  // TODO: Remove disable later
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderMetaData = (values: any) => {
+    switch (currentStep) {
+      case MintGenerativeStep.PRODUCT_DETAIL:
+        return (
+          <div className="">
+            <div className="cursor-pointer">Upload preview image</div>
+            <div className="address">Wait for API to show address</div>
+          </div>
+        );
+
+      case MintGenerativeStep.SET_PRICE:
+        return (
+          <div className="">
+            <div className="cursor-pointer">Upload preview image</div>
+            <div className="address">{values?.name}</div>
+            <div className="address">Wait for API to show address</div>
+            <Stack direction="horizontal" className="justify-between">
+              <b>{values?.mintPrice} ETH</b>
+              <b>0/{values?.maxSupply} minted</b>
+            </Stack>
+          </div>
+        );
+
+      default:
+        return;
+    }
   };
 
   const StepItem = ({ item }: StepProps) => {
@@ -86,14 +116,17 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
           <StepItem item={step} key={`mint-step-${step.id}`} />
         ))}
       </div>
-      <div className={`grid ${filesSandbox ? 'grid-cols-2' : ''} }`}>
-        <Formik
-          initialValues={formInitialValues}
-          // validationSchema={currentValidationSchema}
-          onSubmit={handleSubmit}
-        >
-          {() => (
-            <Form id={'mint-generative-form'}>
+      <Formik
+        initialValues={formInitialValues}
+        // validationSchema={currentValidationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ values }) => (
+          <Form
+            id={'mint-generative-form'}
+            className={`grid ${filesSandbox ? 'grid-cols-2' : ''} }`}
+          >
+            <div>
               {children}
               {isLastStep && (
                 <Button
@@ -105,24 +138,26 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
                   Publish project
                 </Button>
               )}
-            </Form>
-          )}
-        </Formik>
-
-        <div
-          className={styles.previewContainer}
-          style={
-            filesSandbox ? { visibility: 'visible' } : { visibility: 'hidden' }
-          }
-        >
-          <SandboxPreview
-            ref={sandboxRef}
-            hash={hash}
-            sandboxFiles={filesSandbox}
-            onLoaded={handleIframeLoaded}
-          />
-        </div>
-      </div>
+            </div>
+            <div
+              className={styles.previewContainer}
+              style={
+                filesSandbox
+                  ? { visibility: 'visible' }
+                  : { visibility: 'hidden' }
+              }
+            >
+              <SandboxPreview
+                ref={sandboxRef}
+                hash={hash}
+                sandboxFiles={filesSandbox}
+                onLoaded={handleIframeLoaded}
+              />
+              {renderMetaData(values)}
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
