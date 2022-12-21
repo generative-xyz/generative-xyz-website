@@ -1,24 +1,25 @@
-import Input from '@components/Input/TextInput';
+import FormikController from '@components/Formik/Controller';
 import Link from '@components/Link';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
 } from '@contexts/mint-generative-context';
 import { MintGenerativeStep } from '@enums/mint-generative';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
+
 import styles from './styles.module.scss';
 
-const enum TABS {
-  FIXED,
-  AUCTION,
-}
+// const enum TABS {
+//   FIXED,
+//   AUCTION,
+// }
 
 const Step3 = () => {
   const { setCurrentStep } = useContext(
     MintGenerativeContext
   ) as MintGenerativeContextTypes;
 
-  const [tabActive, setTabActive] = useState(TABS.FIXED);
+  // const [tabActive, setTabActive] = useState(TABS.FIXED);
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.SET_PRICE);
@@ -36,7 +37,7 @@ const Step3 = () => {
           if stated otherwise on the corresponding fields.
         </p>
         <div className={styles.inputGroup}>
-          <Input
+          {/* <Input
             name="edition-num"
             placeholder="Number here"
             label="Number of editions *"
@@ -46,9 +47,17 @@ const Step3 = () => {
             className={styles.input}
             type="number"
             required
+          /> */}
+          <FormikController
+            control="input"
+            type="number"
+            name="maxSupply"
+            label="Number of editions *"
+            // placeholder="Provide a detailed description of your item."
+            // required
           />
 
-          <div className="">
+          {/* <div className="">
             <label className="block mb1">Pricing method *</label>
             <p className="textSecondary">
               You will not be able to update the pricing method after
@@ -68,9 +77,25 @@ const Step3 = () => {
                 Dutch auction
               </div>
             </div>
-          </div>
-          <Input name="price" placeholder="0.00" label="Price" />
-          <Input
+          </div> */}
+          <FormikController
+            control="input"
+            type="number"
+            name="mintPrice"
+            label="Price"
+            // placeholder="Provide a detailed description of your item."
+            // required
+          />
+          <FormikController
+            control="input"
+            type="number"
+            name="royalty"
+            label="Royalties*"
+            // placeholder="Provide a detailed description of your item."
+            // required
+          />
+          {/* <Input name="price" placeholder="0.00" label="Price" /> */}
+          {/* <Input
             name="royalties"
             placeholder="0"
             label="Royalties*"
@@ -78,7 +103,7 @@ const Step3 = () => {
             className={styles.input}
             type="number"
             required
-          />
+          /> */}
           {/* <Button
             className="wFull"
             onClick={handleSubmit}

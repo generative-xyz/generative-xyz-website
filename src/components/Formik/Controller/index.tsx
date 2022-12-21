@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLInputTypeAttribute } from 'react';
 import Input from '../Input';
 import TextArea from '../TextArea';
 import Select from '../Select';
@@ -13,7 +13,9 @@ export type FormikControllerProps = {
   control: string;
   name: string;
   label: string;
-  options: {
+  desc?: string;
+  type?: HTMLInputTypeAttribute;
+  options?: {
     value: string;
     key: string;
   }[];

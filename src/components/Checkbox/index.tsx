@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 
 type CheckboxProps = {
   id: string;
-  label: string;
+  label: string | number | boolean;
   checked?: boolean;
   onClick?: () => void;
 };

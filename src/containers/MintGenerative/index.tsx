@@ -63,16 +63,11 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
     [currentStep]
   );
 
-  // const handleSubmit = (values: IMintGenerativeProjectParams, actions: any) => {
-  //   if (isLastStep) {
-  //     console.log('submit form');
-  //   } else {
-  //     console.log('🚀 ~ handleSubmit ~ actions', actions);
-  //     console.log('🚀 ~ handleSubmit ~ values', values);
-  //   }
-  // };
-
+  // TODO: Handle Submit form
   const handleSubmit = () => {
+    // console.log('🚀 ~ handleSubmit ~ actions', actions);
+    // console.log('🚀 ~ handleSubmit ~ values', values);
+
     return;
   };
 

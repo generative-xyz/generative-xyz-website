@@ -25,16 +25,21 @@ import styles from './styles.module.scss';
 const LOG_PREFIX = 'MintGenerativeStep1';
 
 const Step1 = () => {
-  const { filesSandbox, setCurrentStep, setFilesSandbox, file, setFile } =
-    useContext(MintGenerativeContext) as MintGenerativeContextTypes;
+  const {
+    filesSandbox,
+    setCurrentStep,
+    setFilesSandbox,
+    file,
+    setFile,
+    hash,
+    setHash,
+  } = useContext(MintGenerativeContext) as MintGenerativeContextTypes;
   const router = useRouter();
 
   const [keepHash, setKeepHash] = useState(false);
   const [confirm, setConfirm] = useState(false);
 
   const sandboxRef = useRef<ISandboxRef>(null);
-
-  const [hash, setHash] = useState<string>(generateHash());
 
   const processFile = async (file: File) => {
     try {

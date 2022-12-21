@@ -6,6 +6,15 @@
   }
 }
 
+.form {
+  input,
+  textarea {
+    border: 1px solid #000;
+    padding: 16px;
+    width: 100%;
+  }
+}
+
 .inputGroup {
   display: flex;
   flex-direction: column;

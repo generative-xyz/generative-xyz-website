@@ -1,6 +1,7 @@
 import { Field, FieldInputProps } from 'formik';
 import FormikErrorMessage from '../ErrorMessage';
 import { FormikControllerProps } from '../Controller';
+import Stack from 'react-bootstrap/Stack';
 
 function Checkboxes(
   props: Pick<FormikControllerProps, 'name' | 'label' | 'options'>
@@ -12,9 +13,9 @@ function Checkboxes(
       <Field name={name}>
         {(formik: { field: FieldInputProps<string> }) => {
           const { field } = formik;
-          return options.map(option => {
+          return options?.map(option => {
             return (
-              <div key={option.key}>
+              <Stack direction="horizontal" key={option.key} gap={2}>
                 <input
                   type="checkbox"
                   id={option.value}
@@ -23,8 +24,8 @@ function Checkboxes(
                   value={option.value}
                   checked={field.value.includes(option.value)}
                 />
-                <label>{option.key}</label>
-              </div>
+                <label>{option.value}</label>
+              </Stack>
             );
           });
         }}

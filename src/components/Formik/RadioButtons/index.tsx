@@ -12,7 +12,7 @@ function RadioButtons(
       <Field name={name}>
         {(formik: { field: FieldInputProps<string> }) => {
           const { field } = formik;
-          return options.map(option => {
+          return options?.map(option => {
             return (
               <div key={option.key}>
                 <input

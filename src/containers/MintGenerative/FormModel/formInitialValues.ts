@@ -1,18 +1,21 @@
+import dayjs from 'dayjs';
+
 export const formInitialValues = {
   maxSupply: 0,
   limitSupply: 0,
   mintPrice: '',
   name: '',
+  hashtag: '',
   creatorName: '',
   creatorAddress: '',
   description: '',
   thumbnail: '',
-  thirdPartyScripts: [' '],
-  scripts: [' '],
+  thirdPartyScripts: [],
+  scripts: [''],
   reservationList: [' '],
   mintFee: 0,
   fromWalletAddress: '',
-  openMintUnixTimestamp: 0,
+  openMintUnixTimestamp: dayjs().unix(),
   tokenDescription: '',
   styles: '',
   royalty: 0,
@@ -21,6 +24,6 @@ export const formInitialValues = {
   socialDiscord: '',
   socialMedium: '',
   socialInstagram: '',
-  license: '',
+  license: 'MIT',
   mintTokenAddress: '',
 };
