@@ -16,6 +16,7 @@ export const processSandboxZipFile = async (
   file: File
 ): Promise<SandboxFiles> => {
   const fileType = await FileType.fromBlob(file);
+
   if (!fileType || !ZIP_MIMES.includes(fileType.mime)) {
     throw Error(SandboxFileError.WRONG_FORMAT);
   }

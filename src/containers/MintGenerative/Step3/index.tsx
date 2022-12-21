@@ -1,4 +1,3 @@
-import Button from '@components/Button';
 import Input from '@components/Input/TextInput';
 import Link from '@components/Link';
 import {
@@ -27,7 +26,7 @@ const Step3 = () => {
 
   return (
     <div className={styles.wrapper}>
-      <form className={styles.form}>
+      <div className={styles.form}>
         <label>How will your piece be sold</label>
         <p className="textSecondary mb8">
           Read more pricing guide <Link href="#">here</Link>
@@ -80,14 +79,15 @@ const Step3 = () => {
             type="number"
             required
           />
-          <Button
+          {/* <Button
             className="wFull"
+            onClick={handleSubmit}
             // onClick={() => router.push('/mint-generative/set-price')}
           >
             Publish project
-          </Button>
+          </Button> */}
         </div>
-      </form>
+      </div>
       {/* <PreviewInfo /> */}
     </div>
   );
