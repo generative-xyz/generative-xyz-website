@@ -19,6 +19,8 @@ import { useRouter } from 'next/router';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
+import { useFormikContext } from 'formik';
+import { processScriptFiles } from '@utils/scriptFiles';
 
 // type Props = {};
 
@@ -35,6 +37,7 @@ const Step1 = () => {
     setHash,
   } = useContext(MintGenerativeContext) as MintGenerativeContextTypes;
   const router = useRouter();
+  const formikProps = useFormikContext();
 
   const [keepHash, setKeepHash] = useState(false);
   const [confirm, setConfirm] = useState(false);
@@ -44,7 +47,9 @@ const Step1 = () => {
   const processFile = async (file: File) => {
     try {
       const files = await processSandboxZipFile(file);
+      const scriptFiles = await processScriptFiles(file);
       setFilesSandbox(files);
+      formikProps.setFieldValue('scripts', scriptFiles);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
     }

@@ -66,8 +66,6 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
 
   // TODO: Handle Submit form
   const handleSubmit = () => {
-    // console.log('🚀 ~ handleSubmit ~ actions', actions);
-    // console.log('🚀 ~ handleSubmit ~ values', values);
     return;
   };
 

@@ -8,7 +8,6 @@ import { MintGenerativeStep } from '@enums/mint-generative';
 import { useContext, useEffect } from 'react';
 
 import styles from './styles.module.scss';
-import { useFormikContext } from 'formik';
 
 // const enum TABS {
 //   FIXED,
@@ -21,15 +20,10 @@ const Step3 = () => {
   ) as MintGenerativeContextTypes;
 
   // const [tabActive, setTabActive] = useState(TABS.FIXED);
-  const formikProps = useFormikContext();
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.SET_PRICE);
   });
-
-  useEffect(() => {
-    formikProps.setFieldValue('scripts', ['test']);
-  }, []);
 
   return (
     <div className={styles.wrapper}>
