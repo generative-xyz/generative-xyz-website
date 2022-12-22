@@ -13,6 +13,14 @@ import { convertIpfsToHttp } from '@utils/image';
 import cs from 'classnames';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import styles from './styles.module.scss';
+import { getProjectDetail } from '@services/project';
+import Image from 'next/image';
+import { convertIpfsToHttp } from '@utils/image';
+import { Button, Container, Stack, Tab, Tabs } from 'react-bootstrap';
+import cs from 'classnames';
+import CollectionItem from '@components/Collection/Item';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
