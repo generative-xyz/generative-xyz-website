@@ -1,10 +1,10 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import styles from './styles.module.scss';
 import Image from 'next/image';
 
 type Props = {
   imgSrc: string;
-  address: string;
+  address?: string | ReactNode;
   width?: number;
   height?: number;
   wrapperStyle?: CSSProperties;
@@ -12,7 +12,7 @@ type Props = {
 
 const AvatarInfo = ({
   imgSrc,
-  address = '0xDa08dD1c849d8DEC0Da09ec541506CefaD6D8F5c',
+  address,
   width = 56,
   height = 56,
   wrapperStyle,
@@ -23,10 +23,10 @@ const AvatarInfo = ({
         {imgSrc ? (
           <Image src={imgSrc} alt="user avatar" width={width} height={height} />
         ) : (
-          <div className={styles.defaultAvatar}></div>
+          <div className={styles.defaultAvatar} style={{ width, height }}></div>
         )}
       </div>
-      <div className={styles.address}>{address}</div>
+      {address && <div className={styles.address}>{address}</div>}
     </div>
   );
 };

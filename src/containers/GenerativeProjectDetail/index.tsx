@@ -1,24 +1,52 @@
-import { IGetProjectDetailResponse } from '@interfaces/api/project';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
-import { getProjectDetail } from '@services/project';
-import Image from 'next/image';
+import CollectionList from '@components/Collection/List';
+import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import {
+  IGetProjectDetailResponse,
+  IProjectItem,
+} from '@interfaces/api/project';
+import { getProjectDetail, getProjectItems } from '@services/project';
 import { convertIpfsToHttp } from '@utils/image';
-import { Button, Container, Stack, Tab, Tabs } from 'react-bootstrap';
 import cs from 'classnames';
-import CollectionItem from '@components/Collection/Item';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  Button,
+  Container,
+  Form,
+  InputGroup,
+  Stack,
+  Tab,
+  Tabs,
+} from 'react-bootstrap';
+import styles from './styles.module.scss';
 
 const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const { projectID } = router.query as { projectID: string };
 
   const [projectInfo, setprojectInfo] = useState<IGetProjectDetailResponse>();
+  const [listItems, setListItems] = useState<IProjectItem[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
 
   const fetchProjectDetail = async (): Promise<void> => {
     if (projectID) {
-      const data = await getProjectDetail({ projectID });
+      const data = await getProjectDetail({
+        contractAddress: GENERATIVE_PROJECT_CONTRACT,
+        projectID,
+      });
       setprojectInfo(data);
+    }
+  };
+
+  const fetchProjectItems = async (): Promise<void> => {
+    if (projectInfo) {
+      const res = await getProjectItems({
+        contractAddress: projectInfo?.genNFTAddr,
+        limit: 20,
+      });
+      setListItems(res.result);
+      setTotalItems(res.total);
     }
   };
 
@@ -27,9 +55,17 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     return;
   };
 
+  const calcMintProgress = useMemo(() => {
+    return (totalItems / (projectInfo?.maxSupply || 1)) * 100;
+  }, [totalItems, projectInfo]);
+
   useEffect(() => {
     fetchProjectDetail();
   }, [projectID]);
+
+  useEffect(() => {
+    fetchProjectItems();
+  }, [projectInfo]);
 
   return (
     <section>
@@ -43,6 +79,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
               )}
               fill
               style={{ objectFit: 'cover', width: '100%' }}
+              sizes="(max-width: 1200px) 330px"
               alt={'project thumbnail image'}
             />
           </div>
@@ -56,26 +93,28 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                   <p>{projectInfo?.creator || projectInfo?.creatorAddr}</p>
                 </div>
               </Stack>
-              <Stack direction="horizontal" className={styles.createdDate}>
+              {/* <Stack direction="horizontal" className={styles.createdDate}>
                 <div className="skeleton avatar"></div>
                 <div>
                   <p>Created date</p>
                   <p>{projectInfo?.creator || projectInfo?.creatorAddr}</p>
                 </div>
-              </Stack>
+              </Stack> */}
             </Stack>
             <div className={styles.mintProgress}>
               <p>
                 <b>
                   {/* TODO: Update mint number */}
-                  {projectInfo?.limit} / {projectInfo?.maxSupply} minted
+                  {totalItems} / {projectInfo?.maxSupply} minted
                 </b>
               </p>
               <div className={cs(styles.progressWrapper, 'skeleton')}>
                 {/* TODO: Update mint progress */}
                 <div
                   className={styles.progressBar}
-                  style={{ width: '95%' }}
+                  style={{
+                    width: `${calcMintProgress}%`,
+                  }}
                 ></div>
               </div>
             </div>
@@ -95,14 +134,20 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
           defaultActiveKey="profile"
           id="uncontrolled-tab-example"
           className="mt-4"
+          fill
         >
           <Tab eventKey="items" title="Items">
-            <div className="grid grid-cols-4 mt-4">
-              <CollectionItem />
-              <CollectionItem />
-              <CollectionItem />
-              <CollectionItem />
-            </div>
+            <InputGroup size="sm" className="my-4">
+              <InputGroup.Text id="inputGroup-sizing-sm">
+                Search
+              </InputGroup.Text>
+              <Form.Control
+                placeholder="owner, item, address..."
+                aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </InputGroup>
+            <CollectionList listData={listItems} />
           </Tab>
           <Tab eventKey="analytics" title="Analytics" disabled>
             Analytics
