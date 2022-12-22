@@ -5,14 +5,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const baseSecurityHeaders = [
   {
-    key: "X-Frame-Options",
-    value: "SAMEORIGIN"
+    key: 'X-Frame-Options',
+    value: 'SAMEORIGIN',
   },
   {
     key: 'Cross-Origin-Opener-Policy',
-    value: 'same-origin'
+    value: 'same-origin',
   },
-]
+];
 
 /** @type {import('next').NextConfig} */
 module.exports = withBundleAnalyzer({
@@ -22,37 +22,51 @@ module.exports = withBundleAnalyzer({
   headers() {
     return [
       {
-        source: "/:path*",
+        source: '/:path*',
         headers: [
           {
-            key: "Content-Security-Policy",
-            value: `frame-ancestors 'self'; frame-src 'self';`
+            key: 'Content-Security-Policy',
+            value: `frame-ancestors 'self'; frame-src 'self';`,
           },
           ...baseSecurityHeaders,
-        ]
+        ],
       },
       {
-        source: "/sandbox/sw.js",
+        source: '/sandbox/sw.js',
         headers: [
           {
-            key: "service-worker-allowed",
-            value: "/"
-          }
-        ]
+            key: 'service-worker-allowed',
+            value: '/',
+          },
+        ],
       },
       {
-        source: "/sandbox/preview.html",
+        source: '/sandbox/preview.html',
         headers: [
           {
-            key: "Content-Security-Policy",
-            value: ""
+            key: 'Content-Security-Policy',
+            value: '',
           },
           {
-            key: "Cross-Origin-Embedder-Policy",
-            value: "require-corp"
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'require-corp',
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ipfs.io',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cloudflare-ipfs.com',
+        port: '',
+      },
+    ],
   },
 });
