@@ -60,12 +60,14 @@ module.exports = withBundleAnalyzer({
       {
         protocol: 'https',
         hostname: 'ipfs.io',
-        port: '',
       },
       {
         protocol: 'https',
         hostname: 'cloudflare-ipfs.com',
-        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.generative.xyz',
       },
     ],
   },

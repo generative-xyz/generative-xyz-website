@@ -7,7 +7,7 @@ import {
 import { get } from '@services/http-client';
 import log from '@utils/logger';
 
-const LOG_PREFIX = 'GetProjectService';
+const LOG_PREFIX = 'ProjectService';
 
 const API_PROJECT_DETAIL_PATH = '/project';
 

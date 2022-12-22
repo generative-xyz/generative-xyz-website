@@ -1,6 +1,13 @@
 export interface IGetProjectDetailParams {
-  contractAddress?: string;
   projectID: string;
+}
+
+export interface IProjectSocial {
+  Web: string;
+  Twitter: string;
+  Discord: string;
+  Medium: string;
+  Instagram: string;
 }
 
 export interface IGetProjectDetailResponse {
@@ -15,13 +22,7 @@ export interface IGetProjectDetailResponse {
   desc: string;
   image: string;
   scriptType: string[];
-  social: {
-    Web: string;
-    Twitter: string;
-    Discord: string;
-    Medium: string;
-    Instagram: string;
-  };
+  social: IProjectSocial;
   scripts: string[];
   styles: string;
   completeTime: number;
