@@ -1,10 +1,17 @@
 .wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 80px;
 
   label {
     font-weight: 700;
+  }
+}
+
+.form {
+  input,
+  textarea {
+    border: 1px solid #000;
+    padding: 16px;
+    width: 100%;
   }
 }
 

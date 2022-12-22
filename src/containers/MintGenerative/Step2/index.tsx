@@ -1,43 +1,38 @@
 import Button from '@components/Button';
 import Checkbox from '@components/Checkbox';
-import Input from '@components/Input/TextInput';
+import FormikController from '@components/Formik/Controller';
 import {
   MintGenerativeContext,
   MintGenerativeContextTypes,
 } from '@contexts/mint-generative-context';
 import { MintGenerativeStep } from '@enums/mint-generative';
-import React, { useContext, useEffect } from 'react';
-import PreviewInfo from '@containers/MintGenerative/PreviewInfo';
-import styles from './styles.module.scss';
 import { useRouter } from 'next/router';
+import { Fragment, useContext, useEffect } from 'react';
+import styles from './styles.module.scss';
 
 // type Props = {};
 
+const THIRD_PARTY_SCRIPTS = [
+  {
+    key: 'p5js',
+    value: 'p5js@1.5.0',
+  },
+  {
+    key: 'threejs',
+    value: 'threejs@r124',
+  },
+  {
+    key: 'tonejs',
+    value: 'tonejs@14.8.49',
+  },
+];
+
 const Step2 = () => {
-  const { setCurrentStep } = useContext(
+  const { setCurrentStep, attributes } = useContext(
     MintGenerativeContext
   ) as MintGenerativeContextTypes;
 
   const router = useRouter();
-
-  const categoryList = [
-    {
-      label: 'Cate 1',
-      id: 'cate-1',
-    },
-    {
-      label: 'Cate 2',
-      id: 'cate-2',
-    },
-    {
-      label: 'Cate 3',
-      id: 'cate-3',
-    },
-    {
-      label: 'Cate 4',
-      id: 'cate-4',
-    },
-  ];
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.PRODUCT_DETAIL);
@@ -46,46 +41,51 @@ const Step2 = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.form}>
-        <Input
-          name="piece-name"
-          placeholder="Piece name"
+        <FormikController
+          control="input"
           label="Name of the piece *"
-          desc={'[description]'}
-          className={styles.input}
-          required
+          name="name"
         />
-        <Input
-          name="piece-desc"
-          placeholder="Provide a detailed description of your item."
+        <FormikController
+          control="textArea"
+          name="tokenDescription"
           label="Generative token description*"
-          required
-          as="textarea"
+          // placeholder="Provide a detailed description of your item."
+          // required
         />
-        <Input
-          name="collected-desc"
-          placeholder="Provide a detailed description of your item."
+        <FormikController
+          control="textArea"
+          name="description"
           label="Collected NFTs description"
-          desc={'[description]'}
-          as="textarea"
+          // placeholder="Provide a detailed description of your item."
+          // required
         />
-        <Input
+        <FormikController
+          control="input"
           name="hashtag"
-          placeholder="Hashtag"
           label="Hashtag *"
-          desc={'[description]'}
-          className={styles.input}
-          required
+          // placeholder="Provide a detailed description of your item."
+          // required
         />
+        <FormikController
+          control="checkbox"
+          name="thirdPartyScripts"
+          label="Third Party Scripts"
+          options={THIRD_PARTY_SCRIPTS}
+          // placeholder="Provide a detailed description of your item."
+          // required
+        />
+
         <div>
           <label>Labels</label>
           <div className={styles.categories}>
-            {categoryList?.map(category => (
-              <Checkbox
-                id={category.id}
-                key={category.id}
-                label={category.label}
-              />
-            ))}
+            {attributes &&
+              Object.entries(attributes).length > 0 &&
+              Object.entries(attributes).map(([key, value]) => (
+                <Fragment key={key}>
+                  {value && <Checkbox id={key} label={key} />}
+                </Fragment>
+              ))}
           </div>
         </div>
         <Button
@@ -95,7 +95,7 @@ const Step2 = () => {
           Next Step
         </Button>
       </div>
-      <PreviewInfo />
+      {/* <PreviewInfo /> */}
     </div>
   );
 };

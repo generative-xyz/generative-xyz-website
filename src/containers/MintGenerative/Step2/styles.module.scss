@@ -1,8 +1,4 @@
 .wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-
   label {
     font-weight: 700;
   }
@@ -12,6 +8,15 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+
+  input,
+  textarea {
+    border: 1px solid #000;
+  }
+
+  textarea {
+    resize: none;
+  }
 }
 
 .categories {
