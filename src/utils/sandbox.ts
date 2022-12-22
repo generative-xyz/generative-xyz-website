@@ -21,10 +21,6 @@ export const processSandboxZipFile = async (
     throw Error(SandboxFileError.WRONG_FORMAT);
   }
 
-  // const jsExtension = '.js';
-  // const cssExtension = '.css';
-  // const htmlExtension = '.html';
-
   let files: Record<string, Blob>;
   try {
     files = await unzipFile(file);
@@ -56,7 +52,6 @@ export const processSandboxZipFile = async (
   files['index.html'] = new Blob([newIndexContents], { type: 'text/html' });
 
   const record: SandboxFiles = {};
-  // let fileLists = Object.keys(files);
 
   for (const name in files) {
     if (name.slice(-4) === '.svg') {
@@ -69,26 +64,6 @@ export const processSandboxZipFile = async (
       record[name].blob = files[name];
     }
   }
-
-  // let jsFile = fileLists.filter(function (file) {
-  //   return file.indexOf(jsExtension) !== -1;
-  // });
-  // let cssFile = fileLists.filter(function (file) {
-  //   return file.indexOf(cssExtension) !== -1;
-  // });
-  // let htmlFile = fileLists.filter(function (file) {
-  //   return file.indexOf(htmlExtension) !== -1;
-  // });
-
-  // const scriptFiles = [...htmlFile, ...cssFile, ...jsFile];
-  // let scriptStringFiles: string[] = [];
-
-  // Promise.all(
-  //   scriptFiles.map(async file => {
-  //     let content = await files[file].text();
-  //     return content;
-  //   })
-  // ).then(res => scriptStringFiles.push(...res));
 
   return record;
 };
