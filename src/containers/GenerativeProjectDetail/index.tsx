@@ -37,7 +37,10 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
         <div className={styles.projectInfo}>
           <div className={styles.thumbnail}>
             <Image
-              src={convertIpfsToHttp(projectInfo?.image || '')}
+              src={convertIpfsToHttp(
+                projectInfo?.image ||
+                  'ipfs://QmZha95v86iME98rpxrJWbHerK3JjEHKkiGpdS4NgZKjdb'
+              )}
               fill
               style={{ objectFit: 'cover', width: '100%' }}
               alt={'project thumbnail image'}
