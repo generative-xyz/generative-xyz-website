@@ -1,6 +1,7 @@
 import { IPagingResponse } from '@interfaces/paging';
 import { RawTokenAttributes } from './../sandbox';
 export interface IGetProjectDetailParams {
+  contractAddress: string;
   projectID: string;
 }
 
