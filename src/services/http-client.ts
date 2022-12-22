@@ -20,12 +20,10 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
   return response.text().then((text: string) => {
     const json: HttpResponse<T> = text && JSON.parse(text);
     const { data, status, error } = json;
-
     if (!response.ok || !status) {
       const errorMessage = (error && error.message) || response.statusText;
       return Promise.reject(errorMessage);
     }
-
     return data as T;
   });
 };

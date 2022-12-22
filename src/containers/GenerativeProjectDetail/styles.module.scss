@@ -1,0 +1,51 @@
+.projectInfo {
+  display: flex;
+  gap: 16px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.thumbnail {
+  aspect-ratio: 1 / 1;
+  width: 330px;
+  position: relative;
+}
+
+.info {
+  flex: 1;
+
+  h2 {
+    font-size: 54px;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+}
+
+.mintProgress {
+  margin-block: 16px;
+
+  .progressWrapper {
+    width: 100%;
+    max-width: 620px;
+    height: 5px;
+    position: relative;
+
+    .progressBar {
+      content: "";
+      display: block;
+      position: absolute;
+      height: 100%;
+      background-color: #000;
+    }
+  }
+}
+
+.meta {
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px solid #a5a5a5;
+  border-radius: 8px;
+  width: fit-content;
+}

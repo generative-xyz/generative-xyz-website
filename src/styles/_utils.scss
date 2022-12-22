@@ -49,10 +49,24 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .cursor-pointer {
   cursor: pointer;
 
   &:hover {
     opacity: 0.75;
   }
+}
+
+.skeleton {
+  background-color: #a5a5a5;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
