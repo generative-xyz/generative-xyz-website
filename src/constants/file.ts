@@ -10,3 +10,7 @@ export const NAIVE_MIMES: Record<string, string> = {
   css: 'text/css',
   csv: 'text/csv',
 };
+
+export const JS_EXTENSION = 'js';
+export const HTML_EXTENSION = 'html';
+export const CSS_EXTENSION = 'css';

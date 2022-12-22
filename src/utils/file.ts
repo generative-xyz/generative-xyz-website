@@ -25,3 +25,8 @@ export async function unzipFile(file: File): Promise<Record<string, Blob>> {
 
   return blobs;
 }
+
+export const getFileExtensionByFileName = (fileName: string): string | null => {
+  const fileExt = fileName.split('.').pop();
+  return fileExt ?? null;
+};

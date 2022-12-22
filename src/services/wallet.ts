@@ -306,7 +306,7 @@ export class WalletManager {
     OperationClass: TContractOperation<P, R>,
     params: P,
     statusCallback: ContractOperationCallback
-  ) {
+  ): Promise<R | null> {
     const contractOperation = new OperationClass(this, params);
 
     try {
@@ -324,25 +324,30 @@ export class WalletManager {
         typeof res === 'boolean' ||
         typeof res === 'string'
       ) {
-        return statusCallback?.(ContractOperationStatus.SUCCESS, {
+        statusCallback?.(ContractOperationStatus.SUCCESS, {
           transactionHash: '',
           data: res,
           message: contractOperation.success(),
         });
+
+        return res;
       }
 
-      return statusCallback?.(ContractOperationStatus.SUCCESS, {
+      statusCallback?.(ContractOperationStatus.SUCCESS, {
         transactionHash: (res as TransactionReceipt).transactionHash,
         data: res as TransactionReceipt,
         message: contractOperation.success(),
       });
+      return res;
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
 
-      return statusCallback?.(ContractOperationStatus.ERROR, {
+      statusCallback?.(ContractOperationStatus.ERROR, {
         error: err,
         message: contractOperation.error(),
       });
+
+      return null;
     }
   }
 }

@@ -46,7 +46,7 @@ const useContractOperation = <
     setStatus(ContractOperationStatus.IDLE);
   };
 
-  const call = async (params: P): Promise<void> => {
+  const call = async (params: P): Promise<R | null> => {
     setIsLoading(true);
     setIsSuccess(false);
     setIsError(false);
@@ -94,7 +94,7 @@ const useContractOperation = <
         statusCallback(ContractOperationStatus.ERROR, {
           message: WalletError.NO_METAMASK,
         });
-        return;
+        return null;
       }
 
       try {
@@ -113,9 +113,10 @@ const useContractOperation = <
         statusCallback(ContractOperationStatus.ERROR, {
           message: (err as Error).message,
         });
-        return;
+        return null;
       }
-      walletCtx.walletManager?.runContractOperation<P, R>(
+
+      return walletCtx.walletManager?.runContractOperation<P, R>(
         OperationClass,
         params,
         statusCallback
@@ -125,6 +126,8 @@ const useContractOperation = <
       statusCallback(ContractOperationStatus.ERROR, {
         message: WalletError.NO_INSTANCE,
       });
+
+      return null;
     }
   };
 

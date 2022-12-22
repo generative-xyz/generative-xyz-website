@@ -1,19 +1,17 @@
-import { MintGenerativePages } from '@constants/mint-generative';
+import { MintGenerativePages } from '@enums/mint-generative';
 import MintGenerativeStep1 from '@containers/MintGenerative/Step1';
 import MintGenerativeStep2 from '@containers/MintGenerative/Step2';
 import MintGenerativeStep3 from '@containers/MintGenerative/Step3';
 import { useRouter } from 'next/router';
-
 import DefaultLayout from '@components/Layout/DefaultLayout';
 import MintGenerative from '@containers/MintGenerative';
 import { MintGenerativeContextProvider } from '@contexts/mint-generative-context';
-import ErrorPage from '@pages/404';
 
 const MintGenerativeSubPages = () => {
   const router = useRouter();
   const { subpages } = router.query;
 
-  const renderSubPages = () => {
+  const renderSubPages = (): JSX.Element => {
     switch (subpages) {
       case MintGenerativePages.UPLOAD_PROJECT:
         return <MintGenerativeStep1 />;
@@ -25,13 +23,9 @@ const MintGenerativeSubPages = () => {
         return <MintGenerativeStep3 />;
 
       default:
-        return;
+        return <MintGenerativeStep1 />;
     }
   };
-
-  if (!renderSubPages()) {
-    return <ErrorPage />;
-  }
 
   return (
     <DefaultLayout>

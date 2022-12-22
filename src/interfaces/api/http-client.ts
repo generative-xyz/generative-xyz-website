@@ -10,3 +10,7 @@ export type HttpResponse<T> = {
   };
   status: boolean;
 };
+
+export type RequestWithFile = {
+  file: File;
+};

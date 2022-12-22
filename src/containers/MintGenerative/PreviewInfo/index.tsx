@@ -3,7 +3,7 @@ import ClientOnly from '@components/Utils/ClientOnly';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import {
   MintGenerativeContext,
-  MintGenerativeContextTypes,
+  TMintGenerativeContext,
 } from '@contexts/mint-generative-context';
 import { ISandboxRef } from '@interfaces/sandbox';
 import { generateHash } from '@utils/generate-data';
@@ -16,8 +16,7 @@ import styles from './styles.module.scss';
 const PreviewInfo = () => {
   const { filesSandbox } = useContext(
     MintGenerativeContext
-  ) as MintGenerativeContextTypes;
-
+  ) as TMintGenerativeContext;
   const sandboxRef = useRef<ISandboxRef>(null);
   const hash = generateHash();
   // const [attributes, setAttributes] = useState<RawTokenAttributes | null>(null);

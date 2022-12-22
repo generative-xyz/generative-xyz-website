@@ -1,5 +1,9 @@
 import { HttpMethod } from '@enums/http-method';
-import { HttpResponse, RequestConfig } from '@interfaces/api/http-client';
+import {
+  HttpResponse,
+  RequestConfig,
+  RequestWithFile,
+} from '@interfaces/api/http-client';
 import { getAccessToken } from '@utils/auth';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
@@ -28,11 +32,10 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
 
 const getHeader = (configHeader?: HeadersInit): HeadersInit => {
   const defaultHeader = configHeader ?? {};
-
   const headers: Record<string, string> = {
-    ...Object(defaultHeader),
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    ...Object(defaultHeader),
   };
 
   const accessToken = getAccessToken();
@@ -75,6 +78,28 @@ export const post = async <P, R>(
     ...getRequestOptions(HttpMethod.POST, config),
     body: JSON.stringify(body),
   };
+  const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
+  const response = await fetch(requestUrl, requestOptions);
+  return handleResponse(response);
+};
+
+export const postFile = async <P, R>(
+  url: string,
+  body: P & RequestWithFile,
+  config?: RequestConfig
+): Promise<R> => {
+  const formData = new FormData();
+  formData.append('file', body.file);
+  const requestOptions: RequestInit = {
+    ...getRequestOptions(HttpMethod.POST, config),
+    body: formData,
+  };
+  if (
+    requestOptions.headers &&
+    (requestOptions.headers as Record<string, string>)['Content-Type']
+  ) {
+    delete (requestOptions.headers as Record<string, string>)['Content-Type'];
+  }
   const requestUrl = getRequestEndpoint(url, !!config?.externalResource);
   const response = await fetch(requestUrl, requestOptions);
   return handleResponse(response);

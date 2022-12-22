@@ -1,8 +1,8 @@
 import FileType from 'file-type/browser';
-import { ZIP_MIMES } from '@constants/file';
+import { JS_EXTENSION, ZIP_MIMES } from '@constants/file';
 import { SandboxFileError } from '@enums/sandbox';
-import { SandboxFiles } from '@interfaces/sandbox';
-import { unzipFile } from '@utils/file';
+import { SandboxFileContent, SandboxFiles } from '@interfaces/sandbox';
+import { getFileExtensionByFileName, unzipFile } from '@utils/file';
 import {
   SNIPPET_CONTRACT_HTML,
   SNIPPET_RANDOM_HTML,
@@ -66,4 +66,30 @@ export const processSandboxZipFile = async (
   }
 
   return record;
+};
+
+export const readSandboxFileContent = async (
+  sandBoxFiles: SandboxFiles
+): Promise<SandboxFileContent> => {
+  const fileContents: SandboxFileContent = {};
+
+  for (const [fileName, { url }] of Object.entries(sandBoxFiles)) {
+    const fileExt = getFileExtensionByFileName(fileName);
+    if (fileExt && url) {
+      const blob = await fetch(url);
+      let fileContent = await blob.text();
+
+      if (fileExt === JS_EXTENSION) {
+        fileContent = `<script>${fileContent}</script>`;
+      }
+
+      if (fileContents[fileExt]) {
+        fileContents[fileExt] = [...fileContents[fileExt], fileContent];
+      } else {
+        fileContents[fileExt] = [fileContent];
+      }
+    }
+  }
+
+  return fileContents;
 };

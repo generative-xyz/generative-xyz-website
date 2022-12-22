@@ -67,7 +67,7 @@ class MintGenerativeProjectOperation extends ContractOperation<
         ),
       _mintPriceAddr: mintTokenAddress,
       _name: name,
-      _creator: creatorName,
+      _creator: creatorName || walletAddress,
       _creatorAddr: walletAddress,
       _license: license,
       _desc: description,

@@ -4,14 +4,14 @@ import DropFile from '@components/Input/DropFile';
 import Link from '@components/Link';
 import {
   MintGenerativeContext,
-  MintGenerativeContextTypes,
+  TMintGenerativeContext,
 } from '@contexts/mint-generative-context';
 import { LogLevel } from '@enums/log-level';
 import { MintGenerativeStep } from '@enums/mint-generative';
 import { ISandboxRef } from '@interfaces/sandbox';
 import { generateHash } from '@utils/generate-data';
 import log from '@utils/logger';
-import { processSandboxZipFile } from '@utils/sandbox';
+import { processSandboxZipFile, readSandboxFileContent } from '@utils/sandbox';
 import { prettyPrintBytes } from '@utils/units';
 import cs from 'classnames';
 import Image from 'next/image';
@@ -19,10 +19,6 @@ import { useRouter } from 'next/router';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
-import { useFormikContext } from 'formik';
-import { processScriptFiles } from '@utils/scriptFiles';
-
-// type Props = {};
 
 const LOG_PREFIX = 'MintGenerativeStep1';
 
@@ -31,42 +27,38 @@ const Step1 = () => {
     filesSandbox,
     setCurrentStep,
     setFilesSandbox,
-    file,
-    setFile,
+    zipFile,
+    setZipFile,
     hash,
     setHash,
-  } = useContext(MintGenerativeContext) as MintGenerativeContextTypes;
+  } = useContext(MintGenerativeContext) as TMintGenerativeContext;
   const router = useRouter();
-  const formikProps = useFormikContext();
-
   const [keepHash, setKeepHash] = useState(false);
   const [confirm, setConfirm] = useState(false);
-
   const sandboxRef = useRef<ISandboxRef>(null);
 
   const processFile = async (file: File) => {
     try {
       const files = await processSandboxZipFile(file);
-      const scriptFiles = await processScriptFiles(file);
+      readSandboxFileContent(files);
       setFilesSandbox(files);
-      formikProps.setFieldValue('scripts', scriptFiles);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
     }
   };
 
   const handleChangeFile = (files: File[] | null): void => {
-    setFile(files && files.length > 0 ? files[0] : null);
+    setZipFile(files && files.length > 0 ? files[0] : null);
   };
 
   const handleProccessFile = (): void => {
-    if (file) {
-      processFile(file);
+    if (zipFile) {
+      processFile(zipFile);
     }
   };
 
   const handleReupload = (): void => {
-    setFile(null);
+    setZipFile(null);
     setFilesSandbox(null);
   };
 
@@ -95,7 +87,7 @@ const Step1 = () => {
         </div>
         <div className={styles.uploadFiles}>
           <div className="">
-            {file?.name} ({prettyPrintBytes(file?.size || 0)})
+            {zipFile?.name} ({prettyPrintBytes(zipFile?.size || 0)})
           </div>
           <ul>
             {fileList?.map((fileName: string) => (
@@ -163,7 +155,7 @@ const Step1 = () => {
                 'application/x-zip-compressed': ['.zip'],
               }}
               onChange={handleChangeFile}
-              files={file ? [file] : null}
+              files={zipFile ? [zipFile] : null}
               className={styles.dropFile}
             />
             <Button className={styles.uploadBtn} onClick={handleProccessFile}>

@@ -1,3 +1,4 @@
+import { MintGenerativeStep } from '@enums/mint-generative';
 import {
   ISandboxRef,
   RawTokenAttributes,
@@ -9,7 +10,6 @@ import React, {
   RefObject,
   SetStateAction,
   createContext,
-  useContext,
   useRef,
   useState,
 } from 'react';
@@ -18,29 +18,60 @@ type Props = {
   children: React.ReactNode;
 };
 
-export type MintGenerativeContextTypes = {
-  currentStep: number;
+export type TMintGenerativeContext = {
+  currentStep: MintGenerativeStep;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   filesSandbox: SandboxFiles | null;
   setFilesSandbox: Dispatch<SetStateAction<SandboxFiles | null>>;
   attributes: RawTokenAttributes | null;
   setAttributes: Dispatch<SetStateAction<RawTokenAttributes | null>>;
-  file: File | null;
-  setFile: Dispatch<SetStateAction<File | null>>;
-  sandboxRef: RefObject<ISandboxRef>;
+  zipFile: File | null;
+  setZipFile: Dispatch<SetStateAction<File | null>>;
+  thumbnailFile: File | null;
+  setThumbnailFile: Dispatch<SetStateAction<File | null>>;
+  sandboxRef: RefObject<ISandboxRef | null>;
   hash: string;
   setHash: Dispatch<SetStateAction<string>>;
 };
 
+const initialValues: TMintGenerativeContext = {
+  currentStep: MintGenerativeStep.UPLOAD_PROJECT,
+  setCurrentStep: _ => {
+    return;
+  },
+  filesSandbox: null,
+  setFilesSandbox: _ => {
+    return;
+  },
+  attributes: null,
+  setAttributes: _ => {
+    return;
+  },
+  zipFile: null,
+  setZipFile: _ => {
+    return;
+  },
+  thumbnailFile: null,
+  setThumbnailFile: _ => {
+    return;
+  },
+  sandboxRef: React.createRef(),
+  hash: '',
+  setHash: _ => {
+    return;
+  },
+};
+
 export const MintGenerativeContext =
-  createContext<MintGenerativeContextTypes | null>(null);
+  createContext<TMintGenerativeContext>(initialValues);
 
 export const MintGenerativeContextProvider = ({ children }: Props) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [filesSandbox, setFilesSandbox] = useState<SandboxFiles | null>(null);
   const [attributes, setAttributes] = useState<RawTokenAttributes | null>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const sandboxRef = useRef<ISandboxRef>(null);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [zipFile, setZipFile] = useState<File | null>(null);
+  const sandboxRef = useRef<ISandboxRef | null>(null);
   const [hash, setHash] = useState<string>(generateHash());
 
   return (
@@ -52,8 +83,10 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
         setFilesSandbox,
         attributes,
         setAttributes,
-        file,
-        setFile,
+        zipFile,
+        setZipFile,
+        thumbnailFile,
+        setThumbnailFile,
         sandboxRef,
         hash,
         setHash,
@@ -62,15 +95,4 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
       {children}
     </MintGenerativeContext.Provider>
   );
-};
-
-export const useMintGenerativeContext = () => {
-  const context = useContext(MintGenerativeContext);
-
-  if (!context)
-    throw new Error(
-      'MintGenerativeContext must be called from within the MintGenerativeContextProvider'
-    );
-
-  return context;
 };

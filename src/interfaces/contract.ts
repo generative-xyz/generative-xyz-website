@@ -36,7 +36,7 @@ export type ContractOperationHookReturn<P, R> = {
   transactionHash: string | null;
   params: P | null;
   data: R | null;
-  call: (data: P) => void;
+  call: (data: P) => Promise<R | null>;
   reset: () => void;
 };
 

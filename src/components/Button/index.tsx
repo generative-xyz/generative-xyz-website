@@ -17,7 +17,7 @@ const Button = React.forwardRef<
     {
       children,
       className,
-      type,
+      type = 'button',
       ...delegatedProps
     }: PropsWithChildren<ButtonProps>,
     ref: React.ForwardedRef<HTMLButtonElement>

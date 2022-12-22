@@ -1,11 +1,19 @@
-export const MintGenerativeStep = {
-  UPLOAD_PROJECT: 1,
-  PRODUCT_DETAIL: 2,
-  SET_PRICE: 3,
-};
+import { MintGenerativeStep } from '@enums/mint-generative';
 
-export const MintGenerativePages = {
-  UPLOAD_PROJECT: 'upload-project',
-  PRODUCT_DETAIL: 'product-detail',
-  SET_PRICE: 'set-price',
-};
+export const MINT_STEPS: Array<{
+  id: MintGenerativeStep;
+  label: string;
+}> = [
+  {
+    id: MintGenerativeStep.UPLOAD_PROJECT,
+    label: 'Upload to IPFS',
+  },
+  {
+    id: MintGenerativeStep.PRODUCT_DETAIL,
+    label: 'Product detail',
+  },
+  {
+    id: MintGenerativeStep.SET_PRICE,
+    label: 'Set price & mint',
+  },
+];

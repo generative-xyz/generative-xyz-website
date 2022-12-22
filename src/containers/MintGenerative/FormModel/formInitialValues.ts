@@ -1,23 +1,13 @@
-import dayjs from 'dayjs';
+import { IFormValue } from '@interfaces/mint-generative';
 
-export const formInitialValues = {
+export const formInitialValues: IFormValue = {
   maxSupply: 0,
-  limitSupply: 0,
   mintPrice: '',
   name: '',
   hashtag: '',
-  creatorName: '',
-  creatorAddress: '',
   description: '',
-  thumbnail: '',
   thirdPartyScripts: [],
-  scripts: [''],
-  reservationList: [' '],
-  mintFee: 0,
-  fromWalletAddress: '',
-  openMintUnixTimestamp: dayjs().unix(),
   tokenDescription: '',
-  styles: '',
   royalty: 0,
   socialWeb: '',
   socialTwitter: '',
@@ -25,5 +15,4 @@ export const formInitialValues = {
   socialMedium: '',
   socialInstagram: '',
   license: 'MIT',
-  mintTokenAddress: '',
 };

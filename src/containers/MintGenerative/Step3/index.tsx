@@ -2,24 +2,16 @@ import FormikController from '@components/Formik/Controller';
 import Link from '@components/Link';
 import {
   MintGenerativeContext,
-  MintGenerativeContextTypes,
+  TMintGenerativeContext,
 } from '@contexts/mint-generative-context';
 import { MintGenerativeStep } from '@enums/mint-generative';
 import { useContext, useEffect } from 'react';
-
 import styles from './styles.module.scss';
-
-// const enum TABS {
-//   FIXED,
-//   AUCTION,
-// }
 
 const Step3 = () => {
   const { setCurrentStep } = useContext(
     MintGenerativeContext
-  ) as MintGenerativeContextTypes;
-
-  // const [tabActive, setTabActive] = useState(TABS.FIXED);
+  ) as TMintGenerativeContext;
 
   useEffect(() => {
     setCurrentStep(MintGenerativeStep.SET_PRICE);
@@ -58,7 +50,7 @@ const Step3 = () => {
             control="input"
             type="number"
             name="royalty"
-            label="Royalties*"
+            label="Royalties(%)*"
             // placeholder="Provide a detailed description of your item."
             // required
           />
