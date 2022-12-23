@@ -25,14 +25,6 @@ const Header: React.FC = (): React.ReactElement => {
     }
   };
 
-  const handleDisconnectWallet = async (): Promise<void> => {
-    try {
-      await walletCtx.disconnect();
-    } catch (err: unknown) {
-      log(err as Error, LogLevel.Debug, LOG_PREFIX);
-    }
-  };
-
   return (
     <header className={styles.header}>
       <Container>
@@ -53,12 +45,9 @@ const Header: React.FC = (): React.ReactElement => {
             </Stack>
             {user.id ? (
               <div className="d-flex align-items-center gap-3">
-                <p className={styles.userAddress}>
+                <Link href={ROUTE_PATH.PROFILE} className={styles.userAddress}>
                   {formatAddress(user.walletAddress)}
-                </p>
-                <Button onClick={handleDisconnectWallet}>
-                  Disconnect wallet
-                </Button>
+                </Link>
               </div>
             ) : (
               <Button onClick={handleConnectWallet}>Connect wallet</Button>
