@@ -166,12 +166,10 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
             <div className={styles.mintProgress}>
               <p>
                 <b>
-                  {/* TODO: Update mint number */}
                   {totalItems} / {projectInfo?.maxSupply} minted
                 </b>
               </p>
               <div className={cs(styles.progressWrapper, 'skeleton')}>
-                {/* TODO: Update mint progress */}
                 <div
                   className={styles.progressBar}
                   style={{
@@ -212,16 +210,11 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                 <b>{projectInfo?.royalty || 0}%</b>
                 <p>Royalty</p>
               </Stack>
-              {/* Do not remove comment below, will use later */}
-              {/* <div>Total volume</div>
-              <div>Floor price</div>
-              <div>Highest offer</div>
-            */}
             </Stack>
           </div>
         </div>
         <Tabs
-          defaultActiveKey="profile"
+          defaultActiveKey="items"
           id="uncontrolled-tab-example"
           className="mt-4"
           fill
@@ -239,10 +232,20 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
             </InputGroup>
             <CollectionList listData={listItems} />
           </Tab>
-          <Tab eventKey="analytics" title="Analytics" disabled>
+          <Tab
+            eventKey="analytics"
+            title="Analytics"
+            tabClassName="invisible"
+            disabled
+          >
             Analytics
           </Tab>
-          <Tab eventKey="activity" title="Activity" disabled>
+          <Tab
+            eventKey="activity"
+            title="Activity"
+            tabClassName="invisible"
+            disabled
+          >
             Activity
           </Tab>
         </Tabs>
