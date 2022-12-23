@@ -17,12 +17,8 @@ const Header: React.FC = (): React.ReactElement => {
               <li>
                 <Link href={ROUTE.CREATE_PROJECT}>Create</Link>
               </li>
-              <li>
-                <Link href={ROUTE.PROJECT_DETAIL}>Project Detail</Link>
-              </li>
             </ul>
           </Stack>
-          <Link href={ROUTE.PROFILE}>Profile</Link>
         </div>
       </Container>
     </header>

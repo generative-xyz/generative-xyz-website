@@ -10,7 +10,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
     <div className={styles.wrapper}>
       <div className={styles.thumbnail}>
         <Image
-          src={data?.image || ''}
+          src={data.image}
           alt="item thumbnail"
           fill
           style={{ width: '100%' }}
