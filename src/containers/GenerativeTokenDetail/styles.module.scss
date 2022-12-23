@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  gap: 24px;
+}
+
+.leftWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+
+  > div {
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--dark-grey);
+  }
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

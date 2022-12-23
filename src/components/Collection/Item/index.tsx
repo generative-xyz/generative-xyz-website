@@ -22,7 +22,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
       <Stack direction="horizontal" className={styles.creator} gap={2}>
         <AvatarInfo
           imgSrc=""
-          address="Owner Name"
+          leftContent="Owner Name"
           width={32}
           height={32}
           wrapperStyle={{ marginBottom: '20px' }}

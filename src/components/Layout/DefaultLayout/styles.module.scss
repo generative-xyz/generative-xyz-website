@@ -9,3 +9,29 @@
     margin-top: 32px;
   }
 }
+
+header {
+  .headerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .navBar {
+      display: flex;
+      gap: 24px;
+      margin-left: 24px;
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+}
