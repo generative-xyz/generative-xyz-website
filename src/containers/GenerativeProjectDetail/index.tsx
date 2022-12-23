@@ -1,6 +1,7 @@
 import CollectionList from '@components/Collection/List';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
 import {
   IGetProjectDetailResponse,
@@ -9,18 +10,14 @@ import {
 import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { getProjectDetail, getProjectItems } from '@services/project';
+import { getOpenseaAssetUrl } from '@utils/chain';
+import { formatContractAddress } from '@utils/format';
 import { convertIpfsToHttp } from '@utils/image';
+import log from '@utils/logger';
 import cs from 'classnames';
+import _get from 'lodash/get';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
-import { getProjectDetail } from '@services/project';
-import Image from 'next/image';
-import { convertIpfsToHttp } from '@utils/image';
-import { Button, Container, Stack, Tab, Tabs } from 'react-bootstrap';
-import cs from 'classnames';
-import CollectionItem from '@components/Collection/Item';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
@@ -34,13 +31,8 @@ import {
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-eth';
 import styles from './styles.module.scss';
-import _get from 'lodash/get';
-import { getOpenseaAssetUrl } from '@utils/chain';
-import log from '@utils/logger';
-import { LogLevel } from '@enums/log-level';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
-import { formatContractAddress } from '@utils/format';
 
 const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();

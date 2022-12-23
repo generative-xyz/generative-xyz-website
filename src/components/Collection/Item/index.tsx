@@ -13,7 +13,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
           src={data.image}
           alt="item thumbnail"
           fill
-          style={{ objectFit: 'cover', width: '100%' }}
+          style={{ width: '100%' }}
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 25vw"
         />
