@@ -1,13 +1,14 @@
+import Accordion from '@components/Accordion';
+import AvatarInfo from '@components/AvatarInfo';
 import { LogLevel } from '@enums/log-level';
+import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
 import log from '@utils/logger';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Stack } from 'react-bootstrap';
-import styles from './styles.module.scss';
 import { MOCK } from './mock';
-import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
-import AvatarInfo from '@components/AvatarInfo';
-import Accordion from '@components/Accordion';
+import styles from './styles.module.scss';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -122,12 +123,29 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               </Stack>
             </div>
             <Accordion header="Description" content={itemDetail?.description} />
-            <div></div>
-            <div></div>
-            <div></div>
+            <Accordion header="Feature" content={itemDetail?.description} />
+            <div>
+              <b>Token Info</b>
+              <div className="divider"></div>
+            </div>
+            <div>
+              <b>Activities</b>
+              <div className="divider"></div>
+            </div>
           </div>
-          <div className={styles.thumbnail}>Image</div>
+          <div className={styles.thumbnail}>
+            <Image
+              src={itemDetail?.image || ''}
+              alt={itemDetail?.name || ''}
+              fill
+              style={{ width: '100%' }}
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 25vw"
+            />
+          </div>
         </div>
+        <h3>More on this Colleciton</h3>
+        {/* <CollectionList/> */}
       </Container>
     </section>
   );
