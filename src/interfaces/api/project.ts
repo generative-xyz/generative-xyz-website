@@ -1,4 +1,7 @@
+import { IPagingResponse } from '@interfaces/paging';
+import { RawTokenAttributes } from './../sandbox';
 export interface IGetProjectDetailParams {
+  contractAddress: string;
   projectID: string;
 }
 
@@ -30,4 +33,21 @@ export interface IGetProjectDetailResponse {
   itemDesc: string;
   status: boolean;
   nftTokenURI: string;
+}
+
+export interface IGetProjectItemsParams {
+  contractAddress: string;
+  limit?: number;
+  cursor?: string;
+}
+
+export interface IProjectItem {
+  name?: string;
+  description?: string;
+  image: string;
+  animation_url?: string;
+  attributes: RawTokenAttributes;
+}
+export interface IGetProjectItemsResponse extends IPagingResponse {
+  result: IProjectItem[];
 }
