@@ -1,7 +1,7 @@
 import { Field } from 'formik';
 import React from 'react';
-import FormikErrorMessage from '../ErrorMessage';
-import { FormikControllerProps } from '../Controller';
+import FormikErrorMessage from '@components/Formik/ErrorMessage';
+import { FormikControllerProps } from '@components/Formik/Controller';
 
 function Select(
   props: Pick<FormikControllerProps, 'name' | 'label' | 'options'>

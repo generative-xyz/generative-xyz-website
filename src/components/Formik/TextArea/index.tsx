@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
-import FormikErrorMessage from '../ErrorMessage';
-import { FormikControllerProps } from '../Controller';
+import FormikErrorMessage from '@components/Formik/ErrorMessage';
+import { FormikControllerProps } from '@components/Formik/Controller';
 import Stack from 'react-bootstrap/Stack';
 
 function TextArea(props: Pick<FormikControllerProps, 'name' | 'label'>) {

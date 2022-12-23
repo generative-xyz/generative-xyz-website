@@ -1,6 +1,7 @@
 import CollectionList from '@components/Collection/List';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import { ROUTE_PATH } from '@constants/route-path';
 import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
 import {
@@ -69,7 +70,8 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
       try {
         const res = await getProjectItems({
           contractAddress: projectInfo.genNFTAddr,
-          limit: 20,
+          limit: 1000,
+          page: 1,
         });
         setListItems(res.result);
         setTotalItems(res.total);
@@ -115,7 +117,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
       return;
     }
 
-    router.push(`/generative/${projectID}/${tokenID}`);
+    router.push(`${ROUTE_PATH.GENERATIVE}/${projectID}/${tokenID}`);
   }, [mintTx, projectID]);
 
   useEffect(() => {

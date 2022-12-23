@@ -2,5 +2,9 @@ export interface IPagingResponse {
   page: number;
   pageSize: number;
   total: number;
-  cursor: string;
+}
+
+export interface IPagingParams {
+  limit: number;
+  page: number;
 }

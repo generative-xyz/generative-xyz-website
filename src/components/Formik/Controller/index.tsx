@@ -1,13 +1,9 @@
 import React, { HTMLInputTypeAttribute } from 'react';
-import Input from '../Input';
-import TextArea from '../TextArea';
-import Select from '../Select';
-import Checkboxes from '../Checkboxes';
-import RadioButtons from '../RadioButtons';
-// import Input from "Input.js"
-// import TextArea from "TextArea.js"
-// import Select from "Select.js"
-// import CheckBoxes from "CheckBoxes.js"
+import Input from '@components/Formik/Input';
+import TextArea from '@components/Formik/TextArea';
+import Select from '@components/Formik/Select';
+import Checkboxes from '@components/Formik/Checkboxes';
+import RadioButtons from '@components/Formik/RadioButtons';
 
 export type FormikControllerProps = {
   control: string;

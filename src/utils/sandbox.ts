@@ -12,9 +12,9 @@ import {
   SNIPPET_RANDOM_CODE_SELECTOR,
 } from '@constants/sandbox';
 import { minifyFile } from '@services/file';
-import log from './logger';
+import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
-import { utf8ToBase64 } from './format';
+import { utf8ToBase64 } from '@utils/format';
 
 const LOG_PREFIX = 'SandboxUtil';
 

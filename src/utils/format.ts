@@ -1,4 +1,4 @@
-import { isBrowser } from './common';
+import { isBrowser } from '@utils/common';
 
 export const utf8ToBase64 = (str: string): string => {
   if (!isBrowser()) {

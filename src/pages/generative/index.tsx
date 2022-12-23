@@ -1,9 +1,13 @@
+import { NextPage } from 'next';
 import DefaultLayout from '@components/Layout/DefaultLayout';
+import GenerativeProjectList from '@containers/GenerativeProjectList';
 
-export default function GenerativeList() {
+const GenerativeProjectListPage: NextPage = () => {
   return (
     <DefaultLayout>
-      <h1>Project List Page</h1>
+      <GenerativeProjectList />
     </DefaultLayout>
   );
-}
+};
+
+export default GenerativeProjectListPage;

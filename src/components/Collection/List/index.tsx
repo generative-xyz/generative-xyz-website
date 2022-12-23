@@ -1,5 +1,5 @@
 import React from 'react';
-import CollectionItem from '../Item';
+import CollectionItem from '@components/Collection/Item';
 import { IProjectItem } from '@interfaces/api/project';
 
 const CollectionList = ({ listData }: { listData: IProjectItem[] }) => {

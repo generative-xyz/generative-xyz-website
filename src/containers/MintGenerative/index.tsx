@@ -15,7 +15,7 @@ import MintGenerativeProjectOperation from '@services/contract-operations/genera
 import { Form, Formik } from 'formik';
 import { PropsWithChildren, useContext, useMemo, useRef } from 'react';
 import { Stack } from 'react-bootstrap';
-import { formInitialValues } from './FormModel/formInitialValues';
+import { formInitialValues } from '@containers/MintGenerative/FormModel/formInitialValues';
 import styles from './styles.module.scss';
 import { IFormValue, StepProps } from '@interfaces/mint-generative';
 import log from '@utils/logger';
@@ -31,6 +31,7 @@ import _get from 'lodash/get';
 import { useRouter } from 'next/router';
 import { createProjectMetadata } from '@services/project';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import { ROUTE_PATH } from '@constants/route-path';
 
 const LOG_PREFIX = 'MintGenerative';
 
@@ -172,7 +173,7 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
         contractAddress: GENERATIVE_PROJECT_CONTRACT,
       });
 
-      router.push(`/generative/${tokenID}`);
+      router.push(`${ROUTE_PATH.GENERATIVE}}/${tokenID}`);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
     }
