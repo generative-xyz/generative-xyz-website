@@ -19,7 +19,7 @@ import { useRouter } from 'next/router';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
-import { EXTERNAL_LINK } from '@constants/externalLink';
+import { EXTERNAL_LINK } from '@constants/external-link';
 
 const LOG_PREFIX = 'MintGenerativeStep1';
 
