@@ -16,6 +16,11 @@ header {
     align-items: center;
     justify-content: space-between;
 
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+    }
+
     a {
       text-decoration: none;
       color: var(--text-primary);
