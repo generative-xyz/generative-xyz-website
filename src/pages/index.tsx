@@ -1,7 +1,9 @@
+import DefaultLayout from '@components/Layout/DefaultLayout';
+
 export default function Home() {
   return (
-    <div>
+    <DefaultLayout>
       <h1>Generative XYZ Website</h1>
-    </div>
+    </DefaultLayout>
   );
 }
