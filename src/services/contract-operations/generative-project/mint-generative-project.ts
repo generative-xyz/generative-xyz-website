@@ -62,7 +62,7 @@ class MintGenerativeProjectOperation extends ContractOperation<
       _limit: limitSupply,
       _mintPrice: this.walletManager
         .getWeb3Provider()
-        .utils.toNumber(
+        .utils.toHex(
           this.walletManager.getWeb3Provider().utils.toWei(mintPrice, 'ether')
         ),
       _mintPriceAddr: mintTokenAddress,

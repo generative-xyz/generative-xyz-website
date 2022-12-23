@@ -6,7 +6,7 @@ export const MINT_STEPS: Array<{
 }> = [
   {
     id: MintGenerativeStep.UPLOAD_PROJECT,
-    label: 'Upload to IPFS',
+    label: 'Upload zip file',
   },
   {
     id: MintGenerativeStep.PRODUCT_DETAIL,
