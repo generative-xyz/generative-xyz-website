@@ -33,6 +33,8 @@ export interface IGetProjectDetailResponse {
   itemDesc: string;
   status: boolean;
   nftTokenURI: string;
+  projectURI: string;
+  royalty?: number;
 }
 
 export interface IGetProjectItemsParams {
