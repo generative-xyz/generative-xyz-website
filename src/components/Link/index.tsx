@@ -5,6 +5,9 @@ type LinkProps = {
   onClick?: () => void;
   href: string;
   className?: string;
+  target?: string;
+  rel?: string;
+  rest?: HTMLAnchorElement;
 };
 
 export default function Link({
@@ -12,6 +15,8 @@ export default function Link({
   children,
   className,
   href,
+  target,
+  rel,
   ...rest
 }: PropsWithChildren<LinkProps>) {
   return (
@@ -25,7 +30,9 @@ export default function Link({
             }
           : undefined
       }
+      target={target}
       className={className}
+      rel={rel}
       {...rest}
       passHref
     >

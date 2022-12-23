@@ -20,6 +20,7 @@ import {
   Tabs,
 } from 'react-bootstrap';
 import styles from './styles.module.scss';
+import { formatContractAddress } from '@utils/format';
 
 const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
@@ -90,7 +91,10 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                 <div className="skeleton avatar"></div>
                 <div>
                   <p>Creator</p>
-                  <p>{projectInfo?.creator || projectInfo?.creatorAddr}</p>
+                  <p>
+                    {projectInfo?.creator ||
+                      formatContractAddress(projectInfo?.creatorAddr || '')}
+                  </p>
                 </div>
               </Stack>
               {/* <Stack direction="horizontal" className={styles.createdDate}>
@@ -122,11 +126,19 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
               <Button onClick={handleMintToken}>Mint iteration now</Button>
             )}
             <Stack direction="horizontal" className={styles.meta} gap={5}>
-              <div>Items</div>
-              <div>Total volume</div>
+              <Stack className="items-center">
+                <b>{totalItems}</b>
+                <p>Items</p>
+              </Stack>
+              <Stack className="items-center">
+                <b>{projectInfo?.royalty || 0}%</b>
+                <p>Royalty</p>
+              </Stack>
+              {/* Do not remove comment below, will use later */}
+              {/* <div>Total volume</div>
               <div>Floor price</div>
               <div>Highest offer</div>
-              <div>Royalty</div>
+            */}
             </Stack>
           </div>
         </div>
