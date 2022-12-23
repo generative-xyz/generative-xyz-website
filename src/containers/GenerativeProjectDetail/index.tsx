@@ -1,6 +1,7 @@
 import CollectionList from '@components/Collection/List';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
 import {
   IGetProjectDetailResponse,
@@ -9,8 +10,12 @@ import {
 import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { getProjectDetail, getProjectItems } from '@services/project';
+import { getOpenseaAssetUrl } from '@utils/chain';
+import { formatContractAddress } from '@utils/format';
 import { convertIpfsToHttp } from '@utils/image';
+import log from '@utils/logger';
 import cs from 'classnames';
+import _get from 'lodash/get';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -26,10 +31,6 @@ import {
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-eth';
 import styles from './styles.module.scss';
-import _get from 'lodash/get';
-import { getOpenseaAssetUrl } from '@utils/chain';
-import log from '@utils/logger';
-import { LogLevel } from '@enums/log-level';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
 
@@ -148,7 +149,10 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                 <div className="skeleton avatar"></div>
                 <div>
                   <p>Creator</p>
-                  <p>{projectInfo?.creator || projectInfo?.creatorAddr}</p>
+                  <p>
+                    {projectInfo?.creator ||
+                      formatContractAddress(projectInfo?.creatorAddr || '')}
+                  </p>
                 </div>
               </Stack>
               {/* <Stack direction="horizontal" className={styles.createdDate}>
@@ -162,12 +166,10 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
             <div className={styles.mintProgress}>
               <p>
                 <b>
-                  {/* TODO: Update mint number */}
                   {totalItems} / {projectInfo?.maxSupply} minted
                 </b>
               </p>
               <div className={cs(styles.progressWrapper, 'skeleton')}>
-                {/* TODO: Update mint progress */}
                 <div
                   className={styles.progressBar}
                   style={{
@@ -200,16 +202,19 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
               </Button>
             )}
             <Stack direction="horizontal" className={styles.meta} gap={5}>
-              <div>Items</div>
-              <div>Total volume</div>
-              <div>Floor price</div>
-              <div>Highest offer</div>
-              <div>Royalty</div>
+              <Stack className="items-center">
+                <b>{totalItems}</b>
+                <p>Items</p>
+              </Stack>
+              <Stack className="items-center">
+                <b>{projectInfo?.royalty || 0}%</b>
+                <p>Royalty</p>
+              </Stack>
             </Stack>
           </div>
         </div>
         <Tabs
-          defaultActiveKey="profile"
+          defaultActiveKey="items"
           id="uncontrolled-tab-example"
           className="mt-4"
           fill
@@ -227,10 +232,20 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
             </InputGroup>
             <CollectionList listData={listItems} />
           </Tab>
-          <Tab eventKey="analytics" title="Analytics" disabled>
+          <Tab
+            eventKey="analytics"
+            title="Analytics"
+            tabClassName="invisible"
+            disabled
+          >
             Analytics
           </Tab>
-          <Tab eventKey="activity" title="Activity" disabled>
+          <Tab
+            eventKey="activity"
+            title="Activity"
+            tabClassName="invisible"
+            disabled
+          >
             Activity
           </Tab>
         </Tabs>

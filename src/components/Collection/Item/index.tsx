@@ -13,7 +13,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
           src={data.image}
           alt="item thumbnail"
           fill
-          style={{ objectFit: 'cover', width: '100%' }}
+          style={{ width: '100%' }}
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 25vw"
         />
@@ -29,7 +29,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
         />
       </Stack>
       <div className={styles.info}>
-        <b>price ETH</b>
+        <b>0.2 ETH</b>
         <Stack direction="horizontal">
           <span>by &nbsp;</span>
           <AvatarInfo imgSrc="" width={32} height={32} />

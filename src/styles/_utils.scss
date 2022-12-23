@@ -32,6 +32,10 @@
   display: block;
 }
 
+.hidden {
+  display: none;
+}
+
 .invisible {
   visibility: hidden;
 }
@@ -69,4 +73,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+.items-center {
+  align-items: center;
 }

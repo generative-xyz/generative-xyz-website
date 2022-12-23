@@ -33,6 +33,25 @@ export interface IGetProjectDetailResponse {
   itemDesc: string;
   status: boolean;
   nftTokenURI: string;
+  projectURI: string;
+  royalty?: number;
+}
+
+export interface IGetProjectItemsParams {
+  contractAddress: string;
+  limit?: number;
+  cursor?: string;
+}
+
+export interface IProjectItem {
+  name?: string;
+  description?: string;
+  image: string;
+  animation_url?: string;
+  attributes: RawTokenAttributes;
+}
+export interface IGetProjectItemsResponse extends IPagingResponse {
+  result: IProjectItem[];
 }
 
 export interface IGetProjectItemsParams {

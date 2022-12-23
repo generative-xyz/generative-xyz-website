@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
+import { EXTERNAL_LINK } from '@constants/external-link';
 
 const LOG_PREFIX = 'MintGenerativeStep1';
 
@@ -134,7 +135,9 @@ const Step1 = () => {
               your artwork does not behave properly in the setup thumbnail image
               are, it will not work after being minted. If you are new to the
               platform please read our{' '}
-              <Link href="#">Guide to build a Generative Token.</Link>
+              <Link href={EXTERNAL_LINK.GUIDE} target="_blank" rel="noopener">
+                Guide to build a Generative Token.
+              </Link>
             </p>
             <br />
             <p>
