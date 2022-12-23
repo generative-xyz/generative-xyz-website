@@ -4,7 +4,7 @@ export const formInitialValues: IFormValue = {
   maxSupply: 0,
   mintPrice: '',
   name: '',
-  hashtag: '',
+  tags: [''],
   description: '',
   thirdPartyScripts: [],
   tokenDescription: '',
@@ -15,4 +15,5 @@ export const formInitialValues: IFormValue = {
   socialMedium: '',
   socialInstagram: '',
   license: 'MIT',
+  categories: [''],
 };

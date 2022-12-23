@@ -1,24 +1,26 @@
 import { LogLevel } from '@enums/log-level';
 import {
+  ICreateProjectMetadataPayload,
+  ICreateProjectMetadataResponse,
   IGetProjectDetailParams,
   IGetProjectDetailResponse,
   IGetProjectItemsParams,
   IGetProjectItemsResponse,
 } from '@interfaces/api/project';
-import { get } from '@services/http-client';
+import { get, post } from '@services/http-client';
 import log from '@utils/logger';
 import querystring from 'query-string';
 
 const LOG_PREFIX = 'ProjectService';
 
-const API_PROJECT_DETAIL_PATH = '/project';
+const API_PATH = '/project';
 
 export const getProjectDetail = async (
   params: IGetProjectDetailParams
 ): Promise<IGetProjectDetailResponse> => {
   try {
     const res = await get<IGetProjectDetailResponse>(
-      `${API_PROJECT_DETAIL_PATH}/${params.contractAddress}/tokens/${params.projectID}`
+      `${API_PATH}/${params.contractAddress}/tokens/${params.projectID}`
     );
     return res;
   } catch (err: unknown) {
@@ -33,11 +35,26 @@ export const getProjectItems = async (
   try {
     const qs = '?' + querystring.stringify(params);
     const res = await get<IGetProjectItemsResponse>(
-      `${API_PROJECT_DETAIL_PATH}/${params.contractAddress}/tokens${qs}`
+      `${API_PATH}/${params.contractAddress}/tokens${qs}`
     );
     return res;
   } catch (err: unknown) {
     log('failed to get project items', LogLevel.Error, LOG_PREFIX);
     throw Error('Failed to get project items');
+  }
+};
+
+export const createProjectMetadata = async (
+  payload: ICreateProjectMetadataPayload
+): Promise<ICreateProjectMetadataResponse> => {
+  try {
+    const res = await post<
+      ICreateProjectMetadataPayload,
+      ICreateProjectMetadataResponse
+    >(`${API_PATH}`, payload);
+    return res;
+  } catch (err: unknown) {
+    log('failed to create project metadata', LogLevel.Error, LOG_PREFIX);
+    throw Error('Failed to create project metadata');
   }
 };

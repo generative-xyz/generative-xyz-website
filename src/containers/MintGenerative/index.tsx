@@ -13,13 +13,7 @@ import { IMintGenerativeProjectParams } from '@interfaces/contract-operations/mi
 import { ISandboxRef } from '@interfaces/sandbox';
 import MintGenerativeProjectOperation from '@services/contract-operations/generative-project/mint-generative-project';
 import { Form, Formik } from 'formik';
-import {
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import { PropsWithChildren, useContext, useMemo, useRef } from 'react';
 import { Stack } from 'react-bootstrap';
 import { formInitialValues } from './FormModel/formInitialValues';
 import styles from './styles.module.scss';
@@ -35,6 +29,8 @@ import { ParameterControlKey } from '@enums/parameter-key';
 import { uploadFile } from '@services/file';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
+import { createProjectMetadata } from '@services/project';
+import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 
 const LOG_PREFIX = 'MintGenerative';
 
@@ -45,7 +41,6 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
   const {
     call: mintProject,
     isLoading: isMinting,
-    data: mintTx,
     errorMessage,
     reset: resetContractOperation,
   } = useContractOperation<IMintGenerativeProjectParams, TransactionReceipt>(
@@ -79,19 +74,6 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
     [currentStep]
   );
 
-  useEffect(() => {
-    if (!mintTx) {
-      return;
-    }
-
-    const tokenID = _get(mintTx, 'events.Transfer.returnValues.tokenId', null);
-    if (tokenID === null) {
-      return;
-    }
-
-    router.push(`/generative/${tokenID}`);
-  }, [mintTx]);
-
   const handleSubmit = async (values: IFormValue) => {
     if (!filesSandbox) {
       log('No sandbox files', LogLevel.Debug, LOG_PREFIX);
@@ -119,6 +101,8 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
       socialWeb,
       thirdPartyScripts,
       tokenDescription,
+      categories,
+      tags,
     } = values;
 
     try {
@@ -166,7 +150,29 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
         mintFee: mintFee,
       };
 
-      await mintProject(projectPayload);
+      const mintTx = await mintProject(projectPayload);
+
+      if (!mintTx) {
+        return;
+      }
+
+      const tokenID: string | null = _get(
+        mintTx,
+        'events.Transfer.returnValues.tokenId',
+        null
+      );
+      if (tokenID === null) {
+        return;
+      }
+
+      await createProjectMetadata({
+        tokenID,
+        categories,
+        tags,
+        contractAddress: GENERATIVE_PROJECT_CONTRACT,
+      });
+
+      router.push(`/generative/${tokenID}`);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
     }

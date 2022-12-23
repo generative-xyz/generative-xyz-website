@@ -19,5 +19,6 @@ export interface IFormValue {
   socialMedium: string;
   socialInstagram: string;
   license: string;
-  hashtag: string;
+  tags: Array<string>;
+  categories: Array<string>;
 }

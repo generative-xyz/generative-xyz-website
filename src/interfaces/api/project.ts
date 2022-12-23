@@ -16,7 +16,7 @@ export interface IProjectSocial {
 export interface IGetProjectDetailResponse {
   maxSupply: number;
   limit: number;
-  mintPrice: number;
+  mintPrice: string;
   mintPriceAddr: string;
   name: string;
   creator: string;
@@ -70,3 +70,12 @@ export interface IProjectItem {
 export interface IGetProjectItemsResponse extends IPagingResponse {
   result: IProjectItem[];
 }
+
+export interface ICreateProjectMetadataPayload {
+  categories: Array<string>;
+  contractAddress: string;
+  tags: Array<string>;
+  tokenID: string;
+}
+
+export type ICreateProjectMetadataResponse = IGetProjectDetailResponse;
