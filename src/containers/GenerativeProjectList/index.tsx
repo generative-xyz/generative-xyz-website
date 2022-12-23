@@ -35,7 +35,7 @@ const GenerativeProjectList: React.FC = (): React.ReactElement => {
     const { tokenID } = project;
 
     return (
-      <div className="col-4">
+      <div key={tokenID} className="col-4">
         <div className={s.projectItem}>
           <Image src={project.image} alt={project.name} />
           <Link href={`${ROUTE_PATH.GENERATIVE}/${tokenID}`}>#{tokenID}</Link>

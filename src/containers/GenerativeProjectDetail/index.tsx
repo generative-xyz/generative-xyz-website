@@ -12,7 +12,7 @@ import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-g
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { getProjectDetail, getProjectItems } from '@services/project';
 import { getOpenseaAssetUrl } from '@utils/chain';
-import { formatContractAddress } from '@utils/format';
+import { formatAddress } from '@utils/format';
 import { convertIpfsToHttp } from '@utils/image';
 import log from '@utils/logger';
 import cs from 'classnames';
@@ -153,7 +153,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                   <p>Creator</p>
                   <p>
                     {projectInfo?.creator ||
-                      formatContractAddress(projectInfo?.creatorAddr || '')}
+                      formatAddress(projectInfo?.creatorAddr || '')}
                   </p>
                 </div>
               </Stack>

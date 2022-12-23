@@ -7,10 +7,10 @@ export const utf8ToBase64 = (str: string): string => {
   return window.btoa(unescape(encodeURIComponent(str)));
 };
 
-export const formatContractAddress = (contractAddress: string): string => {
-  if (contractAddress.length < 14) return contractAddress;
-  return `${contractAddress.substring(0, 7)}...${contractAddress.substring(
-    contractAddress.length - 7,
-    contractAddress.length
+export const formatAddress = (address: string): string => {
+  if (address.length < 14) return address;
+  return `${address.substring(0, 7)}...${address.substring(
+    address.length - 7,
+    address.length
   )}`;
 };
