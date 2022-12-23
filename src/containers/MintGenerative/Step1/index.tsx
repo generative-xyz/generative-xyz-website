@@ -33,7 +33,6 @@ const Step1 = () => {
     setHash,
   } = useContext(MintGenerativeContext) as TMintGenerativeContext;
   const router = useRouter();
-  const [keepHash, setKeepHash] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const sandboxRef = useRef<ISandboxRef>(null);
 
@@ -104,11 +103,6 @@ const Step1 = () => {
         </div>
         <div className={styles.checkboxes}>
           <Checkbox
-            id="hash"
-            label="I want to keep this hash for the preview of project"
-            onClick={() => setKeepHash(!keepHash)}
-          />
-          <Checkbox
             id="confirm"
             label="My Generative Token works properly"
             onClick={() => setConfirm(!confirm)}
@@ -116,7 +110,7 @@ const Step1 = () => {
         </div>
         <Button
           className="wFull"
-          disabled={!keepHash || !confirm}
+          disabled={!confirm}
           onClick={() => router.push('/mint-generative/product-detail')}
         >
           Next Step

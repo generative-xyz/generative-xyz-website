@@ -13,7 +13,13 @@ import { IMintGenerativeProjectParams } from '@interfaces/contract-operations/mi
 import { ISandboxRef } from '@interfaces/sandbox';
 import MintGenerativeProjectOperation from '@services/contract-operations/generative-project/mint-generative-project';
 import { Form, Formik } from 'formik';
-import { PropsWithChildren, useContext, useMemo, useRef } from 'react';
+import {
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import { Stack } from 'react-bootstrap';
 import { formInitialValues } from './FormModel/formInitialValues';
 import styles from './styles.module.scss';
@@ -27,6 +33,8 @@ import { IGetParameterControlParams } from '@interfaces/contract-operations/get-
 import GetParamControlOperation from '@services/contract-operations/parameter-control/get-parameter-control';
 import { ParameterControlKey } from '@enums/parameter-key';
 import { uploadFile } from '@services/file';
+import _get from 'lodash/get';
+import { useRouter } from 'next/router';
 
 const LOG_PREFIX = 'MintGenerative';
 
@@ -36,6 +44,8 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
     useContext(MintGenerativeContext) as TMintGenerativeContext;
   const {
     call: mintProject,
+    isLoading: isMinting,
+    data: mintTx,
     errorMessage,
     reset: resetContractOperation,
   } = useContractOperation<IMintGenerativeProjectParams, TransactionReceipt>(
@@ -47,6 +57,7 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
     number
   >(GetParamControlOperation, false);
   const sandboxRef = useRef<ISandboxRef>(null);
+  const router = useRouter();
 
   const handleIframeLoaded = (): void => {
     if (sandboxRef.current) {
@@ -67,6 +78,19 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
     () => currentStep === MintGenerativeStep.SET_PRICE,
     [currentStep]
   );
+
+  useEffect(() => {
+    if (!mintTx) {
+      return;
+    }
+
+    const tokenID = _get(mintTx, 'events.Transfer.returnValues.tokenId', null);
+    if (tokenID === null) {
+      return;
+    }
+
+    router.push(`/generative/${tokenID}`);
+  }, [mintTx]);
 
   const handleSubmit = async (values: IFormValue) => {
     if (!filesSandbox) {
@@ -142,7 +166,7 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
         mintFee: mintFee,
       };
 
-      mintProject(projectPayload);
+      await mintProject(projectPayload);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
     }
@@ -212,7 +236,7 @@ const MintGenerative = ({ children }: PropsWithChildren) => {
                     //  onClick={handleSubmit}
                     // onClick={() => router.push('/mint-generative/set-price')}
                   >
-                    Publish project
+                    {isMinting ? 'Minting...' : 'Publish project'}
                   </Button>
                 </>
               )}

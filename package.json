@@ -31,6 +31,7 @@
     "file-type": "^16.5.4",
     "formik": "^2.2.9",
     "keccak256": "^1.0.6",
+    "lodash": "^4.17.21",
     "next": "13.0.6",
     "nextjs-progressbar": "^0.0.16",
     "query-string": "^8.0.3",

@@ -1,5 +1,5 @@
 import FileType from 'file-type/browser';
-import { JS_EXTENSION, ZIP_MIMES } from '@constants/file';
+import { JS_EXTENSION, NAIVE_MIMES, ZIP_MIMES } from '@constants/file';
 import { SandboxFileError } from '@enums/sandbox';
 import { SandboxFileContent, SandboxFiles } from '@interfaces/sandbox';
 import { getFileExtensionByFileName, unzipFile } from '@utils/file';
@@ -11,6 +11,12 @@ import {
   SNIPPET_CONTRACT_CODE_SELECTOR,
   SNIPPET_RANDOM_CODE_SELECTOR,
 } from '@constants/sandbox';
+import { minifyFile } from '@services/file';
+import log from './logger';
+import { LogLevel } from '@enums/log-level';
+import { utf8ToBase64 } from './format';
+
+const LOG_PREFIX = 'SandboxUtil';
 
 export const processSandboxZipFile = async (
   file: File
@@ -80,7 +86,22 @@ export const readSandboxFileContent = async (
       let fileContent = await blob.text();
 
       if (fileExt === JS_EXTENSION) {
-        fileContent = `<script>${fileContent}</script>`;
+        let minifiedContent = fileContent;
+        try {
+          const { files: minifiedFiles } = await minifyFile({
+            files: {
+              [`${fileName}`]: {
+                mediaType: NAIVE_MIMES.js,
+                content: utf8ToBase64(fileContent),
+              },
+            },
+          });
+          minifiedContent = minifiedFiles[fileName].content;
+        } catch (err: unknown) {
+          log(err as Error, LogLevel.Error, LOG_PREFIX);
+        }
+
+        fileContent = `<script>${minifiedContent}</script>`;
       }
 
       if (fileContents[fileExt]) {

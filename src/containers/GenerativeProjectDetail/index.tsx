@@ -1,9 +1,13 @@
 import CollectionList from '@components/Collection/List';
+import { NETWORK_CHAIN_ID } from '@constants/config';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import useContractOperation from '@hooks/useContractOperation';
 import {
   IGetProjectDetailResponse,
   IProjectItem,
 } from '@interfaces/api/project';
+import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
+import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { getProjectDetail, getProjectItems } from '@services/project';
 import { convertIpfsToHttp } from '@utils/image';
 import cs from 'classnames';
@@ -19,45 +23,99 @@ import {
   Tab,
   Tabs,
 } from 'react-bootstrap';
+import Web3 from 'web3';
+import { TransactionReceipt } from 'web3-eth';
 import styles from './styles.module.scss';
+import _get from 'lodash/get';
+import { getOpenseaAssetUrl } from '@utils/chain';
+import log from '@utils/logger';
+import { LogLevel } from '@enums/log-level';
+
+const LOG_PREFIX = 'GenerativeProjectDetail';
 
 const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
+  const {
+    call: mintToken,
+    reset: resetMintToken,
+    isLoading: isMinting,
+    data: mintTx,
+  } = useContractOperation<IMintGenerativeNFTParams, TransactionReceipt>(
+    MintGenerativeNFTOperation,
+    true
+  );
   const { projectID } = router.query as { projectID: string };
-
-  const [projectInfo, setprojectInfo] = useState<IGetProjectDetailResponse>();
+  const [projectInfo, setProjectInfo] = useState<IGetProjectDetailResponse>();
   const [listItems, setListItems] = useState<IProjectItem[]>([]);
   const [totalItems, setTotalItems] = useState(0);
 
   const fetchProjectDetail = async (): Promise<void> => {
     if (projectID) {
-      const data = await getProjectDetail({
-        contractAddress: GENERATIVE_PROJECT_CONTRACT,
-        projectID,
-      });
-      setprojectInfo(data);
+      try {
+        const data = await getProjectDetail({
+          contractAddress: GENERATIVE_PROJECT_CONTRACT,
+          projectID,
+        });
+        setProjectInfo(data);
+      } catch (_: unknown) {
+        log('failed to fetch project detail data', LogLevel.Error, LOG_PREFIX);
+      }
     }
   };
 
   const fetchProjectItems = async (): Promise<void> => {
     if (projectInfo) {
-      const res = await getProjectItems({
-        contractAddress: projectInfo?.genNFTAddr,
-        limit: 20,
-      });
-      setListItems(res.result);
-      setTotalItems(res.total);
+      try {
+        const res = await getProjectItems({
+          contractAddress: projectInfo.genNFTAddr,
+          limit: 20,
+        });
+        setListItems(res.result);
+        setTotalItems(res.total);
+      } catch (_: unknown) {
+        log('failed to fetch project items data', LogLevel.Error, LOG_PREFIX);
+      }
     }
   };
 
-  // TODO: Handle mint actions
   const handleMintToken = () => {
-    return;
+    resetMintToken();
+
+    if (!projectInfo) {
+      return;
+    }
+
+    mintToken({
+      projectAddress: projectInfo.genNFTAddr,
+      mintFee: projectInfo.mintPrice.toString(),
+      chainID: NETWORK_CHAIN_ID,
+    });
   };
 
   const calcMintProgress = useMemo(() => {
     return (totalItems / (projectInfo?.maxSupply || 1)) * 100;
   }, [totalItems, projectInfo]);
+
+  const openseaUrl = useMemo(() => {
+    const openseaAssetURL = getOpenseaAssetUrl();
+    if (!openseaAssetURL) {
+      return null;
+    }
+    return `${openseaAssetURL}/${GENERATIVE_PROJECT_CONTRACT}/${projectID}`;
+  }, [projectID]);
+
+  useEffect(() => {
+    if (!mintTx) {
+      return;
+    }
+
+    const tokenID = _get(mintTx, 'events.Transfer.returnValues.tokenId', null);
+    if (tokenID === null) {
+      return;
+    }
+
+    router.push(`/generative/${projectID}/${tokenID}`);
+  }, [mintTx, projectID]);
 
   useEffect(() => {
     fetchProjectDetail();
@@ -118,8 +176,28 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                 ></div>
               </div>
             </div>
+            <div>
+              <p>
+                Mint price:{' '}
+                {projectInfo?.mintPrice
+                  ? `${Web3.utils.fromWei(
+                      projectInfo.mintPrice.toString(),
+                      'ether'
+                    )} eth`
+                  : '--'}
+              </p>
+              {openseaUrl && (
+                <p>
+                  <a target="_blank" href={openseaUrl} rel="noreferrer">
+                    View on Opensea
+                  </a>
+                </p>
+              )}
+            </div>
             {projectInfo?.status && (
-              <Button onClick={handleMintToken}>Mint iteration now</Button>
+              <Button className={styles.submitBtn} onClick={handleMintToken}>
+                {isMinting ? 'Minting...' : 'Mint now'}
+              </Button>
             )}
             <Stack direction="horizontal" className={styles.meta} gap={5}>
               <div>Items</div>

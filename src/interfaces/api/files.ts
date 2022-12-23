@@ -10,3 +10,23 @@ export interface IUploadFileResponse {
   uploadedBy: string;
   url: string;
 }
+
+export interface IMinifyFilePayload {
+  files: Record<
+    string,
+    {
+      content: string;
+      mediaType: string;
+    }
+  >;
+}
+
+export interface IMinifyFileResponse {
+  files: Record<
+    string,
+    {
+      content: string;
+      mediaType: string;
+    }
+  >;
+}

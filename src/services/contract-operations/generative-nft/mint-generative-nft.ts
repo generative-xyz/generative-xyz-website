@@ -4,7 +4,6 @@ import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/generative-nft.json';
 import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
-import Web3 from 'web3';
 
 class MintGenerativeNFTOperation extends ContractOperation<
   IMintGenerativeNFTParams,
@@ -26,7 +25,7 @@ class MintGenerativeNFTOperation extends ContractOperation<
 
     const {
       projectAddress,
-      mintFee, // In ETH
+      mintFee, // In ETH Wei string
     } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
@@ -34,7 +33,7 @@ class MintGenerativeNFTOperation extends ContractOperation<
     const data = await this.contract.methods.mint().send({
       from: walletAddress,
       to: projectAddress,
-      value: Web3.utils.toWei(mintFee.toString()),
+      value: mintFee,
     });
 
     return data;
