@@ -5,9 +5,8 @@ import {
   MintGenerativeContext,
   TMintGenerativeContext,
 } from '@contexts/mint-generative-context';
-import { MintGenerativeStep } from '@enums/mint-generative';
 import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import styles from './styles.module.scss';
 
 const THIRD_PARTY_SCRIPTS = [
@@ -26,7 +25,7 @@ const THIRD_PARTY_SCRIPTS = [
 ];
 
 const Step2 = () => {
-  const { setCurrentStep, thumbnailFile, setThumbnailFile } = useContext(
+  const { thumbnailFile, setThumbnailFile } = useContext(
     MintGenerativeContext
   ) as TMintGenerativeContext;
   const router = useRouter();
@@ -34,10 +33,6 @@ const Step2 = () => {
   const handleChangeFile = (files: File[] | null): void => {
     setThumbnailFile(files && files.length > 0 ? files[0] : null);
   };
-
-  useEffect(() => {
-    setCurrentStep(MintGenerativeStep.PRODUCT_DETAIL);
-  }, [setCurrentStep]);
 
   return (
     <div className={styles.wrapper}>

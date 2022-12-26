@@ -1,9 +1,10 @@
-export type StepProps = {
-  item: {
-    id: number;
-    label: string;
-  };
-};
+import { MintGenerativeStep } from '@enums/mint-generative';
+
+export interface IMintStep {
+  path: MintGenerativeStep;
+  title: string;
+  stepIndex: number;
+}
 
 export interface IFormValue {
   maxSupply: number;

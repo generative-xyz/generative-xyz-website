@@ -2,12 +2,8 @@ import Button from '@components/Button';
 import Checkbox from '@components/Checkbox';
 import DropFile from '@components/Input/DropFile';
 import Link from '@components/Link';
-import {
-  MintGenerativeContext,
-  TMintGenerativeContext,
-} from '@contexts/mint-generative-context';
+import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { LogLevel } from '@enums/log-level';
-import { MintGenerativeStep } from '@enums/mint-generative';
 import { ISandboxRef } from '@interfaces/sandbox';
 import { generateHash } from '@utils/generate-data';
 import log from '@utils/logger';
@@ -17,24 +13,17 @@ import cs from 'classnames';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactElement, useContext, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { EXTERNAL_LINK } from '@constants/external-link';
 
-const LOG_PREFIX = 'MintGenerativeStep1';
+const LOG_PREFIX = 'UploadGenArt';
 
-const Step1 = () => {
-  const {
-    filesSandbox,
-    setCurrentStep,
-    setFilesSandbox,
-    zipFile,
-    setZipFile,
-    hash,
-    setHash,
-  } = useContext(MintGenerativeContext) as TMintGenerativeContext;
+const UploadGenArt: React.FC = (): ReactElement => {
+  const { filesSandbox, setFilesSandbox, zipFile, setZipFile, hash, setHash } =
+    useContext(MintGenerativeContext);
   const router = useRouter();
-  const [confirm, setConfirm] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
   const sandboxRef = useRef<ISandboxRef>(null);
 
   const processFile = async (file: File) => {
@@ -69,10 +58,6 @@ const Step1 = () => {
     }
   };
 
-  useEffect(() => {
-    setCurrentStep(MintGenerativeStep.UPLOAD_PROJECT);
-  });
-
   const fileList = useMemo<string[] | null>(
     () => (filesSandbox ? Object.keys(filesSandbox) : null),
     [filesSandbox]
@@ -106,12 +91,12 @@ const Step1 = () => {
           <Checkbox
             id="confirm"
             label="My Generative Token works properly"
-            onClick={() => setConfirm(!confirm)}
+            onClick={() => setIsConfirm(!isConfirm)}
           />
         </div>
         <Button
           className="wFull"
-          disabled={!confirm}
+          disabled={!isConfirm}
           onClick={() => router.push('/mint-generative/product-detail')}
         >
           Next Step
@@ -165,4 +150,4 @@ const Step1 = () => {
   );
 };
 
-export default Step1;
+export default UploadGenArt;

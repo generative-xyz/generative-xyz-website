@@ -1,4 +1,3 @@
-import { MintGenerativeStep } from '@enums/mint-generative';
 import {
   ISandboxRef,
   RawTokenAttributes,
@@ -19,8 +18,6 @@ type Props = {
 };
 
 export type TMintGenerativeContext = {
-  currentStep: MintGenerativeStep;
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   filesSandbox: SandboxFiles | null;
   setFilesSandbox: Dispatch<SetStateAction<SandboxFiles | null>>;
   attributes: RawTokenAttributes | null;
@@ -35,10 +32,6 @@ export type TMintGenerativeContext = {
 };
 
 const initialValues: TMintGenerativeContext = {
-  currentStep: MintGenerativeStep.UPLOAD_PROJECT,
-  setCurrentStep: _ => {
-    return;
-  },
   filesSandbox: null,
   setFilesSandbox: _ => {
     return;
@@ -66,7 +59,6 @@ export const MintGenerativeContext =
   createContext<TMintGenerativeContext>(initialValues);
 
 export const MintGenerativeContextProvider = ({ children }: Props) => {
-  const [currentStep, setCurrentStep] = useState(1);
   const [filesSandbox, setFilesSandbox] = useState<SandboxFiles | null>(null);
   const [attributes, setAttributes] = useState<RawTokenAttributes | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
@@ -77,8 +69,6 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
   return (
     <MintGenerativeContext.Provider
       value={{
-        currentStep,
-        setCurrentStep,
         filesSandbox,
         setFilesSandbox,
         attributes,

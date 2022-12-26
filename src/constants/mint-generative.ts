@@ -1,19 +1,20 @@
 import { MintGenerativeStep } from '@enums/mint-generative';
+import { IMintStep } from '@interfaces/mint-generative';
 
-export const MINT_STEPS: Array<{
-  id: MintGenerativeStep;
-  label: string;
-}> = [
+export const MINT_STEPS: Array<IMintStep> = [
   {
-    id: MintGenerativeStep.UPLOAD_PROJECT,
-    label: 'Upload zip file',
+    path: MintGenerativeStep.UPLOAD_PROJECT,
+    stepIndex: 1,
+    title: 'Upload Genart',
   },
   {
-    id: MintGenerativeStep.PRODUCT_DETAIL,
-    label: 'Product detail',
+    path: MintGenerativeStep.PROJECT_DETAIL,
+    stepIndex: 2,
+    title: 'Project Detail',
   },
   {
-    id: MintGenerativeStep.SET_PRICE,
-    label: 'Set price & mint',
+    path: MintGenerativeStep.SET_PRICE,
+    stepIndex: 3,
+    title: 'Set price & mint',
   },
 ];
