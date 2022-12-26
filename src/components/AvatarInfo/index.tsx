@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 type Props = {
   imgSrc: string;
-  address?: string | ReactNode;
+  leftContent?: string | ReactNode;
   width?: number;
   height?: number;
   wrapperStyle?: CSSProperties;
@@ -12,7 +12,7 @@ type Props = {
 
 const AvatarInfo = ({
   imgSrc,
-  address,
+  leftContent,
   width = 56,
   height = 56,
   wrapperStyle,
@@ -26,7 +26,7 @@ const AvatarInfo = ({
           <div className={styles.defaultAvatar} style={{ width, height }}></div>
         )}
       </div>
-      {address && <div className={styles.address}>{address}</div>}
+      {leftContent && <div className={styles.address}>{leftContent}</div>}
     </div>
   );
 };

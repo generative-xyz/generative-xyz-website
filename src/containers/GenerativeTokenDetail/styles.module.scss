@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.leftWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+
+  > div {
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--dark-grey);
+  }
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.thumbnail {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 4 / 3;
+  height: fit-content;
+}
