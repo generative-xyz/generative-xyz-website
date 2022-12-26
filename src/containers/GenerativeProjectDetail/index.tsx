@@ -70,7 +70,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
       try {
         const res = await getProjectItems({
           contractAddress: projectInfo.genNFTAddr,
-          limit: 1000,
+          limit: 100,
           page: 1,
         });
         setListItems(res.result);

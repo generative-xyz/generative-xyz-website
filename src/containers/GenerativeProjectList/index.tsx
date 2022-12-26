@@ -17,7 +17,7 @@ const GenerativeProjectList: React.FC = (): React.ReactElement => {
   const fetchProjectList = async (): Promise<void> => {
     try {
       const { result } = await getProjectList({
-        limit: 1000,
+        limit: 100,
         page: 1,
         contractAddress: GENERATIVE_PROJECT_CONTRACT,
       });
