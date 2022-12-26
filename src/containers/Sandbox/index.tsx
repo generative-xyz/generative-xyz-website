@@ -9,7 +9,7 @@ import { processSandboxZipFile } from '@utils/sandbox';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { generateHash } from '@utils/generate-data';
-import DropFile from '@components/Input/DropFile';
+import DropFile from '@containers/MintGenerative/DropFile';
 import Button from '@components/Button';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 

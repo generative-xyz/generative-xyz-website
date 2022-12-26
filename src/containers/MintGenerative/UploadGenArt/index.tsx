@@ -1,7 +1,7 @@
 import s from './styles.module.scss';
 import Button from '@components/Button';
 import Checkbox from '@components/Checkbox';
-import DropFile from '@components/Input/DropFile';
+import DropFile from '@containers/MintGenerative/DropFile';
 import Link from '@components/Link';
 import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { LogLevel } from '@enums/log-level';
@@ -148,15 +148,28 @@ const UploadGenArt: React.FC = (): ReactElement => {
           </div>
         )}
       </div>
+
       <section className={s.uploadGenArt}>
         <div className={s.wrapper}>
           <h3 className={s.sectionTitle}>
             Upload Genart
             <SvgInset
+              size={18}
               className={s.infoIcon}
-              svgUrl={`${CDN_URL}/icons/ic-info-circle-18x18.svg`}
-            />
+              url={`${CDN_URL}/icons/ic-info-circle-18x18.svg`}
+            ></SvgInset>
           </h3>
+          <div className={s.dropZoneWrapper}>
+            <DropFile
+              className={s.dropZoneContainer}
+              acceptedFileType={{
+                'application/zip': ['.zip'],
+                'application/x-zip-compressed': ['.zip'],
+              }}
+              onChange={handleChangeFile}
+              files={zipFile ? [zipFile] : null}
+            />
+          </div>
         </div>
       </section>
     </>

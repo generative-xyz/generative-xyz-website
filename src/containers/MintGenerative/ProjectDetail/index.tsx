@@ -1,6 +1,6 @@
 import Button from '@components/Button';
 import FormikController from '@components/Formik/Controller';
-import DropFile from '@components/Input/DropFile';
+import DropFile from '@containers/MintGenerative/DropFile';
 import {
   MintGenerativeContext,
   TMintGenerativeContext,
@@ -77,8 +77,6 @@ const Step2 = () => {
           acceptedFileType={{
             'image/*': ['.jpg', 'jpge', '.png'],
           }}
-          defaultInnerHmtl={<p>Drag & drop thumnail file here</p>}
-          draggingInnerHtml={<p>Dragging</p>}
           onChange={handleChangeFile}
           files={thumbnailFile ? [thumbnailFile] : null}
           className={styles.dropFile}

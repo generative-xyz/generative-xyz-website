@@ -1,0 +1,38 @@
+.dropFile {
+  padding: 24px;
+  border: none;
+  width: 100%;
+  text-align: center;
+  background-color: $primary-purple-50;
+  border-radius: 20px;
+
+  .dropZone {
+    text-align: center;
+  }
+
+  .dropZoneThumbnail {
+    display: inline-block;
+    margin-bottom: 6px;
+    width: 100px;
+    height: 100px;
+  }
+
+  .dropZoneDescription {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    color: $black-40;
+  }
+
+  &__drag {
+    background-color: $primary-purple;
+  }
+
+  &__error {
+    border: 1px solid $secondary-red;
+  }
+
+  .errorText {
+    color: $secondary-red;
+  }
+}
