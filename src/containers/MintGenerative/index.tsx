@@ -31,8 +31,10 @@ const MintGenerativeController: React.FC = (): React.ReactElement => {
   return (
     <MintGenerativeContextProvider>
       <div className={s.mintGenerative}>
-        <StepHeader />
-        {renderStep()}
+        <div className={s.stepHeaderWrapper}>
+          <StepHeader />
+        </div>
+        <div className={s.stepContent}>{renderStep()}</div>
       </div>
     </MintGenerativeContextProvider>
   );

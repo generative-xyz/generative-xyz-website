@@ -8,6 +8,7 @@ export const NETWORK_CHAIN_ID: number = parseInt(
   process.env.NEXT_PUBLIC_NETWORK_CHAIN_ID!,
   10
 );
+export const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL!;
 
 // Datadog config
 export const DD_APP_ID = process.env.DD_APP_ID!;

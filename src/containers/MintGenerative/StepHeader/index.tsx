@@ -22,7 +22,10 @@ const StepHeader: React.FC = (): React.ReactElement => {
             <div className={s.stepIndexWrapper}>
               <span className={s.stepIndex}>{step.stepIndex}</span>
             </div>
-            <div className={s.stepTitle}>{step.title}</div>
+            <div className={s.stepTitleWrapper}>
+              <span className={s.stepActiveDot} />
+              <span className={s.stepTitle}>{step.title}</span>
+            </div>
           </li>
         ))}
       </ul>
