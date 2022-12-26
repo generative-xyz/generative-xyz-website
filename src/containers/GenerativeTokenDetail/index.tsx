@@ -146,25 +146,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <h3>More on this Colleciton</h3>
-        <Stack direction="horizontal" gap={5}>
-          <Button onClick={handleBuy} sizes={'large'}>
-            Buy now
-          </Button>
-          <Button onClick={handleBuy} variants={'ghost'} sizes={'medium'}>
-            Buy now
-          </Button>
-          <Button onClick={handleBuy} variants={'ghost'} sizes={'small'}>
-            Buy now
-          </Button>
-          <Button
-            onClick={handleBuy}
-            variants={'ghost'}
-            sizes={'xsmall'}
-            disabled
-          >
-            Buy now
-          </Button>
-        </Stack>
+
         {/* <CollectionList/> */}
       </Container>
     </section>

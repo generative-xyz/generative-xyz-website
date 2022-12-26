@@ -2,20 +2,39 @@
   cursor: pointer;
   font-size: 12px;
   line-height: 20px;
-  letter-spacing: 10%;
+  letter-spacing: 0.1em;
   font-weight: 800;
   border-radius: 8px;
   transition: all 0.2s;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
 
   &:disabled {
     cursor: not-allowed;
   }
 
+  .icon * {
+    width: 100%;
+    height: 100%;
+  }
+
   /* Button sizes */
   &.large {
-    padding-block: 18px;
-    padding-inline: 28px;
+    padding: 14px 28px;
+    gap: 12px;
+
+    &:has(.leftIcon) {
+      padding: 14px 28px 14px 18px;
+    }
+
+    &:has(.rightIcon) {
+      padding: 14px 18px 14px 28px;
+    }
+
+    &.iconOnly {
+      padding: 18px;
+    }
 
     .icon {
       width: 20px;
@@ -24,8 +43,20 @@
   }
 
   &.medium {
-    padding-block: 14px;
-    padding-inline: 28px;
+    padding: 14px 28px;
+    gap: 10px;
+
+    &:has(.leftIcon) {
+      padding: 14px 28px 14px 18px;
+    }
+
+    &:has(.rightIcon) {
+      padding: 14px 18px 14px 28px;
+    }
+
+    &.iconOnly {
+      padding: 16px;
+    }
 
     .icon {
       width: 15px;
@@ -34,8 +65,20 @@
   }
 
   &.small {
-    padding-block: 7px;
-    padding-inline: 16px;
+    padding: 7px 16px;
+    gap: 9px;
+
+    &:has(.leftIcon) {
+      padding: 7px 18px 7px 12px;
+    }
+
+    &:has(.rightIcon) {
+      padding: 7px 12px 7px 18px;
+    }
+
+    &.iconOnly {
+      padding: 8px;
+    }
 
     .icon {
       width: 15px;
@@ -44,8 +87,20 @@
   }
 
   &.xsmall {
-    padding-block: 5px;
-    padding-inline: 10px;
+    padding: 5px 10px;
+    gap: 6px;
+
+    &:has(.leftIcon) {
+      padding: 5px 10px 5px 6px;
+    }
+
+    &:has(.rightIcon) {
+      padding: 5px 6px 5px 10px;
+    }
+
+    &.iconOnly {
+      padding: 6px;
+    }
 
     .icon {
       width: 13px;

@@ -12,6 +12,7 @@ interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   sizes?: ButtonSizesType;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
+  iconOnly?: boolean;
 }
 
 const Button = React.forwardRef<
@@ -27,6 +28,7 @@ const Button = React.forwardRef<
       sizes = 'medium',
       startIcon,
       endIcon,
+      iconOnly,
       ...delegatedProps
     }: PropsWithChildren<ButtonProps>,
     ref: React.ForwardedRef<HTMLButtonElement>
@@ -38,14 +40,19 @@ const Button = React.forwardRef<
           styles.button,
           styles[`${variants}`],
           styles[`${sizes}`],
-          className
+          className,
+          iconOnly && styles.iconOnly
         )}
         ref={ref}
         {...delegatedProps}
       >
-        {startIcon}
+        {startIcon && (
+          <div className={cs(styles.icon, styles.leftIcon)}>{startIcon}</div>
+        )}
         {children}
-        {endIcon}
+        {endIcon && (
+          <div className={cs(styles.icon, styles.rightIcon)}>{endIcon}</div>
+        )}
       </button>
     );
   }
