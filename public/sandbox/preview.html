@@ -7,8 +7,8 @@
 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js", {
-          scope: "/sandbox"
+        navigator.serviceWorker.register("/sw.js", {
+          scope: "/"
         })
           .then(reg => {
             navigator.serviceWorker.addEventListener("message", event => {

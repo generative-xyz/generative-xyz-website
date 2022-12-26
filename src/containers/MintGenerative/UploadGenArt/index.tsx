@@ -10,10 +10,7 @@ import { generateHash } from '@utils/generate-data';
 import log from '@utils/logger';
 import { processSandboxZipFile, readSandboxFileContent } from '@utils/sandbox';
 import { prettyPrintBytes } from '@utils/units';
-import cs from 'classnames';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import CheckIcon from 'public/assets/icons/check-circle.svg';
 import { ReactElement, useContext, useMemo, useRef, useState } from 'react';
 import { EXTERNAL_LINK } from '@constants/external-link';
 import SvgInset from '@components/SvgInset';
@@ -68,10 +65,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
   const renderUploadSuccess = () => {
     return (
       <div>
-        <div className={s.uploadStatus}>
-          <Image src={CheckIcon} alt={'check icon'} />
-          Upload success
-        </div>
+        <div className={s.uploadStatus}>Upload success</div>
         <div className={s.uploadFiles}>
           <div className="">
             {zipFile?.name} ({prettyPrintBytes(zipFile?.size || 0)})
@@ -107,50 +101,10 @@ const UploadGenArt: React.FC = (): ReactElement => {
     );
   };
 
-  return (
-    <>
-      <div className={cs(s.wrapper, !!filesSandbox && s.wrapperUploaded)}>
-        {filesSandbox ? (
-          renderUploadSuccess()
-        ) : (
-          <div className="wrapper">
-            <div className={s.description}>
-              <p>
-                This is a space in which you can drop a .zip of your project and
-                see how it would behave when it will be minted on Generative. If
-                your artwork does not behave properly in the setup thumbnail
-                image are, it will not work after being minted. If you are new
-                to the platform please read our{' '}
-                <Link href={EXTERNAL_LINK.GUIDE} target="_blank" rel="noopener">
-                  Guide to build a Generative Token.
-                </Link>
-              </p>
-              <br />
-              <p>
-                Please make sure that your project follows our{' '}
-                <Link href="#">Code of Conduct</Link>.
-              </p>
-            </div>
-            <div className={s.uploadWrapper}>
-              <DropFile
-                acceptedFileType={{
-                  'application/zip': ['.zip'],
-                  'application/x-zip-compressed': ['.zip'],
-                }}
-                onChange={handleChangeFile}
-                files={zipFile ? [zipFile] : null}
-                className={s.dropFile}
-              />
-              <Button className={s.uploadBtn} onClick={handleProccessFile}>
-                Upload Project
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <section className={s.uploadGenArt}>
-        <div className={s.wrapper}>
+  const renderUpload = useMemo(
+    (): JSX.Element => (
+      <>
+        <div className={s.uploadWrapper}>
           <h3 className={s.sectionTitle}>
             Upload Genart
             <SvgInset
@@ -170,9 +124,51 @@ const UploadGenArt: React.FC = (): ReactElement => {
               files={zipFile ? [zipFile] : null}
             />
           </div>
+          <Button
+            disabled={!zipFile}
+            className={s.uploadBtn}
+            onClick={handleProccessFile}
+          >
+            Upload Project
+          </Button>
         </div>
-      </section>
-    </>
+        <div className={s.disclaimerWrapper}>
+          <p className={s.disclaimer}>
+            This is a space in which you can drop a .zip of your project and see
+            how it would behave when it will be minted on Generative. If your
+            artwork does not behave properly in the setup thumbnail image are,
+            it will not work after being minted. If you are new to the platform
+            please read our&nbsp;
+            <Link
+              className={s.link}
+              href={EXTERNAL_LINK.GUIDE}
+              target="_blank"
+              rel="noopener"
+            >
+              Guide to build a Generative Token.
+            </Link>
+          </p>
+          <p className={s.disclaimer}>
+            Please make sure that your project follows our&nbsp;
+            <Link
+              className={s.link}
+              href={EXTERNAL_LINK.GUIDE}
+              target="_blank"
+              rel="noopener"
+            >
+              Code of Conduct.
+            </Link>
+          </p>
+        </div>
+      </>
+    ),
+    [zipFile]
+  );
+
+  return (
+    <section className={s.uploadGenArt}>
+      {filesSandbox ? renderUploadSuccess() : renderUpload}
+    </section>
   );
 };
 

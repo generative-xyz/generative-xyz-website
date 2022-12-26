@@ -1,0 +1,30 @@
+.mintGenerative {
+  padding-top: 60px;
+  padding-bottom: 112px;
+  max-width: 1016px;
+  margin: 0 auto;
+
+  .stepHeaderWrapper {
+    margin-bottom: 50px;
+  }
+
+  .previewWrapper {
+    display: none;
+  }
+
+  .stepContent {
+    display: grid;
+    grid-template-columns: 500px;
+    grid-template-rows: auto;
+    justify-content: center;
+
+    &__twoColumn {
+      grid-template-columns: 500px 416px;
+      column-gap: 100px;
+
+      .previewWrapper {
+        display: block;
+      }
+    }
+  }
+}
