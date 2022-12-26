@@ -81,7 +81,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
           </ul>
           <Button onClick={handleReupload}>Update zip file</Button>
         </div>
-        <div className="mb4">
+        <div className="mb-4">
           <div>
             <p>hash: {hash}</p>
           </div>

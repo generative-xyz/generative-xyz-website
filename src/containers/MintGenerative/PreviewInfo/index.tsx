@@ -66,7 +66,7 @@ const PreviewInfo = () => {
       <p className={styles.pieceName}>[Piece name]</p>
       <AvatarInfo
         imgSrc=""
-        address="0xDa08dD1c849d8DEC0Da09ec541506CefaD6D8F5c"
+        leftContent="0xDa08dD1c849d8DEC0Da09ec541506CefaD6D8F5c"
         wrapperStyle={{ marginBottom: '16px' }}
       />
       <div className={cx('horizontalStack justify-between', styles.metaInfo)}>

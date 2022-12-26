@@ -46,23 +46,13 @@ export interface IGetProjectItemsParams extends IPagingParams {
 }
 
 export interface IProjectItem {
-  name?: string;
+  name: string;
   description?: string;
   image: string;
   animation_url?: string;
   attributes: RawTokenAttributes;
-}
-export interface IGetProjectItemsResponse extends IPagingResponse {
-  result: IProjectItem[];
 }
 
-export interface IProjectItem {
-  name?: string;
-  description?: string;
-  image: string;
-  animation_url?: string;
-  attributes: RawTokenAttributes;
-}
 export interface IGetProjectItemsResponse extends IPagingResponse {
   result: IProjectItem[];
 }
