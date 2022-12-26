@@ -11,16 +11,17 @@ import querystring from 'query-string';
 
 const LOG_PREFIX = 'TokenUriService';
 
-const API_TOKEN_URI_PATH = '/token';
-const API_TOKEN_TRAIT_PATH = '/trait';
+const API_TOKEN_URI_PATH = '/tokens';
+const API_TOKEN_TRAIT_PATH = `${API_TOKEN_URI_PATH}/traits`;
 
 export const getTokenUri = async (
   params: IGetGenerativeTokenUriParams
 ): Promise<IGetGenerativeTokenUriResponse> => {
   try {
-    const qs = '?' + querystring.stringify(params);
+    const { contractAddress, tokenID } = params;
+    // const qs = '?' + querystring.stringify(params);
     const res = await get<IGetGenerativeTokenUriResponse>(
-      `${API_TOKEN_URI_PATH}${qs}`
+      `${API_TOKEN_URI_PATH}/${contractAddress}/${tokenID}`
     );
     return res;
   } catch (err: unknown) {

@@ -1,14 +1,14 @@
 import Accordion from '@components/Accordion';
 import AvatarInfo from '@components/AvatarInfo';
-import Button from '@components/Button';
+import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { LogLevel } from '@enums/log-level';
 import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
+import { getTokenUri } from '@services/token-uri';
 import log from '@utils/logger';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
-import { MOCK } from './mock';
 import styles from './styles.module.scss';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
@@ -20,16 +20,23 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     tokenID: string;
   };
 
-  const itemDetail: IGetGenerativeTokenUriResponse = MOCK;
+  // const itemDetail: IGetGenerativeTokenUriResponse = MOCK;
+  const [itemDetail, setItemDetail] = useState<IGetGenerativeTokenUriResponse>({
+    name: '',
+    description: '',
+    image: '',
+    animation_url: '',
+    attributes: [],
+  });
 
   const fetchItemDetail = async (): Promise<void> => {
     try {
       if (tokenID) {
-        // const res = await getTokenUri({
-        //   contractAddress: GENERATIVE_PROJECT_CONTRACT,
-        //   tokenID,
-        // });
-        // setItemDetail(MOCK);
+        const res = await getTokenUri({
+          contractAddress: GENERATIVE_PROJECT_CONTRACT,
+          tokenID,
+        });
+        setItemDetail(res);
       }
     } catch (err: unknown) {
       log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
@@ -37,14 +44,15 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     }
   };
 
-  // TODO: handle click buy action
-  const handleBuy = () => {
-    return;
-  };
-
-  // TODO: handle click offer action
-  const handleOffer = () => {
-    return;
+  const renderAttributes = () => {
+    return (
+      <>
+        {itemDetail.attributes?.length > 0 &&
+          itemDetail.attributes.map((attr, index: number) => (
+            <div key={`${attr.trait_type}-${index}`}>{attr.trait_type}</div>
+          ))}
+      </>
+    );
   };
 
   useEffect(() => {
@@ -67,7 +75,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Owner</p>
-                      <p>Owner address</p>
+                      <p>...</p>
                     </div>
                   }
                 />
@@ -78,7 +86,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Creator</p>
-                      <p>Creator address</p>
+                      <p>...</p>
                     </div>
                   }
                 />
@@ -89,12 +97,12 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Minted on</p>
-                      <p>Date</p>
+                      <p>Date ...</p>
                     </div>
                   }
                 />
               </Stack>
-              <div className="divider"></div>
+              {/* <div className="divider"></div>
               <Stack direction="horizontal" gap={5} className={styles.stats}>
                 <div>
                   <b>X.XX ETH</b>
@@ -121,13 +129,31 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 <Button onClick={handleOffer} disabled>
                   Make offer
                 </Button>
-              </Stack>
+              </Stack> */}
             </div>
             <Accordion header="Description" content={itemDetail?.description} />
-            <Accordion header="Feature" content={itemDetail?.description} />
+            <Accordion header="Feature" content={renderAttributes()} />
             <div>
               <b>Token Info</b>
               <div className="divider"></div>
+              <div className={styles.tokenInfo}>
+                <Stack direction="horizontal" className="justify-between mt-3">
+                  <b>Contract Address</b>
+                  <p>0xf7...9089</p>
+                </Stack>
+                <Stack direction="horizontal" className="justify-between">
+                  <b>Token ID</b>
+                  <p>{tokenID}</p>
+                </Stack>
+                <Stack direction="horizontal" className="justify-between">
+                  <b>Token Standard</b>
+                  <p>...</p>
+                </Stack>
+                <Stack direction="horizontal" className="justify-between">
+                  <b>Blockchain</b>
+                  <p>...</p>
+                </Stack>
+              </div>
             </div>
             <div>
               <b>Activities</b>

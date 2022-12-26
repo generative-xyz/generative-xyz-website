@@ -37,6 +37,10 @@ export interface IProjectDetail {
   projectURI: string;
   royalty?: number;
   tokenID: string;
+  mintingInfo: {
+    index: number;
+    indexReserve: number;
+  };
 }
 
 export type IGetProjectDetailResponse = IProjectDetail;

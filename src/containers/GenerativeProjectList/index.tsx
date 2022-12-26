@@ -37,7 +37,12 @@ const GenerativeProjectList: React.FC = (): React.ReactElement => {
     return (
       <div key={tokenID} className="col-4">
         <div className={s.projectItem}>
-          <Image src={project.image} alt={project.name} />
+          <Image
+            src={project.image}
+            alt={project.name}
+            fill
+            style={{ objectFit: 'cover' }}
+          />
           <Link href={`${ROUTE_PATH.GENERATIVE}/${tokenID}`}>#{tokenID}</Link>
         </div>
       </div>
