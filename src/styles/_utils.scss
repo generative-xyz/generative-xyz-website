@@ -76,3 +76,7 @@
   height: 1px;
   background-color: var(--dark-grey);
 }
+
+.shadow {
+  box-shadow: $shadow;
+}
