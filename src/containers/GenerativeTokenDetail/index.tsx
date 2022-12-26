@@ -1,12 +1,13 @@
 import Accordion from '@components/Accordion';
 import AvatarInfo from '@components/AvatarInfo';
+import Button from '@components/Button';
 import { LogLevel } from '@enums/log-level';
 import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
 import log from '@utils/logger';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { Button, Container, Stack } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Container, Stack } from 'react-bootstrap';
 import { MOCK } from './mock';
 import styles from './styles.module.scss';
 
@@ -19,8 +20,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     tokenID: string;
   };
 
-  const [itemDetail, setItemDetail] =
-    useState<IGetGenerativeTokenUriResponse>();
+  const itemDetail: IGetGenerativeTokenUriResponse = MOCK;
 
   const fetchItemDetail = async (): Promise<void> => {
     try {
@@ -29,7 +29,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
         //   contractAddress: GENERATIVE_PROJECT_CONTRACT,
         //   tokenID,
         // });
-        setItemDetail(MOCK);
+        // setItemDetail(MOCK);
       }
     } catch (err: unknown) {
       log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
@@ -110,14 +110,15 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 </div>
               </Stack>
               <Stack direction="horizontal" gap={2}>
-                <Button variant="secondary" onClick={handleBuy} disabled>
+                <Button
+                  onClick={handleBuy}
+                  variants={'default'}
+                  sizes={'large'}
+                >
                   Buy now
                 </Button>
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOffer}
-                  disabled
-                >
+
+                <Button onClick={handleOffer} disabled>
                   Make offer
                 </Button>
               </Stack>
@@ -135,8 +136,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
           <div className={styles.thumbnail}>
             <Image
-              src={itemDetail?.image || ''}
-              alt={itemDetail?.name || ''}
+              src={itemDetail.image}
+              alt={itemDetail.name}
               fill
               style={{ width: '100%' }}
               sizes="(max-width: 768px) 100vw,
@@ -145,6 +146,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <h3>More on this Colleciton</h3>
+
         {/* <CollectionList/> */}
       </Container>
     </section>
