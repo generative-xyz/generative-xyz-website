@@ -3,6 +3,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const path = require('path');
+
 const baseSecurityHeaders = [
   {
     key: 'X-Frame-Options',
@@ -70,5 +72,9 @@ module.exports = withBundleAnalyzer({
         hostname: '**.generative.xyz',
       },
     ],
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+    prependData: `@import "@styles/_variables.scss";`,
   },
 });
