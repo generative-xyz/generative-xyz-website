@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
 import styles from './styles.module.scss';
+import { convertIpfsToHttp } from '@utils/image';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -162,7 +163,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
           <div className={styles.thumbnail}>
             <Image
-              src={itemDetail.image}
+              src={convertIpfsToHttp(
+                itemDetail?.image ||
+                  'ipfs://QmZha95v86iME98rpxrJWbHerK3JjEHKkiGpdS4NgZKjdb'
+              )}
               alt={itemDetail.name}
               fill
               style={{ width: '100%' }}
