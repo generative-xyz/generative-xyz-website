@@ -34,3 +34,12 @@
   background-color: $secondary-purple-a !important;
   color: white;
 }
+
+.btnIcon {
+  svg {
+    path,
+    rect {
+      fill: #fff;
+    }
+  }
+}
