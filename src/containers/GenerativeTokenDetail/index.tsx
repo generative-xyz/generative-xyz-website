@@ -172,6 +172,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <h3>More on this Colleciton</h3>
+
         {/* <CollectionList/> */}
       </Container>
     </section>
