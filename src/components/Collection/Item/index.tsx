@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './styles.module.scss';
 import { Stack } from 'react-bootstrap';
 import AvatarInfo from '@components/AvatarInfo';
 import { IProjectItem } from '@interfaces/api/project';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { ROUTE_PATH } from '@constants/route-path';
 
 const CollectionItem = ({ data }: { data: IProjectItem }) => {
+  const router = useRouter();
+  const { projectID } = router.query as {
+    projectID: string;
+  };
+
+  const tokenID = useMemo(() => data.name.split('#')[1], [data.name]);
+
+  const handleClickItem = () => {
+    router.push(`${ROUTE_PATH.GENERATIVE}/${projectID}/${tokenID}`);
+  };
+
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} onClick={handleClickItem}>
       <div className={styles.thumbnail}>
         <Image
           src={data.image}
