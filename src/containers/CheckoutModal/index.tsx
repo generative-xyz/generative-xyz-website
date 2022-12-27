@@ -1,23 +1,30 @@
+import cn from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import cn from 'classnames';
 // import Web3Utils from 'web3-utils';
 
-import { isOpenCheckoutPopupSelector } from '@redux/general/selector';
-import { setIsOpenCheckoutPopup } from '@redux/general/action';
-import { useAppDispatch } from '@redux/index';
 import { FRAME_OPTIONS } from '@constants/frame';
+import { setIsOpenCheckoutPopup } from '@redux/general/action';
+import { isOpenCheckoutPopupSelector } from '@redux/general/selector';
+import { useAppDispatch } from '@redux/index';
 // import Dropdown from '@components/Dropdown';
-import Input from '@components/Input';
 import Button from '@components/Button';
+import Input from '@components/Input';
 import InputQuantity from '@components/InputQuantity';
 // import Countries from '@constants/country-list.json';
 // import StateOfUS from '@constants/state-of-us.json';
 
+import { LogLevel } from '@enums/log-level';
+import { createOrder } from '@services/order';
+import log from '@utils/logger';
 import s from './CheckoutModal.module.scss';
 
-interface IShippingInfo {
+export interface IShippingInfo {
+  details: {
+    product_id: string;
+    quantity: number;
+  }[];
   name: string;
   email: string;
   address: string;
@@ -28,10 +35,23 @@ interface IShippingInfo {
   country: string;
 }
 
+const LOG_PREFIX = 'CheckoutModal';
+
 const CheckoutModal: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const isShow = useSelector(isOpenCheckoutPopupSelector);
   const onHideModal = () => dispatch(setIsOpenCheckoutPopup(false));
+
+  // const {
+  //   call: mintToken,
+  //   reset: resetMintToken,
+  //   isLoading: isMinting,
+  //   data: mintTx,
+  // } = useContractOperation<IMakeOrderParams, TransactionReceipt>(
+  //   MintGenerativeNFTOperation,
+  //   true
+  // );
+
   const [cart, setCart] = useState(
     FRAME_OPTIONS.map(option => ({
       ...option,
@@ -39,6 +59,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     }))
   );
   const [shippingInfo, setShippingInfo] = useState<IShippingInfo>({
+    details: [],
     name: '',
     email: '',
     address: '',
@@ -63,6 +84,15 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   const onChangeQty = (qty: number, cartIndex: number) => {
     cart[cartIndex].qty = qty;
     setCart([...cart]);
+    setShippingInfo({
+      ...shippingInfo,
+      details: cart.map((product: any) => {
+        return {
+          product_id: product.id,
+          quantity: product.qty,
+        };
+      }),
+    });
   };
 
   const totalPrice = useMemo(
@@ -75,15 +105,23 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   );
 
   const placeOrder = async () => {
+    try {
+      await createOrder(shippingInfo);
+    } catch (err: unknown) {
+      log('failed to create order', LogLevel.Error, LOG_PREFIX);
+      throw Error();
+    }
+
+    // setShippingInfo({ ...shippingInfo, details: cart });
+    // console.log('shippingInfo: ', shippingInfo);
+    // API submit order info here
     // if (typeof window.ethereum !== 'undefined') {
     //   const accounts = await window.ethereum.request({
     //     method: 'eth_requestAccounts',
     //   });
-    //
     //   const value = Web3Utils.toHex(
     //     Web3Utils.toWei(totalPrice.toString(), 'ether')
     //   );
-    //
     //   const txHash = await window.ethereum.request({
     //     method: 'eth_sendTransaction',
     //     params: [
@@ -94,7 +132,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     //       },
     //     ],
     //   });
-    //
     //   console.log(txHash);
     // }
   };
@@ -151,7 +188,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             Shipping information
           </div>
           <div>
-            {/*<Dropdown*/}
+            {/* <Dropdown*/}
             {/*  values={selectedCountry ? [selectedCountry] : []}*/}
             {/*  options={Countries}*/}
             {/*  labelField="value"*/}
@@ -168,7 +205,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             {/*  placeholder="Country/Region"*/}
             {/*  className={s.CheckoutModal_input}*/}
             {/*  required*/}
-            {/*/>*/}
+            {/*/> */}
             <Input
               placeholder="Full name"
               className={s.CheckoutModal_input}
@@ -291,7 +328,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             size="xl"
             className={s.CheckoutModal_submitBtn}
             onClick={placeOrder}
-            disabled={!isEnablePaymentBtn}
+            disabled={!!isEnablePaymentBtn}
           >
             Place your order
           </Button>
