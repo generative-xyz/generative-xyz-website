@@ -10,6 +10,7 @@ import { useRef, useEffect } from 'react';
 
 export const HardWare = (): JSX.Element => {
   const refOptions = useRef({ isCPUIn: false });
+  const refMain = useRef<HTMLDivElement>(null);
   const refScreen = useRef(null);
   const refCpu = useRef(null);
 
@@ -17,6 +18,7 @@ export const HardWare = (): JSX.Element => {
     if (frame > 70) {
       if (!refOptions.current.isCPUIn) {
         refOptions.current.isCPUIn = true;
+        refMain.current?.classList.add(`${s['is-white']}`);
         gsap.to(refScreen.current, {
           opacity: 0,
           y: -60,
@@ -32,6 +34,7 @@ export const HardWare = (): JSX.Element => {
     } else {
       if (refOptions.current.isCPUIn) {
         refOptions.current.isCPUIn = false;
+        refMain.current?.classList.remove(`${s['is-white']}`);
         gsap.to(refCpu.current, {
           opacity: 0,
           y: -60,
@@ -49,10 +52,13 @@ export const HardWare = (): JSX.Element => {
 
   useEffect(() => {
     processing(0);
+    return () => {
+      refMain.current?.classList.remove(`${s['is-white']}`);
+    };
   }, []);
 
   return (
-    <div className={s.hardWare}>
+    <div ref={refMain} className={s.hardWare}>
       <SectionInfo
         color={'dark'}
         className={s.hardWare_info}

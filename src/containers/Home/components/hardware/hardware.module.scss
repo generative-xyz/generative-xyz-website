@@ -14,6 +14,7 @@
 
   &_content {
     background: $neutral-02;
+    transition: background-color .4s $easeOutCubic;
 
     &_detail {
       position: relative;
@@ -27,6 +28,7 @@
         width: 100%;
         height: vh(350px);
         background-image: linear-gradient($neutral-02, rgba($neutral-02, 0));
+        transition: background-image .4s $easeOutCubic;
         position: absolute;
         top: 0;
         left: 0;
@@ -54,6 +56,24 @@
       left: 0;
       width: 100%;
       height: 100%;
+    }
+  }
+
+  &.is-white {
+    .hardWare {
+      &_content {
+        background: $neutral-08;
+
+        &_detail {
+          &::before {
+            background-image: linear-gradient($neutral-08, rgba($neutral-08, 0));
+          }
+        }
+      }
+      &:global(.desc__medium),
+      &:global(.text__black) {
+        color: rgba(255, 255, 255, 0.8);
+      }
     }
   }
 }

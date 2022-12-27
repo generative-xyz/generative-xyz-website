@@ -19,6 +19,7 @@ interface IProps {
   height: number;
   width: 1920;
   onProcessing?: (n: number) => void;
+  onEnter?: () => void;
 }
 
 interface IRefDomFrames {
@@ -42,6 +43,7 @@ export const Frames = ({
   height = 1080,
   width = 1920,
   onProcessing,
+  onEnter,
 }: IProps): JSX.Element => {
   const comp = useRef<HTMLDivElement>(null);
   const refDom = useRef<IRefDomFrames>({
@@ -153,13 +155,7 @@ export const Frames = ({
     refDom.current.canvas.height = height || rect?.height || window.innerHeight;
 
     refDom.current.ctx = refDom.current.canvas.getContext('2d');
-    const scrollHeight = MathMap(
-      totalFrames,
-      0,
-      30,
-      0,
-      window.innerHeight * 1.5
-    );
+    const scrollHeight = MathMap(totalFrames, 0, 30, 0, window.innerHeight);
 
     runFrame();
     if (!refDom.current.scrollFixed) {
@@ -172,6 +168,7 @@ export const Frames = ({
         'top top',
         (self: ScrollTrigger) => {
           if (self.isActive) {
+            onEnter && onEnter();
             gsap.ticker.add(runFrame);
           } else {
             gsap.ticker.remove(runFrame);
