@@ -12,6 +12,7 @@ WORKDIR /app
 ARG ENV
 ENV NODE_ENV $ENV
 COPY ./envs/.env.$ENV .env
+COPY ./.npmrc ./
 COPY --from=BASE /app/node_modules ./node_modules
 COPY . .
 RUN apk add --no-cache curl \ 
@@ -26,7 +27,6 @@ RUN apk add --no-cache git curl \
 FROM node:18-alpine AS PRODUCTION
 WORKDIR /app
 COPY --from=BUILD /app/public ./public
-COPY --from=BUILD /app/.npmrc ./
 COPY --from=BUILD /app/next.config.js ./
 
 # Set mode "standalone" in file "next.config.js"
