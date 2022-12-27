@@ -25,6 +25,7 @@ const DEFAULT_RESPONSE = {
   message: '',
   data: {},
 };
+const PRODUCT_LIST_API = '/v1/product/list';
 
 /**
  * Get Product API
@@ -161,6 +162,15 @@ export const getProductSpecs = async ({
     const response = await ApiFactory.get(
       `${PRODUCTS_API}/product-spec/${productId}?type=${type}&product_url_id=${product_url_id}`
     );
+    return response.data;
+  } catch (e) {
+    logger.error(e);
+    return DEFAULT_RESPONSE;
+  }
+};
+export const getProductList = async (): Promise<any> => {
+  try {
+    const response = await ApiFactory.get(`${PRODUCT_LIST_API}`);
     return response.data;
   } catch (e) {
     logger.error(e);

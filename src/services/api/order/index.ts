@@ -1,7 +1,7 @@
 import logger from '@helpers/logger';
 import ApiFactory, { DEFAULT_RESPONSE } from '../http';
 
-const ORDER_API = '/order';
+const ORDER_API = '/v1/order';
 
 export const makeOrder = async (orderInfo: {
   details: Array<{ id: string; qty: number }>;
