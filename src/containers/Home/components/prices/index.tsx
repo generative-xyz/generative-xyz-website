@@ -7,6 +7,7 @@ import { setIsOpenCheckoutPopup } from '@redux/general/action';
 import { AnimHeading } from 'src/animations/heading';
 import { AnimRanText } from 'src/animations/ranText';
 import classNames from 'classnames';
+import { FRAME_OPTIONS } from '@constants/frame';
 
 export const Prices = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -275,13 +276,10 @@ export const Prices = (): JSX.Element => {
               onClick={openCheckoutPopup}
             >
               <div className={'image__fit'}>
-                <img
-                  src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/8-ethf4d1101ffd.jpg"
-                  alt="8-ethf4d1101ffd"
-                />
+                <img src={FRAME_OPTIONS[0].img} alt="8-ethf4d1101ffd" />
               </div>
 
-              <p className="desc__medium">55” OLED Display</p>
+              <p className="desc__medium">{FRAME_OPTIONS[0].name}</p>
               <AnimRanText
                 tag={'p'}
                 className={cn(
@@ -290,7 +288,7 @@ export const Prices = (): JSX.Element => {
                 )}
                 offset={0.2}
               >
-                8 ETH
+                {FRAME_OPTIONS[0].price} ETH
               </AnimRanText>
             </div>
           </div>
@@ -300,12 +298,9 @@ export const Prices = (): JSX.Element => {
               onClick={openCheckoutPopup}
             >
               <div className="image__fit">
-                <img
-                  src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/4-eth3da62e0647.jpg"
-                  alt="4-eth3da62e0647"
-                />
+                <img src={FRAME_OPTIONS[1].img} alt="4-eth3da62e0647" />
               </div>
-              <p className="desc__medium">43” 4K Display</p>
+              <p className="desc__medium">{FRAME_OPTIONS[1].name}</p>
               <AnimRanText
                 tag={'p'}
                 className={cn(
@@ -314,7 +309,7 @@ export const Prices = (): JSX.Element => {
                 )}
                 offset={0.2}
               >
-                4 ETH
+                {FRAME_OPTIONS[1].price} ETH
               </AnimRanText>
             </div>
           </div>

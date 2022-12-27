@@ -2,14 +2,14 @@ export const FRAME_OPTIONS = [
   {
     id: '55-inch-oled',
     name: '55” OLED Display',
-    price: 0.0002,
-    img: '',
+    price: 10,
+    img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/8-ethf4d1101ffd.jpg',
   },
   {
     id: '43-inch-4k',
     name: '43” 4K Display',
-    price: 0.0001,
-    img: '',
+    price: 5,
+    img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/4-eth3da62e0647.jpg',
   },
 ];
 

@@ -339,7 +339,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <div>
               Shipping
               <div className={s.CheckoutModal_orderShippingDate}>
-                Delivery: 25 working days
+                Delivery: 14 working days
               </div>
             </div>
             <div className={s.highlight}>FREE</div>

@@ -99,7 +99,10 @@ const Header: React.FC = () => {
           <a href="#tech-spec" className={s.Header_menuItem}>
             Tech specs
           </a>
-          <a href="#tech-spec" className={s.Header_menuItem}>
+          <a
+            href="testnet.generative.xyz/mint-generative/upload-project"
+            className={s.Header_menuItem}
+          >
             + Create generative art
           </a>
           <Button
