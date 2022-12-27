@@ -146,6 +146,8 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     }
   };
 
+  // const fetchProductList = async ()
+
   const isEnablePaymentBtn =
     totalPrice > 0 &&
     shippingInfo.name &&
