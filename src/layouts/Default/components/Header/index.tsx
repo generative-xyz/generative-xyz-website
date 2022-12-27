@@ -1,12 +1,12 @@
 import React from 'react';
 import { gsap } from 'gsap';
 import { LOGO_URL } from '@constants/common';
-import Button from '@components/Button';
+// import Button from '@components/Button';
 
-import { setIsOpenCheckoutPopup } from '@redux/general/action';
+// import { setIsOpenCheckoutPopup } from '@redux/general/action';
 
 import s from './Header.module.scss';
-import { useAppDispatch } from '@redux/index';
+// import { useAppDispatch } from '@redux/index';
 import SvgInset from '@components/SvgInset';
 import { useRef } from 'react';
 import { useEffect } from 'react';
@@ -16,8 +16,8 @@ import { disabledMenuSelector } from '@redux/general/selector';
 import Link from 'next/link';
 
 const Header: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const openCheckoutPopup = () => dispatch(setIsOpenCheckoutPopup(true));
+  // const dispatch = useAppDispatch();
+  // const openCheckoutPopup = () => dispatch(setIsOpenCheckoutPopup(true));
   const refHeader = useRef<HTMLDivElement>(null);
   const refData = useRef({
     scrollCurrent: 0,
@@ -92,28 +92,28 @@ const Header: React.FC = () => {
         <Link href="/" className={s.Header_logo}>
           <SvgInset svgUrl={LOGO_URL} className={s.Header_logo} />
         </Link>
-        <nav className={s.Header_menuContainer}>
-          <a href="#frame-video" className={s.Header_menuItem}>
-            Hardware
-          </a>
-          <a href="#tech-spec" className={s.Header_menuItem}>
-            Marketplace
-          </a>
-          <a
-            href="testnet.generative.xyz/mint-generative/upload-project"
-            className={s.Header_menuItem}
-          >
-            + Create generative art
-          </a>
-          <Button
-            size="lg"
-            variant="cta-anim"
-            className={s.Header_connectBtn}
-            onClick={openCheckoutPopup}
-          >
-            <span className="text">Order Now</span>
-          </Button>
-        </nav>
+        {/*<nav className={s.Header_menuContainer}>*/}
+        {/*  <a href="#frame-video" className={s.Header_menuItem}>*/}
+        {/*    Hardware*/}
+        {/*  </a>*/}
+        {/*  <a href="#tech-spec" className={s.Header_menuItem}>*/}
+        {/*    Marketplace*/}
+        {/*  </a>*/}
+        {/*  <a*/}
+        {/*    href="testnet.generative.xyz/mint-generative/upload-project"*/}
+        {/*    className={s.Header_menuItem}*/}
+        {/*  >*/}
+        {/*    + Create generative art*/}
+        {/*  </a>*/}
+        {/*  <Button*/}
+        {/*    size="lg"*/}
+        {/*    variant="cta-anim"*/}
+        {/*    className={s.Header_connectBtn}*/}
+        {/*    onClick={openCheckoutPopup}*/}
+        {/*  >*/}
+        {/*    <span className="text">Order Now</span>*/}
+        {/*  </Button>*/}
+        {/*</nav>*/}
       </div>
     </div>
   );
