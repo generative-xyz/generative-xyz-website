@@ -22,7 +22,11 @@ export const LOGO_URL =
 
 export const CLOUDFRONT_SERVER_NAME = 'https://cdn.autonomous.ai/';
 export const PLACE_HOLDER_IMAGE = `${CLOUDFRONT_SERVER_NAME}static/upload/images/common/upload/20210519/2560x1600-dark-gray-solid-color-backgrounda218631f0e.jpeg`;
-export const CONTACT_EMAIL = 'cs@genframe.xyz';
+export const CONTACT_EMAIL = 'team@generative.xyz';
+export const SOCIALS = {
+  discord: 'https://discord.com/invite/eUrvfKKTxP',
+  twitter: 'https://twitter.com/generativexyz',
+};
 
 export const PAGE_LOADED = 'PAGE_LOADED';
 export const PAGE_LOADING = 'PAGE_LOADING';

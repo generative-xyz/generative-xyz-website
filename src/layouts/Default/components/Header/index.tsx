@@ -94,10 +94,10 @@ const Header: React.FC = () => {
         </Link>
         <nav className={s.Header_menuContainer}>
           <a href="#frame-video" className={s.Header_menuItem}>
-            Frame
+            Hardware
           </a>
           <a href="#tech-spec" className={s.Header_menuItem}>
-            Tech specs
+            Marketplace
           </a>
           <a
             href="testnet.generative.xyz/mint-generative/upload-project"

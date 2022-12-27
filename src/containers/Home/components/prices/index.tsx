@@ -40,10 +40,7 @@ export const Prices = (): JSX.Element => {
           </Col>
           <Col md={3}>
             <div className={classNames(s.screen, s.screen__55, 'image__fit')}>
-              <img
-                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/8-ethf4d1101ffd.jpg"
-                alt="ethf4d1101ffd"
-              />
+              <img src={FRAME_OPTIONS[0].img} alt="ethf4d1101ffd" />
             </div>
             <div className={cn(s.Home_specContent, s.highlight)}>
               55 inches (diagonal) OLED display
@@ -59,10 +56,7 @@ export const Prices = (): JSX.Element => {
           </Col>
           <Col md={{ span: 3, offset: 1 }}>
             <div className={classNames(s.screen, s.screen__43, 'image__fit')}>
-              <img
-                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/4-eth3da62e0647.jpg"
-                alt="eth3da62e0647"
-              />
+              <img src={FRAME_OPTIONS[1].img} alt="eth3da62e0647" />
             </div>
             <div className={cn(s.Home_specContent, s.highlight)}>
               43 inches (diagonal) 4K LED display
@@ -86,12 +80,12 @@ export const Prices = (): JSX.Element => {
           </Col>
           <Col md={3}>
             <div className={cn(s.Home_specContent, s.price)}>
-              <span>8 ETH</span>
+              <span>{FRAME_OPTIONS[0].price} ETH</span>
             </div>
           </Col>
           <Col md={{ span: 3, offset: 1 }}>
             <div className={cn(s.Home_specContent, s.price)}>
-              <span>4 ETH</span>
+              <span>{FRAME_OPTIONS[1].price} ETH</span>
             </div>
           </Col>
         </Row>

@@ -26,6 +26,7 @@ RUN apk add --no-cache git curl \
 FROM node:18-alpine AS PRODUCTION
 WORKDIR /app
 COPY --from=BUILD /app/public ./public
+COPY --from=BUILD /app/.npmrc ./
 COPY --from=BUILD /app/next.config.js ./
 
 # Set mode "standalone" in file "next.config.js"
