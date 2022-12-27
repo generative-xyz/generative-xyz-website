@@ -2,43 +2,50 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import cn from 'classnames';
-// import Web3Utils from 'web3-utils';
+import Web3Utils from 'web3-utils';
 
 import { isOpenCheckoutPopupSelector } from '@redux/general/selector';
 import { setIsOpenCheckoutPopup } from '@redux/general/action';
 import { useAppDispatch } from '@redux/index';
 import { FRAME_OPTIONS } from '@constants/frame';
-// import Dropdown from '@components/Dropdown';
+import Dropdown from '@components/Dropdown';
 import Input from '@components/Input';
 import Button from '@components/Button';
 import InputQuantity from '@components/InputQuantity';
-// import Countries from '@constants/country-list.json';
-// import StateOfUS from '@constants/state-of-us.json';
+import Countries from '@constants/country-list.json';
+import StateOfUS from '@constants/state-of-us.json';
+import { makeOrder } from '@services/api/order';
 
 import s from './CheckoutModal.module.scss';
+import { useRouter } from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/pro-regular-svg-icons';
 
-interface IShippingInfo {
-  name: string;
-  email: string;
-  address: string;
-  address2: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
+interface IPropState {
+  name: any;
+  email: any;
+  address: any;
+  address2: any;
+  city: any;
+  state: any;
+  zip: any;
+  country: any;
 }
 
 const CheckoutModal: React.FC = (): JSX.Element => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const isShow = useSelector(isOpenCheckoutPopupSelector);
   const onHideModal = () => dispatch(setIsOpenCheckoutPopup(false));
+  const [isLoading, setIsLoading] = useState(false);
+  const [order, setOrder] = useState({} as any);
   const [cart, setCart] = useState(
     FRAME_OPTIONS.map(option => ({
       ...option,
       qty: 0,
     }))
   );
-  const [shippingInfo, setShippingInfo] = useState<IShippingInfo>({
+  const [shippingInfo, setShippingInfo] = useState<IPropState>({
     name: '',
     email: '',
     address: '',
@@ -49,16 +56,16 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     country: '',
   });
 
-  // const selectedCountry = useMemo(
-  //   () => Countries.find(item => item.key === shippingInfo.country),
-  //   [shippingInfo.country]
-  // );
-  // const selectedState = useMemo(
-  //   () =>
-  //     shippingInfo.country === 'US' &&
-  //     StateOfUS.find(item => item.key === shippingInfo.state),
-  //   [shippingInfo.state]
-  // );
+  const selectedCountry = useMemo(
+    () => Countries.find(item => item.key === shippingInfo.country),
+    [shippingInfo.country]
+  );
+  const selectedState = useMemo(
+    () =>
+      shippingInfo.country === 'US' &&
+      StateOfUS.find(item => item.key === shippingInfo.state),
+    [shippingInfo.state]
+  );
 
   const onChangeQty = (qty: number, cartIndex: number) => {
     cart[cartIndex].qty = qty;
@@ -74,29 +81,68 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     [cart]
   );
 
+  const processOrder = async () => {
+    if (order.order_id) {
+      setIsLoading(true);
+
+      if (typeof window.ethereum !== 'undefined') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+
+        const value = Web3Utils.toHex(
+          Web3Utils.toWei(totalPrice.toString(), 'ether')
+        );
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const txHash = await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: accounts[0],
+              to: order.master_address,
+              value: value,
+            },
+          ],
+        });
+
+        if (txHash) {
+          onHideModal();
+          router.push(`/order/${order.order_id}`);
+        }
+      } else {
+        onHideModal();
+        router.push(`/order/${order.order_id}`);
+      }
+    }
+
+    setIsLoading(false);
+  };
+
   const placeOrder = async () => {
-    // if (typeof window.ethereum !== 'undefined') {
-    //   const accounts = await window.ethereum.request({
-    //     method: 'eth_requestAccounts',
-    //   });
-    //
-    //   const value = Web3Utils.toHex(
-    //     Web3Utils.toWei(totalPrice.toString(), 'ether')
-    //   );
-    //
-    //   const txHash = await window.ethereum.request({
-    //     method: 'eth_sendTransaction',
-    //     params: [
-    //       {
-    //         from: accounts[0],
-    //         to: '0x4a6ac457C5F16F3e75fFb4476aA5421b815DD210',
-    //         value: value,
-    //       },
-    //     ],
-    //   });
-    //
-    //   console.log(txHash);
-    // }
+    if (order.order_id) {
+      return await processOrder();
+    }
+
+    try {
+      setIsLoading(true);
+
+      const { data: newOrder } = await makeOrder({
+        details: cart.filter(item => item.qty > 0),
+        ...shippingInfo,
+      });
+
+      if (!newOrder.order_id) return;
+
+      setOrder(newOrder);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      setIsLoading(false);
+    }
   };
 
   const isEnablePaymentBtn =
@@ -120,6 +166,14 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     }
   }, [isShow]);
 
+  useEffect(() => {
+    setOrder({});
+  }, [cart, shippingInfo]);
+
+  useEffect(() => {
+    processOrder();
+  }, [order]);
+
   return (
     <Modal show={isShow} onHide={onHideModal} className={s.CheckoutModal}>
       <Modal.Header closeButton />
@@ -129,11 +183,16 @@ const CheckoutModal: React.FC = (): JSX.Element => {
           <div className={s.CheckoutModal_optionsContainer}>
             {cart.map((option, i) => (
               <div key={option.id} className={s.CheckoutModal_optionItem}>
-                <div className={s.CheckoutModal_optionItemPrice}>
-                  {`${option.price} ETH`}
-                </div>
+                <img src={option.img} alt="" />
                 <div className={s.CheckoutModal_optionItemContainer}>
-                  <div>{option.name}</div>
+                  <div>
+                    <div className={s.CheckoutModal_optionItemName}>
+                      {option.name}
+                    </div>
+                    <div className={s.CheckoutModal_optionItemPrice}>
+                      {`${option.price} ETH`}
+                    </div>
+                  </div>
                   <InputQuantity
                     defaultValue={option.qty}
                     minimumQuantity={0}
@@ -151,24 +210,23 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             Shipping information
           </div>
           <div>
-            {/*<Dropdown*/}
-            {/*  values={selectedCountry ? [selectedCountry] : []}*/}
-            {/*  options={Countries}*/}
-            {/*  labelField="value"*/}
-            {/*  valueField="key"*/}
-            {/*  searchable={false}*/}
-            {/*  multi={false}*/}
-            {/*  /!* eslint-disable-next-line @typescript-eslint/no-unused-vars *!/*/}
-            {/*  onChange={value => {*/}
-            {/*    // setShippingInfo({*/}
-            {/*    //   ...shippingInfo,*/}
-            {/*    //   country: value[0]?.key || '',*/}
-            {/*    // });*/}
-            {/*  }}*/}
-            {/*  placeholder="Country/Region"*/}
-            {/*  className={s.CheckoutModal_input}*/}
-            {/*  required*/}
-            {/*/>*/}
+            <Dropdown
+              values={selectedCountry ? [selectedCountry] : []}
+              options={Countries}
+              labelField="value"
+              valueField="key"
+              searchable={false}
+              multi={false}
+              onChange={value => {
+                setShippingInfo({
+                  ...shippingInfo,
+                  country: (value[0] as any)?.key || '',
+                });
+              }}
+              placeholder="Country/Region"
+              className={s.CheckoutModal_input}
+              required
+            />
             <Input
               placeholder="Full name"
               className={s.CheckoutModal_input}
@@ -176,7 +234,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               onChange={value =>
                 setShippingInfo({
                   ...shippingInfo,
-                  name: (value as string) || '',
+                  name: value,
                 })
               }
               required
@@ -189,7 +247,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               onChange={value =>
                 setShippingInfo({
                   ...shippingInfo,
-                  email: (value as string) || '',
+                  email: value,
                 })
               }
               required
@@ -201,7 +259,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               onChange={value =>
                 setShippingInfo({
                   ...shippingInfo,
-                  address: (value as string) || '',
+                  address: value,
                 })
               }
               required
@@ -213,7 +271,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               onChange={value =>
                 setShippingInfo({
                   ...shippingInfo,
-                  address2: (value as string) || '',
+                  address2: value,
                 })
               }
             />
@@ -224,46 +282,46 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                 onChange={value =>
                   setShippingInfo({
                     ...shippingInfo,
-                    city: (value as string) || '',
+                    city: value,
                   })
                 }
                 required
               />
-              {/*{shippingInfo.country === 'US' ? (*/}
-              {/*  <Dropdown*/}
-              {/*    values={selectedState ? [selectedState] : []}*/}
-              {/*    options={StateOfUS}*/}
-              {/*    labelField="value"*/}
-              {/*    valueField="key"*/}
-              {/*    placeholder="State"*/}
-              {/*    onChange={value =>*/}
-              {/*      setShippingInfo({*/}
-              {/*        ...shippingInfo,*/}
-              {/*        state: (value[0] as any)?.key,*/}
-              {/*      })*/}
-              {/*    }*/}
-              {/*    required*/}
-              {/*  />*/}
-              {/*) : (*/}
-              {/*  <Input*/}
-              {/*    placeholder="State"*/}
-              {/*    value={shippingInfo.state}*/}
-              {/*    onChange={value =>*/}
-              {/*      setShippingInfo({*/}
-              {/*        ...shippingInfo,*/}
-              {/*        state: (value as string) || '',*/}
-              {/*      })*/}
-              {/*    }*/}
-              {/*    required*/}
-              {/*  />*/}
-              {/*)}*/}
+              {shippingInfo.country === 'US' ? (
+                <Dropdown
+                  values={selectedState ? [selectedState] : []}
+                  options={StateOfUS}
+                  labelField="value"
+                  valueField="key"
+                  placeholder="State"
+                  onChange={value =>
+                    setShippingInfo({
+                      ...shippingInfo,
+                      state: (value[0] as any)?.key,
+                    })
+                  }
+                  required
+                />
+              ) : (
+                <Input
+                  placeholder="State"
+                  value={shippingInfo.state}
+                  onChange={value =>
+                    setShippingInfo({
+                      ...shippingInfo,
+                      state: value,
+                    })
+                  }
+                  required
+                />
+              )}
               <Input
                 placeholder="Zip code"
                 value={shippingInfo.zip}
                 onChange={value =>
                   setShippingInfo({
                     ...shippingInfo,
-                    zip: (value as string) || '',
+                    zip: value,
                   })
                 }
                 required
@@ -275,10 +333,15 @@ const CheckoutModal: React.FC = (): JSX.Element => {
           <div className={s.CheckoutModal_title}>Order summary</div>
           <div className={s.CheckoutModal_summaryLine}>
             <div>Items</div>
-            <div>{`${totalPrice} ETH`}</div>
+            <div className={s.highlight}>{`${totalPrice} ETH`}</div>
           </div>
           <div className={s.CheckoutModal_summaryLine}>
-            <div>Shipping & handling</div>
+            <div>
+              Shipping
+              <div className={s.CheckoutModal_orderShippingDate}>
+                Delivery: 25 working days
+              </div>
+            </div>
             <div className={s.highlight}>FREE</div>
           </div>
           <div className={s.CheckoutModal_summaryLine}>
@@ -291,9 +354,13 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             size="xl"
             className={s.CheckoutModal_submitBtn}
             onClick={placeOrder}
-            disabled={!isEnablePaymentBtn}
+            disabled={!isEnablePaymentBtn || isLoading}
           >
-            Place your order
+            {isLoading ? (
+              <FontAwesomeIcon icon={faSpinner} size="2x" pulse />
+            ) : (
+              'Place your order'
+            )}
           </Button>
         </div>
       </Modal.Body>

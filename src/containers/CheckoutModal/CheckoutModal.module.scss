@@ -1,6 +1,5 @@
 @import "src/styles/_themes/variables";
 @import "src/styles/_themes/mixins";
-
 .CheckoutModal {
   &_title {
     font-weight: 700;
@@ -20,19 +19,30 @@
 
   &_optionItem {
     flex: 1;
-    text-align: center;
 
     &:last-child {
-      margin-left: rem(16);
+      margin-left: rem(76);
+    }
+
+    img {
+      width: 100%;
     }
   }
 
   &_optionItemContainer {
-    padding: rem(16);
-    text-align: center;
-    border: 2px solid $neutral-08;
-    margin-top: rem(8);
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    margin-top: rem(12);
     border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &_optionItemName {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: $neutral-06;
   }
 
   &_optionItemPrice {
@@ -44,9 +54,16 @@
   }
 
   &_optionItemQty {
-    height: 24px;
-    margin: 0 auto;
-    margin-top: rem(16);
+    height: 48px;
+    background-color: $neutral-08;
+
+    input {
+      color: $white !important;
+    }
+
+    :global(.btnEditQty:not([class*='disabled']) svg) {
+      color: $white;
+    }
   }
 
   &_optionItemImg {
@@ -79,25 +96,31 @@
   &_summaryLine {
     display: flex;
     justify-content: space-between;
-    margin-top: rem(4);
-    font-weight: 400;
+    margin-top: rem(16);
+    font-weight: 500;
     font-size: 16px;
     line-height: 24px;
 
     &:last-of-type {
-      margin-top: rem(16);
-      font-weight: 700;
+      margin-top: rem(20);
+      padding-top: rem(20);
+      border-top: 1px solid #e1e2e2;
+      font-weight: 600;
+      font-size: 18px;
     }
 
     .highlight {
-      font-weight: 700;
+      font-weight: 600;
+      color: $black;
     }
   }
 
-  &_totalPrice {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
+  &_orderShippingDate {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: $neutral-06;
+    margin-top: rem(4);
   }
 
   &_submitBtn {
@@ -107,7 +130,7 @@
 
   :global(.modal-body) {
     display: flex;
-    padding: rem(72) rem(32);
+    padding: rem(40) rem(32);
   }
 
   :global(.modal-dialog) {
@@ -117,8 +140,8 @@
   :global(.modal-header) {
     position: absolute;
     border: none;
-    right: rem(16);
-    top: rem(16);
+    right: rem(4);
+    top: rem(4);
     z-index: 1;
   }
 
