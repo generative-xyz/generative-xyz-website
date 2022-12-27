@@ -50,11 +50,17 @@ export interface IGetProjectItemsParams extends IPagingParams {
 }
 
 export interface IProjectItem {
+  owner: IProjectItemOwner;
   name: string;
   description?: string;
   image: string;
   animation_url?: string;
   attributes: RawTokenAttributes;
+}
+
+export interface IProjectItemOwner {
+  name: string;
+  avatar: string;
 }
 
 export interface IGetProjectItemsResponse extends IPagingResponse {
