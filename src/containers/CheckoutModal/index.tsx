@@ -16,6 +16,8 @@ import { checkoutProductId } from '@redux/general/selector';
 import { useAppDispatch } from '@redux/index';
 import { makeOrder } from '@services/api/order';
 
+import { LogLevel } from '@enums/log-level';
+import log from '@utils/logger';
 import { useRouter } from 'next/router';
 import s from './CheckoutModal.module.scss';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,6 +39,8 @@ interface ICart extends IFrame {
   qty: number;
 }
 
+const LOG_PREFIX = 'CheckoutModal';
+
 const CheckoutModal: React.FC = (): JSX.Element => {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -56,8 +60,10 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     qty: 0,
   });
 
-  const itemInCart =
-    FRAME_OPTIONS.find(item => item.id === checkoutProduct) || cart;
+  const itemInCart = useMemo(
+    () => FRAME_OPTIONS.find(item => item.id === checkoutProduct) || cart,
+    [checkoutProduct]
+  );
 
   const [shippingInfo, setShippingInfo] = useState<IPropState>({
     name: '',
@@ -81,24 +87,25 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     [shippingInfo.state]
   );
 
-  // const onChangeQty = () => {
-  //   return;
-  // };
+  const fetchProductList = async (): Promise<void> => {
+    try {
+      // const res = await getProductList();
+      // const { products } = res.data;
+      // setCart({ ...cart, id: productId });
+    } catch (err: unknown) {
+      log('failed to get product list', LogLevel.Error, LOG_PREFIX);
+      throw Error();
+    }
+  };
 
-  // const onChangeQty = (qty: number, cartIndex: number) => {
-  // cart[cartIndex].qty = qty;
-  // setCart([...cart]);
-  // };
+  const onChangeQty = (qty: number) => {
+    setCart({ ...cart, qty });
+  };
 
-  const totalPrice = 0;
-  // const totalPrice = useMemo(
-  //   () =>
-  //     Math.round(
-  //       cart.reduce((prev, current) => prev + current.price * current.qty, 0) *
-  //         10e9
-  //     ) / 10e9,
-  //   [cart]
-  // );
+  const totalPrice = useMemo(
+    () => Math.round(cart.price * cart.qty * 10e9) / 10e9,
+    [cart]
+  );
 
   const processOrder = async () => {
     if (order.order_id) {
@@ -150,7 +157,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
       setIsLoading(true);
 
       const { data: newOrder } = await makeOrder({
-        details: { id: cart?.id || '', qty: cart?.qty || 0 },
+        details: [{ id: cart?.id || '', qty: cart?.qty || 0 }],
         ...shippingInfo,
       });
 
@@ -163,8 +170,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
       setIsLoading(false);
     }
   };
-
-  // const fetchProductList = async ()
 
   const isEnablePaymentBtn =
     totalPrice > 0 &&
@@ -186,6 +191,10 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   //     );
   //   }
   // }, [isShow]);
+
+  useEffect(() => {
+    fetchProductList();
+  }, []);
 
   useEffect(() => {
     setCart({ ...itemInCart, qty: 0 });
@@ -222,7 +231,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                   minimumQuantity={0}
                   size="sm"
                   className={s.CheckoutModal_optionItemQty}
-                  // onChange={(qty: number) => onChangeQty(qty, i)}
+                  onChange={(qty: number) => onChangeQty(qty)}
                 />
               </div>
             </div>
