@@ -49,7 +49,6 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const { projectID } = router.query as { projectID: string };
   const [projectInfo, setProjectInfo] = useState<IGetProjectDetailResponse>();
   const [listItems, setListItems] = useState<IProjectItem[]>([]);
-  const [totalItems, setTotalItems] = useState(0);
 
   const fetchProjectDetail = async (): Promise<void> => {
     if (projectID) {
@@ -70,11 +69,10 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
       try {
         const res = await getProjectItems({
           contractAddress: projectInfo.genNFTAddr,
-          limit: 1000,
+          limit: 100,
           page: 1,
         });
         setListItems(res.result);
-        setTotalItems(res.total);
       } catch (_: unknown) {
         log('failed to fetch project items data', LogLevel.Error, LOG_PREFIX);
       }
@@ -94,6 +92,8 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
       chainID: NETWORK_CHAIN_ID,
     });
   };
+
+  const totalItems = projectInfo?.mintingInfo.index || 0;
 
   const calcMintProgress = useMemo(() => {
     return (totalItems / (projectInfo?.maxSupply || 1)) * 100;
@@ -209,7 +209,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                 <p>Items</p>
               </Stack>
               <Stack className="items-center">
-                <b>{projectInfo?.royalty || 0}%</b>
+                <b>{(projectInfo?.royalty || 0) / 100}%</b>
                 <p>Royalty</p>
               </Stack>
             </Stack>

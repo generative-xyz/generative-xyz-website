@@ -1,5 +1,169 @@
 .button {
-  padding: 16px;
-  font-weight: 700;
   cursor: pointer;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.1em;
+  font-weight: 800;
+  border-radius: 8px;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  .icon * {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Button sizes */
+  &.large {
+    padding: 14px 28px;
+    gap: 12px;
+
+    &:has(.leftIcon) {
+      padding: 14px 28px 14px 18px;
+    }
+
+    &:has(.rightIcon) {
+      padding: 14px 18px 14px 28px;
+    }
+
+    &.iconOnly {
+      padding: 18px;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &.medium {
+    padding: 14px 28px;
+    gap: 10px;
+
+    &:has(.leftIcon) {
+      padding: 14px 28px 14px 18px;
+    }
+
+    &:has(.rightIcon) {
+      padding: 14px 18px 14px 28px;
+    }
+
+    &.iconOnly {
+      padding: 16px;
+    }
+
+    .icon {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  &.small {
+    padding: 7px 16px;
+    gap: 9px;
+
+    &:has(.leftIcon) {
+      padding: 7px 18px 7px 12px;
+    }
+
+    &:has(.rightIcon) {
+      padding: 7px 12px 7px 18px;
+    }
+
+    &.iconOnly {
+      padding: 8px;
+    }
+
+    .icon {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  &.xsmall {
+    padding: 5px 10px;
+    gap: 6px;
+
+    &:has(.leftIcon) {
+      padding: 5px 10px 5px 6px;
+    }
+
+    &:has(.rightIcon) {
+      padding: 5px 6px 5px 10px;
+    }
+
+    &.iconOnly {
+      padding: 6px;
+    }
+
+    .icon {
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  /* Button variants */
+
+  &.default {
+    background-color: $primary-brand;
+    color: $white-100;
+
+    &:hover {
+      background-color: $primary-333;
+    }
+
+    &:disabled {
+      background-color: $black-5;
+      color: $black-10;
+    }
+  }
+
+  &.secondary {
+    background-color: $black-5;
+    color: $black-100;
+
+    &:hover {
+      background-color: $black-10;
+    }
+
+    &:disabled {
+      background-color: $black-5;
+      color: $black-10;
+    }
+  }
+
+  &.outline {
+    background-color: transparent;
+    border: 2px solid $black-100;
+    color: $black-100;
+
+    &:hover {
+      border-color: $black-40;
+    }
+
+    &:disabled {
+      border-color: $black-10;
+      color: $black-20;
+    }
+  }
+
+  &.ghost {
+    background-color: transparent;
+    color: $black-100;
+    text-decoration: underline;
+
+    &:hover {
+      background-color: $black-5;
+    }
+
+    &:disabled {
+      opacity: 0.2;
+    }
+  }
 }

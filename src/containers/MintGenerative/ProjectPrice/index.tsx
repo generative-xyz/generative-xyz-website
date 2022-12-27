@@ -1,22 +1,8 @@
 import FormikController from '@components/Formik/Controller';
 import Link from '@components/Link';
-import {
-  MintGenerativeContext,
-  TMintGenerativeContext,
-} from '@contexts/mint-generative-context';
-import { MintGenerativeStep } from '@enums/mint-generative';
-import { useContext, useEffect } from 'react';
 import styles from './styles.module.scss';
 
 const Step3 = () => {
-  const { setCurrentStep } = useContext(
-    MintGenerativeContext
-  ) as TMintGenerativeContext;
-
-  useEffect(() => {
-    setCurrentStep(MintGenerativeStep.SET_PRICE);
-  });
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.form}>

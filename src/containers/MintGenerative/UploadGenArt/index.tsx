@@ -1,13 +1,10 @@
+import s from './styles.module.scss';
 import Button from '@components/Button';
 import Checkbox from '@components/Checkbox';
 import DropFile from '@components/Input/DropFile';
 import Link from '@components/Link';
-import {
-  MintGenerativeContext,
-  TMintGenerativeContext,
-} from '@contexts/mint-generative-context';
+import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { LogLevel } from '@enums/log-level';
-import { MintGenerativeStep } from '@enums/mint-generative';
 import { ISandboxRef } from '@interfaces/sandbox';
 import { generateHash } from '@utils/generate-data';
 import log from '@utils/logger';
@@ -17,24 +14,18 @@ import cs from 'classnames';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CheckIcon from 'public/assets/icons/check-circle.svg';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import styles from './styles.module.scss';
+import { ReactElement, useContext, useMemo, useRef, useState } from 'react';
 import { EXTERNAL_LINK } from '@constants/external-link';
+import SvgInset from '@components/SvgInset';
+import { CDN_URL } from '@constants/config';
 
-const LOG_PREFIX = 'MintGenerativeStep1';
+const LOG_PREFIX = 'UploadGenArt';
 
-const Step1 = () => {
-  const {
-    filesSandbox,
-    setCurrentStep,
-    setFilesSandbox,
-    zipFile,
-    setZipFile,
-    hash,
-    setHash,
-  } = useContext(MintGenerativeContext) as TMintGenerativeContext;
+const UploadGenArt: React.FC = (): ReactElement => {
+  const { filesSandbox, setFilesSandbox, zipFile, setZipFile, hash, setHash } =
+    useContext(MintGenerativeContext);
   const router = useRouter();
-  const [confirm, setConfirm] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
   const sandboxRef = useRef<ISandboxRef>(null);
 
   const processFile = async (file: File) => {
@@ -69,10 +60,6 @@ const Step1 = () => {
     }
   };
 
-  useEffect(() => {
-    setCurrentStep(MintGenerativeStep.UPLOAD_PROJECT);
-  });
-
   const fileList = useMemo<string[] | null>(
     () => (filesSandbox ? Object.keys(filesSandbox) : null),
     [filesSandbox]
@@ -81,11 +68,11 @@ const Step1 = () => {
   const renderUploadSuccess = () => {
     return (
       <div>
-        <div className={styles.uploadStatus}>
+        <div className={s.uploadStatus}>
           <Image src={CheckIcon} alt={'check icon'} />
           Upload success
         </div>
-        <div className={styles.uploadFiles}>
+        <div className={s.uploadFiles}>
           <div className="">
             {zipFile?.name} ({prettyPrintBytes(zipFile?.size || 0)})
           </div>
@@ -96,22 +83,22 @@ const Step1 = () => {
           </ul>
           <Button onClick={handleReupload}>Update zip file</Button>
         </div>
-        <div className="mb4">
+        <div className="mb-4">
           <div>
             <p>hash: {hash}</p>
           </div>
           <Button onClick={handleGenerateHash}>Generate new hash</Button>
         </div>
-        <div className={styles.checkboxes}>
+        <div className={s.checkboxes}>
           <Checkbox
             id="confirm"
             label="My Generative Token works properly"
-            onClick={() => setConfirm(!confirm)}
+            onClick={() => setIsConfirm(!isConfirm)}
           />
         </div>
         <Button
           className="wFull"
-          disabled={!confirm}
+          disabled={!isConfirm}
           onClick={() => router.push('/mint-generative/product-detail')}
         >
           Next Step
@@ -121,48 +108,59 @@ const Step1 = () => {
   };
 
   return (
-    <div
-      className={cs(styles.wrapper, !!filesSandbox && styles.wrapperUploaded)}
-    >
-      {filesSandbox ? (
-        renderUploadSuccess()
-      ) : (
-        <div className="wrapper">
-          <div className={styles.description}>
-            <p>
-              This is a space in which you can drop a .zip of your project and
-              see how it would behave when it will be minted on Generative. If
-              your artwork does not behave properly in the setup thumbnail image
-              are, it will not work after being minted. If you are new to the
-              platform please read our{' '}
-              <Link href={EXTERNAL_LINK.GUIDE} target="_blank" rel="noopener">
-                Guide to build a Generative Token.
-              </Link>
-            </p>
-            <br />
-            <p>
-              Please make sure that your project follows our{' '}
-              <Link href="#">Code of Conduct</Link>.
-            </p>
+    <>
+      <div className={cs(s.wrapper, !!filesSandbox && s.wrapperUploaded)}>
+        {filesSandbox ? (
+          renderUploadSuccess()
+        ) : (
+          <div className="wrapper">
+            <div className={s.description}>
+              <p>
+                This is a space in which you can drop a .zip of your project and
+                see how it would behave when it will be minted on Generative. If
+                your artwork does not behave properly in the setup thumbnail
+                image are, it will not work after being minted. If you are new
+                to the platform please read our{' '}
+                <Link href={EXTERNAL_LINK.GUIDE} target="_blank" rel="noopener">
+                  Guide to build a Generative Token.
+                </Link>
+              </p>
+              <br />
+              <p>
+                Please make sure that your project follows our{' '}
+                <Link href="#">Code of Conduct</Link>.
+              </p>
+            </div>
+            <div className={s.uploadWrapper}>
+              <DropFile
+                acceptedFileType={{
+                  'application/zip': ['.zip'],
+                  'application/x-zip-compressed': ['.zip'],
+                }}
+                onChange={handleChangeFile}
+                files={zipFile ? [zipFile] : null}
+                className={s.dropFile}
+              />
+              <Button className={s.uploadBtn} onClick={handleProccessFile}>
+                Upload Project
+              </Button>
+            </div>
           </div>
-          <div className={styles.uploadWrapper}>
-            <DropFile
-              acceptedFileType={{
-                'application/zip': ['.zip'],
-                'application/x-zip-compressed': ['.zip'],
-              }}
-              onChange={handleChangeFile}
-              files={zipFile ? [zipFile] : null}
-              className={styles.dropFile}
+        )}
+      </div>
+      <section className={s.uploadGenArt}>
+        <div className={s.wrapper}>
+          <h3 className={s.sectionTitle}>
+            Upload Genart
+            <SvgInset
+              className={s.infoIcon}
+              svgUrl={`${CDN_URL}/icons/ic-info-circle-18x18.svg`}
             />
-            <Button className={styles.uploadBtn} onClick={handleProccessFile}>
-              Upload Project
-            </Button>
-          </div>
+          </h3>
         </div>
-      )}
-    </div>
+      </section>
+    </>
   );
 };
 
-export default Step1;
+export default UploadGenArt;

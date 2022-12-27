@@ -1,37 +1,8 @@
-.container {
-  max-width: 1440px;
-  margin-inline: auto;
-  padding: 0 20px;
-  color: var(--text-primary);
-}
+.mintGenerative {
+  padding-top: 60px;
+  padding-bottom: 112px;
 
-.steps {
-  display: flex;
-  justify-content: space-between;
-  color: var(--text-disabled);
-  font-weight: 700;
-  margin-bottom: 32px;
-
-  > div {
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--text-disabled);
-    flex: 1;
-    text-align: center;
+  .stepHeaderWrapper {
+    margin-bottom: 50px;
   }
-
-  .active {
-    color: var(--text-primary);
-    border-color: var(--text-primary);
-  }
-}
-
-.previewContainer {
-  padding: 16px;
-  border: 1px solid #000;
-  width: fit-content;
-}
-
-.submitBtn {
-  margin-top: 24px;
-  width: 100%;
 }
