@@ -5,9 +5,10 @@ import React from 'react';
 import { useAppDispatch } from '@redux';
 import { setIsOpenCheckoutPopup } from '@redux/general/action';
 import { AnimHeading } from 'src/animations/heading';
-import { AnimRanText } from 'src/animations/ranText';
 import classNames from 'classnames';
 import { FRAME_OPTIONS } from '@constants/frame';
+import Button from '@components/Button';
+import { FrameItem } from '../frame-item';
 
 export const Prices = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ export const Prices = (): JSX.Element => {
         className={cn(s.tableInfo_specContainer, 'container')}
       >
         <div className="row">
-          <div className="col-10 offset-1">
+          <div className="col-12">
             <AnimHeading
               tag={'div'}
               className={cn(
@@ -32,10 +33,10 @@ export const Prices = (): JSX.Element => {
           </div>
         </div>
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Display options
           </Col>
           <Col md={3}>
@@ -54,9 +55,31 @@ export const Prices = (): JSX.Element => {
               Adaptive refresh rates up to 120Hz
             </div>
           </Col>
-          <Col md={{ span: 3, offset: 1 }}>
+          <Col md={3}>
             <div className={classNames(s.screen, s.screen__43, 'image__fit')}>
-              <img src={FRAME_OPTIONS[1].img} alt="eth3da62e0647" />
+              <img
+                src={FRAME_OPTIONS[1].imgLeft || FRAME_OPTIONS[1].img}
+                alt="eth3da62e0647"
+              />
+            </div>
+            <div className={cn(s.Home_specContent, s.highlight)}>
+              43 inches (diagonal) 4K LED display
+            </div>
+            <div className={s.Home_specContent}>Aspect Ratio 16:9</div>
+            <div className={s.Home_specContent}>
+              Brightness (Typ.,cd/m²) 500 unit
+            </div>
+            <div className={s.Home_specContent}>Contrast Ratio 1,000,000:1</div>
+            <div className={s.Home_specContent}>
+              Adaptive refresh rates up to 120Hz
+            </div>
+          </Col>
+          <Col md={3}>
+            <div className={classNames(s.screen, s.screen__43, 'image__fit')}>
+              <img
+                src={FRAME_OPTIONS[1].imgLeft || FRAME_OPTIONS[1].img}
+                alt="eth3da62e0647"
+              />
             </div>
             <div className={cn(s.Home_specContent, s.highlight)}>
               43 inches (diagonal) 4K LED display
@@ -72,28 +95,151 @@ export const Prices = (): JSX.Element => {
           </Col>
         </Row>
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Price
           </Col>
           <Col md={3}>
             <div className={cn(s.Home_specContent, s.price)}>
               <span>{FRAME_OPTIONS[0].price} ETH</span>
             </div>
+            <Button className={s.buy_now} onClick={openCheckoutPopup}>
+              Buy
+            </Button>
           </Col>
-          <Col md={{ span: 3, offset: 1 }}>
+          <Col md={3}>
             <div className={cn(s.Home_specContent, s.price)}>
               <span>{FRAME_OPTIONS[1].price} ETH</span>
             </div>
+            <Button className={s.buy_now} onClick={openCheckoutPopup}>
+              Buy
+            </Button>
+          </Col>
+          <Col md={3}>
+            <div className={cn(s.Home_specContent, s.price)}>
+              <span>{FRAME_OPTIONS[1].price} ETH</span>
+            </div>
+            <Button className={s.buy_now} onClick={openCheckoutPopup}>
+              Buy
+            </Button>
           </Col>
         </Row>
+
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
+            Dimensions
+          </Col>
+          <Col md={3}>
+            <img
+              src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/43_inch_dimension4xba72e8945e.png"
+              alt=""
+              className={s.Home_specDimension}
+            />
+            <div
+              className={classNames(
+                s.Home_specContent,
+                s.Home_specContent_specDimension
+              )}
+            >
+              Weight: 70 lbs
+            </div>
+          </Col>
+          <Col md={3}>
+            <img
+              src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/43_inch_dimension4xba72e8945e.png"
+              alt=""
+              className={s.Home_specDimension}
+            />
+            <div
+              className={classNames(
+                s.Home_specContent,
+                s.Home_specContent_specDimension
+              )}
+            >
+              Weight: 50 lbs
+            </div>
+          </Col>
+          <Col md={3}>
+            <img
+              src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/43_inch_dimension4xba72e8945e.png"
+              alt=""
+              className={s.Home_specDimension}
+            />
+            <div
+              className={classNames(
+                s.Home_specContent,
+                s.Home_specContent_specDimension
+              )}
+            >
+              Weight: 50 lbs
+            </div>
+          </Col>
+        </Row>
+
+        <Row className={s.Home_rowSpec}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
+            <span className={s.Home_rowSpec_border} />
+          </div>
+          <Col md={2} className={s.Home_specTitle}>
+            In the box
+          </Col>
+          <Col md={3}>
+            <div className={s.Home_specContent}>Grail 55”</div>
+            <div className={s.Home_specContent}>
+              16 ft cable - Adapted to USA, EU, UK sockets
+            </div>
+          </Col>
+          <Col md={3}>
+            <div className={s.Home_specContent}>Grail 43”</div>
+            <div className={s.Home_specContent}>
+              16 ft cable - Adapted to USA, EU, UK sockets
+            </div>
+          </Col>
+          <Col md={3}>
+            <div className={s.Home_specContent}>Grail 43”</div>
+            <div className={s.Home_specContent}>
+              16 ft cable - Adapted to USA, EU, UK sockets
+            </div>
+          </Col>
+        </Row>
+
+        <Row className={s.Home_rowSpec}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
+            <span className={s.Home_rowSpec_border} />
+          </div>
+          <Col md={2} className={s.Home_specTitle}>
+            Shipping dimensions
+          </Col>
+          <Col md={3}>
+            <div
+              className={s.Home_specContent}
+            >{`58.8" L x 38.1" W x 5.7" H`}</div>
+            <div className={s.Home_specContent}>Weight: 85 lbs</div>
+          </Col>
+          <Col md={3}>
+            <div
+              className={s.Home_specContent}
+            >{`48.6" L x 32.3" W x 5.7" H`}</div>
+            <div className={s.Home_specContent}>Weight: 65 lbs</div>
+          </Col>
+          <Col md={3}>
+            <div
+              className={s.Home_specContent}
+            >{`48.6" L x 32.3" W x 5.7" H`}</div>
+            <div className={s.Home_specContent}>Weight: 65 lbs</div>
+          </Col>
+        </Row>
+
+        <Row className={s.Home_rowSpec}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
+            <span className={s.Home_rowSpec_border} />
+          </div>
+          <Col md={2} className={s.Home_specTitle}>
             Processor
           </Col>
           <Col md={8}>
@@ -108,10 +254,10 @@ export const Prices = (): JSX.Element => {
         </Row>
 
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Graphic card
           </Col>
           <Col md={8}>
@@ -122,10 +268,10 @@ export const Prices = (): JSX.Element => {
         </Row>
 
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Memory
           </Col>
           <Col md={8}>
@@ -133,10 +279,10 @@ export const Prices = (): JSX.Element => {
           </Col>
         </Row>
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Storage
           </Col>
           <Col md={8}>
@@ -144,10 +290,10 @@ export const Prices = (): JSX.Element => {
           </Col>
         </Row>
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Connectivity
           </Col>
           <Col md={8}>
@@ -161,33 +307,12 @@ export const Prices = (): JSX.Element => {
             </div>
           </Col>
         </Row>
+
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
-            Dimensions
-          </Col>
-          <Col md={3}>
-            <img
-              src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221110/55_inch_dimension4x_1e7badb7761.png"
-              alt=""
-              className={s.Home_specDimension}
-            />
-          </Col>
-          <Col md={{ span: 3, offset: 1 }}>
-            <img
-              src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221110/43_inch_dimension4x_12309d86199.png"
-              alt=""
-              className={s.Home_specDimension}
-            />
-          </Col>
-        </Row>
-        <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
-            <span className={s.Home_rowSpec_border} />
-          </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Frame material
           </Col>
           <Col md={8}>
@@ -195,10 +320,10 @@ export const Prices = (): JSX.Element => {
           </Col>
         </Row>
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Electrical and Operating Requirements
           </Col>
           <Col md={8}>
@@ -213,39 +338,12 @@ export const Prices = (): JSX.Element => {
             </div>
           </Col>
         </Row>
+
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
-            In the box
-          </Col>
-          <Col md={8}>
-            <div className={s.Home_specContent}>Grail 43”</div>
-            <div className={s.Home_specContent}>
-              16 ft cable - Adapted to USA, EU, UK sockets
-            </div>
-          </Col>
-        </Row>
-        <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
-            <span className={s.Home_rowSpec_border} />
-          </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
-            Shipping dimensions
-          </Col>
-          <Col md={8}>
-            <div
-              className={s.Home_specContent}
-            >{`48.6" L x 32.3" W x 5.7" H`}</div>
-            <div className={s.Home_specContent}>Weight: 65 lbs</div>
-          </Col>
-        </Row>
-        <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
-            <span className={s.Home_rowSpec_border} />
-          </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Policy
           </Col>
           <Col md={8}>
@@ -253,60 +351,26 @@ export const Prices = (): JSX.Element => {
           </Col>
         </Row>
         <Row className={s.Home_rowSpec}>
-          <div className={cn('col-10 offset-1', s.Home_rowSpec_colBor)}>
+          <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={{ span: 2, offset: 1 }} className={s.Home_specTitle}>
+          <Col md={2} className={s.Home_specTitle}>
             Warranty
           </Col>
           <Col md={8}>
             <div className={s.Home_specContent}>1 year</div>
           </Col>
         </Row>
-        <div className="row">
-          <div className={cn(s.tableInfo_buy, 'col-5 offset-1')}>
-            <div
-              className={`${s.tableInfo_buy_item}`}
-              onClick={openCheckoutPopup}
-            >
-              <div className={'image__fit'}>
-                <img src={FRAME_OPTIONS[0].img} alt="8-ethf4d1101ffd" />
+        <div
+          className={classNames(s.home_rowFrame, 'row justify-content-center')}
+        >
+          {FRAME_OPTIONS.map((frame: IFrame) => {
+            return (
+              <div key={frame.id} className="col-4">
+                <FrameItem data={frame} openCheckoutPopup={openCheckoutPopup} />
               </div>
-
-              <p className="desc__medium">{FRAME_OPTIONS[0].name}</p>
-              <AnimRanText
-                tag={'p'}
-                className={cn(
-                  s.tableInfo_buy_item_price,
-                  'desc__large text__black mb-0'
-                )}
-                offset={0.2}
-              >
-                {FRAME_OPTIONS[0].price} ETH
-              </AnimRanText>
-            </div>
-          </div>
-          <div className={cn(s.tableInfo_buy, 'col-5')}>
-            <div
-              className={`${s.tableInfo_buy_item}`}
-              onClick={openCheckoutPopup}
-            >
-              <div className="image__fit">
-                <img src={FRAME_OPTIONS[1].img} alt="4-eth3da62e0647" />
-              </div>
-              <p className="desc__medium">{FRAME_OPTIONS[1].name}</p>
-              <AnimRanText
-                tag={'p'}
-                className={cn(
-                  s.tableInfo_buy_item_price,
-                  'desc__large text__black mb-0'
-                )}
-                offset={0.2}
-              >
-                {FRAME_OPTIONS[1].price} ETH
-              </AnimRanText>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -2,18 +2,10 @@
 @import "src/styles/_themes/mixins.scss";
 
 .Header {
-  position: fixed;
-  top: 0;
+  position: relative;
   z-index: 10;
   width: 100%;
-  padding: rem(10px) 0;
-  will-change: transform;
-  background-color: transparent;
-  transition: background-color 0.4s $easeOutCubic;
 
-  &.is-scrolling {
-    background-color: $neutral-08;
-  }
 
   &_logo {
     svg {
@@ -25,109 +17,13 @@
       fill: $white;
     }
   }
-
   &_container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-  }
-
-  &_hamburger {
-    display: block;
-    margin-left: auto;
-    background: url("https://cdn.autonomous.ai/static/upload/images/common/upload/20221018/menu8719adb1a9.svg") no-repeat;
-    width: 24px;
-    height: 24px;
-
-    @include w-min(1024px) {
-      display: none;
-    }
-  }
-
-  &_overlay {
-    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-    @include w-min(1024px) {
-      display: none;
-      content: none;
-    }
-
-    &.show {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba($color: $black, $alpha: 70%);
-      z-index: 0;
-    }
-  }
-
-  &_menuContainer {
-    display: flex;
-    align-items: center;
-  }
-
-  &_menuItem {
-    position: relative;
-    font-family: $font-paragraph;
-    font-style: normal;
-    font-weight: 400;
-    font-size: rem(14px);
-    line-height: rem(24px);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #fff;
-
-    @include w-min(1024px) {
-      margin: 0 rem(24);
-
-      &:last-of-type {
-        margin-right: 0;
-      }
-    }
-
-    &,
-    &:hover {
-      color: $white;
-      text-decoration: none;
-    }
-
-    &::after {
-      content: "";
-      display: block;
-      width: 100%;
-      border-bottom: 1px solid transparent;
-      position: absolute;
-      bottom: 0;
-      transform: translateY(5px);
-      transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-
-    &:hover::after {
-      border-color: $white;
-      transform: translateY(0);
-    }
-  }
-
-  &_connectBtn {
-    margin-top: rem(8);
-
-    @include w-min(1024px) {
-      margin-top: 0;
-      margin-left: rem(48);
-    }
-  }
-
-  &_closeBtn {
-    background: none;
+    justify-content: center;
     position: absolute;
-    top: rem(8);
-    right: rem(16);
-
-    @include w-min(1024px) {
-      display: none;
-    }
+    width: 100%;
+    padding: rem(10px) 0;
   }
+
 }

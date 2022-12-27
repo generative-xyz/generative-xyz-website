@@ -43,7 +43,6 @@ export const LifeStyle = () => {
       <SectionInfo
         color={'dark'}
         subTitle={'lifestyle'}
-        variant={'left-right'}
         title={'Ever-changing Art on the Wall.'}
       >
         Delight in the splendid visuals of changing artwork in a state of
@@ -73,7 +72,10 @@ export const LifeStyle = () => {
                 )}
               >
                 <div className="row">
-                  <div ref={refContent} className="col-10 offset-1">
+                  <div
+                    ref={refContent}
+                    className={`${s.lifeStyle_endContent_desc} col-10 offset-1`}
+                  >
                     <span className="desc__label text__white">
                       connect app control
                     </span>

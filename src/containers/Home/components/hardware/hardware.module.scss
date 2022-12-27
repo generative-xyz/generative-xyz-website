@@ -68,11 +68,20 @@
           &::before {
             background-image: linear-gradient($neutral-08, rgba($neutral-08, 0));
           }
+
+          :global(.heading__medium), :global(.desc__small) {
+            color: $white;
+          }
+
+          :global(.desc__medium),
+          :global(.text__black) {
+            color: rgba(255, 255, 255, 0.8) !important;
+          }
+
+          path{
+            stroke: white;
+          }
         }
-      }
-      &:global(.desc__medium),
-      &:global(.text__black) {
-        color: rgba(255, 255, 255, 0.8) !important;
       }
     }
   }

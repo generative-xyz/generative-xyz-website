@@ -1,4 +1,5 @@
 import s from './monitor.module.scss';
+import SvgInset from '@components/SvgInset';
 
 export const Monitor = ({ data }: { data: IHardwareItem }): JSX.Element => {
   return (
@@ -20,7 +21,7 @@ export const Monitor = ({ data }: { data: IHardwareItem }): JSX.Element => {
                 return (
                   <li key={`option_${key}`} className={s.monitor_detail_item}>
                     <span className={s.monitor_detail_item_icon}>
-                      <img src={option.icon} alt="monitro6a1a6c3212" />
+                      <SvgInset svgUrl={option.icon} />
                     </span>
                     <div className={s.monitor_detail_item_content}>
                       <span

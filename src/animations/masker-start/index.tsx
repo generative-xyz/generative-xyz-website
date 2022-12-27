@@ -21,7 +21,7 @@ export const MaskerStart = ({ className = '', children }: IProp) => {
       refDom.current.scrollMask = new ScrollMaskStart(comp.current, () => {
         refDom.current.scrollMask?.tl?.fromTo(
           comp.current,
-          { clipPath: `inset(0% 6%)` },
+          { clipPath: `inset(0% 11%)` },
           { clipPath: `inset(0% 0%)` },
           0
         );

@@ -5,16 +5,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  font-weight: 800;
+  font-weight: 400;
   font-size: 12px;
   line-height: 24px;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.17em;
+  letter-spacing: 0.1em;
+
   padding: {
-    left: rem(16);
-    right: rem(16);
+    left: rem(48);
+    right: rem(48);
   }
 
   &__xl {
@@ -26,7 +26,7 @@
   }
 
   &__md {
-    min-height: 44px;
+    min-height: 40px;
   }
 
   &__sm {
@@ -38,12 +38,13 @@
   }
 
   &__black {
-    background-color: $neutral-07;
+    background-color: $neutral-08;
     color: $white;
+    font-family: $font-paragraph;
+    transition: background-color .4s $easeOutCubic;
 
     &:hover {
-      background-color: $neutral-06;
-      box-shadow: 0 12px 64px rgb(0 0 0 / 8%);
+      background-color: $neutral-07;
     }
 
     &:disabled {

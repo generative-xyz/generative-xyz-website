@@ -1,18 +1,3 @@
-export const FRAME_OPTIONS = [
-  {
-    id: '55-inch-oled',
-    name: '55” OLED Display',
-    price: 10,
-    img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/8-ethf4d1101ffd.jpg',
-  },
-  {
-    id: '43-inch-4k',
-    name: '43” 4K Display',
-    price: 5,
-    img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/4-eth3da62e0647.jpg',
-  },
-];
-
 declare global {
   interface IHardwareInfo {
     subtitle: string;
@@ -26,7 +11,42 @@ declare global {
     desc: string;
     options: IHardwareInfo[];
   }
+
+  interface IFrame {
+    id: string;
+    name: string;
+    price: number;
+    img: string;
+    imgLeft: string;
+  }
 }
+
+export const FRAME_OPTIONS: IFrame[] = [
+  {
+    id: '55-inch-oled',
+    name: '55” OLED Display',
+    price: 10,
+    img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/10eth4207801360.png',
+    imgLeft:
+      'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth-left7e61c94588.png',
+  },
+  {
+    id: '43-inch-4k',
+    name: '43” 4K Display',
+    price: 5,
+    img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth7c67a6327c.png',
+    imgLeft:
+      'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth-left7e61c94588.png',
+  },
+  {
+    id: '43-inch-4k-2',
+    name: '43” 4K Display',
+    price: 5,
+    img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth7c67a6327c.png',
+    imgLeft:
+      'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth-left7e61c94588.png',
+  },
+];
 
 export const HARDWARE_CONTENTS: IHardwareItem[] = [
   {

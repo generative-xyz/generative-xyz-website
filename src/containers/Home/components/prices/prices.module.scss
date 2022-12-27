@@ -4,46 +4,6 @@
 .tableInfo {
   padding-top: var(--spacing-supper);
   padding-bottom: var(--spacing-supper);
-
-  &_buy {
-    display: flex;
-    margin-top: var(--spacing-supper);
-
-    &_item {
-      background: $neutral-03;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: rem(100px);
-      cursor: pointer;
-      flex: 1;
-
-      :global(.desc__medium) {
-        margin-bottom: 4px;
-      }
-
-      p {
-        text-align: center;
-      }
-
-      * {
-        flex: 0 0 100%;
-      }
-
-      &_price {
-        height: rem(35px);
-      }
-    }
-
-    img {
-      aspect-ratio: 533/347;
-    }
-
-    :global(.image__fit) {
-      width: rem(533px);
-      margin-bottom: rem(20px);
-    }
-  }
 }
 
 .Home {
@@ -110,6 +70,10 @@
         margin-right: var(--spacing-sx);
       }
     }
+
+    &_specDimension {
+      margin-top: rem(24px);
+    }
   }
 
   &_specDimension {
@@ -120,4 +84,12 @@
 .screen {
   width: rem(297px);
   margin-bottom: rem(24px);
+}
+
+.price {
+  margin-bottom: rem(8px);
+}
+
+.home_rowFrame {
+  margin-top: var(--spacing-supper);
 }
