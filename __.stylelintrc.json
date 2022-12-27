@@ -1,18 +1,14 @@
 {
   "extends": "stylelint-config-standard",
   "formatter": "stylelint-checkstyle-formatter",
-  "plugins": [
-    "stylelint-scss"
-  ],
+  "plugins": ["stylelint-scss"],
   "rules": {
     "import-notation": "string",
     "at-rule-no-unknown": null,
     "selector-pseudo-class-no-unknown": [
       true,
       {
-        "ignorePseudoClasses": [
-          "global"
-        ]
+        "ignorePseudoClasses": ["global"]
       }
     ],
     "selector-class-pattern": [
