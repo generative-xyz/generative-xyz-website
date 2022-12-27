@@ -1,0 +1,165 @@
+@import "src/styles/_themes/variables.scss";
+@import "src/styles/_themes/mixins.scss";
+
+.Footer {
+  background-color: $neutral-08;
+  color: $white;
+
+  padding: {
+    top: rem(24);
+    bottom: rem(24);
+  }
+
+  &_logo {
+    display: block;
+    margin: 0 auto;
+
+    svg {
+      height: rem(60px);
+      width: rem(60px);
+
+      path {
+        fill: white;
+      }
+    }
+
+    @include w-min(768px) {
+      margin: initial;
+    }
+  }
+
+  &_item {
+    text-align: center;
+
+    @include w-min(768px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: initial;
+    }
+
+    &:not(:first-child) {
+      border-top: 1px solid rgb(255 255 255 / 20%);
+      margin-top: rem(16);
+      padding-top: rem(16);
+
+      @include w-min(1024px) {
+        margin-top: rem(24);
+        padding-top: rem(24);
+      }
+    }
+  }
+
+  &_topMenuContainer {
+    margin-left: auto;
+  }
+
+  &_topMenuItem {
+    display: block;
+    font-weight: 800;
+    font-size: 12px;
+    line-height: 24px;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: rem(16);
+
+    @include w-min(768px) {
+      display: inline-block;
+      margin-top: 0;
+
+      &:not(:first-child) {
+        margin-left: rem(64);
+      }
+    }
+
+    &,
+    &:hover {
+      text-decoration: none;
+      color: $white;
+    }
+  }
+
+  &_bottomMenuItem {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+
+    &,
+    &:hover {
+      text-decoration: none;
+      color: $white;
+    }
+
+    &:not(:first-child)::before {
+      content: "•";
+      display: inline-block;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: $white;
+      margin: 0 rem(8);
+    }
+  }
+
+  &_bottomSocialItem {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgb(255 255 255 / 12%);
+    border-radius: 100%;
+    transition: background-color 0.4s $easeOutCubic;
+
+    path {
+      transition: fill 0.4s $easeOutCubic;
+    }
+
+    &:not(:last-of-type) {
+      margin-right: rem(24);
+    }
+
+    &:hover {
+      background: rgb(255 255 255 / 100%);
+
+      path {
+        fill: $neutral-08;
+      }
+    }
+  }
+
+  &_bottomMenuDivider {
+    background-color: $white;
+    width: 80px;
+    height: 1px;
+    margin: rem(16) auto;
+
+    @include w-min(768px) {
+      width: 1px;
+      height: 18px;
+      margin: 0 rem(24);
+    }
+  }
+
+  &_copyright {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: $white;
+    margin-top: rem(16);
+
+    @include w-min(768px) {
+      width: 100%;
+    }
+
+    @include w-min(1024px) {
+      margin-top: 0;
+      margin-left: auto;
+      width: auto;
+    }
+  }
+}

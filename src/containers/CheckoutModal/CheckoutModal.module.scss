@@ -1,0 +1,129 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.CheckoutModal {
+  &_title {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    color: $neutral-08;
+    margin-bottom: rem(16);
+  }
+
+  &_shippingTitle {
+    margin-top: rem(40);
+  }
+
+  &_optionsContainer {
+    display: flex;
+  }
+
+  &_optionItem {
+    flex: 1;
+    text-align: center;
+
+    &:last-child {
+      margin-left: rem(16);
+    }
+  }
+
+  &_optionItemContainer {
+    padding: rem(16);
+    text-align: center;
+    border: 2px solid $neutral-08;
+    margin-top: rem(8);
+    border-radius: 4px;
+  }
+
+  &_optionItemPrice {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    color: $neutral-08;
+    margin-left: auto;
+  }
+
+  &_optionItemQty {
+    height: 24px;
+    margin: 0 auto;
+    margin-top: rem(16);
+  }
+
+  &_optionItemImg {
+    width: 128px;
+  }
+
+  &_input {
+    width: 100%;
+
+    &:not(:first-of-type) {
+      margin-top: rem(12);
+    }
+  }
+
+  &_regionGroup {
+    display: grid;
+    grid-template-columns: 0.3fr 0.4fr 0.3fr;
+    gap: rem(12);
+    margin-top: rem(12);
+  }
+
+  &_orderSummary {
+    min-width: 40%;
+    margin-left: rem(40);
+    padding: rem(16);
+    background-color: $neutral-02;
+    align-self: baseline;
+  }
+
+  &_summaryLine {
+    display: flex;
+    justify-content: space-between;
+    margin-top: rem(4);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+
+    &:last-of-type {
+      margin-top: rem(16);
+      font-weight: 700;
+    }
+
+    .highlight {
+      font-weight: 700;
+    }
+  }
+
+  &_totalPrice {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  &_submitBtn {
+    width: 100%;
+    margin-top: rem(20);
+  }
+
+  :global(.modal-body) {
+    display: flex;
+    padding: rem(72) rem(32);
+  }
+
+  :global(.modal-dialog) {
+    min-width: 60vw;
+  }
+
+  :global(.modal-header) {
+    position: absolute;
+    border: none;
+    right: rem(16);
+    top: rem(16);
+    z-index: 1;
+  }
+
+  :global(.modal-content) {
+    border-radius: 12px;
+    border: none;
+  }
+}

@@ -1,0 +1,102 @@
+// BASE COLOR
+$white: #ffffff;
+$black: #000000;
+$neutral-08: #010101;
+$neutral-07: #202025;
+$neutral-06: #555555;
+$neutral-05: #686a6c;
+$neutral-04: #a6aead;
+$neutral-03: #e1e2e2;
+$neutral-02: #f1f4f4;
+$neutral-01: #f7fbfa;
+$accent-1: #bce6ec;
+$accent-1-shade-1: #6dd3c2;
+$accent-1-shade-2: #1966f7;
+$accent-2: #b9a9fb;
+$accent-3: #ffa6d6;
+$accent-4: #dbff73;
+$green-50-main: #1eb259;
+$gray-9c: #9c9c9c;
+$red-50-main: #e04141;
+
+$section-margin-bottom: 64px;
+$section-margin-bottom-mobile: 32px;
+
+// SCREEN SIZES
+$screen-xs: 480px;
+$screen-sm: 576px;
+$screen-md: 768px;
+$screen-lg: 992px;
+$screen-ml: 1024px;
+$screen-xl: 1200px;
+$screen-xxl: 1440px;
+$screen-xxxl: 1600px;
+
+// TYPE SIZES
+$font_size: 16px;
+$font_size_rem: 10px;
+
+// COLOR PALETTE
+$primary-10: #e7f0ff;
+$primary-20: #d0e1fe;
+$primary-80: #2a78fb;
+$primary: #1174dc;
+$primary-100: #1c84f1;
+$primary-120: #0f61eb;
+$primary-140: #8cbbed;
+$primary-dark: $primary-120;
+$blue-dark: $primary-120;
+
+$positive: #1ab759;
+$positive-dark: #00aa00;
+$positive-light: #40dd7f;
+
+$warning-default: #ff9900;
+$warning-dark: #ff8800;
+$warning-light: #ffbb33;
+
+$negative: #ff3333;
+$negative-dark: #ea2f2f;
+$negative-light: #ff5858;
+$negative-light-2: #fff2f4;
+$error-text: #fa3434;
+
+$success: $positive;
+$warning: $warning-default;
+$danger: $negative;
+$active: $primary;
+
+$text: $black;
+$text_disabled: #a7a7a7;
+$text_secondary: #4a4a4a;
+$border: #8a8a8a;
+$border_disabled: #d3d3d3;
+$border_line: #e7e7e7;
+$background: #f8f8f8;
+$background_disabled: #f2f2f2;
+
+$bg_web: $white;
+$bg_desc: #c9d1d3;
+
+// THEME VARIABLE
+$theme_info: var(--info);
+$theme_text: var(--text);
+$theme_body_text: var(--body-text);
+$theme_border: var(--border);
+$theme_bg_web: var(--bg-web);
+$theme_bg_f2: var(--bg-f2);
+$theme_bg_f8: var(--bg-f8);
+$theme_bg_light_blue: var(--bg-light-blue);
+$theme_bg_gray_blue: var(--bg-gray-blue);
+$theme_bg_desc: var(--bg-desc);
+
+$margin-bottom-32: 32px;
+
+$easeOutCubic: cubic-bezier(0.33, 1, 0.68, 1);
+$easeInOutCirc: cubic-bezier(0.45, 0, 0.55, 1);
+
+$font-heading: 'Vanitas';
+$font-paragraph: 'Helvetica';
+
+
+

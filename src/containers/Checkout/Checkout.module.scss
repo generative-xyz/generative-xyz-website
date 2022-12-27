@@ -1,0 +1,145 @@
+@import "src/styles/_themes/variables.scss";
+@import "src/styles/_themes/mixins.scss";
+
+.Checkout {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  column-gap: rem(64);
+  max-width: 944px;
+  padding: rem(50) 0 rem(100);
+
+  &_title {
+    margin-bottom: rem(16);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    color: $black;
+  }
+
+  &_input {
+    display: block;
+    margin-top: rem(12);
+  }
+
+  &_postalWrapper {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: rem(12);
+  }
+
+  &_itemPrice,
+  &_shippingPrice,
+  &_taxPrice,
+  &_totalPrice {
+    display: flex;
+    justify-content: space-between;
+    margin-top: rem(4);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: $neutral-07;
+  }
+
+  &_totalPrice {
+    margin-top: rem(16);
+    font-weight: 700;
+
+    .price {
+      text-align: right;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 28px;
+    }
+
+    .estPrice {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: $gray-9c;
+    }
+  }
+
+  &_submitBtn {
+    width: 100%;
+    margin-top: rem(16);
+  }
+
+  &_orderDetailContainer {
+    margin-top: rem(40);
+    padding-top: rem(40);
+    border-top: 1px solid $neutral-03;
+  }
+
+  &_orderDetailWrapper {
+    display: flex;
+    align-items: flex-start;
+
+    > * {
+      flex: 1;
+    }
+  }
+
+  &_productImg {
+    max-width: 100px;
+    height: auto;
+    border-radius: 12px;
+    margin-right: rem(20);
+  }
+
+  &_productName {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: $neutral-07;
+  }
+
+  &_productOption {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: $neutral-05;
+    margin-top: rem(4);
+  }
+
+  &_qtyWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: rem(12);
+
+    .qtyInput {
+      height: 24px;
+      width: 100px;
+    }
+
+    .qtyInput input {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
+  &_shippingInfo {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: rem(12);
+
+    &::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 100%;
+      background-color: $green-50-main;
+      margin-right: rem(4);
+    }
+  }
+}

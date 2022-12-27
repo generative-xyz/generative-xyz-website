@@ -39,7 +39,11 @@
       "@utils": ["src/utils"],
       "@utils/*": ["src/utils/*"],
       "@styles": ["src/styles"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@themes/*": ["src/styles/_themes/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@animations/*": ["src/animations/*"],
+      "@layouts/*": ["src/layouts/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],

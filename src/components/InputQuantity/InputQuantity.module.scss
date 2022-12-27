@@ -1,0 +1,152 @@
+@import 'src/styles/_themes/variables';
+@import 'src/styles/_themes/mixins';
+
+.wrapperQty {
+  display: flex;
+  border: 1px solid #c0c0c0;
+  border-radius: 6px;
+  align-items: center;
+  padding: 0;
+  height: rem(50);
+  width: rem(132);
+  justify-content: space-between;
+
+  @include max-md {
+    height: auto;
+    width: auto;
+    padding: 0;
+  }
+
+  // @include is-mobile {
+  //   border-radius: 0;
+  // }
+
+  .labelName {
+    display: block;
+    margin-bottom: 0;
+
+    @include max-lg() {
+      display: none;
+      font-size: rem(12);
+      line-height: rem(20);
+    }
+  }
+
+  .btnEditQty {
+    display: block;
+    background: none !important;
+    color: $neutral-07 !important;
+    border: 0 none;
+    font-size: rem(10);
+    line-height: rem(10);
+    height: 100%;
+    cursor: pointer;
+    width: rem(74);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: 0;
+    box-shadow: 0 0 0 transparent;
+
+    &:active,
+    &:hover,
+    &:focus {
+      outline: 0;
+      background: rgba($color: #000000, $alpha: 0.05) !important;
+    }
+
+    &.disabled {
+      pointer-events: none;
+      user-select: none;
+      color: $neutral-03 !important;
+    }
+
+    @include max-md {
+      width: rem(24);
+      height: rem(24);
+
+      &:active,
+      &:hover,
+      &:focus {
+        background: none !important;
+      }
+    }
+  }
+
+  .icon {
+    font-size: rem(14);
+  }
+
+  .qtyInput {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    color: $neutral-07;
+    background: transparent !important;
+    border: 0;
+    -moz-appearance: textfield;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    -webkit-appearance: none;
+    @include max-md() {
+      text-align: center;
+      font-weight: 500;
+      font-size: rem(16);
+      line-height: 1.5;
+      border-radius: 0 !important;
+      width: fit-content;
+      max-width: rem(46);
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.65;
+    }
+  }
+
+  &__sm {
+    height: rem(33);
+    width: rem(102);
+    overflow: hidden;
+
+    .qtyInput {
+      font-size: rem(16);
+    }
+
+    .btnEditQty {
+      font-size: rem(16);
+    }
+    @include max-lg() {
+      .btnEditQty {
+        padding: 10px 11px;
+      }
+
+      .qtyInput {
+        height: rem(30);
+      }
+    }
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}

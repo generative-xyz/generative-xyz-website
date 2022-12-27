@@ -1,9 +1,9 @@
-import DefaultLayout from '@components/Layout/DefaultLayout';
+import { NextPage } from 'next';
 
-export default function Home() {
-  return (
-    <DefaultLayout>
-      <h1>Generative XYZ Website</h1>
-    </DefaultLayout>
-  );
-}
+import HomeTemplate from '@containers/Home';
+
+const HomePage: NextPage = () => {
+  return <HomeTemplate />;
+};
+
+export default HomePage;

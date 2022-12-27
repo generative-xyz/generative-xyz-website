@@ -1,0 +1,76 @@
+@import "src/styles/_themes/variables.scss";
+@import "src/styles/_themes/mixins.scss";
+
+.Input {
+  display: inline-block;
+  position: relative;
+
+  &_clearableBtn {
+    position: absolute;
+    right: rem(15);
+    font-weight: 800;
+    font-size: 12px;
+    line-height: 24px;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: $neutral-04;
+    background: none;
+    height: 100%;
+  }
+
+  input {
+    padding: rem(14);
+    height: 56px;
+    border: 1px solid $neutral-03;
+    border-radius: 6px;
+    width: 100%;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  input.clearable {
+    padding-right: rem(70);
+  }
+
+  label {
+    position: absolute;
+    top: rem(15);
+    left: rem(15);
+    color: $neutral-04;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    .required {
+      color: $red-50-main;
+    }
+  }
+
+  input,
+  label {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  input:focus {
+    border: 2px solid $neutral-07;
+    box-shadow: 0 8px 8px rgb(0 0 0 / 6%);
+  }
+
+  input:focus,
+  input.hasValue {
+    padding: {
+      top: rem(20);
+      bottom: rem(8);
+    }
+  }
+
+  input:focus ~ label,
+  input.hasValue ~ label {
+    font-size: 12px;
+    line-height: 16px;
+    top: rem(5);
+  }
+
+  input:disabled {
+    background-color: $neutral-02;
+  }
+}

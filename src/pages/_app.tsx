@@ -14,6 +14,7 @@ import NextNprogress from 'nextjs-progressbar';
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import AuthWrapper from '@components/Utils/AuthWrapper';
+import DefaultLayout from '@layouts/Default';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -27,9 +28,25 @@ export default function App({ Component, pageProps }: MyAppProps) {
   const { seoInfo = {} } = pageProps;
   const { title, description, image } = seoInfo;
 
-  const Layout = Component.Layout || React.Fragment;
+  // const Layout = Component.Layout || React.Fragment;
 
   useEffect(() => {
+    //license: MIT
+    //author: nhannguyen
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/caching.sw.js', { scope: '/' })
+        .then(function () {
+          // eslint-disable-next-line no-console
+          console.log('Service worker registered!');
+        })
+        .catch(function (err) {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    }
+
     const ddInstance = DatadogService.getInstance();
     ddInstance.init();
     ddInstance.startRUMTracking();
@@ -68,9 +85,9 @@ export default function App({ Component, pageProps }: MyAppProps) {
       <Provider store={store}>
         <WalletProvider>
           <AuthWrapper>
-            <Layout>
+            <DefaultLayout>
               <Component {...pageProps} />
-            </Layout>
+            </DefaultLayout>
           </AuthWrapper>
         </WalletProvider>
       </Provider>
