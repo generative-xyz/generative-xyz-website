@@ -18,8 +18,9 @@ import { makeOrder } from '@services/api/order';
 
 import s from './CheckoutModal.module.scss';
 import { useRouter } from 'next/router';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/pro-regular-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// import { faSpinner } from '@fortawesome/pro-regular-svg-icons';
 
 interface IPropState {
   name: any;
@@ -356,11 +357,10 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             onClick={placeOrder}
             disabled={!isEnablePaymentBtn || isLoading}
           >
-            {isLoading ? (
-              <FontAwesomeIcon icon={faSpinner} size="2x" pulse />
-            ) : (
-              'Place your order'
-            )}
+            {isLoading
+              ? `Processing...` //todo ducanh
+              : // <FontAwesomeIcon icon={faSpinner} size="2x" pulse />
+                'Place your order'}
           </Button>
         </div>
       </Modal.Body>
