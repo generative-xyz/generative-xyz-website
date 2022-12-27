@@ -6,11 +6,16 @@
   align-items: center;
   justify-content: center;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 26px;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+
+  span {
+    font-size: 14px;
+    line-height: 26px;
+  }
 
   padding: {
     left: rem(48);
@@ -19,6 +24,9 @@
 
   &__xl {
     min-height: 56px;
+    @include min-pc{
+      min-height: calc-auto(1200px, 1920px, 48px, 56px);
+    }
   }
 
   &__lg {
@@ -27,14 +35,39 @@
 
   &__md {
     min-height: 40px;
+    font-size: 12px;
+    line-height: 24px;
+
+    @include min-pc{
+      min-height: calc-auto(1200px, 1920px, 32px, 40px);
+    }
+
+    span {
+      font-size: 12px;
+      line-height: 24px;
+    }
   }
 
   &__sm {
     min-height: 32px;
+    font-size: 12px;
+    line-height: 24px;
+
+    span {
+      font-size: 12px;
+      line-height: 24px;
+    }
   }
 
   &__xs {
     min-height: 30px;
+    font-size: 12px;
+    line-height: 24px;
+
+    span {
+      font-size: 12px;
+      line-height: 24px;
+    }
   }
 
   &__black {
@@ -222,22 +255,28 @@
     text-transform: uppercase;
     color: $white;
     border-radius: 0;
-    padding: 0 rem(50px);
+    padding: 0 0;
     box-shadow: none;
     gap: 10px;
     background: transparent;
-    transition: color 0.6s $easeOutCubic, background-color 0.6s $easeOutCubic;
 
-    path {
-      transition: fill 0.6s $easeOutCubic;
+    &:after {
+      content: '';
+      display: block;
+      border-bottom: 1px solid $white;
+      bottom: 0;
+      opacity: 0;
+      width: 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all .4s $easeOutCubic;
     }
 
     &:hover {
-      background-color: $white;
-      color: $neutral-08;
-
-      path {
-        fill: $neutral-08;
+      &:after {
+        width: 100%;
+        opacity: 1;
       }
     }
   }

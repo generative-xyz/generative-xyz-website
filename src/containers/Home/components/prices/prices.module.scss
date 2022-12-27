@@ -45,14 +45,22 @@
     font-size: rem(20px);
     line-height: 140%;
     color: $neutral-08;
+
+    @include min-pc {
+      font-size: calc-auto($screen-xl, $screen-xxxl, 15px, 20px);
+    }
   }
 
   &_specContent {
     color: $neutral-08;
     font-weight: 300;
-    font-size: rem(16px);
-    line-height: 140%;
+    font-size: 16px;
 
+    @include min-pc {
+      font-size: calc-auto($screen-xl, $screen-xxxl, 13px, 16px);
+    }
+
+    line-height: 140%;
     &:not(:first-of-type) {
       margin-top: rem(8);
     }

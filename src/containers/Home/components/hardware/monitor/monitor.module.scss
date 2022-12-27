@@ -23,13 +23,40 @@
   }
 
   &_detail {
+
+    &_item_desc {
+
+      font-size: rem(16px);
+
+      @include tablet {
+        font-size: rem(20px);
+      }
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 14px, 20px);
+      }
+    }
+
     &_item_icon {
       transform: translateY(0.2em);
       display: block;
 
-      img {
-        width: rem(32px);
-        height: rem(32px);
+      img, svg {
+
+        display: block;
+
+        width: rem(24);
+        height: rem(24);
+
+        @include tablet {
+          width: rem(32);
+          height: rem(32);
+        }
+
+        @include min-pc {
+          width: calc-auto(1200px, 1920px, 20px, 32px);
+          height: calc-auto(1200px, 1920px, 20px, 32px);
+        }
       }
     }
 
@@ -40,14 +67,11 @@
       gap: var(--spacing-sx);
 
       li {
-        flex: 0 0 50%;
+        flex: 0 0 calc(50% - var(--spacing-sx));
+        width: calc(50% - var(--spacing-sx));
         display: flex;
         gap: rem(16px);
         align-items: center;
-
-        &:nth-child(2n) {
-          flex: 0 0 rem(240px);
-        }
       }
     }
   }

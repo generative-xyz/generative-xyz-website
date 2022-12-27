@@ -8,13 +8,18 @@
   transition: background-color .4s $easeOutCubic;
   padding: rem(40px);
   cursor: pointer;
+  position: relative;
 
   &:hover {
     background-color: transparent;
+    .frameItem_ctas{
+      opacity: 1;
+    }
   }
 
-  &_img{
+  &_img {
     margin-bottom: rem(24px);
+    position: relative;
   }
 
   &_buy {
@@ -54,6 +59,33 @@
     :global(.image__fit) {
       width: rem(533px);
       margin-bottom: rem(20px);
+    }
+  }
+
+  &_ctas {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: opacity .4s $easeOutCubic;
+  }
+
+  &_uls {
+    text-align: center;
+    padding: rem(40px);
+    li{
+      padding-top: rem(4px);
+      padding-bottom: rem(4px);
+    }
+
+    button {
+      width: rem(168px);
     }
   }
 }

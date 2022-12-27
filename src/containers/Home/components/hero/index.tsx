@@ -64,7 +64,7 @@ export const SectionHero = (): JSX.Element => {
         </ul>
         <AnimFade className={s.Home_video_content_ctas_play} screen={0.6}>
           <Button
-            size="xl"
+            size="xs"
             variant="cta-none"
             className={classNames(
               s.Home_video_content_ctas_playBtn,

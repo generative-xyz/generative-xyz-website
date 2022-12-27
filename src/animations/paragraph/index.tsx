@@ -59,6 +59,8 @@ export const AnimParagraph = ({
       if (comp.current) {
         comp.current.classList.remove(`is-handle`, `${s['anim-paragraph']}`);
         refDom.current.resizeObserver?.unobserve(comp.current as HTMLElement);
+        if (refDom.current.texts)
+          gsap.set(refDom.current.texts?.words, { y: '0' });
       }
       refDom.current.texts && refDom.current.texts?.revert();
     };
@@ -68,7 +70,6 @@ export const AnimParagraph = ({
     if (comp.current && loadStatus === PAGE_ENTER) {
       new Anim(comp.current, () => {
         let delay = getDelay(screen, offset);
-
         if (refDom.current.texts && refDom.current.texts.lines) {
           refDom.current.texts.lines.forEach(el => {
             gsap.to(el.children, {
