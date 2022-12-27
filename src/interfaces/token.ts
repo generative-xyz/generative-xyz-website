@@ -9,4 +9,8 @@ export type Token = {
   image: string;
   animation_url: string;
   attributes: Array<TokenAttribute>;
+  genNFTAddr: string;
+  owner: string;
+  creator: string;
+  mintedOn: string;
 };

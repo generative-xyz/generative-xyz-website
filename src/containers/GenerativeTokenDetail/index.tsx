@@ -11,6 +11,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
 import styles from './styles.module.scss';
 import { convertIpfsToHttp } from '@utils/image';
+import { getChainName, getOpenseaAssetUrl, getScanUrl } from '@utils/chain';
+import Link from '@components/Link';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -28,7 +30,13 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     image: '',
     animation_url: '',
     attributes: [],
+    genNFTAddr: '', // TODO
+    owner: '',
+    creator: '',
+    mintedOn: '',
   });
+
+  const scanURL = getScanUrl();
 
   const fetchItemDetail = async (): Promise<void> => {
     try {
@@ -76,7 +84,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Owner</p>
-                      <p>...</p>
+                      <p>{itemDetail.owner}</p>
                     </div>
                   }
                 />
@@ -87,7 +95,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Creator</p>
-                      <p>...</p>
+                      <p>{itemDetail.owner}</p>
                     </div>
                   }
                 />
@@ -98,7 +106,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Minted on</p>
-                      <p>Date ...</p>
+                      <p>Date {itemDetail.mintedOn}</p>
                     </div>
                   }
                 />
@@ -140,19 +148,46 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               <div className={styles.tokenInfo}>
                 <Stack direction="horizontal" className="justify-between mt-3">
                   <b>Contract Address</b>
-                  <p>0xf7...9089</p>
+                  <p>
+                    <Link
+                      target={`_blank`}
+                      href={`${scanURL}/address/${itemDetail.genNFTAddr}`}
+                    >
+                      {itemDetail.genNFTAddr}
+                    </Link>
+                  </p>
                 </Stack>
                 <Stack direction="horizontal" className="justify-between">
                   <b>Token ID</b>
-                  <p>{tokenID}</p>
+                  <p>
+                    <Link
+                      target={`_blank`}
+                      href={`${scanURL}/address/${itemDetail.genNFTAddr}?a=${tokenID}`}
+                    >
+                      {tokenID}
+                    </Link>
+                  </p>
                 </Stack>
                 <Stack direction="horizontal" className="justify-between">
                   <b>Token Standard</b>
-                  <p>...</p>
+                  <p>ERC-721</p>
                 </Stack>
                 <Stack direction="horizontal" className="justify-between">
                   <b>Blockchain</b>
-                  <p>...</p>
+                  <p>{getChainName()}</p>
+                </Stack>
+                <Stack direction="horizontal" className="justify-between">
+                  <b>View Opensea</b>
+                  <p>
+                    <Link
+                      target={`_blank`}
+                      href={`${getOpenseaAssetUrl()}/assets/${
+                        itemDetail.genNFTAddr
+                      }/${tokenID}`}
+                    >
+                      Opensea
+                    </Link>
+                  </p>
                 </Stack>
               </div>
             </div>
