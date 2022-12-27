@@ -1,0 +1,7 @@
+.anim-parallax {
+  &_parent {
+    overflow: hidden;
+  }
+
+  will-change: transform;
+}

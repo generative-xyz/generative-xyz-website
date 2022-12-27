@@ -1,0 +1,36 @@
+$color-debug: #ff6b4c;
+
+.grid-debug {
+  height: 100vh;
+  pointer-events: none;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 99999999999;
+
+  .grid-col {
+    background-color: rgba($color-debug, 0.3);
+    height: 100vh;
+    position: relative;
+
+    &::before {
+      background-color: rgba($color-debug, 0.3);
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      width: 1px;
+    }
+
+    &::after {
+      background-color: rgba($color-debug, 0.3);
+      content: "";
+      height: 100%;
+      right: 0;
+      position: absolute;
+      width: 1px;
+    }
+  }
+}

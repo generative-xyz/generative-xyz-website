@@ -1,0 +1,55 @@
+@import "src/styles/_themes/variables.scss";
+@import "src/styles/_themes/mixins.scss";
+
+.sectionInfo {
+  padding-top: var(--spacing-supper);
+  padding-bottom: var(--spacing-supper);
+
+  .sectionInfo_content {
+    max-width: rem(816px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &_sub {
+    margin-bottom: rem(4px);
+  }
+
+  &__white {
+    color: $white;
+
+    .sectionInfo_content {
+      color: rgba($white, 0.8);
+    }
+  }
+
+  &__dark {
+    color: $neutral-08;
+
+    .sectionInfo_content {
+      color: $neutral-06;
+    }
+  }
+
+  &__center {
+    .sectionInfo_inner {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+  }
+
+  &__leftRight {
+    .sectionInfo_heading {
+      border-bottom: 1px solid $neutral-03;
+      padding-bottom: var(--spacing-sx);
+    }
+
+    .sectionInfo_content {
+      margin-bottom: var(--spacing-sx);
+      max-width: rem(687px);
+      margin-left: auto;
+      margin-right: unset;
+    }
+  }
+}

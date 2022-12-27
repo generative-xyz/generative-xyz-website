@@ -1,63 +1,43 @@
-import cs from 'classnames';
-import React, { PropsWithChildren, ReactNode } from 'react';
-import styles from './styles.module.scss';
-type ButtonType = 'button' | 'submit' | 'reset' | undefined;
-type ButtonVariantsType = 'default' | 'secondary' | 'outline' | 'ghost';
-type ButtonSizesType = 'large' | 'medium' | 'small' | 'xsmall';
+import React, { ButtonHTMLAttributes } from 'react';
+import cn from 'classnames';
 
-interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
-  className?: string;
-  type?: ButtonType;
-  variants?: ButtonVariantsType;
-  sizes?: ButtonSizesType;
-  startIcon?: ReactNode;
-  endIcon?: ReactNode;
-  iconOnly?: boolean;
-}
+import IButton from './Button';
+import s from './Button.module.scss';
 
-const Button = React.forwardRef<
-  HTMLButtonElement,
-  PropsWithChildren<ButtonProps>
->(
-  (
-    {
-      children,
-      className,
-      type = 'button',
-      variants = 'default',
-      sizes = 'medium',
-      startIcon,
-      endIcon,
-      iconOnly,
-      ...delegatedProps
-    }: PropsWithChildren<ButtonProps>,
-    ref: React.ForwardedRef<HTMLButtonElement>
-  ) => {
-    return (
-      <button
-        type={type}
-        className={cs(
-          styles.button,
-          styles[`${variants}`],
-          styles[`${sizes}`],
-          className,
-          iconOnly && styles.iconOnly
-        )}
-        ref={ref}
-        {...delegatedProps}
-      >
-        {startIcon && (
-          <div className={cs(styles.icon, styles.leftIcon)}>{startIcon}</div>
-        )}
-        {children}
-        {endIcon && (
-          <div className={cs(styles.icon, styles.rightIcon)}>{endIcon}</div>
-        )}
-      </button>
-    );
-  }
-);
-
-Button.displayName = 'Button';
+const Button: React.FC<
+  IButton.IProps & ButtonHTMLAttributes<HTMLButtonElement>
+> = ({
+  children,
+  variant = 'black',
+  size = 'md',
+  className,
+  type = 'button',
+  ...props
+}) => {
+  return (
+    <button
+      type={type}
+      className={cn(
+        s.Button,
+        className,
+        variant === 'black' && s.Button__black,
+        variant === 'outline-black' && s.Button__outlineBlack,
+        variant === 'white' && s.Button__white,
+        variant === 'outline-white' && s.Button__outlineWhite,
+        variant === 'cta-anim' && s.Button__ctaAnim,
+        variant === 'cta-border' && s.Button__ctaBorder,
+        variant === 'cta-none' && s.Button__ctaNone,
+        size === 'xl' && s.Button__xl,
+        size === 'lg' && s.Button__lg,
+        size === 'md' && s.Button__md,
+        size === 'sm' && s.Button__sm,
+        size === 'xs' && s.Button__xs
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
 
 export default Button;

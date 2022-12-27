@@ -1,0 +1,21 @@
+@import "src/styles/_themes/variables.scss";
+@import "src/styles/_themes/mixins.scss";
+
+.Header {
+  background-color: $neutral-01;
+  border-bottom: 1px solid $neutral-03;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  &_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 56px;
+
+    @include w-min(1024px) {
+      min-height: 80px;
+    }
+  }
+}

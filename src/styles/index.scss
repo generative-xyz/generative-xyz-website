@@ -1,6 +1,79 @@
+@import "_themes/mixins";
+@import "_themes/bt-variables";
+@import "bootstrap/scss/bootstrap.scss";
 @import "_bt-importer.scss";
 @import "_fonts.scss";
 @import "_reset.scss";
 @import "_variables.scss";
 @import "_theme.scss";
 @import "_utils.scss";
+@import "_themes/fonts";
+@import "_themes/laddingpage";
+@import "_grid-debug";
+@import "_themes/bootstrap-overrides.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  overflow-anchor: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 10px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: antialiased;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: $neutral-07;
+  font-size: rem(16px);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen-Sans,
+    Ubuntu,
+    Cantarell,
+    "Helvetica Neue",
+    sans-serif;
+}
+
+input {
+  outline: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+button {
+  outline: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+}
+
+[class^="js-anim"]:not(.is-handle) {
+  opacity: 0;
+}
+
+.is-loading {
+  overflow: hidden;
+}

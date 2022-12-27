@@ -1,35 +1,36 @@
 import { ReactSVG } from 'react-svg';
 import React from 'react';
-import cs from 'classnames';
 import s from './style.module.scss';
 
-interface IProps {
-  url: string;
+type IProps = {
+  svgUrl: string;
   className?: string;
   size?: number;
   onClick?: () => void;
-}
+};
 
-const SvgInset: React.FC<IProps> = ({
-  url,
-  className,
-  size,
-  onClick,
-}: IProps): React.ReactElement => {
+const SvgInset: React.FC<IProps> = ({ svgUrl, className, size, onClick }) => {
   return (
-    <ReactSVG
-      className={cs('svgInset', s.svgInset, className ?? '')}
+    <div
+      className={`svgInset ${s.svgInset} ${className || ''}`}
       onClick={onClick}
-      src={url}
-      beforeInjection={(svg): void => {
-        if (size) {
-          svg.setAttribute('height', `${size}`);
-          svg.setAttribute('width', `${size}`);
-          svg.style.minWidth = `${size}`;
-          svg.style.minHeight = `${size}`;
-        }
-      }}
-    />
+      // style={{
+      //   width: size,
+      //   height: size
+      // }}
+    >
+      <ReactSVG
+        src={svgUrl}
+        beforeInjection={(svg): void => {
+          if (size) {
+            svg.setAttribute('height', `${size}`);
+            svg.setAttribute('width', `${size}`);
+            svg.style.minWidth = `${size}`;
+            svg.style.minHeight = `${size}`;
+          }
+        }}
+      />
+    </div>
   );
 };
 

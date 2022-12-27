@@ -1,0 +1,243 @@
+@import "src/styles/_themes/variables.scss";
+@import "src/styles/_themes/mixins.scss";
+
+.Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.17em;
+  padding: {
+    left: rem(16);
+    right: rem(16);
+  }
+
+  &__xl {
+    min-height: 56px;
+  }
+
+  &__lg {
+    min-height: 48px;
+  }
+
+  &__md {
+    min-height: 44px;
+  }
+
+  &__sm {
+    min-height: 32px;
+  }
+
+  &__xs {
+    min-height: 30px;
+  }
+
+  &__black {
+    background-color: $neutral-07;
+    color: $white;
+
+    &:hover {
+      background-color: $neutral-06;
+      box-shadow: 0 12px 64px rgb(0 0 0 / 8%);
+    }
+
+    &:disabled {
+      background-color: $neutral-03;
+      color: $neutral-04;
+    }
+  }
+
+  &__outlineBlack {
+    background-color: transparent;
+    color: $neutral-07;
+    border: 2px solid $neutral-06;
+
+    &:hover {
+      background-color: $neutral-02;
+    }
+
+    &:disabled {
+      background-color: $neutral-03;
+      color: $neutral-04;
+      border-color: $neutral-04;
+    }
+  }
+
+  &__white {
+    background-color: transparent;
+    color: $neutral-07;
+
+    &:hover {
+      background-color: $neutral-02;
+    }
+
+    &:disabled {
+      background-color: $neutral-03;
+      color: $neutral-04;
+    }
+  }
+
+  &__outlineWhite {
+    background-color: $neutral-07;
+    border: 2px solid $white;
+    color: $white;
+
+    &:hover {
+      background-color: $neutral-06;
+    }
+
+    &:disabled {
+      background-color: $neutral-03;
+      color: $neutral-04;
+      border-color: transparent;
+    }
+  }
+
+  &__ctaAnim {
+    font-family: $font-paragraph;
+    font-weight: 400;
+    font-size: rem(14px);
+    line-height: rem(24px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $neutral-08;
+    border-radius: 0;
+    padding: 0 rem(50px);
+    box-shadow: none;
+    clip-path: inset(0);
+    position: relative;
+    transition: color 0.6s $easeOutCubic;
+
+    :global(.text) {
+      position: relative;
+      z-index: 2;
+    }
+
+    &::after,
+    &::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 102%;
+      transition: transform 0.6s $easeOutCubic;
+      position: absolute;
+      will-change: transform;
+      top: 0;
+      left: 0;
+    }
+
+    &::after {
+      background-color: $neutral-08;
+      transform: translateY(100%);
+    }
+
+    &::before {
+      background-color: white;
+      transform: translateY(0%);
+    }
+
+    &:hover {
+      color: $white;
+
+      &::after {
+        transform: translateY(0%);
+      }
+
+      &::before {
+        transform: translateY(-102%);
+      }
+    }
+  }
+
+  &__ctaBorder {
+    font-family: $font-paragraph;
+    font-weight: 400;
+    font-size: rem(14px);
+    line-height: rem(24px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $white;
+    border-radius: 0;
+    padding: 0 rem(24px);
+    box-shadow: none;
+    clip-path: inset(0);
+    position: relative;
+    transition: color 0.6s $easeOutCubic;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    background: none;
+    border: 1px solid $white;
+
+    svg path {
+      transition: fill 0.6s $easeOutCubic;
+    }
+
+    :global(.text),
+    :global(.icon) {
+      position: relative;
+      z-index: 2;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 101%;
+      transition: transform 0.6s $easeOutCubic;
+      position: absolute;
+      will-change: transform;
+      top: 0;
+      left: 0;
+      background-color: $white;
+      transform: translateY(100%);
+    }
+
+    &:hover {
+      color: $neutral-08;
+
+      &::after {
+        transform: translateY(0%);
+      }
+
+      path {
+        fill: $neutral-08;
+      }
+    }
+  }
+
+  &__ctaNone {
+    position: relative;
+    font-family: $font-paragraph;
+    font-weight: 400;
+    font-size: rem(14px);
+    line-height: rem(24px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $white;
+    border-radius: 0;
+    padding: 0 rem(50px);
+    box-shadow: none;
+    gap: 10px;
+    background: transparent;
+    transition: color 0.6s $easeOutCubic, background-color 0.6s $easeOutCubic;
+
+    path {
+      transition: fill 0.6s $easeOutCubic;
+    }
+
+    &:hover {
+      background-color: $white;
+      color: $neutral-08;
+
+      path {
+        fill: $neutral-08;
+      }
+    }
+  }
+}

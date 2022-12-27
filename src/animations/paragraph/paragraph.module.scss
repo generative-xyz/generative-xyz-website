@@ -1,0 +1,9 @@
+.anim-paragraph {
+  :global(.line) {
+    clip-path: inset(0);
+  }
+
+  :global(.word) {
+    will-change: transform;
+  }
+}

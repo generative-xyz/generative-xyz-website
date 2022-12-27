@@ -154,7 +154,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
             Upload Genart
             <SvgInset
               className={s.infoIcon}
-              url={`${CDN_URL}/icons/ic-info-circle-18x18.svg`}
+              svgUrl={`${CDN_URL}/icons/ic-info-circle-18x18.svg`}
             />
           </h3>
         </div>

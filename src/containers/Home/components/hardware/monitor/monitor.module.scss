@@ -1,0 +1,54 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.monitor {
+  color: $neutral-08;
+
+  &_inner {
+    display: flex;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  &_info {
+    &_label {
+      margin-bottom: rem(4px);
+    }
+
+    &_heading {
+      margin-bottom: rem(24px);
+    }
+  }
+
+  &_detail {
+    &_item_icon {
+      transform: translateY(0.2em);
+      display: block;
+
+      img {
+        width: rem(32px);
+        height: rem(32px);
+      }
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--spacing-sx);
+
+      li {
+        flex: 0 0 auto;
+        display: flex;
+        gap: rem(16px);
+        align-items: center;
+
+        &:nth-child(2n) {
+          flex: 0 0 rem(240px);
+        }
+      }
+    }
+  }
+}
