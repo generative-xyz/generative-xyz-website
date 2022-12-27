@@ -5,8 +5,8 @@ import classNames from 'classnames';
 // #endregion Global Imports
 
 // #region Local Imports
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPlus } from '@fortawesome/pro-regular-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faMinus, faPlus } from '@fortawesome/pro-regular-svg-icons'; //todo ducannh
 import toast from 'react-hot-toast';
 import { IInputQuantity } from './InputQuantity';
 import s from './InputQuantity.module.scss';
@@ -148,7 +148,7 @@ const InputQuantity = React.forwardRef(
             }
           }}
         >
-          <FontAwesomeIcon className={s.icon} icon={faMinus} />
+          {/*<FontAwesomeIcon className={s.icon} icon={faMinus} />*/}-
         </div>
         <input
           ref={ref}
@@ -176,7 +176,7 @@ const InputQuantity = React.forwardRef(
             }
           }}
         >
-          <FontAwesomeIcon className={s.icon} icon={faPlus} />
+          +{/*<FontAwesomeIcon className={s.icon} icon={faPlus} />*/}
         </div>
       </div>
     );

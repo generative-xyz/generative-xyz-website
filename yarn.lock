@@ -605,13 +605,6 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.2.1"
 
-"@fortawesome/pro-regular-svg-icons@^6.2.0":
-  version "6.2.1"
-  resolved "https://npm.fontawesome.com/@fortawesome/pro-regular-svg-icons/-/6.2.1/pro-regular-svg-icons-6.2.1.tgz#b2598ba93def3e1ca0d6c48dc6b08b6f97597738"
-  integrity sha512-U3JCqJjwkNSrxgDafsBBUQBbOlvTsa4Odtn7m01NDko45pZu2nh3eqCexovy4y6LzWXXP/Spq+AO29CBpCW8yA==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "6.2.1"
-
 "@fortawesome/react-fontawesome@^0.2.0":
   version "0.2.0"
   resolved "https://npm.fontawesome.com/@fortawesome/react-fontawesome/-/0.2.0/react-fontawesome-0.2.0.tgz#d90dd8a9211830b4e3c08e94b63a0ba7291ddcf4"

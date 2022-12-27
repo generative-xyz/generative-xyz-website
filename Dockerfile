@@ -12,7 +12,6 @@ WORKDIR /app
 ARG ENV
 ENV NODE_ENV $ENV
 COPY ./envs/.env.$ENV .env
-COPY ./.npmrc ./
 COPY --from=BASE /app/node_modules ./node_modules
 COPY . .
 RUN apk add --no-cache curl \ 
