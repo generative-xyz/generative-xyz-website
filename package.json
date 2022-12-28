@@ -90,6 +90,9 @@
     "*.{ts,tsx,js,jsx}": [
       "yarn lint:js:fix"
     ],
+    "*.{css,scss}": [
+      "yarn lint:css:fix"
+    ],
     "*.json": [
       "yarn lint:json:fix"
     ]
