@@ -9,7 +9,7 @@ interface IPros {
   subTitle: string;
   title: string;
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
   variant?: 'center' | 'left-right';
   color?: 'dark' | 'white';
 }
@@ -25,6 +25,7 @@ export const SectionInfo = ({
   return (
     <div
       className={classNames(
+        'sectionInfo',
         s.sectionInfo,
         className,
         variant === 'center' && s.sectionInfo__center,
@@ -35,7 +36,7 @@ export const SectionInfo = ({
     >
       <div className="container">
         <div className="row">
-          <div className="offset-1 col-10">
+          <div className="offset-xl-1 col-xl-10 col-12">
             <div className={`sectionInfo_inner ${s.sectionInfo_inner}`}>
               <AnimRanText className={`${s.sectionInfo_sub} desc__label`}>
                 {subTitle}

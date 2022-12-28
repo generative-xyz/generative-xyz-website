@@ -10,6 +10,10 @@
 
   &_canvas {
     position: relative;
+    display: none;
+    @include min-pc {
+      display: block;
+    }
   }
 
   &_endContent {
@@ -26,12 +30,12 @@
 
     &_container {
 
-      @include min-pc{
+      @include min-pc {
         margin-bottom: calc-auto(1200px, 1920px, 48px, 60px);
       }
     }
 
-    &_desc{
+    &_desc {
       opacity: 0;
     }
   }
@@ -39,5 +43,29 @@
   &_fame {
     height: 100vh;
     width: 100vw;
+  }
+
+  &_mobile {
+    display: block;
+
+    &_inner {
+      padding-right: rem(20px);
+      padding-left: rem(20px);
+
+      @include tablet {
+        padding-left: rem(32px);
+        padding-right: rem(32px);
+      }
+    }
+
+    @include min-pc {
+      display: none;
+    }
+
+    &_bottom {
+      :global(.sectionInfo) {
+        padding-bottom: rem(10px);
+      }
+    }
   }
 }

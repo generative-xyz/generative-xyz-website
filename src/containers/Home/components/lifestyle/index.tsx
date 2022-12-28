@@ -88,6 +88,33 @@ export const LifeStyle = () => {
             </div>
           </Frames>
         </MaskerStart>
+        <div className={s.lifeStyle_mobile}>
+          <div className={s.lifeStyle_mobile_top}>
+            <div className={s.lifeStyle_mobile_inner}>
+              <video
+                autoPlay
+                playsInline
+                loop
+                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/video-rightc8ecf13cd4.mp4"
+              />
+            </div>
+          </div>
+          <div className={s.lifeStyle_mobile_bottom}>
+            <SectionInfo
+              color={'dark'}
+              subTitle={'connect app control'}
+              title={'Ultimate app controls built in.'}
+            />
+            <div className={s.lifeStyle_mobile_inner}>
+              <video
+                autoPlay
+                playsInline
+                loop
+                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/video-rightc8ecf13cd4.mp4"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

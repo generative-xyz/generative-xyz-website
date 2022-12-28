@@ -175,15 +175,35 @@
       transform: translateY(0%);
     }
 
-    &:hover {
-      color: $white;
+    @media (hover: hover) {
+      &:hover {
+        color: $white;
+
+        &::after {
+          transform: translateY(0%);
+        }
+
+        &::before {
+          transform: translateY(-102%);
+        }
+      }
+    }
+
+    &__black {
+      color: white;
 
       &::after {
-        transform: translateY(0%);
+        background-color: $white;
       }
 
       &::before {
-        transform: translateY(-102%);
+        background-color: $neutral-08;
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          color: $neutral-08;
+        }
       }
     }
   }
@@ -243,6 +263,26 @@
         fill: $neutral-08;
       }
     }
+
+    &__black {
+      color: $neutral-08;
+      border: 1px solid $neutral-08;
+
+      &::after {
+        background-color: $white;
+      }
+
+      &::before {
+        background-color: $neutral-08;
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          color: $neutral-08;
+        }
+      }
+    }
+
   }
 
   &__ctaNone {

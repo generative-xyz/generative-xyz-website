@@ -3,7 +3,11 @@
 
 .sectionInfo {
   padding-top: var(--spacing-supper);
-  padding-bottom: var(--spacing-supper);
+  padding-bottom: var(--spacing-medium);
+
+  @include min-pc{
+    padding-bottom: var(--spacing-supper);
+  }
 
   .sectionInfo_content {
     @include min-pc {

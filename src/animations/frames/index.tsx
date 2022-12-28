@@ -5,6 +5,7 @@ import { MathLerp, MathMap } from '@helpers/functions.helpers';
 import classNames from 'classnames';
 import s from './frame.module.scss';
 import {
+  isMobileAndTablet,
   registerLoading,
   unRegisterLoading,
   webpSupported,
@@ -180,12 +181,14 @@ export const Frames = ({
 
   useEffect(() => {
     const anim = gsap.context(() => {
+      if (isMobileAndTablet()) return;
       loadFirstFrame();
       runCanvas();
     }, [comp]);
 
     return () => {
       anim.revert();
+      if (isMobileAndTablet()) return;
       refDom.current.scrollFixed?.kill();
       refDom.current.canvas && refDom.current.canvas.remove();
       gsap.ticker.remove(runFrame);

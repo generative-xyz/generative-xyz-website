@@ -1,6 +1,19 @@
 .container {
-  padding-left: rem(50px);
-  padding-right: rem(50px);
+
   max-width: 100%;
   width: 100%;
+
+  padding-left: rem(20px);
+  padding-right: rem(20px);
+
+  @include tablet {
+    padding-left: rem(32px);
+    padding-right: rem(32px);
+  }
+
+  @include min-pc {
+    padding-left: rem(50px);
+    padding-right: rem(50px);
+  }
+
 }

@@ -45,8 +45,8 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     id: '',
     name: '',
     price: 0,
-    img: '',
-    imgLeft: '',
+    image: '',
+    image_left: '',
     qty: 1,
   });
   const walletCtx = useContext(WalletContext);
@@ -150,7 +150,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
           <div className={s.CheckoutModal_title}>Buy Gen-Frame</div>
           <div className={s.CheckoutModal_optionsContainer}>
             <div key={cart?.id} className={s.CheckoutModal_optionItem}>
-              <img src={cart?.img} alt="" />
+              <img src={cart?.image} alt="" />
               <div className={s.CheckoutModal_optionItemContainer}>
                 <div>
                   <div className={s.CheckoutModal_optionItemName}>

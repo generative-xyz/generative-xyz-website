@@ -4,6 +4,93 @@
 .tableInfo {
   padding-top: var(--spacing-supper);
   padding-bottom: var(--spacing-supper);
+
+
+  tr {
+    border-top: 1px solid $neutral-03;
+
+    td {
+      vertical-align: top;
+      padding-top: rem(24px);
+      padding-bottom: rem(24px);
+
+      @include tablet {
+        padding-top: rem(32px);
+        padding-bottom: rem(32px);
+      }
+
+      @include min-pc {
+        padding-top: calc-auto(1200px, 1920px, 20px, 32px);
+        padding-bottom: calc-auto(1200px, 1920px, 20px, 32px);
+      }
+
+      &:nth-child(1) {
+        @include max-tablet {
+          display: none;
+        }
+      }
+
+      &:not(:nth-child(1)) {
+        padding: rem(24px);
+        width: rem(267px);
+
+        @include tablet {
+          padding: rem(32px);
+          width: rem(360px);
+          max-width: unset;
+          min-width: rem(360px);
+        }
+
+        @include min-pc {
+          width: auto;
+          padding: calc-auto(1200px, 1920px, 20px, 32px);
+        }
+
+        @include max-tablet {
+          padding-top: rem(70px) !important;
+          position: relative;
+        }
+      }
+
+      &:nth-child(2) {
+
+        .Home_specTitle {
+          position: absolute;
+          left: 0;
+          top: rem(20px);
+
+          @include tablet {
+            top: rem(32px);
+          }
+
+          @include min-pc{
+            display: none;
+          }
+        }
+
+        @include max-tablet {
+          padding-left: 0 !important;
+        }
+      }
+
+      &.table_td_one {
+
+        @include mobile {
+          padding-top: rem(20px) !important;
+        }
+        @include tablet {
+          padding-top: rem(32px) !important;
+        }
+
+        .Home_specTitle {
+          position: relative !important;
+          top: 0;
+          display: block;
+          margin-bottom: rem(20px);
+        }
+      }
+    }
+  }
 }
 
 .Home {
@@ -11,28 +98,10 @@
     margin-bottom: var(--spacing-still);
   }
 
-  &_rowSpec {
-    padding-bottom: var(--spacing-sx);
-    position: relative;
-
-    &_colBor {
-      position: relative;
-    }
-
-    &_border {
-      position: relative;
-      width: 100%;
-      padding-top: var(--spacing-sx);
-      display: block;
-
-      &::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        top: 0;
-        display: block;
-        border-top: 1px solid $neutral-03;
-      }
+  &_table {
+    @include max-tablet {
+      overflow-x: auto;
+      max-width: 100%;
     }
   }
 
@@ -45,22 +114,25 @@
     font-size: rem(20px);
     line-height: 140%;
     color: $neutral-08;
+    margin-bottom: rem(16px);
 
     @include min-pc {
-      font-size: calc-auto($screen-xl, $screen-xxxl, 15px, 20px);
+      margin-bottom: 0;
+      font-size: calc-auto(1200px, 1920px, 15px, 20px);
     }
   }
 
   &_specContent {
     color: $neutral-08;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 16px;
 
     @include min-pc {
-      font-size: calc-auto($screen-xl, $screen-xxxl, 13px, 16px);
+      font-size: calc-auto(1200px, 1920px, 13px, 16px);
     }
 
     line-height: 140%;
+
     &:not(:first-of-type) {
       margin-top: rem(8);
     }

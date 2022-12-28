@@ -7,7 +7,9 @@ declare namespace IButton {
       | 'white'
       | 'outline-white'
       | 'cta-anim'
+      | 'cta-anim__black'
       | 'cta-border'
+      | 'cta-border__black'
       | 'cta-none';
     size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
     borderRounded?: boolean;
