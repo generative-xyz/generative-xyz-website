@@ -44,7 +44,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     id: '',
     name: '',
     price: 0,
-    eth_price: 0,
     image: '',
     image_left: '',
     qty: 1,
@@ -84,8 +83,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   };
 
   const totalPrice = useMemo(
-    () =>
-      Math.round((cart.eth_price || cart.price || 0) * cart.qty * 10e9) / 10e9,
+    () => Math.round((cart.price || 0) * cart.qty * 10e9) / 10e9,
     [cart]
   );
 

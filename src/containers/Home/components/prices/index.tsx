@@ -32,7 +32,8 @@ export const Prices = (): JSX.Element => {
     try {
       const { data } = await getProductList();
       if (data.products) {
-        setProducts(data.products);
+        // setProducts(data.products);
+        setProducts(FRAME_OPTIONS);
       }
     } catch (_: unknown) {
       log('failed to get products', LogLevel.Error, LOG_PREFIX);
