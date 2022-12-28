@@ -110,6 +110,7 @@ const Sandbox: React.FC = (): React.ReactElement => {
       )}
       <div className={s.previewContainer}>
         <SandboxPreview
+          rawHtml={null}
           ref={sandboxRef}
           hash={hash}
           sandboxFiles={filesSandbox}

@@ -17,7 +17,8 @@ const LOG_PREFIX = 'SandboxPreview';
 
 interface IProps {
   sandboxFiles: SandboxFiles | null;
-  hash: string;
+  rawHtml: string | null;
+  hash: string | null;
   onLoaded?: () => void;
 }
 
@@ -25,7 +26,7 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
   (props: IProps, ref: ForwardedRef<ISandboxRef>) => {
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const workerReg = useRef<ServiceWorkerRegistration | null>(null);
-    const { sandboxFiles, hash, onLoaded } = props;
+    const { sandboxFiles, rawHtml, hash, onLoaded } = props;
     const [id, setId] = useState<string>('0');
 
     const reloadIframe = () => {
@@ -91,6 +92,39 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
         setId(id);
       }
     }, [sandboxFiles]);
+
+    useAsyncEffect(async () => {
+      if (rawHtml && workerReg.current) {
+        const worker = workerReg.current;
+
+        if (!worker.active) {
+          return;
+        }
+
+        const id = generateID(6);
+
+        worker.active.postMessage({
+          type: SandboxSWEventType.REGISTER_REFERRER,
+          data: {
+            id: id,
+            referrer: {
+              base: `${location.origin}/sandbox/preview.html`,
+              root: `${location.origin}/sandbox/`,
+            },
+          },
+        });
+
+        worker.active.postMessage({
+          type: SandboxSWEventType.REGISTER_HTML,
+          data: {
+            id: id,
+            html: rawHtml,
+          },
+        });
+
+        setId(id);
+      }
+    }, [rawHtml]);
 
     useEffect(() => {
       if (iframeRef.current && id !== '0') {
