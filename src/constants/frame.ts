@@ -16,7 +16,8 @@ declare global {
   interface IFrame {
     id: string;
     name: string;
-    price: number;
+    price?: number;
+    eth_price?: number;
     image: string;
     image_left: string;
   }
@@ -27,6 +28,7 @@ export const FRAME_OPTIONS: IFrame[] = [
     id: '636cb111b8a8296e08931b5d',
     name: '55” OLED Display',
     price: 10,
+    eth_price: 10,
     image:
       'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/10eth4207801360.png',
     image_left:
@@ -36,6 +38,7 @@ export const FRAME_OPTIONS: IFrame[] = [
     id: '636cb111b8a8296e08931b5e',
     name: '44” 4K Display',
     price: 5,
+    eth_price: 5,
     image:
       'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth7c67a6327c.png',
     image_left:

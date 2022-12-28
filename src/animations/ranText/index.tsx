@@ -43,11 +43,10 @@ export const AnimRanText = ({
 
   useEffect(() => {
     const anim = gsap.context(() => {
-      refDom.current.target = comp.current || null;
-      if (refDom.current.target) {
-        refDom.current.target.classList.add(`is-handle`);
-        refDom.current.text = refDom.current.target.textContent || '';
-        refDom.current.target.textContent = '';
+      if (comp.current) {
+        comp.current.classList.add(`is-handle`);
+        refDom.current.text = comp.current.textContent || '';
+        comp.current.textContent = '';
         refDom.current.arrText = refDom.current.text.split('');
 
         refDom.current.finalRunTexts = [];
@@ -62,11 +61,11 @@ export const AnimRanText = ({
 
   useEffect(() => {
     if (
-      (refDom.current.target && loadStatus === PAGE_ENTER && !isIn) ||
-      (refDom.current.target && isIn)
+      (comp.current && loadStatus === PAGE_ENTER && !isIn) ||
+      (comp.current && isIn)
     ) {
-      refDom.current.target.textContent = '';
-      new Anim(refDom.current.target, () => {
+      comp.current.textContent = '';
+      new Anim(comp.current, () => {
         const delay = getDelay(screen, offset);
         refDom.current?.arrText?.forEach((el: string, key: number) => {
           if (
@@ -94,16 +93,17 @@ export const AnimRanText = ({
                     getRandomArbitrary(0, refDom.current.chars.length - 1)
                   ];
 
-                if (refDom.current.target) {
-                  refDom.current.target.textContent =
-                    refDom.current.finalRunTexts.toString().replaceAll(',', '');
+                if (comp.current) {
+                  comp.current.textContent = refDom.current.finalRunTexts
+                    .toString()
+                    .replaceAll(',', '');
                 }
               }
             },
             onComplete: () => {
-              if (refDom.current.finalRunTexts && refDom.current.target) {
+              if (refDom.current.finalRunTexts && comp.current) {
                 refDom.current.finalRunTexts[key] = el;
-                refDom.current.target.textContent = refDom.current.finalRunTexts
+                comp.current.textContent = refDom.current.finalRunTexts
                   .toString()
                   .replaceAll(',', '');
               }
@@ -115,8 +115,7 @@ export const AnimRanText = ({
 
     return () => {
       refDom.current.kill = false;
-      if (refDom.current.target)
-        refDom.current.target.textContent = refDom.current.text || null;
+      if (comp.current) comp.current.textContent = refDom.current.text || null;
     };
   }, [loadStatus, isIn]);
 
