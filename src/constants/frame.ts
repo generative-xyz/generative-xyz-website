@@ -23,7 +23,7 @@ declare global {
 
 export const FRAME_OPTIONS: IFrame[] = [
   {
-    id: '55-inch-oled',
+    id: '636cb111b8a8296e08931b5d',
     name: '55” OLED Display',
     price: 10,
     img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/10eth4207801360.png',
@@ -31,15 +31,15 @@ export const FRAME_OPTIONS: IFrame[] = [
       'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth-left7e61c94588.png',
   },
   {
-    id: '43-inch-4k',
-    name: '43” 4K Display',
+    id: '636cb111b8a8296e08931b5e',
+    name: '44” 4K Display',
     price: 5,
     img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth7c67a6327c.png',
     imgLeft:
       'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth-left7e61c94588.png',
   },
   {
-    id: '43-inch-4k-2',
+    id: '63abafb97e0b31afb9bdfceb',
     name: '43” 4K Display',
     price: 5,
     img: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/5eth7c67a6327c.png',

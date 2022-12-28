@@ -14,7 +14,11 @@ import {
 import { ContractOperationStatus } from '@enums/contract';
 import { getChainList } from '@services/chainlist';
 import { IResourceChain } from '@interfaces/chain';
-import { ProviderRpcError, WalletOperationReturn } from '@interfaces/wallet';
+import {
+  ITransferPayload,
+  ProviderRpcError,
+  WalletOperationReturn,
+} from '@interfaces/wallet';
 import { WalletError, WalletErrorCode } from '@enums/wallet-error';
 
 const LOG_PREFIX = 'WalletManager';
@@ -266,6 +270,50 @@ export class WalletManager {
         isError: true,
         isSuccess: false,
         message: WalletError.FAILED_ADD_CHAIN,
+        data: null,
+      };
+    }
+  }
+
+  async transfer(
+    payload: ITransferPayload
+  ): Promise<WalletOperationReturn<string | null>> {
+    const { fromAddress, toAddress, value } = payload;
+
+    try {
+      const metamaskProvider = this.getMetamaskProvider();
+      const txHash = await metamaskProvider.request({
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            from: fromAddress,
+            to: toAddress,
+            value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
+          },
+        ],
+      });
+
+      if (txHash) {
+        return {
+          isError: false,
+          isSuccess: true,
+          message: 'OK',
+          data: txHash as string,
+        };
+      } else {
+        return {
+          isError: true,
+          isSuccess: false,
+          message: WalletError.FAILED_TRANSFER,
+          data: null,
+        };
+      }
+    } catch (_: unknown) {
+      log('failed to add chain', LogLevel.Error, LOG_PREFIX);
+      return {
+        isError: true,
+        isSuccess: false,
+        message: WalletError.FAILED_TRANSFER,
         data: null,
       };
     }

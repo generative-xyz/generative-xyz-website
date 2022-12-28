@@ -28,6 +28,7 @@ export interface IWalletContext {
   checkAndSwitchChain: (params: IWalletState) => Promise<void>;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
+  transfer: (addr: string, val: string) => Promise<string>;
 }
 
 const initialValue: IWalletContext = {
@@ -37,6 +38,7 @@ const initialValue: IWalletContext = {
     new Promise(r => r()),
   connect: () => new Promise<void>(r => r()),
   disconnect: () => new Promise<void>(r => r()),
+  transfer: (_address: string, _val: string) => new Promise<string>(r => r('')),
 };
 
 export const WalletContext = React.createContext<IWalletContext>(initialValue);
@@ -125,6 +127,37 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     }
   }, [dispatch]);
 
+  const transfer = useCallback(
+    async (toAddress: string, value: string): Promise<string> => {
+      const wallet = walletManagerRef.current;
+      if (!wallet) {
+        throw Error(WalletError.NO_INSTANCE);
+      }
+
+      const walletRes = await wallet.connect();
+      if (!walletRes.isSuccess || !walletRes.data) {
+        throw Error(walletRes.message);
+      }
+
+      const walletAddress = walletRes.data;
+      try {
+        const transferRes = await wallet.transfer({
+          fromAddress: walletAddress,
+          toAddress,
+          value,
+        });
+        if (!transferRes.data || !transferRes.isSuccess) {
+          throw Error(transferRes.message);
+        }
+        return transferRes.data;
+      } catch (err: unknown) {
+        log('failed to transfer', LogLevel.Error, LOG_PREFIX);
+        throw Error(WalletError.FAILED_TRANSFER);
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     const walletManagerInstance = new WalletManager();
     walletManagerRef.current = walletManagerInstance;
@@ -144,6 +177,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
       disconnect,
       walletManager,
       connectedAddress,
+      transfer,
     };
   }, [
     connect,
@@ -151,6 +185,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     checkAndSwitchChain,
     walletManager,
     connectedAddress,
+    transfer,
   ]);
 
   return (

@@ -1,19 +1,40 @@
 import Button from '@components/Button';
 import { FRAME_OPTIONS } from '@constants/frame';
+import { LogLevel } from '@enums/log-level';
+import { registerLoading, unRegisterLoading } from '@helpers/anim.helpers';
 import { useAppDispatch } from '@redux';
 import { setCheckoutProductId } from '@redux/general/action';
+import { getProductList } from '@services/api/product';
+import log from '@utils/logger';
 import { default as classNames, default as cn } from 'classnames';
+import { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { AnimHeading } from 'src/animations/heading';
+import useAsyncEffect from 'use-async-effect';
 import { FrameItem } from '../frame-item';
 import s from './prices.module.scss';
 
+const LOG_PREFIX = 'Prices';
+
 export const Prices = (): JSX.Element => {
+  registerLoading();
   const dispatch = useAppDispatch();
+  const [_, setProducts] = useState([]);
 
   const openCheckoutPopup = (productId: string) => {
     dispatch(setCheckoutProductId(productId));
   };
+
+  useAsyncEffect(async () => {
+    try {
+      const { data } = await getProductList();
+      setProducts(data.products);
+    } catch (_: unknown) {
+      log('failed to get products', LogLevel.Error, LOG_PREFIX);
+    } finally {
+      unRegisterLoading();
+    }
+  }, []);
 
   return (
     <div className={s.tableInfo}>
