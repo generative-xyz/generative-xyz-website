@@ -153,7 +153,7 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Dimensions</span>
                     <img
-                      src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/43_inch_dimension4xba72e8945e.png"
+                      src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/55_inch8628b80500.png"
                       alt=""
                       className={s.Home_specDimension}
                     />
@@ -168,7 +168,7 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <img
-                      src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/43_inch_dimension4xba72e8945e.png"
+                      src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/43_inch7826279f9c.png"
                       alt=""
                       className={s.Home_specDimension}
                     />
