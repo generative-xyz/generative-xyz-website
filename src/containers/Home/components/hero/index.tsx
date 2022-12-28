@@ -28,7 +28,7 @@ export const SectionHero = (): JSX.Element => {
       <AnimParallax className={s.Home_video_hero}>
         <video autoPlay loop muted playsInline preload="auto">
           <source
-            src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block_1-15d57389e38.mp4"
+            src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/video8275052af6.mp4"
             type="video/mp4"
           />
         </video>
