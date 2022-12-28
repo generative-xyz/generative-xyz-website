@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "staging", "develop"]
+    branches: [ "staging", "develop", "release/**"]
     tags:
       - 'v**'
 
