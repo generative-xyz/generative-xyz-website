@@ -1,4 +1,4 @@
-import { IPagingResponse, IPagingParams } from '@interfaces/paging';
+import { IPagingParams, IPagingResponse } from '@interfaces/paging';
 import { RawTokenAttributes } from '@interfaces/sandbox';
 
 export interface IGetProjectDetailParams {
@@ -15,6 +15,7 @@ export interface IProjectSocial {
 }
 
 export interface IProjectDetail {
+  id: string;
   maxSupply: number;
   limit: number;
   mintPrice: string;

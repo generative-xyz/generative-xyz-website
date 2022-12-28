@@ -136,7 +136,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
             <Image
               src={convertIpfsToHttp(
                 projectInfo?.image ||
-                  'ipfs://QmZha95v86iME98rpxrJWbHerK3JjEHKkiGpdS4NgZKjdb'
+                  'ipfs://QmNTU5ctcffhZz5Hphd44yPivh2Y89pDYYG8QQ6yWGY3wn'
               )}
               fill
               style={{ objectFit: 'cover', width: '100%' }}

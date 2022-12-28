@@ -1,5 +1,5 @@
 import s from './styles.module.scss';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { LogLevel } from '@enums/log-level';
 import { IProjectDetail } from '@interfaces/api/project';
@@ -8,6 +8,7 @@ import log from '@utils/logger';
 import Link from '@components/Link';
 import Image from 'next/image';
 import { ROUTE_PATH } from '@constants/route-path';
+import { convertIpfsToHttp } from '@utils/image';
 
 const LOG_PREFIX = 'GenerativeProjectList';
 
@@ -35,16 +36,21 @@ const GenerativeProjectList: React.FC = (): React.ReactElement => {
     const { tokenID } = project;
 
     return (
-      <div key={tokenID} className="col-4">
+      <div className="col-4 mb-4">
         <div className={s.projectItem}>
           <Image
-            src={project.image}
+            src={convertIpfsToHttp(
+              project.image ||
+                'ipfs://QmNTU5ctcffhZz5Hphd44yPivh2Y89pDYYG8QQ6yWGY3wn'
+            )}
             alt={project.name}
             fill
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', width: '100%' }}
+            sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 25vw"
           />
-          <Link href={`${ROUTE_PATH.GENERATIVE}/${tokenID}`}>#{tokenID}</Link>
         </div>
+        <Link href={`${ROUTE_PATH.GENERATIVE}/${tokenID}`}>#{tokenID}</Link>
       </div>
     );
   };
@@ -53,9 +59,9 @@ const GenerativeProjectList: React.FC = (): React.ReactElement => {
     <section>
       <div className="container">
         <div className="row">
-          {projects.map((project: IProjectDetail) =>
-            renderProjectItem(project)
-          )}
+          {projects.map((project: IProjectDetail) => (
+            <Fragment key={project.id}>{renderProjectItem(project)}</Fragment>
+          ))}
         </div>
       </div>
     </section>
