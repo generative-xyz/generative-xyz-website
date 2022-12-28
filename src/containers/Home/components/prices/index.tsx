@@ -38,10 +38,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Display options
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={classNames(s.screen, s.screen__55, 'image__fit')}>
               <img src={FRAME_OPTIONS[0].img} alt="ethf4d1101ffd" />
             </div>
@@ -57,7 +57,7 @@ export const Prices = (): JSX.Element => {
               Adaptive refresh rates up to 120Hz
             </div>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={classNames(s.screen, s.screen__43, 'image__fit')}>
               <img
                 src={FRAME_OPTIONS[1].imgLeft || FRAME_OPTIONS[1].img}
@@ -76,7 +76,7 @@ export const Prices = (): JSX.Element => {
               Adaptive refresh rates up to 120Hz
             </div>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={classNames(s.screen, s.screen__43, 'image__fit')}>
               <img
                 src={FRAME_OPTIONS[1].imgLeft || FRAME_OPTIONS[1].img}
@@ -100,10 +100,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Price
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={cn(s.Home_specContent, s.price)}>
               <span>{FRAME_OPTIONS[0].price} ETH</span>
             </div>
@@ -114,7 +114,7 @@ export const Prices = (): JSX.Element => {
               Buy
             </Button>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={cn(s.Home_specContent, s.price)}>
               <span>{FRAME_OPTIONS[1].price} ETH</span>
             </div>
@@ -125,7 +125,7 @@ export const Prices = (): JSX.Element => {
               Buy
             </Button>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={cn(s.Home_specContent, s.price)}>
               <span>{FRAME_OPTIONS[1].price} ETH</span>
             </div>
@@ -142,10 +142,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Dimensions
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <img
               src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/43_inch_dimension4xba72e8945e.png"
               alt=""
@@ -160,7 +160,7 @@ export const Prices = (): JSX.Element => {
               Weight: 70 lbs
             </div>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <img
               src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/43_inch_dimension4xba72e8945e.png"
               alt=""
@@ -175,7 +175,7 @@ export const Prices = (): JSX.Element => {
               Weight: 50 lbs
             </div>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <img
               src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221227/43_inch_dimension4xba72e8945e.png"
               alt=""
@@ -196,22 +196,22 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             In the box
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={s.Home_specContent}>Grail 55”</div>
             <div className={s.Home_specContent}>
               16 ft cable - Adapted to USA, EU, UK sockets
             </div>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={s.Home_specContent}>Grail 43”</div>
             <div className={s.Home_specContent}>
               16 ft cable - Adapted to USA, EU, UK sockets
             </div>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div className={s.Home_specContent}>Grail 43”</div>
             <div className={s.Home_specContent}>
               16 ft cable - Adapted to USA, EU, UK sockets
@@ -223,22 +223,22 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Shipping dimensions
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div
               className={s.Home_specContent}
             >{`58.8" L x 38.1" W x 5.7" H`}</div>
             <div className={s.Home_specContent}>Weight: 85 lbs</div>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div
               className={s.Home_specContent}
             >{`48.6" L x 32.3" W x 5.7" H`}</div>
             <div className={s.Home_specContent}>Weight: 65 lbs</div>
           </Col>
-          <Col md={3}>
+          <Col xs={3}>
             <div
               className={s.Home_specContent}
             >{`48.6" L x 32.3" W x 5.7" H`}</div>
@@ -250,10 +250,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Processor
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={cn(s.Home_specContent, s.highlight)}>
               Intel 11th Core i5
             </div>
@@ -268,10 +268,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Graphic card
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={cn(s.Home_specContent, s.highlight)}>
               RTX 3060 OC Edition 12GB
             </div>
@@ -282,10 +282,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Memory
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={s.Home_specContent}>8GB 2666MHz DDR4</div>
           </Col>
         </Row>
@@ -293,10 +293,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Storage
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={s.Home_specContent}>250GB SSD</div>
           </Col>
         </Row>
@@ -304,10 +304,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Connectivity
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={cn(s.Home_specContent, s.highlight)}>Wifi</div>
             <div className={s.Home_specContent}>
               802.11ax Wi-Fi 6 wireless networking
@@ -323,10 +323,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Frame material
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={s.Home_specContent}>Natural ash wood</div>
           </Col>
         </Row>
@@ -334,10 +334,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Electrical and Operating Requirements
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={s.Home_specContent}>
               Line voltage: AC100V to AC240V
             </div>
@@ -354,10 +354,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Policy
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={s.Home_specContent}>No trial, no return</div>
           </Col>
         </Row>
@@ -365,10 +365,10 @@ export const Prices = (): JSX.Element => {
           <div className={cn('col-12', s.Home_rowSpec_colBor)}>
             <span className={s.Home_rowSpec_border} />
           </div>
-          <Col md={2} className={s.Home_specTitle}>
+          <Col md={2} xs={12} className={s.Home_specTitle}>
             Warranty
           </Col>
-          <Col md={8}>
+          <Col xs={8}>
             <div className={s.Home_specContent}>1 year</div>
           </Col>
         </Row>
@@ -377,7 +377,7 @@ export const Prices = (): JSX.Element => {
         >
           {FRAME_OPTIONS.map((frame: IFrame) => {
             return (
-              <div key={frame.id} className="col-4">
+              <div key={frame.id} className="col-xl-4 col-sm-6 col-12">
                 <FrameItem
                   data={frame}
                   openCheckoutPopup={() => openCheckoutPopup(frame.id)}

@@ -24,7 +24,7 @@ export const SectionHero = (): JSX.Element => {
         </video>
       </AnimParallax>
 
-      <div className={s.Home_video_content}>
+      <div className={`${s.Home_video_content} container`}>
         <AnimHeading
           tag={'h1'}
           className={`${s.Home_video_content_heading} heading heading__supper`}

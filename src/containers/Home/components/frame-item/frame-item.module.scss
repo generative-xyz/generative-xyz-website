@@ -6,14 +6,29 @@
   text-align: center;
   background-color: $neutral-02;
   transition: background-color .4s $easeOutCubic;
-  padding: rem(40px);
   cursor: pointer;
   position: relative;
+  padding: rem(16px);
 
-  &:hover {
-    background-color: transparent;
-    .frameItem_ctas{
-      opacity: 1;
+  @include max-tablet {
+    margin-bottom: rem(16px);
+  }
+
+  @include tablet {
+    padding: rem(20px);
+  }
+
+  @include min-pc {
+    padding: rem(40px);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: transparent;
+
+      .frameItem_ctas {
+        opacity: 1;
+      }
     }
   }
 
@@ -74,18 +89,42 @@
     justify-content: center;
     z-index: 3;
     transition: opacity .4s $easeOutCubic;
+
+    &__in {
+      @include max-tablet {
+        display: none;
+      }
+    }
+
+    &__out {
+      display: none;
+      position: relative;
+      @include max-tablet {
+        display: block;
+        opacity: 1;
+      }
+    }
   }
 
   &_uls {
     text-align: center;
-    padding: rem(40px);
-    li{
+    @include max-tablet{
+      margin-top: rem(20px);
+    }
+    @include min-pc {
+      padding: rem(40px);
+    }
+
+    li {
       padding-top: rem(4px);
       padding-bottom: rem(4px);
     }
 
     button {
-      width: rem(168px);
+      width: 100%;
+      @include min-pc {
+        width: rem(168px);
+      }
     }
   }
 }

@@ -24,7 +24,7 @@
 
   &__xl {
     min-height: 56px;
-    @include min-pc{
+    @include min-pc {
       min-height: calc-auto(1200px, 1920px, 48px, 56px);
     }
   }
@@ -38,7 +38,7 @@
     font-size: 12px;
     line-height: 24px;
 
-    @include min-pc{
+    @include min-pc {
       min-height: calc-auto(1200px, 1920px, 32px, 40px);
     }
 
@@ -175,15 +175,35 @@
       transform: translateY(0%);
     }
 
-    &:hover {
-      color: $white;
+    @media (hover: hover) {
+      &:hover {
+        color: $white;
+
+        &::after {
+          transform: translateY(0%);
+        }
+
+        &::before {
+          transform: translateY(-102%);
+        }
+      }
+    }
+
+    &__black {
+      color: white;
 
       &::after {
-        transform: translateY(0%);
+        background-color: $white;
       }
 
       &::before {
-        transform: translateY(-102%);
+        background-color: $neutral-08;
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          color: $neutral-08;
+        }
       }
     }
   }
@@ -243,6 +263,26 @@
         fill: $neutral-08;
       }
     }
+
+    &__black {
+      color: $neutral-08;
+      border: 1px solid $neutral-08;
+
+      &::after {
+        background-color: $white;
+      }
+
+      &::before {
+        background-color: $neutral-08;
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          color: $neutral-08;
+        }
+      }
+    }
+
   }
 
   &__ctaNone {

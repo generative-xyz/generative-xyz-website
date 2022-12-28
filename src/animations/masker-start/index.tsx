@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollMaskStart } from './scroll-mask-start';
+import { isMobileAndTablet } from '@helpers/anim.helpers';
 
 interface IProp {
   className: string;
@@ -17,7 +18,7 @@ export const MaskerStart = ({ className = '', children }: IProp) => {
 
   useEffect(() => {
     const anim = gsap.context(() => {
-      if (!comp.current) return;
+      if (!comp.current || isMobileAndTablet()) return;
       refDom.current.scrollMask = new ScrollMaskStart(comp.current, () => {
         refDom.current.scrollMask?.tl?.fromTo(
           comp.current,

@@ -6,7 +6,9 @@ export const Monitor = ({ data }: { data: IHardwareItem }): JSX.Element => {
     <div className={s.monitor}>
       <div className="container">
         <div className={`${s.monitor_inner} row align-items-center`}>
-          <div className={`${s.monitor_info} col-xxl-4 col-5 offset-1`}>
+          <div
+            className={`${s.monitor_info} col-xxl-4 col-xl-5 offset-xl-1 col-12`}
+          >
             <div className={`${s.monitor_info_label} desc__small`}>
               {data.subtitle}
             </div>
@@ -16,7 +18,7 @@ export const Monitor = ({ data }: { data: IHardwareItem }): JSX.Element => {
             <p className={`desc__medium`}>{data.desc}</p>
           </div>
           <div
-            className={`${s.monitor_detail} col-xxl-4 col-5 offset-xxl-2 offset-1`}
+            className={`${s.monitor_detail} col-xxl-4 col-xl-5 offset-xxl-2 offset-xl-1 col-12`}
           >
             <ul className={'ul_reset'}>
               {data.options.map((option: IHardwareInfo, key) => {
@@ -44,6 +46,15 @@ export const Monitor = ({ data }: { data: IHardwareItem }): JSX.Element => {
           </div>
         </div>
       </div>
+      <video
+        className={s.monitor_video}
+        autoPlay
+        muted
+        playsInline
+        loop
+        preload="auto"
+        src={data.video}
+      />
     </div>
   );
 };

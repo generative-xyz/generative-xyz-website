@@ -4,13 +4,14 @@ import s from './artworks.module.scss';
 import { useEffect, useRef } from 'react';
 import { MaskerEnd } from '@animations/masker-end';
 import { ScrollFixed } from '@animations/scroll-fixed';
+import { isMobileAndTablet } from '@helpers/anim.helpers';
 
 export const Artworks = (): JSX.Element => {
   const comp = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const anim = gsap.context(() => {
-      if (!comp.current) return;
+      if (!comp.current || isMobileAndTablet()) return;
 
       const scrollFixed = new ScrollFixed(comp.current, window.innerHeight);
       scrollFixed.tl

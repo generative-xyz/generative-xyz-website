@@ -4,6 +4,15 @@
 .monitor {
   color: $neutral-08;
 
+  &_video {
+    display: block;
+    aspect-ratio: 16/9;
+    width: 100%;
+    @include min-pc {
+      display: none;
+    }
+  }
+
   &_inner {
     display: flex;
 
@@ -23,6 +32,14 @@
   }
 
   &_detail {
+
+    margin-top: rem(35px);
+    margin-bottom: rem(32px);
+
+    @include min-pc {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
 
     &_item_desc {
 
@@ -64,11 +81,19 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: var(--spacing-sx);
+      gap: rem(16px);
+
+      @include min-pc {
+        gap: var(--spacing-sx);
+      }
 
       li {
-        flex: 0 0 calc(50% - var(--spacing-sx));
-        width: calc(50% - var(--spacing-sx));
+
+        @include min-pc {
+          flex: 0 0 calc(50% - var(--spacing-sx));
+          width: calc(50% - var(--spacing-sx));
+        }
+
         display: flex;
         gap: rem(16px);
         align-items: center;

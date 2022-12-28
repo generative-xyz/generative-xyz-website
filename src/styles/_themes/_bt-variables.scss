@@ -13,12 +13,26 @@ $grid-breakpoints: (
 :root {
 
   //spacing
-  --spacing-supper: #{rem(200px)};
+
   --spacing-large: #{rem(165px)};
-  --spacing-medium: #{rem(120px)};
   --spacing-small: #{rem(80px)};
-  --spacing-still: #{rem(48px)};
+  --spacing-still: #{rem(28px)};
   --spacing-sx: #{rem(32px)};
+
+  //mobile
+  --spacing-supper: #{rem(80px)};
+  --spacing-medium: #{rem(32px)};
+
+  @include tablet {
+    --spacing-supper: #{rem(120px)};
+    --spacing-medium: #{rem(40px)};
+  }
+
+  @include min-pc {
+    --spacing-supper: #{rem(200px)};
+    --spacing-medium: #{rem(120px)};
+    --spacing-still: #{rem(48px)};
+  }
 
   //end
 }

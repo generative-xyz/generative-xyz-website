@@ -10,6 +10,7 @@ declare global {
     title: string;
     desc: string;
     options: IHardwareInfo[];
+    video?: string;
   }
 
   interface IFrame {
@@ -53,6 +54,8 @@ export const HARDWARE_CONTENTS: IHardwareItem[] = [
     subtitle: 'The monitor',
     title: 'Immersive 55-inch OLED',
     desc: 'A big, beautiful window into new worlds, Generative Display draws you in from the moment you turn it on. Spectacularly detailed generative art springs to life.',
+    video:
+      'https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/video-rightc8ecf13cd4.mp4',
     options: [
       {
         subtitle: 'LCD Display',
@@ -80,6 +83,8 @@ export const HARDWARE_CONTENTS: IHardwareItem[] = [
     subtitle: 'GPU',
     title: 'Powerful GPU.',
     desc: 'NVIDIA Ampere Streaming multiprocessor - the most efficient GPU in the world - delivers 2X the throughput of FP32 and improves power efficiency. It also features 2nd Gen RT Cores and 3rd Gen Tensor Cores to push performance to unparalleled levels.',
+    video:
+      'https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/video-rightc8ecf13cd4.mp4',
     options: [
       {
         subtitle: 'CUDA Cores',

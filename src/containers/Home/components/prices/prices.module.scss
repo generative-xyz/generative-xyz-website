@@ -4,6 +4,10 @@
 .tableInfo {
   padding-top: var(--spacing-supper);
   padding-bottom: var(--spacing-supper);
+
+  @include max-tablet{
+    min-width: rem(1200px);
+  }
 }
 
 .Home {
@@ -45,15 +49,17 @@
     font-size: rem(20px);
     line-height: 140%;
     color: $neutral-08;
+    margin-bottom: rem(16px);
 
     @include min-pc {
+      margin-bottom: 0;
       font-size: calc-auto($screen-xl, $screen-xxxl, 15px, 20px);
     }
   }
 
   &_specContent {
     color: $neutral-08;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 16px;
 
     @include min-pc {
