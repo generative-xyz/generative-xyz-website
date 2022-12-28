@@ -48,7 +48,7 @@ const ProjectPreview = () => {
         <div className={s.actionWrapper}>
           <div className={s.uploadPreviewWrapper}></div>
           <div className={s.sandboxControls}>
-            <Button variants="outline">aaaaa</Button>
+            <Button>aaaaa</Button>
           </div>
         </div>
       </div>

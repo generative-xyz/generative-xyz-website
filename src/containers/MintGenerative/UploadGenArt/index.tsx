@@ -110,7 +110,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
             <SvgInset
               size={18}
               className={s.infoIcon}
-              url={`${CDN_URL}/icons/ic-info-circle-18x18.svg`}
+              svgUrl={`${CDN_URL}/icons/ic-info-circle-18x18.svg`}
             ></SvgInset>
           </h3>
           <div className={s.dropZoneWrapper}>
