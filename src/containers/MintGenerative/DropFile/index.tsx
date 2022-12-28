@@ -1,9 +1,10 @@
 import s from './styles.module.scss';
 import cs from 'classnames';
-import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Accept, ErrorCode, useDropzone } from 'react-dropzone';
 import { prettyPrintBytes } from '@utils/units';
-import { APP_MAX_FILESIZE } from '@constants/config';
+import { APP_MAX_FILESIZE, CDN_URL } from '@constants/config';
+import SvgInset from '@components/SvgInset';
 
 const getPrettyError = (code: ErrorCode): string => {
   switch (code) {
@@ -24,18 +25,12 @@ export interface IProps {
   acceptedFileType?: Accept;
   files?: File[] | null;
   onChange: (files: File[] | null) => void;
-  defaultInnerHmtl?: ReactNode;
-  draggingInnerHtml?: ReactNode;
   className?: string;
   onClick?: () => void;
   maxSizeMb?: number;
 }
 
 const DropFile: React.FC<IProps> = ({
-  defaultInnerHmtl = (
-    <p>Drag &apos;n&apos; drop your zip files here, or click to select files</p>
-  ),
-  draggingInnerHtml = <p>Drop the files here ...</p>,
   acceptedFileType,
   files,
   onChange,
@@ -79,39 +74,59 @@ const DropFile: React.FC<IProps> = ({
     <div
       {...rootProps}
       className={cs(s.dropFile, className, {
-        [s.drag]: isDragActive,
-        [s.error]: !!error,
+        [s.dropFile__drag]: isDragActive,
+        [s.dropFile__error]: !!error,
       })}
       contentEditable={false}
     >
       <input {...getInputProps()} />
-      {files ? (
-        <div>
-          {files.map(f => `${f.name} (${prettyPrintBytes(f.size)})`).join(', ')}
-        </div>
-      ) : (
-        <div>
-          {error ? (
-            <>
-              {fileRejections?.length > 0
-                ? fileRejections.map(({ file, errors }) => (
-                    <div key={file.name}>
-                      {file.name}:{' '}
-                      {errors
-                        .map(e => getPrettyError(e.code as ErrorCode))
-                        .join(',')}
-                      {'.'}
-                    </div>
-                  ))
-                : error}
-            </>
-          ) : isDragActive ? (
-            draggingInnerHtml
+      <div>
+        <div className={s.dropZone}>
+          <SvgInset
+            size={100}
+            className={s.dropZoneThumbnail}
+            svgUrl={`${CDN_URL}/images/docs.svg`}
+          ></SvgInset>
+          {files ? (
+            <p className={s.dropZoneDescription}>
+              {files
+                .map(f => `${f.name} (${prettyPrintBytes(f.size)})`)
+                .join(', ')}
+            </p>
           ) : (
-            defaultInnerHmtl
+            <>
+              {error ? (
+                <>
+                  {fileRejections?.length > 0 ? (
+                    fileRejections.map(({ file, errors }) => (
+                      <p
+                        key={file.name}
+                        className={cs(s.dropZoneDescription, s.errorText)}
+                      >
+                        {file.name}:{' '}
+                        {errors
+                          .map(e => getPrettyError(e.code as ErrorCode))
+                          .join(',')}
+                        {'.'}
+                      </p>
+                    ))
+                  ) : (
+                    <p className={cs(s.dropZoneDescription, s.errorText)}>
+                      {error}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p className={s.dropZoneDescription}>
+                  {isDragActive
+                    ? 'Dragging'
+                    : "Drag 'n' drop your ZIP file here."}
+                </p>
+              )}
+            </>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

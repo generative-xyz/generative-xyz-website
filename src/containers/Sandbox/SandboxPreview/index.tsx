@@ -47,8 +47,8 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
     useEffect(() => {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker
-          .register('/sandbox/sw.js', {
-            scope: '/sandbox',
+          .register('/sw.js', {
+            scope: '/',
           })
           .then(reg => {
             workerReg.current = reg;
