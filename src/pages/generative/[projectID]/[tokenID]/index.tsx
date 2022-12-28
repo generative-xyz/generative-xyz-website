@@ -1,12 +1,12 @@
-import { NextPage } from 'next';
-import DefaultLayout from '@components/Layout/DefaultLayout';
 import GenerativeTokenDetail from '@containers/GenerativeTokenDetail';
+import MarketplaceLayout from '@layouts/Marketplace';
+import { NextPage } from 'next';
 
 const GenerativeTokenDetailPage: NextPage = () => {
   return (
-    <DefaultLayout>
+    <MarketplaceLayout>
       <GenerativeTokenDetail />
-    </DefaultLayout>
+    </MarketplaceLayout>
   );
 };
 
