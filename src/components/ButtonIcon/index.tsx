@@ -15,7 +15,7 @@ interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   iconOnly?: boolean;
 }
 
-const Button = React.forwardRef<
+const ButtonIcon = React.forwardRef<
   HTMLButtonElement,
   PropsWithChildren<ButtonProps>
 >(
@@ -58,6 +58,6 @@ const Button = React.forwardRef<
   }
 );
 
-Button.displayName = 'Button';
+ButtonIcon.displayName = 'ButtonIcon';
 
-export default Button;
+export default ButtonIcon;

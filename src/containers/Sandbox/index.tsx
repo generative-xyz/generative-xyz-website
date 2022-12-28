@@ -10,8 +10,8 @@ import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { generateHash } from '@utils/generate-data';
 import DropFile from '@components/Input/DropFile';
-import Button from '@components/Button';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
+import ButtonIcon from '@components/ButtonIcon';
 
 const LOG_PREFIX = 'Sandbox';
 
@@ -91,13 +91,11 @@ const Sandbox: React.FC = (): React.ReactElement => {
           <div>
             <p>hash: {hash}</p>
           </div>
-          <Button onClick={handleGenerateHash} borderRounded>
+          <ButtonIcon onClick={handleGenerateHash}>
             Generate new hash
-          </Button>
+          </ButtonIcon>
         </div>
-        <Button onClick={handleProccessFile} borderRounded>
-          Test
-        </Button>
+        <ButtonIcon onClick={handleProccessFile}>Test</ButtonIcon>
       </div>
       {error && <div className={s.errorContainer}>{error}</div>}
       {attributes && (
