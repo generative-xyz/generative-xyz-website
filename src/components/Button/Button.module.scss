@@ -1,5 +1,5 @@
-@import "src/styles/_themes/variables.scss";
-@import "src/styles/_themes/mixins.scss";
+@import 'src/styles/_themes/variables.scss';
+@import 'src/styles/_themes/mixins.scss';
 
 .Button {
   display: flex;
@@ -24,7 +24,7 @@
 
   &__xl {
     min-height: 56px;
-    @include min-pc{
+    @include min-pc {
       min-height: calc-auto(1200px, 1920px, 48px, 56px);
     }
   }
@@ -38,7 +38,7 @@
     font-size: 12px;
     line-height: 24px;
 
-    @include min-pc{
+    @include min-pc {
       min-height: calc-auto(1200px, 1920px, 32px, 40px);
     }
 
@@ -74,7 +74,7 @@
     background-color: $neutral-08;
     color: $white;
     font-family: $font-paragraph;
-    transition: background-color .4s $easeOutCubic;
+    transition: background-color 0.4s $easeOutCubic;
 
     &:hover {
       background-color: $neutral-07;
@@ -154,7 +154,7 @@
 
     &::after,
     &::before {
-      content: "";
+      content: '';
       display: block;
       width: 100%;
       height: 102%;
@@ -219,7 +219,7 @@
     }
 
     &::after {
-      content: "";
+      content: '';
       display: block;
       width: 100%;
       height: 101%;
@@ -270,7 +270,7 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      transition: all .4s $easeOutCubic;
+      transition: all 0.4s $easeOutCubic;
     }
 
     &:hover {
@@ -279,5 +279,9 @@
         opacity: 1;
       }
     }
+  }
+
+  &_rouneded {
+    border-radius: 8px;
   }
 }
