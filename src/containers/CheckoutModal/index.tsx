@@ -2,8 +2,6 @@ import cn from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import Web3Utils from 'web3-utils';
-
 import Button from '@components/Button';
 import Dropdown from '@components/Dropdown';
 import Input from '@components/Input';
@@ -15,14 +13,10 @@ import { setCheckoutProductId } from '@redux/general/action';
 import { checkoutProductId } from '@redux/general/selector';
 import { useAppDispatch } from '@redux/index';
 import { makeOrder } from '@services/api/order';
-
-import { LogLevel } from '@enums/log-level';
-import log from '@utils/logger';
 import { useRouter } from 'next/router';
 import s from './CheckoutModal.module.scss';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-// import { faSpinner } from '@fortawesome/pro-regular-svg-icons';
+import { useContext } from 'react';
+import { WalletContext } from '@contexts/wallet-context';
 
 interface IPropState {
   name: any;
@@ -39,26 +33,23 @@ interface ICart extends IFrame {
   qty: number;
 }
 
-const LOG_PREFIX = 'CheckoutModal';
-
 const CheckoutModal: React.FC = (): JSX.Element => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const checkoutProduct = useSelector(checkoutProductId);
   const isShow = !!checkoutProduct;
-
   const onHideModal = () => dispatch(setCheckoutProductId(''));
   const [isLoading, setIsLoading] = useState(false);
-  const [order, setOrder] = useState({} as any);
-
+  const [error, setError] = useState('');
   const [cart, setCart] = useState<ICart>({
     id: '',
     name: '',
     price: 0,
     img: '',
     imgLeft: '',
-    qty: 0,
+    qty: 1,
   });
+  const walletCtx = useContext(WalletContext);
 
   const itemInCart = useMemo(
     () => FRAME_OPTIONS.find(item => item.id === checkoutProduct) || cart,
@@ -87,17 +78,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     [shippingInfo.state]
   );
 
-  const fetchProductList = async (): Promise<void> => {
-    try {
-      // const res = await getProductList();
-      // const { products } = res.data;
-      // setCart({ ...cart, id: productId });
-    } catch (err: unknown) {
-      log('failed to get product list', LogLevel.Error, LOG_PREFIX);
-      throw Error();
-    }
-  };
-
   const onChangeQty = (qty: number) => {
     setCart({ ...cart, qty });
   };
@@ -107,41 +87,22 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     [cart]
   );
 
-  const processOrder = async () => {
+  const processOrder = async (order: any) => {
     if (order.order_id) {
-      setIsLoading(true);
-
-      if (typeof window.ethereum !== 'undefined') {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-
-        const value = Web3Utils.toHex(
-          Web3Utils.toWei(totalPrice.toString(), 'ether')
+      try {
+        setIsLoading(true);
+        const txHash = await walletCtx.transfer(
+          order.master_address,
+          order.total
         );
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const txHash = await window.ethereum.request({
-          method: 'eth_sendTransaction',
-          params: [
-            {
-              from: accounts[0],
-              to: order.master_address,
-              value: value,
-            },
-          ],
-        });
-
-        if (txHash) {
-          onHideModal();
-          router.push(`/order/${order.order_id}`);
+        if (!txHash) {
+          setError('Something went wrong. Please try again later.');
+          return;
         }
-      } else {
         onHideModal();
         router.push(`/order/${order.order_id}`);
+      } catch (_: unknown) {
+        setError('Something went wrong. Please try again later.');
       }
     }
 
@@ -149,10 +110,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   };
 
   const placeOrder = async () => {
-    if (order.order_id) {
-      return await processOrder();
-    }
-
     try {
       setIsLoading(true);
 
@@ -163,7 +120,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
 
       if (!newOrder.order_id) return;
 
-      setOrder(newOrder);
+      await processOrder(newOrder);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -181,32 +138,9 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     shippingInfo.zip &&
     shippingInfo.country;
 
-  // useEffect(() => {
-  //   if (!isShow) {
-  //     setCart(
-  //       FRAME_OPTIONS.map(option => ({
-  //         ...option,
-  //         qty: 0,
-  //       }))
-  //     );
-  //   }
-  // }, [isShow]);
-
   useEffect(() => {
-    fetchProductList();
-  }, []);
-
-  useEffect(() => {
-    setCart({ ...itemInCart, qty: 0 });
+    setCart({ ...itemInCart, qty: 1 });
   }, [itemInCart]);
-
-  useEffect(() => {
-    setOrder({});
-  }, [cart, shippingInfo]);
-
-  useEffect(() => {
-    processOrder();
-  }, [order]);
 
   return (
     <Modal show={isShow} onHide={onHideModal} className={s.CheckoutModal}>
@@ -228,7 +162,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                 </div>
                 <InputQuantity
                   defaultValue={cart?.qty}
-                  minimumQuantity={0}
+                  minimumQuantity={1}
                   size="sm"
                   className={s.CheckoutModal_optionItemQty}
                   onChange={(qty: number) => onChangeQty(qty)}
@@ -388,11 +322,13 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             onClick={placeOrder}
             disabled={!isEnablePaymentBtn || isLoading}
           >
-            {isLoading
-              ? `Processing...` //todo ducanh
-              : // <FontAwesomeIcon icon={faSpinner} size="2x" pulse />
-                'Place your order'}
+            {isLoading ? `Processing...` : 'Place your order'}
           </Button>
+          {error && (
+            <div className={s.errorMessageWrapper}>
+              <p className={s.errorMessage}>{error}</p>
+            </div>
+          )}
         </div>
       </Modal.Body>
     </Modal>

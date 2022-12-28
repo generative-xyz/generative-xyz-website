@@ -17,6 +17,10 @@
   }
 }
 
+.rightWrapper {
+  flex: 1;
+}
+
 .itemInfo {
   display: flex;
   flex-direction: column;
@@ -25,7 +29,6 @@
 
 .thumbnail {
   position: relative;
-  flex: 1;
   aspect-ratio: 4 / 3;
   height: fit-content;
 }
@@ -34,4 +37,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.actionButtons {
+  justify-content: center;
+  margin-top: 15px;
 }

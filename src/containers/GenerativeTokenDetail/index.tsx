@@ -13,6 +13,7 @@ import styles from './styles.module.scss';
 import { convertIpfsToHttp } from '@utils/image';
 import { getChainName, getOpenseaAssetUrl, getScanUrl } from '@utils/chain';
 import Link from '@components/Link';
+import { formatAddress } from '@utils/format';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -31,9 +32,50 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     animation_url: '',
     attributes: [],
     genNFTAddr: '', // TODO
-    owner: '',
-    creator: '',
-    mintedOn: '',
+    owner: {
+      displayName: '',
+      bio: '',
+      avatar: '',
+      walletAddress: '',
+      id: '',
+    },
+    ownerAddress: '',
+    project: {
+      id: '',
+      maxSupply: 0,
+      limit: 0,
+      mintPrice: '',
+      mintPriceAddr: '',
+      name: '',
+      creator: '',
+      creatorAddr: '',
+      license: '',
+      desc: '',
+      image: '',
+      scriptType: [],
+      social: {
+        Web: '',
+        Twitter: '',
+        Discord: '',
+        Medium: '',
+        Instagram: '',
+      },
+      scripts: [],
+      styles: '',
+      completeTime: 0,
+      genNFTAddr: '',
+      itemDesc: '',
+      status: false,
+      nftTokenURI: '',
+      projectURI: '',
+      royalty: 0,
+      tokenID: '',
+      mintingInfo: {
+        index: 0,
+        indexReserve: 0,
+      },
+    },
+    mintedTime: '',
   });
 
   const scanURL = getScanUrl();
@@ -84,7 +126,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Owner</p>
-                      <p>{itemDetail.owner}</p>
+                      <p>
+                        {itemDetail.owner.displayName
+                          ? itemDetail.owner.displayName
+                          : itemDetail.owner.walletAddress}
+                      </p>
                     </div>
                   }
                 />
@@ -95,7 +141,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Creator</p>
-                      <p>{itemDetail.owner}</p>
+                      <p>
+                        {itemDetail.project.creator
+                          ? formatAddress(itemDetail.project.creator)
+                          : formatAddress(itemDetail.project.creatorAddr)}
+                      </p>
                     </div>
                   }
                 />
@@ -106,7 +156,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Minted on</p>
-                      <p>Date {itemDetail.mintedOn}</p>
+                      <p>{itemDetail.mintedTime}</p>
                     </div>
                   }
                 />
@@ -151,9 +201,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   <p>
                     <Link
                       target={`_blank`}
-                      href={`${scanURL}/address/${itemDetail.genNFTAddr}`}
+                      href={`${scanURL}/token/${itemDetail.project.genNFTAddr}`}
                     >
-                      {itemDetail.genNFTAddr}
+                      {formatAddress(itemDetail.project.genNFTAddr)}
                     </Link>
                   </p>
                 </Stack>
@@ -162,7 +212,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   <p>
                     <Link
                       target={`_blank`}
-                      href={`${scanURL}/address/${itemDetail.genNFTAddr}?a=${tokenID}`}
+                      href={`${scanURL}/token/${itemDetail.project.genNFTAddr}?a=${tokenID}`}
                     >
                       {tokenID}
                     </Link>
@@ -181,8 +231,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   <p>
                     <Link
                       target={`_blank`}
-                      href={`${getOpenseaAssetUrl()}/assets/${
-                        itemDetail.genNFTAddr
+                      href={`${getOpenseaAssetUrl()}/${
+                        itemDetail.project.genNFTAddr
                       }/${tokenID}`}
                     >
                       Opensea
@@ -196,18 +246,29 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               <div className="divider"></div>
             </div>
           </div>
-          <div className={styles.thumbnail}>
-            <Image
-              src={convertIpfsToHttp(
-                itemDetail?.image ||
-                  'ipfs://QmZha95v86iME98rpxrJWbHerK3JjEHKkiGpdS4NgZKjdb'
-              )}
-              alt={itemDetail.name}
-              fill
-              style={{ width: '100%' }}
-              sizes="(max-width: 768px) 100vw,
+          <div className={styles.rightWrapper}>
+            <div className={styles.thumbnail}>
+              <Image
+                src={convertIpfsToHttp(
+                  itemDetail?.image ||
+                    'ipfs://QmNTU5ctcffhZz5Hphd44yPivh2Y89pDYYG8QQ6yWGY3wn'
+                )}
+                alt={itemDetail.name}
+                fill
+                style={{ width: '100%' }}
+                sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 25vw"
-            />
+              />
+            </div>
+            <Stack
+              direction="horizontal"
+              className={styles.actionButtons}
+              gap={5}
+            >
+              <div>Run</div>
+              <div>Refresh</div>
+              <div>Open</div>
+            </Stack>
           </div>
         </div>
         <h3>More on this Colleciton</h3>

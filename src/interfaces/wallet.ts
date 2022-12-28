@@ -10,3 +10,9 @@ export interface ProviderRpcError extends Error {
   code: number;
   data?: unknown;
 }
+
+export interface ITransferPayload {
+  fromAddress: string;
+  toAddress: string;
+  value: string;
+}
