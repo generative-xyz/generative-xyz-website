@@ -8,7 +8,6 @@ import { Artworks } from '@containers/Home/components/artworks';
 import { HardWare } from './components/hardware';
 import { LifeStyle } from '@containers/Home/components/lifestyle';
 import { Prices } from '@containers/Home/components/prices';
-import { GridDebug } from '@components/Grid/grid';
 import { ScrollTriggerHelper } from '@containers/Home/scrolltrigger-helper';
 
 const Home: React.FC = (): JSX.Element => {
@@ -38,7 +37,6 @@ const Home: React.FC = (): JSX.Element => {
       <HardWare />
       <LifeStyle />
       <Prices />
-      <GridDebug />
     </div>
   );
 };

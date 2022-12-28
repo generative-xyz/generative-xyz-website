@@ -254,140 +254,39 @@
   }
 }
 
-@mixin is-pc {
-  @include w-min(1200px) {
+@mixin max-tablet {
+  @media (max-width: #{$screen-xl - 1}) {
     @content;
   }
 }
 
-// query xs
-@mixin min-xs {
-  @media (min-width: #{$screen-xs}) {
+@mixin tablet {
+  @media screen and (min-width: #{$screen-md}) and (max-width: #{$screen-xl - 1}) {
     @content;
   }
 }
 
-@mixin max-xs {
-  @media (max-width: #{$screen-xs}) {
+@mixin min-tablet {
+  @media screen and (min-width: #{$screen-md}) {
     @content;
   }
 }
 
-// query sm
-@mixin min-sm {
-  @media (min-width: #{$screen-sm}) {
+@mixin min-pc {
+  @media screen and (min-width: #{$screen-xl}) {
     @content;
   }
 }
 
-@mixin max-sm {
-  @media (max-width: #{$screen-sm}) {
+
+@mixin min-pc-mid {
+  @media screen and (min-width: #{$screen-xxl}) {
     @content;
   }
 }
 
-@mixin max-sm-ios {
-  @media not all and (min-resolution: 0.001dpcm) {
-    @media (max-width: #{$screen-sm}) {
-      @content;
-    }
-  }
-}
-
-// query md
-@mixin max-md {
-  @media (max-width: #{$screen-md}) {
-    @content;
-  }
-}
-
-@mixin min-md {
-  @media (min-width: #{$screen-md}) {
-    @content;
-  }
-}
-
-// query lg
-@mixin max-lg {
-  @media (max-width: #{$screen-lg}) {
-    @content;
-  }
-}
-
-@mixin min-lg {
-  @media (min-width: #{$screen-lg}) {
-    @content;
-  }
-}
-
-// query ml
-@mixin max-ml {
-  @media (max-width: #{$screen-ml}) {
-    @content;
-  }
-}
-
-@mixin min-ml {
-  @media (min-width: #{$screen-ml + 1px}) {
-    @content;
-  }
-}
-
-// query xl
-@mixin max-xl {
-  @media (max-width: #{$screen-xl}) {
-    @content;
-  }
-}
-
-@mixin min-xl {
-  @media (min-width: #{$screen-xl}) {
-    @content;
-  }
-}
-
-// query xxl
-@mixin max-xxl {
-  @media (max-width: #{$screen-xxl}) {
-    @content;
-  }
-}
-
-@mixin min-xxl {
-  @media (min-width: #{$screen-xxl}) {
-    @content;
-  }
-}
-
-// query xxl
-@mixin max-xxxl {
-  @media (max-width: #{$screen-xxxl}) {
-    @content;
-  }
-}
-
-@mixin min-xxxl {
-  @media (min-width: #{$screen-xxxl}) {
-    @content;
-  }
-}
-
-// md to lg and md to ml
-@mixin md-to-lg {
-  @media (min-width: #{$screen-md}) and (max-width: #{$screen-lg}) {
-    @content;
-  }
-}
-
-@mixin md-to-ml {
-  @media (min-width: #{$screen-md}) and (max-width: #{$screen-ml}) {
-    @content;
-  }
-}
-
-// lg to ml
-@mixin lg-to-ml {
-  @media (min-width: #{$screen-lg}) and (max-width: #{$screen-ml}) {
+@mixin min-pc-wide {
+  @media screen and (min-width: #{$screen-xxxl}) {
     @content;
   }
 }

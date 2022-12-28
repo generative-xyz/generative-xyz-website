@@ -25,7 +25,10 @@
     align-items: flex-end;
 
     &_container {
-      margin-bottom: rem(36px);
+
+      @include min-pc{
+        margin-bottom: calc-auto(1200px, 1920px, 48px, 60px);
+      }
     }
 
     &_desc{

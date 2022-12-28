@@ -11,7 +11,7 @@
   width: rem(132);
   justify-content: space-between;
 
-  @include max-md {
+  @include max-tablet {
     height: auto;
     width: auto;
     padding: 0;
@@ -25,7 +25,7 @@
     display: block;
     margin-bottom: 0;
 
-    @include max-lg() {
+    @include max-tablet() {
       display: none;
       font-size: rem(12);
       line-height: rem(20);
@@ -35,7 +35,7 @@
   .btnEditQty {
     display: block;
     background: none !important;
-    color: $neutral-07 !important;
+    color: $white !important;
     border: 0 none;
     font-size: rem(10);
     line-height: rem(10);
@@ -61,7 +61,7 @@
       color: $neutral-03 !important;
     }
 
-    @include max-md {
+    @include max-tablet {
       width: rem(24);
       height: rem(24);
 
@@ -90,7 +90,7 @@
     height: auto;
     margin: 0;
     -webkit-appearance: none;
-    @include max-md() {
+    @include max-tablet() {
       text-align: center;
       font-weight: 500;
       font-size: rem(16);
@@ -127,7 +127,7 @@
     .btnEditQty {
       font-size: rem(16);
     }
-    @include max-lg() {
+    @include max-tablet() {
       .btnEditQty {
         padding: 10px 11px;
       }

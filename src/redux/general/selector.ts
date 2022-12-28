@@ -6,6 +6,9 @@ export const isOpenWalletSettingSelector = (state: RootState): boolean =>
 export const isOpenCheckoutPopupSelector = (state: RootState): boolean =>
   state.general.isOpenCheckoutPopup;
 
+export const checkoutProductId = (state: RootState): string =>
+  state.general.checkoutProductId;
+
 export const animationRegister = (state: RootState): number =>
   state.general.animationRegister;
 

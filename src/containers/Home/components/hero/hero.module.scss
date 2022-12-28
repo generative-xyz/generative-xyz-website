@@ -39,19 +39,40 @@
 
       &_ctas {
         display: flex;
-        gap: rem(12px);
         justify-content: center;
+        flex-wrap: wrap;
+
+        @include min-pc {
+          gap: rem(12px);
+        }
 
         &_orderBtn,
         &_bookBtn {
-          padding-left: var(--spacing-still);
-          padding-right: rem(48px);
+
+          padding-right: rem(24);
+          padding-left: rem(24);
+          text-align: center;
+          min-width: rem(335px);
+
+          @include min-pc {
+            min-width: calc-auto(1200px, 1920px, 145px, 200px);
+          }
         }
 
         &_play {
+          font-size: 14px;
+          line-height: 26px;
+
+          span {
+            font-size: 14px;
+            line-height: 26px;
+          }
+
           display: inline-block;
           margin-bottom: 0;
-          margin-top: rem(12px);
+          margin-top: rem(24px);
+          padding-left: 0;
+          padding-right: 0;
         }
       }
     }

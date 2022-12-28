@@ -1,5 +1,5 @@
-@import "src/styles/_themes/variables";
-@import "src/styles/_themes/mixins";
+@import 'src/styles/_themes/variables';
+@import 'src/styles/_themes/mixins';
 .CheckoutModal {
   &_title {
     font-weight: 700;
@@ -15,14 +15,15 @@
 
   &_optionsContainer {
     display: flex;
+    gap: 10px;
   }
 
   &_optionItem {
     flex: 1;
-
-    &:last-child {
-      margin-left: rem(76);
-    }
+    max-width: 243px;
+    // &:last-child {
+    //   margin-left: rem(76);
+    // }
 
     img {
       width: 100%;

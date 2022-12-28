@@ -36,6 +36,7 @@
       aspect-ratio: 1122/720;
       position: relative;
       z-index: 2;
+      will-change: transform;
     }
 
     &__small {
@@ -43,6 +44,7 @@
       position: absolute;
       width: rem(620px);
       transform: translateY(-50%);
+      will-change: transform;
     }
 
     &__left {

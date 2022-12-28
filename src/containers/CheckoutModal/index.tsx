@@ -1,23 +1,25 @@
+import cn from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import cn from 'classnames';
 import Web3Utils from 'web3-utils';
 
-import { isOpenCheckoutPopupSelector } from '@redux/general/selector';
-import { setIsOpenCheckoutPopup } from '@redux/general/action';
-import { useAppDispatch } from '@redux/index';
-import { FRAME_OPTIONS } from '@constants/frame';
+import Button from '@components/Button';
 import Dropdown from '@components/Dropdown';
 import Input from '@components/Input';
-import Button from '@components/Button';
 import InputQuantity from '@components/InputQuantity';
 import Countries from '@constants/country-list.json';
+import { FRAME_OPTIONS } from '@constants/frame';
 import StateOfUS from '@constants/state-of-us.json';
+import { setCheckoutProductId } from '@redux/general/action';
+import { checkoutProductId } from '@redux/general/selector';
+import { useAppDispatch } from '@redux/index';
 import { makeOrder } from '@services/api/order';
 
-import s from './CheckoutModal.module.scss';
+import { LogLevel } from '@enums/log-level';
+import log from '@utils/logger';
 import { useRouter } from 'next/router';
+import s from './CheckoutModal.module.scss';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // import { faSpinner } from '@fortawesome/pro-regular-svg-icons';
@@ -33,19 +35,36 @@ interface IPropState {
   country: any;
 }
 
+interface ICart extends IFrame {
+  qty: number;
+}
+
+const LOG_PREFIX = 'CheckoutModal';
+
 const CheckoutModal: React.FC = (): JSX.Element => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const isShow = useSelector(isOpenCheckoutPopupSelector);
-  const onHideModal = () => dispatch(setIsOpenCheckoutPopup(false));
+  const checkoutProduct = useSelector(checkoutProductId);
+  const isShow = !!checkoutProduct;
+
+  const onHideModal = () => dispatch(setCheckoutProductId(''));
   const [isLoading, setIsLoading] = useState(false);
   const [order, setOrder] = useState({} as any);
-  const [cart, setCart] = useState(
-    FRAME_OPTIONS.map(option => ({
-      ...option,
-      qty: 0,
-    }))
+
+  const [cart, setCart] = useState<ICart>({
+    id: '',
+    name: '',
+    price: 0,
+    img: '',
+    imgLeft: '',
+    qty: 0,
+  });
+
+  const itemInCart = useMemo(
+    () => FRAME_OPTIONS.find(item => item.id === checkoutProduct) || cart,
+    [checkoutProduct]
   );
+
   const [shippingInfo, setShippingInfo] = useState<IPropState>({
     name: '',
     email: '',
@@ -68,17 +87,23 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     [shippingInfo.state]
   );
 
-  const onChangeQty = (qty: number, cartIndex: number) => {
-    cart[cartIndex].qty = qty;
-    setCart([...cart]);
+  const fetchProductList = async (): Promise<void> => {
+    try {
+      // const res = await getProductList();
+      // const { products } = res.data;
+      // setCart({ ...cart, id: productId });
+    } catch (err: unknown) {
+      log('failed to get product list', LogLevel.Error, LOG_PREFIX);
+      throw Error();
+    }
+  };
+
+  const onChangeQty = (qty: number) => {
+    setCart({ ...cart, qty });
   };
 
   const totalPrice = useMemo(
-    () =>
-      Math.round(
-        cart.reduce((prev, current) => prev + current.price * current.qty, 0) *
-          10e9
-      ) / 10e9,
+    () => Math.round(cart.price * cart.qty * 10e9) / 10e9,
     [cart]
   );
 
@@ -132,7 +157,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
       setIsLoading(true);
 
       const { data: newOrder } = await makeOrder({
-        details: cart.filter(item => item.qty > 0),
+        details: [{ id: cart?.id || '', qty: cart?.qty || 0 }],
         ...shippingInfo,
       });
 
@@ -146,8 +171,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     }
   };
 
-  // const fetchProductList = async ()
-
   const isEnablePaymentBtn =
     totalPrice > 0 &&
     shippingInfo.name &&
@@ -158,16 +181,24 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     shippingInfo.zip &&
     shippingInfo.country;
 
+  // useEffect(() => {
+  //   if (!isShow) {
+  //     setCart(
+  //       FRAME_OPTIONS.map(option => ({
+  //         ...option,
+  //         qty: 0,
+  //       }))
+  //     );
+  //   }
+  // }, [isShow]);
+
   useEffect(() => {
-    if (!isShow) {
-      setCart(
-        FRAME_OPTIONS.map(option => ({
-          ...option,
-          qty: 0,
-        }))
-      );
-    }
-  }, [isShow]);
+    fetchProductList();
+  }, []);
+
+  useEffect(() => {
+    setCart({ ...itemInCart, qty: 0 });
+  }, [itemInCart]);
 
   useEffect(() => {
     setOrder({});
@@ -184,28 +215,26 @@ const CheckoutModal: React.FC = (): JSX.Element => {
         <div>
           <div className={s.CheckoutModal_title}>Buy Gen-Frame</div>
           <div className={s.CheckoutModal_optionsContainer}>
-            {cart.map((option, i) => (
-              <div key={option.id} className={s.CheckoutModal_optionItem}>
-                <img src={option.img} alt="" />
-                <div className={s.CheckoutModal_optionItemContainer}>
-                  <div>
-                    <div className={s.CheckoutModal_optionItemName}>
-                      {option.name}
-                    </div>
-                    <div className={s.CheckoutModal_optionItemPrice}>
-                      {`${option.price} ETH`}
-                    </div>
+            <div key={cart?.id} className={s.CheckoutModal_optionItem}>
+              <img src={cart?.img} alt="" />
+              <div className={s.CheckoutModal_optionItemContainer}>
+                <div>
+                  <div className={s.CheckoutModal_optionItemName}>
+                    {cart?.name}
                   </div>
-                  <InputQuantity
-                    defaultValue={option.qty}
-                    minimumQuantity={0}
-                    size="sm"
-                    className={s.CheckoutModal_optionItemQty}
-                    onChange={(qty: number) => onChangeQty(qty, i)}
-                  />
+                  <div className={s.CheckoutModal_optionItemPrice}>
+                    {`${cart?.price} ETH`}
+                  </div>
                 </div>
+                <InputQuantity
+                  defaultValue={cart?.qty}
+                  minimumQuantity={0}
+                  size="sm"
+                  className={s.CheckoutModal_optionItemQty}
+                  onChange={(qty: number) => onChangeQty(qty)}
+                />
               </div>
-            ))}
+            </div>
           </div>
           <div
             className={cn(s.CheckoutModal_title, s.CheckoutModal_shippingTitle)}

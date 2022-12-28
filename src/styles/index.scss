@@ -1,16 +1,16 @@
-@import "_themes/mixins";
-@import "_themes/bt-variables";
-@import "bootstrap/scss/bootstrap.scss";
-@import "_bt-importer.scss";
-@import "_fonts.scss";
-@import "_reset.scss";
-@import "_variables.scss";
-@import "_theme.scss";
-@import "_utils.scss";
-@import "_themes/fonts";
-@import "_themes/laddingpage";
-@import "_grid-debug";
-@import "_themes/bootstrap-overrides.scss";
+@import '_themes/mixins';
+@import '_themes/bt-variables';
+@import 'bootstrap/scss/bootstrap.scss';
+@import '_bt-importer.scss';
+@import '_fonts.scss';
+@import '_reset.scss';
+@import '_variables.scss';
+@import '_theme.scss';
+@import '_utils.scss';
+@import '_themes/fonts';
+@import '_themes/laddingpage';
+@import '_grid-debug';
+@import '_themes/bootstrap-overrides.scss';
 
 * {
   margin: 0;
@@ -43,17 +43,8 @@ body {
   background: #fff;
   color: $neutral-07;
   font-size: rem(16px);
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen-Sans,
-    Ubuntu,
-    Cantarell,
-    "Helvetica Neue",
-    sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 }
 
 input {
@@ -70,7 +61,7 @@ button {
   border: none;
 }
 
-[class^="js-anim"]:not(.is-handle) {
+[class^='js-anim']:not(.is-handle) {
   opacity: 0;
 }
 

@@ -4,7 +4,7 @@ import ApiFactory, { DEFAULT_RESPONSE } from '../http';
 const ORDER_API = '/v1/order';
 
 export const makeOrder = async (orderInfo: {
-  details: Array<{ id: string; qty: number }>;
+  details: { id: string; qty: number }[];
   name: string;
   email: string;
   address: string;
@@ -16,10 +16,12 @@ export const makeOrder = async (orderInfo: {
 }): Promise<any> => {
   try {
     const response = await ApiFactory.post(`${ORDER_API}/make`, {
-      details: orderInfo.details.map(({ id, qty }) => ({
-        product_id: id,
-        quantity: qty,
-      })),
+      details: [
+        {
+          product_id: orderInfo.details[0].id,
+          quantity: orderInfo.details[0].qty,
+        },
+      ],
       email: orderInfo.email,
       shipping_firstname: orderInfo.name,
       shipping_address1: orderInfo.address,

@@ -1,18 +1,20 @@
-import s from './prices.module.scss';
-import { Col, Row } from 'react-bootstrap';
-import cn from 'classnames';
-import React from 'react';
-import { useAppDispatch } from '@redux';
-import { setIsOpenCheckoutPopup } from '@redux/general/action';
-import { AnimHeading } from 'src/animations/heading';
-import classNames from 'classnames';
-import { FRAME_OPTIONS } from '@constants/frame';
 import Button from '@components/Button';
+import { FRAME_OPTIONS } from '@constants/frame';
+import { useAppDispatch } from '@redux';
+import { setCheckoutProductId } from '@redux/general/action';
+import { default as classNames, default as cn } from 'classnames';
+import { Col, Row } from 'react-bootstrap';
+import { AnimHeading } from 'src/animations/heading';
 import { FrameItem } from '../frame-item';
+import s from './prices.module.scss';
 
 export const Prices = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const openCheckoutPopup = () => dispatch(setIsOpenCheckoutPopup(true));
+
+  const openCheckoutPopup = (productId: string) => {
+    dispatch(setCheckoutProductId(productId));
+  };
+
   return (
     <div className={s.tableInfo}>
       <div
@@ -105,7 +107,10 @@ export const Prices = (): JSX.Element => {
             <div className={cn(s.Home_specContent, s.price)}>
               <span>{FRAME_OPTIONS[0].price} ETH</span>
             </div>
-            <Button className={s.buy_now} onClick={openCheckoutPopup}>
+            <Button
+              className={s.buy_now}
+              onClick={() => openCheckoutPopup(FRAME_OPTIONS[0].id)}
+            >
               Buy
             </Button>
           </Col>
@@ -113,7 +118,10 @@ export const Prices = (): JSX.Element => {
             <div className={cn(s.Home_specContent, s.price)}>
               <span>{FRAME_OPTIONS[1].price} ETH</span>
             </div>
-            <Button className={s.buy_now} onClick={openCheckoutPopup}>
+            <Button
+              className={s.buy_now}
+              onClick={() => openCheckoutPopup(FRAME_OPTIONS[1].id)}
+            >
               Buy
             </Button>
           </Col>
@@ -121,7 +129,10 @@ export const Prices = (): JSX.Element => {
             <div className={cn(s.Home_specContent, s.price)}>
               <span>{FRAME_OPTIONS[1].price} ETH</span>
             </div>
-            <Button className={s.buy_now} onClick={openCheckoutPopup}>
+            <Button
+              className={s.buy_now}
+              onClick={() => openCheckoutPopup(FRAME_OPTIONS[2].id)}
+            >
               Buy
             </Button>
           </Col>
@@ -367,7 +378,10 @@ export const Prices = (): JSX.Element => {
           {FRAME_OPTIONS.map((frame: IFrame) => {
             return (
               <div key={frame.id} className="col-4">
-                <FrameItem data={frame} openCheckoutPopup={openCheckoutPopup} />
+                <FrameItem
+                  data={frame}
+                  openCheckoutPopup={() => openCheckoutPopup(frame.id)}
+                />
               </div>
             );
           })}
