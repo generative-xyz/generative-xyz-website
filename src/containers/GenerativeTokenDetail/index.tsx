@@ -41,6 +41,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     },
     ownerAddress: '',
     project: {
+      id: '',
       maxSupply: 0,
       limit: 0,
       mintPrice: '',
@@ -142,7 +143,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                       <p>Creator</p>
                       <p>
                         {itemDetail.project.creator
-                          ? itemDetail.project.creator
+                          ? formatAddress(itemDetail.project.creator)
                           : formatAddress(itemDetail.project.creatorAddr)}
                       </p>
                     </div>
@@ -245,18 +246,29 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               <div className="divider"></div>
             </div>
           </div>
-          <div className={styles.thumbnail}>
-            <Image
-              src={convertIpfsToHttp(
-                itemDetail?.image ||
-                  'ipfs://QmZha95v86iME98rpxrJWbHerK3JjEHKkiGpdS4NgZKjdb'
-              )}
-              alt={itemDetail.name}
-              fill
-              style={{ width: '100%' }}
-              sizes="(max-width: 768px) 100vw,
+          <div className={styles.rightWrapper}>
+            <div className={styles.thumbnail}>
+              <Image
+                src={convertIpfsToHttp(
+                  itemDetail?.image ||
+                    'ipfs://QmZha95v86iME98rpxrJWbHerK3JjEHKkiGpdS4NgZKjdb'
+                )}
+                alt={itemDetail.name}
+                fill
+                style={{ width: '100%' }}
+                sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 25vw"
-            />
+              />
+            </div>
+            <Stack
+              direction="horizontal"
+              className={styles.actionButtons}
+              gap={5}
+            >
+              <div>Run</div>
+              <div>Refresh</div>
+              <div>Open</div>
+            </Stack>
           </div>
         </div>
         <h3>More on this Colleciton</h3>
