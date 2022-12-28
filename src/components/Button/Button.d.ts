@@ -12,6 +12,7 @@ declare namespace IButton {
       | 'cta-border__black'
       | 'cta-none';
     size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+    borderRounded?: boolean;
   }
 }
 

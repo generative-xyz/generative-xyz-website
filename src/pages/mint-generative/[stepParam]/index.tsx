@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
-import DefaultLayout from '@components/Layout/DefaultLayout';
 import MintGenerative from '@containers/MintGenerative';
+import MarketplaceLayout from '@layouts/Marketplace';
 
 const MintGenerativePage: NextPage = () => {
   return (
-    <DefaultLayout>
+    <MarketplaceLayout>
       <MintGenerative />
-    </DefaultLayout>
+    </MarketplaceLayout>
   );
 };
 

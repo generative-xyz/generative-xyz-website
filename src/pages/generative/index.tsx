@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
-import DefaultLayout from '@components/Layout/DefaultLayout';
 import GenerativeProjectList from '@containers/GenerativeProjectList';
+import MarketplaceLayout from '@layouts/Marketplace';
 
 const GenerativeProjectListPage: NextPage = () => {
   return (
-    <DefaultLayout>
+    <MarketplaceLayout>
       <GenerativeProjectList />
-    </DefaultLayout>
+    </MarketplaceLayout>
   );
 };
 

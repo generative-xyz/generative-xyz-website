@@ -1,4 +1,4 @@
-import '@styles/index.scss';
+import AuthWrapper from '@components/Utils/AuthWrapper';
 import {
   SEO_DESCRIPTION,
   SEO_IMAGE,
@@ -7,14 +7,13 @@ import {
 import { WalletProvider } from '@contexts/wallet-context';
 import store from '@redux';
 import DatadogService from '@services/datadog';
+import '@styles/index.scss';
 import { NextComponentType, NextPageContext } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNprogress from 'nextjs-progressbar';
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import AuthWrapper from '@components/Utils/AuthWrapper';
-import DefaultLayout from '@layouts/Default';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -85,9 +84,7 @@ export default function App({ Component, pageProps }: MyAppProps) {
       <Provider store={store}>
         <WalletProvider>
           <AuthWrapper>
-            <DefaultLayout>
-              <Component {...pageProps} />
-            </DefaultLayout>
+            <Component {...pageProps} />
           </AuthWrapper>
         </WalletProvider>
       </Provider>
