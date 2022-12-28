@@ -91,9 +91,13 @@ const Sandbox: React.FC = (): React.ReactElement => {
           <div>
             <p>hash: {hash}</p>
           </div>
-          <Button onClick={handleGenerateHash}>Generate new hash</Button>
+          <Button onClick={handleGenerateHash} borderRounded>
+            Generate new hash
+          </Button>
         </div>
-        <Button onClick={handleProccessFile}>Test</Button>
+        <Button onClick={handleProccessFile} borderRounded>
+          Test
+        </Button>
       </div>
       {error && <div className={s.errorContainer}>{error}</div>}
       {attributes && (
