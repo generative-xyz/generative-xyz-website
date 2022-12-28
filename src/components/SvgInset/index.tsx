@@ -1,6 +1,5 @@
 import { ReactSVG } from 'react-svg';
 import React from 'react';
-import s from './style.module.scss';
 
 type IProps = {
   svgUrl: string;
@@ -12,6 +11,8 @@ type IProps = {
 const SvgInset: React.FC<IProps> = ({ svgUrl, className, size, onClick }) => {
   return (
     <ReactSVG
+      onClick={onClick}
+      className={className}
       src={svgUrl}
       beforeInjection={(svg): void => {
         if (size) {

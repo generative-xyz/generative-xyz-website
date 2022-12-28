@@ -85,7 +85,7 @@ const DropFile: React.FC<IProps> = ({
           <SvgInset
             size={100}
             className={s.dropZoneThumbnail}
-            url={`${CDN_URL}/images/docs.svg`}
+            svgUrl={`${CDN_URL}/images/docs.svg`}
           ></SvgInset>
           {files ? (
             <p className={s.dropZoneDescription}>
