@@ -7,18 +7,21 @@ import { getTokenUri } from '@services/token-uri';
 import log from '@utils/logger';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
 import styles from './styles.module.scss';
 import { convertIpfsToHttp } from '@utils/image';
 import { getChainName, getOpenseaAssetUrl, getScanUrl } from '@utils/chain';
 import Link from '@components/Link';
-import { formatAddress } from '@utils/format';
+import { base64ToUtf8, formatAddress } from '@utils/format';
+import SandboxPreview from '@containers/Sandbox/SandboxPreview';
+import { ISandboxRef } from '@interfaces/sandbox';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
+  const sandboxRef = useRef<ISandboxRef>(null);
   const { projectID, tokenID } = router.query as {
     projectID: string;
     tokenID: string;
@@ -29,7 +32,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     name: '',
     description: '',
     image: '',
-    animation_url: '',
+    animationUrl: '',
     attributes: [],
     genNFTAddr: '', // TODO
     owner: {
@@ -79,6 +82,21 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   });
 
   const scanURL = getScanUrl();
+
+  const handleIframeLoaded = (): void => {
+    if (sandboxRef.current) {
+      const iframe = sandboxRef.current.getHtmlIframe();
+      if (iframe) {
+        // @ts-ignore: Allow read iframe's window object
+        if (iframe.contentWindow?.$generativeTraits) {
+          // @ts-ignore: Allow read iframe's window object
+          // setAttributes(iframe.contentWindow?.$generativeTraits);
+        } else {
+          // setAttributes(null);
+        }
+      }
+    }
+  };
 
   const fetchItemDetail = async (): Promise<void> => {
     try {
@@ -272,6 +290,15 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <h3>More on this Colleciton</h3>
+        <SandboxPreview
+          ref={sandboxRef}
+          rawHtml={base64ToUtf8(
+            itemDetail.animationUrl.replace('data:text/html;base64,', '')
+          )}
+          hash={null}
+          sandboxFiles={null}
+          onLoaded={handleIframeLoaded}
+        />
 
         {/* <CollectionList/> */}
       </Container>

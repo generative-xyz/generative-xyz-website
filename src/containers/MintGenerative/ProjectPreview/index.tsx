@@ -39,6 +39,7 @@ const ProjectPreview = () => {
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
           <SandboxPreview
+            rawHtml={null}
             ref={sandboxRef}
             hash={hash}
             sandboxFiles={filesSandbox}

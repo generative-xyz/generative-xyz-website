@@ -7,6 +7,13 @@ export const utf8ToBase64 = (str: string): string => {
   return window.btoa(unescape(encodeURIComponent(str)));
 };
 
+export const base64ToUtf8 = (str: string): string => {
+  if (!isBrowser()) {
+    return '';
+  }
+  return decodeURIComponent(escape(window.atob(str)));
+};
+
 export const formatAddress = (address: string): string => {
   if (address.length < 14) return address;
   return `${address.substring(0, 7)}...${address.substring(

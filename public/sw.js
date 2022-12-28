@@ -44,11 +44,28 @@ self.addEventListener("message", async (event) => {
     cache[data.id] = data.record
   }
 
+  if (event?.data?.type === "REGISTER_HTML") {
+    const data = event.data.data
+    cache[data.id] = data.html;
+  }
+
   if (event?.data?.type === "GET_INDEX") {
     const id = event.data.data
 
     if (cache[id]) {
       const html = await cache[id]["index.html"].blob.text()
+      event.source.postMessage({
+        type: "INDEX_HTML_CONTENTS",
+        data: html
+      })
+    }
+  }
+
+  if (event?.data?.type === "GET_RAW_HTML") {
+    const id = event.data.data
+
+    if (cache[id]) {
+      const html = await cache[id];
       event.source.postMessage({
         type: "INDEX_HTML_CONTENTS",
         data: html

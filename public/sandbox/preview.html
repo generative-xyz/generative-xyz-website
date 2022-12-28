@@ -23,6 +23,11 @@
               type: "GET_INDEX",
               data: ID
             })
+
+            reg.active.postMessage({
+              type: "GET_RAW_HTML",
+              data: ID
+            })
           })
           .catch(err => console.log(err))
       })
