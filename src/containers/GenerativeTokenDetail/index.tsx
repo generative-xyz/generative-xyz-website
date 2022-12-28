@@ -13,6 +13,7 @@ import styles from './styles.module.scss';
 import { convertIpfsToHttp } from '@utils/image';
 import { getChainName, getOpenseaAssetUrl, getScanUrl } from '@utils/chain';
 import Link from '@components/Link';
+import { formatAddress } from '@utils/format';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -31,9 +32,49 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     animation_url: '',
     attributes: [],
     genNFTAddr: '', // TODO
-    owner: '',
-    creator: '',
-    mintedOn: '',
+    owner: {
+      displayName: '',
+      bio: '',
+      avatar: '',
+      walletAddress: '',
+      id: '',
+    },
+    ownerAddress: '',
+    project: {
+      maxSupply: 0,
+      limit: 0,
+      mintPrice: '',
+      mintPriceAddr: '',
+      name: '',
+      creator: '',
+      creatorAddr: '',
+      license: '',
+      desc: '',
+      image: '',
+      scriptType: [],
+      social: {
+        Web: '',
+        Twitter: '',
+        Discord: '',
+        Medium: '',
+        Instagram: '',
+      },
+      scripts: [],
+      styles: '',
+      completeTime: 0,
+      genNFTAddr: '',
+      itemDesc: '',
+      status: false,
+      nftTokenURI: '',
+      projectURI: '',
+      royalty: 0,
+      tokenID: '',
+      mintingInfo: {
+        index: 0,
+        indexReserve: 0,
+      },
+    },
+    mintedTime: '',
   });
 
   const scanURL = getScanUrl();
@@ -84,7 +125,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Owner</p>
-                      <p>{itemDetail.owner}</p>
+                      <p>{itemDetail.owner.displayName}</p>
                     </div>
                   }
                 />
@@ -95,7 +136,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Creator</p>
-                      <p>{itemDetail.owner}</p>
+                      <p>
+                        {itemDetail.project.creator
+                          ? itemDetail.project.creator
+                          : formatAddress(itemDetail.project.creatorAddr)}
+                      </p>
                     </div>
                   }
                 />
@@ -106,7 +151,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Minted on</p>
-                      <p>Date {itemDetail.mintedOn}</p>
+                      <p>{itemDetail.mintedTime}</p>
                     </div>
                   }
                 />
@@ -151,9 +196,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   <p>
                     <Link
                       target={`_blank`}
-                      href={`${scanURL}/address/${itemDetail.genNFTAddr}`}
+                      href={`${scanURL}/token/${itemDetail.project.genNFTAddr}`}
                     >
-                      {itemDetail.genNFTAddr}
+                      {formatAddress(itemDetail.project.genNFTAddr)}
                     </Link>
                   </p>
                 </Stack>
@@ -162,7 +207,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   <p>
                     <Link
                       target={`_blank`}
-                      href={`${scanURL}/address/${itemDetail.genNFTAddr}?a=${tokenID}`}
+                      href={`${scanURL}/token/${itemDetail.project.genNFTAddr}?a=${tokenID}`}
                     >
                       {tokenID}
                     </Link>
@@ -181,8 +226,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   <p>
                     <Link
                       target={`_blank`}
-                      href={`${getOpenseaAssetUrl()}/assets/${
-                        itemDetail.genNFTAddr
+                      href={`${getOpenseaAssetUrl()}/${
+                        itemDetail.project.genNFTAddr
                       }/${tokenID}`}
                     >
                       Opensea
