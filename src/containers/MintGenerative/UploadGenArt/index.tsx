@@ -1,5 +1,5 @@
 import s from './styles.module.scss';
-import Button from '@components/Button-v1';
+import Button from '@components/Button';
 import Checkbox from '@components/Checkbox';
 import DropFile from '@containers/MintGenerative/DropFile';
 import Link from '@components/Link';
