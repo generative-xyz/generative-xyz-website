@@ -7,7 +7,7 @@ import { setCheckoutProductId } from '@redux/general/action';
 import { getProductList } from '@services/api/product';
 import log from '@utils/logger';
 import { default as classNames, default as cn } from 'classnames';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimHeading } from 'src/animations/heading';
 import useAsyncEffect from 'use-async-effect';
 import { FrameItem } from '../frame-item';
@@ -17,13 +17,16 @@ import Button from '@components/Button';
 const LOG_PREFIX = 'Prices';
 
 export const Prices = (): JSX.Element => {
-  registerLoading();
   const dispatch = useAppDispatch();
   const [products, setProducts] = useState<IFrame[]>(FRAME_OPTIONS);
 
   const openCheckoutPopup = (productId: string) => {
     dispatch(setCheckoutProductId(productId));
   };
+
+  useEffect(() => {
+    registerLoading();
+  }, []);
 
   useAsyncEffect(async () => {
     try {
@@ -125,7 +128,9 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Price</span>
                     <div className={cn(s.Home_specContent, s.price)}>
-                      <span>{products[0].price} ETH</span>
+                      <span>
+                        {products[0].eth_price || products[0].price} ETH
+                      </span>
                     </div>
                     <Button
                       className={s.buy_now}
@@ -136,7 +141,9 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <div className={cn(s.Home_specContent, s.price)}>
-                      <span>{products[1].price} ETH</span>
+                      <span>
+                        {products[1].eth_price || products[1].price} ETH
+                      </span>
                     </div>
                     <Button
                       className={s.buy_now}
