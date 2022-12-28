@@ -1,18 +1,17 @@
-import s from './styles.module.scss';
-import React, { useMemo, useRef, useState } from 'react';
+import ButtonIcon from '@components/ButtonIcon';
+import DropFile from '@containers/MintGenerative/DropFile';
+import SandboxPreview from '@containers/Sandbox/SandboxPreview';
+import { LogLevel } from '@enums/log-level';
 import {
   ISandboxRef,
   RawTokenAttributes,
   SandboxFiles,
 } from '@interfaces/sandbox';
-import { processSandboxZipFile } from '@utils/sandbox';
-import log from '@utils/logger';
-import { LogLevel } from '@enums/log-level';
 import { generateHash } from '@utils/generate-data';
-import DropFile from '@containers/MintGenerative/DropFile';
-import Button from '@components/Button';
-import SandboxPreview from '@containers/Sandbox/SandboxPreview';
-import ButtonIcon from '@components/ButtonIcon';
+import log from '@utils/logger';
+import { processSandboxZipFile } from '@utils/sandbox';
+import React, { useMemo, useRef, useState } from 'react';
+import s from './styles.module.scss';
 
 const LOG_PREFIX = 'Sandbox';
 
