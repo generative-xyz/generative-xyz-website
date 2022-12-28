@@ -12,7 +12,6 @@ const Button: React.FC<
   size = 'md',
   className,
   type = 'button',
-  borderRounded = false,
   ...props
 }) => {
   return (
@@ -32,8 +31,7 @@ const Button: React.FC<
         size === 'lg' && s.Button__lg,
         size === 'md' && s.Button__md,
         size === 'sm' && s.Button__sm,
-        size === 'xs' && s.Button__xs,
-        borderRounded && s.Button_rouneded
+        size === 'xs' && s.Button__xs
       )}
       {...props}
     >
