@@ -118,7 +118,7 @@ html.is-landing {
     color: $neutral-06;
 
     @include min-pc {
-      font-size: calc-auto($screen-xl, $screen-xxxl, 13px, 16px);
+      font-size: calc-auto(1200px, 1920px, 13px, 16px);
     }
   }
 

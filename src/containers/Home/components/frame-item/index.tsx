@@ -15,7 +15,7 @@ export const FrameItem = ({ data, openCheckoutPopup }: IProp): JSX.Element => {
     <div className={s.frameItem}>
       <div className={`${s.frameItem_inner}`}>
         <div className={`${s.frameItem_img} image__fit`}>
-          <img src={data.img} alt="8-ethf4d1101ffd" />
+          <img src={data.image} alt="8-ethf4d1101ffd" />
           <div className={classNames(s.frameItem_ctas, s.frameItem_ctas__in)}>
             <ul className={s.frameItem_uls}>
               <li className={s.frameItem_uls_item}>
@@ -28,19 +28,19 @@ export const FrameItem = ({ data, openCheckoutPopup }: IProp): JSX.Element => {
                   <span className="text">Buy</span>
                 </Button>
               </li>
-              <li className={s.frameItem_uls_item}>
-                <Button
-                  size="xl"
-                  variant="cta-border"
-                  className={classNames(
-                    s.Home_video_content_ctas_bookBtn,
-                    'js-anim-fade'
-                  )}
-                  onClick={openCheckoutPopup}
-                >
-                  <span className="text">buy as artist</span>
-                </Button>
-              </li>
+              {/*<li className={s.frameItem_uls_item}>*/}
+              {/*  <Button*/}
+              {/*    size="xl"*/}
+              {/*    variant="cta-border"*/}
+              {/*    className={classNames(*/}
+              {/*      s.Home_video_content_ctas_bookBtn,*/}
+              {/*      'js-anim-fade'*/}
+              {/*    )}*/}
+              {/*    onClick={openCheckoutPopup}*/}
+              {/*  >*/}
+              {/*    <span className="text">buy as artist</span>*/}
+              {/*  </Button>*/}
+              {/*</li>*/}
             </ul>
           </div>
         </div>

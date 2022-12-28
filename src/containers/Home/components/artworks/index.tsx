@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { SectionInfo } from '../section-info';
 import s from './artworks.module.scss';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { MaskerEnd } from '@animations/masker-end';
 import { ScrollFixed } from '@animations/scroll-fixed';
 import { isMobileAndTablet } from '@helpers/anim.helpers';
@@ -61,38 +61,32 @@ export const Artworks = (): JSX.Element => {
           <div
             className={`${s.artWork_fame} ${s.artWork_fame__small} ${s.artWork_fame__left} js-fame__left`}
           >
-            <video
-              src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/video-left47eb720df6.mp4"
-              muted
-              autoPlay
-              preload={'auto'}
-              playsInline
-              loop
-            />
+            <video muted autoPlay preload={'auto'} playsInline loop>
+              <source
+                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block2_Frame_Mid-19ff415993f.mp4"
+                type="video/mp4"
+              />
+            </video>
           </div>
           <div
             className={`${s.artWork_fame} ${s.artWork_fame__big} js-fame__big`}
           >
-            <video
-              src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/centeraba6f7f7ff.mp4"
-              muted
-              autoPlay
-              preload={'auto'}
-              playsInline
-              loop
-            />
+            <video muted autoPlay preload={'auto'} playsInline loop>
+              <source
+                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block2_Frame_Left-1c78b302af8.mp4"
+                type="video/mp4"
+              />
+            </video>
           </div>
           <div
             className={`${s.artWork_fame} ${s.artWork_fame__small} ${s.artWork_fame__right} js-fame__right`}
           >
-            <video
-              src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/video-rightc8ecf13cd4.mp4"
-              muted
-              autoPlay
-              preload={'auto'}
-              playsInline
-              loop
-            />
+            <video muted autoPlay preload={'auto'} playsInline loop>
+              <source
+                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block2_Frame_Right-1e38a653669.mp4"
+                type="video/mp4"
+              />
+            </video>
           </div>
         </div>
       </div>

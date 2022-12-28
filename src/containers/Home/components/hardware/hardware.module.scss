@@ -48,6 +48,12 @@
         }
       }
 
+      &_display {
+        @include min-pc {
+          opacity: 0;
+        }
+      }
+
       &_cpu {
 
         margin-top: rem(80px);

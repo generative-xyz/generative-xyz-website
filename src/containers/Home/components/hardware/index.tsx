@@ -9,7 +9,7 @@ import { HARDWARE_CONTENTS } from '@constants/frame';
 import { useRef, useEffect } from 'react';
 
 export const HardWare = (): JSX.Element => {
-  const refOptions = useRef({ isCPUIn: false });
+  const refOptions = useRef({ isCPUIn: false, isFirst: false });
   const refMain = useRef<HTMLDivElement>(null);
   const refScreen = useRef(null);
   const refCpu = useRef(null);
@@ -18,6 +18,7 @@ export const HardWare = (): JSX.Element => {
     if (frame > 70) {
       if (!refOptions.current.isCPUIn) {
         refOptions.current.isCPUIn = true;
+        refOptions.current.isFirst = false;
         refMain.current?.classList.add(`${s['is-white']}`);
         gsap.to(refScreen.current, {
           opacity: 0,
@@ -31,21 +32,36 @@ export const HardWare = (): JSX.Element => {
           { opacity: 1, y: 0, ease: 'power3.out', duration: 0.6 }
         );
       }
-    } else {
+    } else if (frame > 30) {
+      if (!refOptions.current.isFirst) {
+        refOptions.current.isFirst = true;
+        gsap.fromTo(
+          refScreen.current,
+          { opacity: 0, y: 60 },
+          { opacity: 1, y: 0, ease: 'power3.out', duration: 0.6 }
+        );
+      }
+
       if (refOptions.current.isCPUIn) {
         refOptions.current.isCPUIn = false;
         refMain.current?.classList.remove(`${s['is-white']}`);
+
         gsap.to(refCpu.current, {
           opacity: 0,
           y: -60,
           ease: 'power3.out',
           duration: 0.6,
         });
-        gsap.fromTo(
-          refScreen.current,
-          { opacity: 0, y: 60 },
-          { opacity: 1, y: 0, ease: 'power3.out', duration: 0.6 }
-        );
+      }
+    } else {
+      if (refOptions.current.isFirst) {
+        refOptions.current.isFirst = false;
+        gsap.to(refScreen.current, {
+          opacity: 0,
+          y: -60,
+          ease: 'power3.out',
+          duration: 0.6,
+        });
       }
     }
   };
