@@ -80,3 +80,10 @@
 .shadow {
   box-shadow: $shadow;
 }
+
+.text-error {
+  color: $secondary-red;
+  font-weight: 500;
+  font-size: 12px;
+  margin-top: 6px;
+}
