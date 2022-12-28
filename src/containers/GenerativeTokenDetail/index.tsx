@@ -125,7 +125,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Owner</p>
-                      <p>{itemDetail.owner.displayName}</p>
+                      <p>
+                        {itemDetail.owner.displayName
+                          ? itemDetail.owner.displayName
+                          : itemDetail.owner.walletAddress}
+                      </p>
                     </div>
                   }
                 />
