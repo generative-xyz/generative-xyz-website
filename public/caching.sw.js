@@ -1,6 +1,3 @@
-//license: MIT
-//author: nhannguyen
-
 var CACHE_DYNAMIC_NAME = 'supper-cache';
 
 self.addEventListener('fetch', function(event) {

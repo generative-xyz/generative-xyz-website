@@ -30,9 +30,6 @@ export default function App({ Component, pageProps }: MyAppProps) {
   // const Layout = Component.Layout || React.Fragment;
 
   useEffect(() => {
-    //license: MIT
-    //author: nhannguyen
-
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/caching.sw.js', { scope: '/' })
