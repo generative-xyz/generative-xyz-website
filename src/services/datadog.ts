@@ -4,6 +4,7 @@ import {
   DD_CLIENT_TOKEN,
   DD_SERVICE,
   DD_SITE,
+  ENABLE_DD,
 } from '@constants/config';
 import { datadogLogs } from '@datadog/browser-logs';
 import { datadogRum } from '@datadog/browser-rum';
@@ -19,7 +20,7 @@ class DatadogService {
   }
 
   init(): void {
-    if (APP_ENV === 'production') {
+    if (APP_ENV === 'production' && ENABLE_DD) {
       // Datadog RUM
       datadogRum.init({
         applicationId: DD_APP_ID,

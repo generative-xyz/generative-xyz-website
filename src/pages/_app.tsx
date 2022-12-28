@@ -5,15 +5,19 @@ import {
   SEO_TITLE,
 } from '@constants/seo-default-info';
 import { WalletProvider } from '@contexts/wallet-context';
+import { LogLevel } from '@enums/log-level';
 import store from '@redux';
 import DatadogService from '@services/datadog';
 import '@styles/index.scss';
+import log from '@utils/logger';
 import { NextComponentType, NextPageContext } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNprogress from 'nextjs-progressbar';
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
+
+const LOG_PREFIX = 'App';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -34,12 +38,10 @@ export default function App({ Component, pageProps }: MyAppProps) {
       navigator.serviceWorker
         .register('/caching.sw.js', { scope: '/' })
         .then(function () {
-          // eslint-disable-next-line no-console
-          console.log('Service worker registered!');
+          log('Service worker registered!', LogLevel.Debug, LOG_PREFIX);
         })
         .catch(function (err) {
-          // eslint-disable-next-line no-console
-          console.log(err);
+          log(err as Error, LogLevel.Error, LOG_PREFIX);
         });
     }
 
