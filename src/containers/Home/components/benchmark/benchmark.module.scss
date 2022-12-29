@@ -1,0 +1,11 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.benchmark {
+  padding-bottom: calc-auto(1200px, 1920px, 30px, 48px);
+  margin-bottom: calc-auto(1200px, 1920px, 30px, 48px);
+
+  &_heading {
+    font-weight: 700;
+  }
+}

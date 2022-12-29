@@ -50,7 +50,7 @@ export const FrameItem = ({ data, openCheckoutPopup }: IProp): JSX.Element => {
           className={cn(s.frameItem_item_price, 'desc__large text__black mb-0')}
           offset={0.2}
         >
-          {data.price} ETH
+          {data.eth_price || data.price} ETH
         </AnimRanText>
 
         <div className={classNames(s.frameItem_ctas, s.frameItem_ctas__out)}>

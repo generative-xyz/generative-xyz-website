@@ -84,6 +84,14 @@
     grid-template-columns: 0.3fr 0.4fr 0.3fr;
     gap: rem(12);
     margin-top: rem(12);
+
+    @include max-tablet() {
+      grid-template-columns: 1fr;
+    }
+
+    @include mobile() {
+      gap: rem(5);
+    }
   }
 
   &_orderSummary {
@@ -92,6 +100,10 @@
     padding: rem(16);
     background-color: $neutral-02;
     align-self: baseline;
+    @include mobile() {
+      min-width: 100%;
+      margin-left: 0;
+    }
   }
 
   &_summaryLine {
@@ -132,6 +144,11 @@
   :global(.modal-body) {
     display: flex;
     padding: rem(40) rem(32);
+
+    @include mobile() {
+      flex-direction: column;
+      gap: 32px;
+    }
   }
 
   :global(.modal-dialog) {
@@ -149,5 +166,43 @@
   :global(.modal-content) {
     border-radius: 12px;
     border: none;
+  }
+}
+
+.OrderSuccessModal {
+  display: grid !important;
+  place-items: center;
+
+  :global(.modal-body) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(16);
+    padding: 32px;
+  }
+
+  :global(.modal-content) {
+    border-radius: 8px;
+  }
+
+  &_title {
+    font-weight: 600;
+    font-size: 24px;
+  }
+
+  &_content {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  &_email {
+    color: $neutral-07;
+    font-weight: 600;
+  }
+
+  &_button {
+    width: 100%;
+    margin-top: 16px;
   }
 }

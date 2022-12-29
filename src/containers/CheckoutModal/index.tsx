@@ -1,22 +1,22 @@
-import cn from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import Button from '@components/Button';
 import Dropdown from '@components/Dropdown';
 import Input from '@components/Input';
 import InputQuantity from '@components/InputQuantity';
+import SvgInset from '@components/SvgInset';
+import { CDN_URL } from '@constants/config';
 import Countries from '@constants/country-list.json';
 import { FRAME_OPTIONS } from '@constants/frame';
 import StateOfUS from '@constants/state-of-us.json';
+import { WalletContext } from '@contexts/wallet-context';
 import { setCheckoutProductId } from '@redux/general/action';
 import { checkoutProductId } from '@redux/general/selector';
 import { useAppDispatch } from '@redux/index';
 import { makeOrder } from '@services/api/order';
-import { useRouter } from 'next/router';
+import cn from 'classnames';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import s from './CheckoutModal.module.scss';
-import { useContext } from 'react';
-import { WalletContext } from '@contexts/wallet-context';
 
 interface IPropState {
   name: any;
@@ -34,7 +34,6 @@ interface ICart extends IFrame {
 }
 
 const CheckoutModal: React.FC = (): JSX.Element => {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const checkoutProduct = useSelector(checkoutProductId);
   const isShow = !!checkoutProduct;
@@ -45,11 +44,13 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     id: '',
     name: '',
     price: 0,
+    eth_price: 0,
     image: '',
     image_left: '',
     qty: 1,
   });
   const walletCtx = useContext(WalletContext);
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const itemInCart = useMemo(
     () => FRAME_OPTIONS.find(item => item.id === checkoutProduct) || cart,
@@ -83,7 +84,8 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   };
 
   const totalPrice = useMemo(
-    () => Math.round(cart.price * cart.qty * 10e9) / 10e9,
+    () =>
+      Math.round((cart.eth_price || cart.price || 0) * cart.qty * 10e9) / 10e9,
     [cart]
   );
 
@@ -99,8 +101,9 @@ const CheckoutModal: React.FC = (): JSX.Element => {
           setError('Something went wrong. Please try again later.');
           return;
         }
-        onHideModal();
-        router.push(`/order/${order.order_id}`);
+        setOrderSuccess(true);
+        // onHideModal();
+        // router.push(`/order/${order.order_id}`);
       } catch (_: unknown) {
         setError('Something went wrong. Please try again later.');
       }
@@ -141,6 +144,39 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   useEffect(() => {
     setCart({ ...itemInCart, qty: 1 });
   }, [itemInCart]);
+
+  if (orderSuccess) {
+    return (
+      <Modal show={isShow} onHide={onHideModal} className={s.OrderSuccessModal}>
+        <Modal.Body>
+          <div className={s.OrderSuccessModal_icon}>
+            <SvgInset
+              size={68}
+              svgUrl={`${CDN_URL}/icons/ic-order-success.svg`}
+            ></SvgInset>
+          </div>
+          <div className={s.OrderSuccessModal_title}>
+            Your order was successful!
+          </div>
+          <div className={s.OrderSuccessModal_content}>
+            Please check{' '}
+            <span className={s.OrderSuccessModal_email}>
+              {shippingInfo.email}
+              test@xyz.com
+            </span>{' '}
+            for detailed order information.
+          </div>
+          <Button
+            size="xl"
+            className={s.OrderSuccessModal_button}
+            onClick={onHideModal}
+          >
+            Got it
+          </Button>
+        </Modal.Body>
+      </Modal>
+    );
+  }
 
   return (
     <Modal show={isShow} onHide={onHideModal} className={s.CheckoutModal}>
