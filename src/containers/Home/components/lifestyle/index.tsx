@@ -55,10 +55,10 @@ export const LifeStyle = () => {
             height={1080}
             className={s.lifeStyle_canvas_main}
             urlFrame={
-              'https://storage.googleapis.com/generative-static-prod/pages/home/block-4/block-4-%d.jpg'
+              'https://storage.googleapis.com/generative-static-prod/pages/home/frame-4/block-4-v2-%d.jpg'
             }
             webmFrame={
-              'https://storage.googleapis.com/generative-static-prod/pages/home/block-4-webp/block-4-%d.png.webp'
+              'https://storage.googleapis.com/generative-static-prod/pages/home/frame-4/block-4-v2-%d.jpg.webp'
             }
             totalFrames={124}
             onProcessing={processing}

@@ -10,6 +10,7 @@ import { PAGE_LOADED, PAGE_ENTER, LOGO_URL } from '@constants/common';
 interface IProcessing {
   value: number;
   delta: number;
+  onHold: number;
   persen: number;
   loaded: boolean;
 }
@@ -22,6 +23,7 @@ export const Loading = (): JSX.Element => {
   const processing = useRef<IProcessing>({
     value: 0,
     delta: 1,
+    onHold: 0,
     persen: 0,
     loaded: false,
   });
@@ -46,7 +48,8 @@ export const Loading = (): JSX.Element => {
   const looper = () => {
     if (!processing.current || !refPersent.current) return;
 
-    processing.current.persen += processing.current.delta;
+    processing.current.persen +=
+      processing.current.delta + processing.current.onHold;
     processing.current.persen = Math.min(processing.current.persen, 100);
 
     refPersent.current.textContent = `${Math.floor(
@@ -60,8 +63,13 @@ export const Loading = (): JSX.Element => {
 
     if (!processing.current.loaded) {
       processing.current.delta *= 0.9;
+      processing.current.onHold += 0.0015;
+      if (processing.current.onHold >= 1) {
+        processing.current.onHold = 0;
+      }
     } else {
       processing.current.delta = 2;
+      processing.current.onHold = 0;
     }
   };
 
@@ -85,7 +93,7 @@ export const Loading = (): JSX.Element => {
     <div ref={refLoading} className={s.loading}>
       <div className={s.loading_inner}>
         <img src={LOGO_URL} alt={'logo-url'} />
-        <h5 className={s.loading_text}>The Benchmark for Generative</h5>
+        <h5 className={s.loading_text}>The Benchmark for Generative Art</h5>
         <span ref={refPersent}>0%</span>
       </div>
     </div>

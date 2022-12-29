@@ -195,13 +195,17 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <span className={s.Home_specTitle}>In the box</span>
-                    <div className={s.Home_specContent}>Grail 55”</div>
+                    <div className={s.Home_specContent}>
+                      Generative Display 55”
+                    </div>
                     <div className={s.Home_specContent}>
                       16 ft cable - Adapted to USA, EU, UK sockets
                     </div>
                   </td>
                   <td>
-                    <div className={s.Home_specContent}>Grail 43”</div>
+                    <div className={s.Home_specContent}>
+                      Generative Display 43”
+                    </div>
                     <div className={s.Home_specContent}>
                       16 ft cable - Adapted to USA, EU, UK sockets
                     </div>

@@ -47,7 +47,9 @@
     }
 
     &__small {
-      display: none;
+      @include max-tablet{
+        display: none;
+      }
     }
 
     @include min-pc {
