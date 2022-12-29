@@ -317,13 +317,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 {startAnimaton ? 'Stop' : 'Run'}
               </div>
               <div onClick={handleRefreshAnimation}>Refresh</div>
-              <Link
-                href={iframeSrc ? iframeSrc : itemDetail.animationUrl}
-                target={`_blank`}
-                rel="noopener"
-              >
-                Open
-              </Link>
+              {iframeSrc && (
+                <Link href={iframeSrc} target={`_blank`} rel="noopener">
+                  Open
+                </Link>
+              )}
             </Stack>
           </div>
         </div>
