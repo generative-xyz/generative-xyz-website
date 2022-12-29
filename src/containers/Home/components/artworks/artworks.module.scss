@@ -54,7 +54,7 @@
 
     @include min-pc {
       &__big {
-        width: 120vw;
+        height: 100vh;
         aspect-ratio: 1122/720;
         position: relative;
         z-index: 2;

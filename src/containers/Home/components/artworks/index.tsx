@@ -18,10 +18,13 @@ export const Artworks = (): JSX.Element => {
         .fromTo(
           comp.current?.querySelector('.js-fame__big'),
           {
-            width: '120vw',
-            scale: 1.25,
+            width: '100vw',
+            // scale: 1,
           },
-          { width: `${(1122 / 1920) * 100}%`, scale: 1 },
+          {
+            width: `${(1122 / 1920) * 100}%`,
+            // scale: 1
+          },
           0
         )
         .fromTo(

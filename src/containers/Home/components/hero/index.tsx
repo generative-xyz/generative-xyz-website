@@ -7,13 +7,22 @@ import { AnimParallax } from '@animations/parallax';
 import { AnimFade } from '@animations/fade';
 import classNames from 'classnames';
 import { AnimHeading } from '@animations/heading';
+import { useAppDispatch } from '@redux';
+import { setIsScrolling } from '@redux/general/action';
 
 export const SectionHero = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const scrollTo = () => {
+    dispatch(setIsScrolling(true));
     gsap.to(window, {
       scrollTo: '#tech-spec',
       duration: 0.6,
       ease: 'power3.inOut',
+      onComplete: () => {
+        setTimeout(() => {
+          dispatch(setIsScrolling(false));
+        }, 1500);
+      },
     });
   };
 

@@ -12,6 +12,10 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
 
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+
   span {
     font-size: 14px;
     line-height: 26px;
@@ -150,6 +154,7 @@
     box-shadow: none;
     clip-path: inset(0);
     position: relative;
+    background: $neutral-08;
     transition: color 0.6s $easeOutCubic;
 
     :global(.text) {
@@ -161,11 +166,10 @@
     &::before {
       content: '';
       display: block;
-      width: 100%;
+      width: 101%;
       height: 102%;
       transition: transform 0.6s $easeOutCubic;
       position: absolute;
-      will-change: transform;
       top: 0;
       left: 0;
     }
@@ -196,6 +200,7 @@
 
     &__black {
       color: white;
+      background: $white;
 
       &::after {
         background-color: $white;

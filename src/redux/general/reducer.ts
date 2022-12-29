@@ -6,6 +6,7 @@ import {
   setIsOpenWalletSetting,
   setPageLoadStatus,
   setCheckoutProduct,
+  setIsScrolling,
 } from './action';
 import { PAGE_LOADING } from '@constants/common';
 
@@ -16,6 +17,7 @@ const initialState = {
   animationRegister: 0,
   pageLoadStatus: PAGE_LOADING,
   disabledMenu: false,
+  isScrolling: false,
 };
 
 const general = createReducer(initialState, builder => {
@@ -37,6 +39,9 @@ const general = createReducer(initialState, builder => {
     })
     .addCase(setDisabledMenu, (state, action) => {
       state.disabledMenu = action.payload;
+    })
+    .addCase(setIsScrolling, (state, action) => {
+      state.isScrolling = action.payload;
     });
 });
 

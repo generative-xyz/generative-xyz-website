@@ -43,10 +43,7 @@ export const Prices = (): JSX.Element => {
 
   return (
     <div className={s.tableInfo}>
-      <div
-        id="tech-spec"
-        className={cn(s.tableInfo_specContainer, 'container')}
-      >
+      <div className={cn(s.tableInfo_specContainer, 'container')}>
         <div className="row">
           <div className="col-xl-10 offset-xl-1 col-12">
             <AnimHeading
@@ -60,6 +57,7 @@ export const Prices = (): JSX.Element => {
             </AnimHeading>
           </div>
           <div
+            id="tech-spec"
             className={classNames('col-xl-10 offset-xl-1 col-12', s.Home_table)}
           >
             <table>
@@ -172,8 +170,8 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Dimensions</span>
                     <img
-                      src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/55_inch8628b80500.png"
-                      alt=""
+                      src="https://storage.googleapis.com/generative-static-prod/pages/home/icons/55_.svg"
+                      alt="55_"
                       className={s.Home_specDimension}
                     />
                     <div
@@ -187,8 +185,8 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <img
-                      src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/43_inch7826279f9c.png"
-                      alt=""
+                      src="https://storage.googleapis.com/generative-static-prod/pages/home/icons/43_.svg"
+                      alt="43_"
                       className={s.Home_specDimension}
                     />
                     <div

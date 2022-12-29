@@ -17,3 +17,6 @@ export const pageLoadStatus = (state: RootState): string =>
 
 export const disabledMenuSelector = (state: RootState): boolean =>
   state.general.disabledMenu;
+
+export const isScrollingSelector = (state: RootState): boolean =>
+  state.general.isScrolling;
