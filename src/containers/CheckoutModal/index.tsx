@@ -5,11 +5,10 @@ import InputQuantity from '@components/InputQuantity';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
 import Countries from '@constants/country-list.json';
-import { FRAME_OPTIONS } from '@constants/frame';
 import StateOfUS from '@constants/state-of-us.json';
 import { WalletContext } from '@contexts/wallet-context';
-import { setCheckoutProductId } from '@redux/general/action';
-import { checkoutProductId } from '@redux/general/selector';
+import { setCheckoutProduct } from '@redux/general/action';
+import { checkoutProduct as checkoutProductSelector } from '@redux/general/selector';
 import { useAppDispatch } from '@redux/index';
 import { makeOrder } from '@services/api/order';
 import cn from 'classnames';
@@ -35,9 +34,9 @@ interface ICart extends IFrame {
 
 const CheckoutModal: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const checkoutProduct = useSelector(checkoutProductId);
-  const isShow = !!checkoutProduct;
-  const onHideModal = () => dispatch(setCheckoutProductId(''));
+  const checkoutProduct = useSelector(checkoutProductSelector);
+  const isShow = !!checkoutProduct.id;
+  const onHideModal = () => dispatch(setCheckoutProduct({} as any));
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [cart, setCart] = useState<ICart>({
@@ -51,11 +50,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   });
   const walletCtx = useContext(WalletContext);
   const [orderSuccess, setOrderSuccess] = useState(false);
-
-  const itemInCart = useMemo(
-    () => FRAME_OPTIONS.find(item => item.id === checkoutProduct) || cart,
-    [checkoutProduct]
-  );
 
   const [shippingInfo, setShippingInfo] = useState<IPropState>({
     name: '',
@@ -142,8 +136,8 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     shippingInfo.country;
 
   useEffect(() => {
-    setCart({ ...itemInCart, qty: 1 });
-  }, [itemInCart]);
+    setCart({ ...checkoutProduct, qty: 1 });
+  }, [checkoutProduct]);
 
   if (orderSuccess) {
     return (
@@ -193,7 +187,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                     {cart?.name}
                   </div>
                   <div className={s.CheckoutModal_optionItemPrice}>
-                    {`${cart?.price} ETH`}
+                    {`${cart?.eth_price || cart?.price} ETH`}
                   </div>
                 </div>
                 <InputQuantity
