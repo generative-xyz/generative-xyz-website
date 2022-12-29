@@ -1,5 +1,5 @@
-@import "src/styles/_themes/variables.scss";
-@import "src/styles/_themes/mixins.scss";
+@import 'src/styles/_themes/variables.scss';
+@import 'src/styles/_themes/mixins.scss';
 
 .Input {
   display: inline-block;
@@ -48,6 +48,10 @@
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
+
+    @include mobile() {
+      font-size: 16px;
+    }
   }
 
   input:focus {
