@@ -15,10 +15,12 @@ interface IInputProps {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   useFormik?: boolean;
+  required?: boolean;
   errors?: {
     [x: string]: string;
   };
   validate?: () => void;
+  as?: 'input' | 'textarea';
 }
 
 const Input: React.FC<
@@ -38,9 +40,13 @@ const Input: React.FC<
     size,
     errors,
     useFormik = false,
+    required,
+    as = 'input',
     ...rest
   } = props;
   const isError = errors?.label;
+
+  const InputComponent = as;
 
   const renderInput = (inputProps?: any) => {
     return (
@@ -49,7 +55,11 @@ const Input: React.FC<
           {startIcon && (
             <div className={cs(s.icon, s.leftIcon)}>{startIcon}</div>
           )}
-          <input type="text" {...inputProps} placeholder={placeholder} />
+          <InputComponent
+            type="text"
+            {...inputProps}
+            placeholder={placeholder}
+          />
           {endIcon && <div className={cs(s.icon, s.rightIcon)}>{endIcon}</div>}
         </div>
         {isError && <div className="text-error">{errors.label}</div>}
@@ -67,7 +77,11 @@ const Input: React.FC<
         isError ? s.error : s.default
       )}
     >
-      <label htmlFor={name}> {label}</label>
+      <label htmlFor={name}>
+        {' '}
+        {label}
+        {required && ' * '}
+      </label>
       <p>{desc}</p>
       {useFormik ? (
         <Field name={name} {...rest}>
