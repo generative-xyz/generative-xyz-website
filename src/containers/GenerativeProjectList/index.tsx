@@ -2,18 +2,18 @@ import s from './styles.module.scss';
 import React, { Fragment, useEffect, useState } from 'react';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { LogLevel } from '@enums/log-level';
-import { IProjectDetail } from '@interfaces/api/project';
 import { getProjectList } from '@services/project';
 import log from '@utils/logger';
 import Link from '@components/Link';
 import Image from 'next/image';
 import { ROUTE_PATH } from '@constants/route-path';
 import { convertIpfsToHttp } from '@utils/image';
+import { Project } from '@interfaces/project';
 
 const LOG_PREFIX = 'GenerativeProjectList';
 
 const GenerativeProjectList: React.FC = (): React.ReactElement => {
-  const [projects, setProjects] = useState<Array<IProjectDetail>>([]);
+  const [projects, setProjects] = useState<Array<Project>>([]);
 
   const fetchProjectList = async (): Promise<void> => {
     try {
@@ -32,7 +32,7 @@ const GenerativeProjectList: React.FC = (): React.ReactElement => {
     fetchProjectList();
   }, []);
 
-  const renderProjectItem = (project: IProjectDetail) => {
+  const renderProjectItem = (project: Project) => {
     const { tokenID } = project;
 
     return (
@@ -59,7 +59,7 @@ const GenerativeProjectList: React.FC = (): React.ReactElement => {
     <section>
       <div className="container">
         <div className="row">
-          {projects.map((project: IProjectDetail) => (
+          {projects.map((project: Project) => (
             <Fragment key={project.id}>{renderProjectItem(project)}</Fragment>
           ))}
         </div>

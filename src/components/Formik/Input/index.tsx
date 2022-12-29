@@ -8,7 +8,7 @@ function Input(props: Pick<FormikControllerProps, 'name' | 'label' | 'desc'>) {
   return (
     <div>
       <label htmlFor={name}> {label}</label>
-      <p>{desc}</p>
+      {desc && <p>{desc}</p>}
       <Field name={name} {...rest} />
       <FormikErrorMessage name={name} />
     </div>

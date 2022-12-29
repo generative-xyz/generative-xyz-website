@@ -47,7 +47,8 @@ body {
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 }
 
-input {
+input,
+textarea {
   outline: 0;
   overflow: hidden;
   text-overflow: ellipsis;

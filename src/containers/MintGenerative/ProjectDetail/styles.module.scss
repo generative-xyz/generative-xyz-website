@@ -1,33 +1,149 @@
-.wrapper {
-  label {
+.projectDetail {
+  padding-top: 28px;
+
+  .formItem {
+    margin-bottom: 24px;
+  }
+
+  .label {
     font-weight: 700;
-  }
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  input,
-  textarea {
-    border: 1px solid #000;
+    font-size: 12px;
+    line-height: 20px;
+    color: $black-40;
+    display: block;
+    margin-bottom: 6px;
+    text-transform: uppercase;
   }
 
-  textarea {
+  .input {
+    background-color: $background;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    color: $black-100;
+    padding: 11px 14px;
+    border-radius: 8px;
+    width: 100%;
     resize: none;
+
+    &::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: $black-40;
+      opacity: 1; /* Firefox */
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: $black-40;
+    }
+
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: $black-40;
+    }
+  }
+
+  .requiredTag {
+    color: $secondary-red;
+  }
+
+  .tagInput {
+    background-color: transparent;
+    flex: 1;
+  }
+
+  .tagsWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tagItem {
+    margin: 2px;
+    background-color: $black-10;
+    border-radius: 2px;
+    display: flex;
+    padding-left: 4px;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: 400;
+    align-items: center;
+  }
+
+  .removeTagBtn {
+    margin-left: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 22px;
+    cursor: pointer;
+    border-radius: 2px;
+
+    &:hover {
+      background-color: #ffbdad;
+
+      svg {
+        path {
+          fill: #de350b;
+        }
+      }
+    }
+  }
+
+  .selectInput {
+    :global(.select__control) {
+      background-color: $background;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      border-radius: 8px;
+      min-height: 48px;
+    }
+
+    :global(.select__indicator-separator) {
+      display: none;
+    }
+
+    :global(.select__placeholder) {
+      color: $black-40;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 26px;
+    }
+
+    :global(.select__multi-value__label) {
+      font-size: 14px;
+      line-height: 14px;
+      font-weight: 400;
+    }
   }
 }
 
-.categories {
-  padding: 20px;
-  border: 1px solid #000;
-  margin-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.stepFooterWrapper {
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+  width: 100vw;
+  left: 0;
+  right: 0;
 
-  label {
-    font-weight: 400;
+  .stepFooter {
+    padding: 28px 0;
+    background-color: $white-100;
+    border-top: 1px solid $black-10;
+  }
+
+  .container {
+    max-width: 1016px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .nextBtn {
+    width: 48px;
+    height: 48px;
   }
 }
