@@ -38,18 +38,3 @@
   flex-direction: column;
   gap: 10px;
 }
-
-.actionButtons {
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.sandboxContainer {
-  width: 100%;
-  height: 100%;
-
-  iframe canvas {
-    width: 100%;
-    height: 100%;
-  }
-}

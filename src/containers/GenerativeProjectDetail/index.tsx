@@ -1,4 +1,5 @@
 import CollectionList from '@components/Collection/List';
+import ThumbnailPreview from '@components/ThumbnailPreview';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { ROUTE_PATH } from '@constants/route-path';
@@ -12,12 +13,10 @@ import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-g
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { getProjectDetail, getProjectItems } from '@services/project';
 import { getOpenseaAssetUrl } from '@utils/chain';
-import { formatAddress } from '@utils/format';
-import { convertIpfsToHttp } from '@utils/image';
+import { base64ToUtf8, formatAddress } from '@utils/format';
 import log from '@utils/logger';
 import cs from 'classnames';
 import _get from 'lodash/get';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
@@ -47,7 +46,44 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     true
   );
   const { projectID } = router.query as { projectID: string };
-  const [projectInfo, setProjectInfo] = useState<IGetProjectDetailResponse>();
+  const [projectInfo, setProjectInfo] = useState<IGetProjectDetailResponse>({
+    id: '',
+    maxSupply: 0,
+    limit: 0,
+    mintPrice: '',
+    mintPriceAddr: '',
+    name: '',
+    creator: '',
+    creatorAddr: '',
+    license: '',
+    desc: '',
+    image: '',
+    scriptType: [''],
+    social: {
+      Web: '',
+      Twitter: '',
+      Discord: '',
+      Medium: '',
+      Instagram: '',
+    },
+    scripts: [''],
+    styles: '',
+    completeTime: 0,
+    genNFTAddr: '',
+    itemDesc: '',
+    status: false,
+    nftTokenURI: '',
+    projectURI: '',
+    tokenID: '',
+    mintingInfo: {
+      index: 0,
+      indexReserve: 0,
+    },
+  });
+
+  const [projectDetail, setProjectDetail] =
+    useState<Omit<IProjectItem, 'owner'>>();
+
   const [listItems, setListItems] = useState<IProjectItem[]>([]);
 
   const fetchProjectDetail = async (): Promise<void> => {
@@ -108,6 +144,16 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   }, [projectID]);
 
   useEffect(() => {
+    const _projectDetail = base64ToUtf8(
+      projectInfo.projectURI.replace('data:application/json;base64,', '')
+    );
+    if (_projectDetail) {
+      const projectDetailObj = JSON.parse(_projectDetail);
+      setProjectDetail(projectDetailObj);
+    }
+  }, [projectInfo.id]);
+
+  useEffect(() => {
     if (!mintTx) {
       return;
     }
@@ -132,18 +178,6 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     <section>
       <Container>
         <div className={styles.projectInfo}>
-          <div className={styles.thumbnail}>
-            <Image
-              src={convertIpfsToHttp(
-                projectInfo?.image ||
-                  'ipfs://QmNTU5ctcffhZz5Hphd44yPivh2Y89pDYYG8QQ6yWGY3wn'
-              )}
-              fill
-              style={{ objectFit: 'cover', width: '100%' }}
-              sizes="(max-width: 1200px) 330px"
-              alt={'project thumbnail image'}
-            />
-          </div>
           <div className={styles.info}>
             <h2>{projectInfo?.name}</h2>
             <Stack direction="horizontal" gap={5}>
@@ -213,7 +247,24 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                 <p>Royalty</p>
               </Stack>
             </Stack>
+            <div className={styles.desc}>
+              <h5>Description</h5>
+              <p>{projectInfo?.desc}</p>
+            </div>
           </div>
+          <ThumbnailPreview data={projectDetail} allowVariation />
+          {/* <div className={styles.thumbnail}>
+            <Image
+              src={convertIpfsToHttp(
+                projectInfo?.image ||
+                  'ipfs://QmNTU5ctcffhZz5Hphd44yPivh2Y89pDYYG8QQ6yWGY3wn'
+              )}
+              fill
+              style={{ objectFit: 'cover', width: '100%' }}
+              sizes="(max-width: 1200px) 330px"
+              alt={'project thumbnail image'}
+            />
+          </div> */}
         </div>
         <Tabs
           defaultActiveKey="items"

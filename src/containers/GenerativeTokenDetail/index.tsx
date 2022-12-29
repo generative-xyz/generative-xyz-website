@@ -1,37 +1,28 @@
 import Accordion from '@components/Accordion';
 import AvatarInfo from '@components/AvatarInfo';
+import Link from '@components/Link';
+import ThumbnailPreview from '@components/ThumbnailPreview';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { LogLevel } from '@enums/log-level';
 import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
 import { getTokenUri } from '@services/token-uri';
+import { getChainName, getOpenseaAssetUrl, getScanUrl } from '@utils/chain';
+import { formatAddress } from '@utils/format';
 import log from '@utils/logger';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
 import styles from './styles.module.scss';
-import { convertIpfsToHttp } from '@utils/image';
-import { getChainName, getOpenseaAssetUrl, getScanUrl } from '@utils/chain';
-import Link from '@components/Link';
-import { base64ToUtf8, formatAddress } from '@utils/format';
-import SandboxPreview from '@containers/Sandbox/SandboxPreview';
-import { ISandboxRef } from '@interfaces/sandbox';
-import cs from 'classnames';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
-  const sandboxRef = useRef<ISandboxRef>(null);
   const { projectID, tokenID } = router.query as {
     projectID: string;
     tokenID: string;
   };
 
-  const [startAnimaton, setStartAnimaton] = useState(false);
-  const [iframeSrc, setIframeSrc] = useState('');
-
-  // const itemDetail: IGetGenerativeTokenUriResponse = MOCK;
   const [itemDetail, setItemDetail] = useState<IGetGenerativeTokenUriResponse>({
     name: '',
     description: '',
@@ -87,21 +78,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   const scanURL = getScanUrl();
 
-  const handleAnimationTrigger = () => {
-    setStartAnimaton(!startAnimaton);
-    if (sandboxRef.current) {
-      sandboxRef.current.reloadIframe();
-      const iframe = sandboxRef.current.getHtmlIframe() as HTMLIFrameElement;
-      setIframeSrc(iframe.src);
-    }
-  };
-
-  const handleRefreshAnimation = () => {
-    if (sandboxRef.current) {
-      sandboxRef.current.reloadIframe();
-    }
-  };
-
   const fetchItemDetail = async (): Promise<void> => {
     try {
       if (tokenID) {
@@ -149,9 +125,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                     <div>
                       <p>Owner</p>
                       <p>
-                        {itemDetail.owner.displayName
-                          ? itemDetail.owner.displayName
-                          : itemDetail.owner.walletAddress}
+                        {itemDetail?.owner?.displayName
+                          ? itemDetail?.owner?.displayName
+                          : itemDetail?.owner?.walletAddress}
                       </p>
                     </div>
                   }
@@ -268,7 +244,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               <div className="divider"></div>
             </div>
           </div>
-          <div className={styles.rightWrapper}>
+          <ThumbnailPreview data={itemDetail} />
+          {/* <div className={styles.rightWrapper}>
             <div className={styles.thumbnail}>
               <div
                 className={cs(
@@ -323,7 +300,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 </Link>
               )}
             </Stack>
-          </div>
+          </div> */}
         </div>
         <h3>More on this Colleciton</h3>
         {/* <SandboxPreview
