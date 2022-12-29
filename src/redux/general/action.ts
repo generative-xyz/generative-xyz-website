@@ -8,8 +8,8 @@ export const setIsOpenCheckoutPopup = createAction<boolean>(
   'general/setIsOpenCheckoutPopup'
 );
 
-export const setCheckoutProductId = createAction<string>(
-  'general/setCheckoutProductId'
+export const setCheckoutProduct = createAction<IFrame>(
+  'general/setCheckoutProduct'
 );
 
 export const setAnimationRegister = createAction<number>(
