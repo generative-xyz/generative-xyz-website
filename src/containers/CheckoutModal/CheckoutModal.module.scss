@@ -206,3 +206,14 @@
     margin-top: 16px;
   }
 }
+
+.errorMessageWrapper {
+  margin-top: 12px;
+
+  .errorMessage {
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    color: $secondary-red;
+  }
+}
