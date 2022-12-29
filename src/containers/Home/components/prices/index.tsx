@@ -1,9 +1,7 @@
-// import Button from '@components/Button';
-import { FRAME_OPTIONS } from '@constants/frame';
 import { LogLevel } from '@enums/log-level';
 import { registerLoading, unRegisterLoading } from '@helpers/anim.helpers';
 import { useAppDispatch } from '@redux';
-import { setCheckoutProductId } from '@redux/general/action';
+import { setCheckoutProduct } from '@redux/general/action';
 import { getProductList } from '@services/api/product';
 import log from '@utils/logger';
 import { default as classNames, default as cn } from 'classnames';
@@ -18,10 +16,10 @@ const LOG_PREFIX = 'Prices';
 
 export const Prices = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const [products, setProducts] = useState<IFrame[]>(FRAME_OPTIONS);
+  const [products, setProducts] = useState<IFrame[]>([]);
 
-  const openCheckoutPopup = (productId: string) => {
-    dispatch(setCheckoutProductId(productId));
+  const openCheckoutPopup = (product: IFrame) => {
+    dispatch(setCheckoutProduct(product));
   };
 
   useEffect(() => {
@@ -40,6 +38,8 @@ export const Prices = (): JSX.Element => {
       unRegisterLoading();
     }
   }, []);
+
+  if (products.length === 0) return <></>;
 
   return (
     <div className={s.tableInfo}>
@@ -134,7 +134,7 @@ export const Prices = (): JSX.Element => {
                     </div>
                     <Button
                       className={s.buy_now}
-                      onClick={() => openCheckoutPopup(products[0].id)}
+                      onClick={() => openCheckoutPopup(products[0])}
                     >
                       Buy
                     </Button>
@@ -147,7 +147,7 @@ export const Prices = (): JSX.Element => {
                     </div>
                     <Button
                       className={s.buy_now}
-                      onClick={() => openCheckoutPopup(products[1].id)}
+                      onClick={() => openCheckoutPopup(products[1])}
                     >
                       Buy
                     </Button>
@@ -365,7 +365,7 @@ export const Prices = (): JSX.Element => {
               <div key={frame.id} className="col-xl-4 col-sm-6 col-12">
                 <FrameItem
                   data={frame}
-                  openCheckoutPopup={() => openCheckoutPopup(frame.id)}
+                  openCheckoutPopup={() => openCheckoutPopup(frame)}
                 />
               </div>
             );
