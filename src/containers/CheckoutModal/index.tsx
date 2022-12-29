@@ -153,15 +153,16 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               svgUrl={`${CDN_URL}/icons/ic-order-success.svg`}
             ></SvgInset>
           </div>
-          <div className={s.OrderSuccessModal_title}>Order Successful</div>
+          <div className={s.OrderSuccessModal_title}>
+            Your order was successful!
+          </div>
           <div className={s.OrderSuccessModal_content}>
-            Thank you for purchasing {cart.name}. Your order was successful and
-            it will be delivered to{' '}
-            {shippingInfo.address
-              ? `${shippingInfo.address} ${shippingInfo.city} ${shippingInfo.state} ${shippingInfo.country}`
-              : 'your address'}{' '}
-            within 45 business days. Should you need any further support, please
-            contact us at team@generative.xyz.
+            Please check{' '}
+            <span className={s.OrderSuccessModal_email}>
+              {shippingInfo.email}
+              test@xyz.com
+            </span>{' '}
+            for detailed order information.
           </div>
           <Button
             size="xl"

@@ -84,6 +84,10 @@
     grid-template-columns: 0.3fr 0.4fr 0.3fr;
     gap: rem(12);
     margin-top: rem(12);
+
+    @include mobile() {
+      gap: rem(5);
+    }
   }
 
   &_orderSummary {
@@ -170,7 +174,7 @@
     flex-direction: column;
     align-items: center;
     gap: rem(16);
-    padding: rem(32);
+    padding: 32px;
   }
 
   :global(.modal-content) {
@@ -185,6 +189,12 @@
   &_content {
     font-size: 16px;
     line-height: 24px;
+    text-align: center;
+  }
+
+  &_email {
+    color: $neutral-07;
+    font-weight: 600;
   }
 
   &_button {
