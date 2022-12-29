@@ -130,7 +130,13 @@ const Sandbox: React.FC = (): React.ReactElement => {
           }}
         >
           <Form>
-            <Input name={'firstName'} label={'first name'} required />
+            <Input
+              as="textarea"
+              name={'firstName'}
+              label={'Generative token description'}
+              placeholder={'Provide a detailed description of your item.'}
+              required
+            />
             <ButtonIcon>Submit</ButtonIcon>
           </Form>
         </Formik>
