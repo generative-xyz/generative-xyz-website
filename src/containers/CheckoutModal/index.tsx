@@ -100,13 +100,31 @@ const CheckoutModal: React.FC = (): JSX.Element => {
         // router.push(`/order/${order.order_id}`);
       } catch (_: unknown) {
         setError('Something went wrong. Please try again later.');
+      } finally {
+        setIsLoading(false);
       }
     }
 
     setIsLoading(false);
   };
 
+  const validateForm = (): boolean => {
+    setError('');
+    const validRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+    if (!validRegex.test(shippingInfo.email)) {
+      setError('Invalid email');
+      return false;
+    }
+
+    return true;
+  };
+
   const placeOrder = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       setIsLoading(true);
 
@@ -119,8 +137,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
 
       await processOrder(newOrder);
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
       setIsLoading(false);
     }
   };
@@ -156,7 +172,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             Please check{' '}
             <span className={s.OrderSuccessModal_email}>
               {shippingInfo.email}
-              test@xyz.com
             </span>{' '}
             for detailed order information.
           </div>
