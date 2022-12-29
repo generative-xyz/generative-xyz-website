@@ -12,7 +12,6 @@ import { ScrollTriggerHelper } from '@containers/Home/scrolltrigger-helper';
 
 const Home: React.FC = (): JSX.Element => {
   registerLoading();
-
   useEffect(() => {
     new ScrollTriggerHelper();
     const html = document.querySelector('html');

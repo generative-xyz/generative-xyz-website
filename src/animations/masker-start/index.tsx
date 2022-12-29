@@ -20,20 +20,22 @@ export const MaskerStart = ({ className = '', children }: IProp) => {
     const anim = gsap.context(() => {
       if (!comp.current || isMobileAndTablet()) return;
       refDom.current.scrollMask = new ScrollMaskStart(comp.current, () => {
-        refDom.current.scrollMask?.tl?.fromTo(
-          comp.current,
-          { clipPath: `inset(0% 11%)` },
-          { clipPath: `inset(0% 0%)` },
-          0
-        );
-
-        refDom.current?.scrollMask?.tl2 &&
-          refDom.current.scrollMask.tl2.fromTo(
+        setTimeout(() => {
+          refDom.current.scrollMask?.tl?.fromTo(
             comp.current,
+            { clipPath: `inset(0% 11%)` },
             { clipPath: `inset(0% 0%)` },
-            { clipPath: `inset(0% 10%)` },
             0
           );
+
+          refDom.current?.scrollMask?.tl2 &&
+            refDom.current.scrollMask.tl2.fromTo(
+              comp.current,
+              { clipPath: `inset(0% 0%)` },
+              { clipPath: `inset(0% 10%)` },
+              0
+            );
+        }, 100);
       });
     }, [comp]);
 

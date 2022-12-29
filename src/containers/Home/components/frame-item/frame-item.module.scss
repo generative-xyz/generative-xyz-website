@@ -129,4 +129,16 @@
       }
     }
   }
+
+  :global(.desc__medium){
+    font-size: 16px;
+    margin-bottom: rem(4px);
+    @include min-pc{
+      font-size: calc-auto(1200px, 1920px, 14px, 16px);
+    }
+  }
+
+  :global(.desc__large) {
+    font-weight: 600;
+  }
 }

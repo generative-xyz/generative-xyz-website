@@ -79,7 +79,13 @@ export const Prices = (): JSX.Element => {
                     >
                       <img src={products[0].image} alt="ethf4d1101ffd" />
                     </div>
-                    <div className={cn(s.Home_specContent, s.highlight)}>
+                    <div
+                      className={cn(
+                        s.Home_specContent,
+                        s.highlight,
+                        s.highlight__name
+                      )}
+                    >
                       55 inches (diagonal) OLED display
                     </div>
                     <div className={s.Home_specContent}>Aspect Ratio 16:9</div>
@@ -106,7 +112,13 @@ export const Prices = (): JSX.Element => {
                         alt="ethf4d1101ffd"
                       />
                     </div>
-                    <div className={cn(s.Home_specContent, s.highlight)}>
+                    <div
+                      className={cn(
+                        s.Home_specContent,
+                        s.highlight,
+                        s.highlight__name
+                      )}
+                    >
                       43 inches (diagonal) 4K LED display
                     </div>
                     <div className={s.Home_specContent}>Aspect Ratio 16:9</div>
@@ -195,13 +207,17 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <span className={s.Home_specTitle}>In the box</span>
-                    <div className={s.Home_specContent}>Grail 55”</div>
+                    <div className={s.Home_specContent}>
+                      Generative Display 55”
+                    </div>
                     <div className={s.Home_specContent}>
                       16 ft cable - Adapted to USA, EU, UK sockets
                     </div>
                   </td>
                   <td>
-                    <div className={s.Home_specContent}>Grail 43”</div>
+                    <div className={s.Home_specContent}>
+                      Generative Display 43”
+                    </div>
                     <div className={s.Home_specContent}>
                       16 ft cable - Adapted to USA, EU, UK sockets
                     </div>
@@ -234,8 +250,17 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Processor</span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>Processor</span>
+                    <div className={cn(s.Home_specContent, s.highlight)}>
+                      Intel 11th Core i5
+                    </div>
+                    <div className={s.Home_specContent}>
+                      6 cores CPU allow for good performance with the latest
+                      graphics-intense artworks
+                    </div>
+                  </td>
+                  <td>
                     <div className={cn(s.Home_specContent, s.highlight)}>
                       Intel 11th Core i5
                     </div>
@@ -250,8 +275,13 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Graphic card</span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>Graphic card</span>
+                    <div className={cn(s.Home_specContent, s.highlight)}>
+                      RTX 3060 OC Edition 12GB
+                    </div>
+                  </td>
+                  <td>
                     <div className={cn(s.Home_specContent, s.highlight)}>
                       RTX 3060 OC Edition 12GB
                     </div>
@@ -262,8 +292,11 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Memory</span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>Memory</span>
+                    <div className={s.Home_specContent}>8GB 2666MHz DDR4</div>
+                  </td>
+                  <td>
                     <div className={s.Home_specContent}>8GB 2666MHz DDR4</div>
                   </td>
                 </tr>
@@ -272,8 +305,11 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Storage</span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>Storage</span>
+                    <div className={s.Home_specContent}>250GB SSD</div>
+                  </td>
+                  <td>
                     <div className={s.Home_specContent}>250GB SSD</div>
                   </td>
                 </tr>
@@ -282,8 +318,23 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Connectivity</span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>Connectivity</span>
+                    <div className={cn(s.Home_specContent, s.highlight)}>
+                      Wifi
+                    </div>
+                    <div className={s.Home_specContent}>
+                      802.11ax Wi-Fi 6 wireless networking
+                    </div>
+                    <div className={cn(s.Home_specContent, s.highlight)}>
+                      Bluetooth
+                    </div>
+                    <div className={s.Home_specContent}>
+                      Bluetooth 5.0 wireless technology
+                    </div>
+                  </td>
+
+                  <td>
                     <div className={cn(s.Home_specContent, s.highlight)}>
                       Wifi
                     </div>
@@ -303,8 +354,11 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Frame material</span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>Frame material</span>
+                    <div className={s.Home_specContent}>Natural ash wood</div>
+                  </td>
+                  <td>
                     <div className={s.Home_specContent}>Natural ash wood</div>
                   </td>
                 </tr>
@@ -315,10 +369,21 @@ export const Prices = (): JSX.Element => {
                       Electrical and Operating Requirements
                     </span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>
                       Electrical and Operating Requirements
                     </span>
+                    <div className={s.Home_specContent}>
+                      Line voltage: AC100V to AC240V
+                    </div>
+                    <div className={s.Home_specContent}>
+                      Frequency: 50Hz to 60Hz. single phase
+                    </div>
+                    <div className={s.Home_specContent}>
+                      Operating temperature: 50° to 95° F (10° to 35° C)
+                    </div>
+                  </td>
+                  <td>
                     <div className={s.Home_specContent}>
                       Line voltage: AC100V to AC240V
                     </div>
@@ -335,8 +400,13 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Policy</span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>Policy</span>
+                    <div className={s.Home_specContent}>
+                      No trial, no return
+                    </div>
+                  </td>
+                  <td>
                     <div className={s.Home_specContent}>
                       No trial, no return
                     </div>
@@ -347,8 +417,11 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Warranty</span>
                   </td>
-                  <td className={s.table_td_one}>
+                  <td>
                     <span className={s.Home_specTitle}>Warranty</span>
+                    <div className={s.Home_specContent}>1 year</div>
+                  </td>
+                  <td>
                     <div className={s.Home_specContent}>1 year</div>
                   </td>
                 </tr>

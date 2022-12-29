@@ -63,7 +63,7 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block2_Frame_Mid-19ff415993f.mp4"
+                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Left-1.mp4"
                 type="video/mp4"
               />
             </video>
@@ -73,7 +73,7 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block2_Frame_Left-1c78b302af8.mp4"
+                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Mid-1.mp4"
                 type="video/mp4"
               />
             </video>
@@ -83,7 +83,7 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block2_Frame_Right-1e38a653669.mp4"
+                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Right-1.mp4"
                 type="video/mp4"
               />
             </video>

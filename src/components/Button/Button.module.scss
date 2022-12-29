@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 26px;
   text-align: center;
@@ -15,6 +15,10 @@
   span {
     font-size: 14px;
     line-height: 26px;
+
+    @include min-pc{
+      font-size: calc-auto(1200px, 1920px, 14px, 16px);
+    }
   }
 
   padding: {
@@ -35,10 +39,11 @@
 
   &__md {
     min-height: 40px;
-    font-size: 12px;
     line-height: 24px;
+    font-size: 14px;
 
     @include min-pc {
+      font-size: calc-auto(1200px, 1920px, 12px, 14px);
       min-height: calc-auto(1200px, 1920px, 32px, 40px);
     }
 
@@ -134,7 +139,7 @@
 
   &__ctaAnim {
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;
@@ -210,7 +215,7 @@
 
   &__ctaBorder {
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;
@@ -288,7 +293,7 @@
   &__ctaNone {
     position: relative;
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;
