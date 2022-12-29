@@ -63,7 +63,7 @@ export const Loading = (): JSX.Element => {
 
     if (!processing.current.loaded) {
       processing.current.delta *= 0.9;
-      processing.current.onHold += 0.0015;
+      processing.current.onHold += 0.0005;
       if (processing.current.onHold >= 1) {
         processing.current.onHold = 0;
       }

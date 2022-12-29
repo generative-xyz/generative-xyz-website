@@ -34,7 +34,8 @@ html {
   -webkit-overflow-scrolling: touch;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-smooth: antialiased;
+  font-smoothing: antialiased !important;
+  -webkit-font-smoothing: antialiased !important;
 }
 
 body {
@@ -45,6 +46,8 @@ body {
   font-size: rem(16px);
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  font-smoothing: antialiased !important;
+  -webkit-font-smoothing: antialiased !important;
 }
 
 input {

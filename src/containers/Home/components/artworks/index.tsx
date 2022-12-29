@@ -63,7 +63,7 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Mid-1.mp4"
+                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Left-1.mp4"
                 type="video/mp4"
               />
             </video>
@@ -73,7 +73,7 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Left-1.mp4"
+                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Mid-1.mp4"
                 type="video/mp4"
               />
             </video>
