@@ -85,6 +85,10 @@
     gap: rem(12);
     margin-top: rem(12);
 
+    @include max-tablet() {
+      grid-template-columns: 1fr;
+    }
+
     @include mobile() {
       gap: rem(5);
     }
