@@ -180,10 +180,11 @@ export class WalletManager {
         });
       } catch (err: unknown) {
         log(err as Error, LogLevel.Error, LOG_PREFIX);
-        this.requestAddChain(chainID);
 
         if ((err as ProviderRpcError).code !== WalletErrorCode.USER_REJECTED) {
           this.requestAddChain(chainID);
+        } else {
+          throw err;
         }
       }
 
