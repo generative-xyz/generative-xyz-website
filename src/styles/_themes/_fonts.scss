@@ -1,48 +1,14 @@
 @import "https://rsms.me/inter/inter.css";
 
 @font-face {
-  font-family: Helvetica;
-  src:
-    local("Helvetica"),
-    url("/fonts/Helvetica.woff2") format("woff2"),
-    url("/fonts/Helvetica.woff") format("woff");
+  font-family: 'Bandeins Strange Variable';
+  src: url('/fonts/BandeinsStrangeVariable.eot');
+  src: local('/fonts/Bandeins Strange Variable'), local('BandeinsStrangeVariable'),
+  url('/fonts/BandeinsStrangeVariable.eot?#iefix') format('embedded-opentype'),
+  url('/fonts/BandeinsStrangeVariable.woff2') format('woff2'),
+  url('/fonts/BandeinsStrangeVariable.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  //font-display: swap;
 }
 
-@font-face {
-  font-family: Helvetica;
-  src:
-    local("Helvetica Light"),
-    local("Helvetica-Light"),
-    url("/fonts/Helvetica-Light.woff2") format("woff2"),
-    url("/fonts/Helvetica-Light.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Helvetica;
-  src:
-    local("Helvetica‭ ‬עבה"),
-    local("Helvetica-Bold"),
-    url("/fonts/Helvetica-Bold.woff2") format("woff2"),
-    url("/fonts/Helvetica-Bold.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Vanitas;
-  src:
-    local("Vanitas Regular"),
-    local("Vanitas-Bold"),
-    url("/fonts/Vanitas-Bold.woff2") format("woff2"),
-    url("/fonts/Vanitas-Bold.woff") format("woff");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}

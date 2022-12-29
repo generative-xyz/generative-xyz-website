@@ -55,6 +55,15 @@
         font-size: calc-auto(1200px, 1920px, 12px, 16px);
       }
 
+      &__target1{
+        margin-top: rem(-4px);
+       @include tablet{
+         margin-top: rem(-10px);
+       }
+        @include min-pc{
+          margin-top: rem(-12px);
+        }
+      }
     }
   }
 

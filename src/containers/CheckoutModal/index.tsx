@@ -187,39 +187,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     );
   }
 
-  if (orderSuccess) {
-    return (
-      <Modal show={isShow} onHide={onHideModal} className={s.OrderSuccessModal}>
-        <Modal.Body>
-          <div className={s.OrderSuccessModal_icon}>
-            <SvgInset
-              size={68}
-              svgUrl={`${CDN_URL}/icons/ic-order-success.svg`}
-            ></SvgInset>
-          </div>
-          <div className={s.OrderSuccessModal_title}>
-            Your order was successful!
-          </div>
-          <div className={s.OrderSuccessModal_content}>
-            Please check{' '}
-            <span className={s.OrderSuccessModal_email}>
-              {shippingInfo.email}
-              test@xyz.com
-            </span>{' '}
-            for detailed order information.
-          </div>
-          <Button
-            size="xl"
-            className={s.OrderSuccessModal_button}
-            onClick={onHideModal}
-          >
-            Got it
-          </Button>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-
   return (
     <Modal show={isShow} onHide={onHideModal} className={s.CheckoutModal}>
       <Modal.Header closeButton />

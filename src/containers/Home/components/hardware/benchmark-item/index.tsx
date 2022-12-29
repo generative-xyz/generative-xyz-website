@@ -66,7 +66,7 @@ export const BenchmarkItem = ({
       new Anim(comp.current, () => {
         gsap.to(refData.current.target1, {
           value: target1.value,
-          duration: 3,
+          duration: 1.8,
           ease: 'power3.inOut',
           onUpdate: () => {
             setValueTarget1(Math.floor(refData.current.target1.value));
@@ -77,7 +77,7 @@ export const BenchmarkItem = ({
         });
         gsap.to(refData.current.target2, {
           value: target2.value,
-          duration: 3,
+          duration: 1.8,
           ease: 'power3.inOut',
           delay: 0.2,
           onUpdate: () => {
@@ -109,7 +109,14 @@ export const BenchmarkItem = ({
           </div>
           <div className={s.benchmark_val_value}>{valueTarget1}</div>
         </div>
-        <p className={s.benchmark_target_title}>{target1.title}</p>
+        <p
+          className={classNames(
+            s.benchmark_target_title,
+            s.benchmark_target_title__target1
+          )}
+        >
+          {target1.title}
+        </p>
       </div>
       <div className={s.benchmark_target}>
         <div className={s.benchmark_val}>
