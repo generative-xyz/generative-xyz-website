@@ -74,7 +74,7 @@ const Input: React.FC<
           {({ field }: any) => renderInput(field)}
         </Field>
       ) : (
-        renderInput()
+        renderInput(rest)
       )}
     </div>
   );
