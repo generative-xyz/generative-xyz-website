@@ -255,7 +255,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                       target={`_blank`}
                       href={`${getOpenseaAssetUrl()}/${
                         itemDetail.project.genNFTAddr
-                      }${tokenID}`}
+                      }/${tokenID}`}
                     >
                       Opensea
                     </Link>
