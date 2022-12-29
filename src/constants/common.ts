@@ -25,7 +25,7 @@ export const PLACE_HOLDER_IMAGE = `${CLOUDFRONT_SERVER_NAME}static/upload/images
 export const CONTACT_EMAIL = 'team@generative.xyz';
 export const SOCIALS = {
   discord: 'https://discord.com/invite/eUrvfKKTxP',
-  twitter: 'https://twitter.com/generativexyz',
+  twitter: 'https://twitter.com/generative_xyz',
 };
 
 export const PAGE_LOADED = 'PAGE_LOADED';
