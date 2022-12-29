@@ -8,8 +8,8 @@
 }
 
 .thumbnail {
-  aspect-ratio: 1 / 1;
-  width: 330px;
+  aspect-ratio: 4 / 3;
+  width: 40%;
   position: relative;
 }
 
@@ -33,7 +33,7 @@
     position: relative;
 
     .progressBar {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       height: 100%;
@@ -52,4 +52,8 @@
 
 .submitBtn {
   margin-top: 24px;
+}
+
+.desc {
+  margin-block: 16px;
 }

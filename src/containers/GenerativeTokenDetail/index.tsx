@@ -1,33 +1,28 @@
 import Accordion from '@components/Accordion';
 import AvatarInfo from '@components/AvatarInfo';
+import Link from '@components/Link';
+import ThumbnailPreview from '@components/ThumbnailPreview';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { LogLevel } from '@enums/log-level';
 import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
 import { getTokenUri } from '@services/token-uri';
+import { getChainName, getOpenseaAssetUrl, getScanUrl } from '@utils/chain';
+import { formatAddress } from '@utils/format';
 import log from '@utils/logger';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
 import styles from './styles.module.scss';
-import { convertIpfsToHttp } from '@utils/image';
-import { getChainName, getOpenseaAssetUrl, getScanUrl } from '@utils/chain';
-import Link from '@components/Link';
-import { base64ToUtf8, formatAddress } from '@utils/format';
-import SandboxPreview from '@containers/Sandbox/SandboxPreview';
-import { ISandboxRef } from '@interfaces/sandbox';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
-  const sandboxRef = useRef<ISandboxRef>(null);
   const { projectID, tokenID } = router.query as {
     projectID: string;
     tokenID: string;
   };
 
-  // const itemDetail: IGetGenerativeTokenUriResponse = MOCK;
   const [itemDetail, setItemDetail] = useState<IGetGenerativeTokenUriResponse>({
     name: '',
     description: '',
@@ -83,21 +78,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   const scanURL = getScanUrl();
 
-  const handleIframeLoaded = (): void => {
-    if (sandboxRef.current) {
-      const iframe = sandboxRef.current.getHtmlIframe();
-      if (iframe) {
-        // @ts-ignore: Allow read iframe's window object
-        if (iframe.contentWindow?.$generativeTraits) {
-          // @ts-ignore: Allow read iframe's window object
-          // setAttributes(iframe.contentWindow?.$generativeTraits);
-        } else {
-          // setAttributes(null);
-        }
-      }
-    }
-  };
-
   const fetchItemDetail = async (): Promise<void> => {
     try {
       if (tokenID) {
@@ -145,9 +125,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                     <div>
                       <p>Owner</p>
                       <p>
-                        {itemDetail.owner.displayName
-                          ? itemDetail.owner.displayName
-                          : itemDetail.owner.walletAddress}
+                        {itemDetail?.owner?.displayName
+                          ? itemDetail?.owner?.displayName
+                          : itemDetail?.owner?.walletAddress}
                       </p>
                     </div>
                   }
@@ -251,7 +231,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                       target={`_blank`}
                       href={`${getOpenseaAssetUrl()}/${
                         itemDetail.project.genNFTAddr
-                      }${tokenID}`}
+                      }/${tokenID}`}
                     >
                       Opensea
                     </Link>
@@ -264,8 +244,30 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               <div className="divider"></div>
             </div>
           </div>
-          <div className={styles.rightWrapper}>
+          <ThumbnailPreview data={itemDetail} />
+          {/* <div className={styles.rightWrapper}>
             <div className={styles.thumbnail}>
+              <div
+                className={cs(
+                  // startAnimaton ? 'opacity-100' : 'opacity-0',
+                  startAnimaton ? 'd-block' : 'd-none',
+                  styles.sandboxContainer
+                )}
+              >
+                <SandboxPreview
+                  ref={sandboxRef}
+                  rawHtml={base64ToUtf8(
+                    itemDetail.animationUrl.replace(
+                      'data:text/html;base64,',
+                      ''
+                    )
+                  )}
+                  hash={''}
+                  sandboxFiles={null}
+                  // onLoaded={handleIframeLoaded}
+                />
+              </div>
+
               <Image
                 src={convertIpfsToHttp(
                   itemDetail?.image ||
@@ -274,8 +276,13 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 alt={itemDetail.name}
                 fill
                 style={{ width: '100%' }}
+                className={cs(
+                  startAnimaton ? 'd-none' : 'd-block'
+
+                  // startAnimaton ? 'opacity-0' : 'opacity-100'
+                )}
                 sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 25vw"
+  (max-width: 1200px) 25vw"
               />
             </div>
             <Stack
@@ -283,14 +290,20 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               className={styles.actionButtons}
               gap={5}
             >
-              <div>Run</div>
-              <div>Refresh</div>
-              <div>Open</div>
+              <div onClick={handleAnimationTrigger}>
+                {startAnimaton ? 'Stop' : 'Run'}
+              </div>
+              <div onClick={handleRefreshAnimation}>Refresh</div>
+              {iframeSrc && (
+                <Link href={iframeSrc} target={`_blank`} rel="noopener">
+                  Open
+                </Link>
+              )}
             </Stack>
-          </div>
+          </div> */}
         </div>
         <h3>More on this Colleciton</h3>
-        <SandboxPreview
+        {/* <SandboxPreview
           ref={sandboxRef}
           rawHtml={base64ToUtf8(
             itemDetail.animationUrl.replace('data:text/html;base64,', '')
@@ -298,7 +311,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           hash={null}
           sandboxFiles={null}
           onLoaded={handleIframeLoaded}
-        />
+        /> */}
 
         {/* <CollectionList/> */}
       </Container>
