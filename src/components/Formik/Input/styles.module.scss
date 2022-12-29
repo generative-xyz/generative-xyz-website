@@ -1,0 +1,49 @@
+.wrapper {
+  label {
+    text-transform: uppercase;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .input {
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    max-width: 330px;
+    gap: 11px;
+    border-radius: 8px;
+
+    input {
+      flex: 1;
+      background-color: transparent;
+      color: $black-100;
+
+      &::placeholder {
+        color: $black-40;
+      }
+    }
+  }
+
+  &.filled {
+    .input {
+      background-color: #f8f8f8;
+    }
+  }
+
+  &.default {
+    color: $black-40;
+  }
+
+  &.error {
+    color: $secondary-red;
+
+    .input {
+      background-color: rgba(255, 71, 71, 0.1);
+
+      input {
+        color: inherit;
+      }
+    }
+  }
+}
