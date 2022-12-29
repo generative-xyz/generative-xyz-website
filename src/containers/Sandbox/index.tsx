@@ -12,6 +12,9 @@ import log from '@utils/logger';
 import { processSandboxZipFile } from '@utils/sandbox';
 import React, { useMemo, useRef, useState } from 'react';
 import s from './styles.module.scss';
+import { Form, Formik } from 'formik';
+import Input from '@components/Formik/Input';
+import { Container } from 'react-bootstrap';
 
 const LOG_PREFIX = 'Sandbox';
 
@@ -117,6 +120,21 @@ const Sandbox: React.FC = (): React.ReactElement => {
           onLoaded={handleIframeLoaded}
         />
       </div>
+      <Container>
+        <Formik
+          initialValues={{
+            firstName: '',
+          }}
+          onSubmit={() => {
+            //
+          }}
+        >
+          <Form>
+            <Input name={'firstName'} label={'first name'} required />
+            <ButtonIcon>Submit</ButtonIcon>
+          </Form>
+        </Formik>
+      </Container>
     </section>
   );
 };

@@ -16,6 +16,7 @@ import Link from '@components/Link';
 import { base64ToUtf8, formatAddress } from '@utils/format';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import { ISandboxRef } from '@interfaces/sandbox';
+import cs from 'classnames';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -26,6 +27,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     projectID: string;
     tokenID: string;
   };
+
+  const [startAnimaton, setStartAnimaton] = useState(false);
+  const [iframeSrc, setIframeSrc] = useState('');
 
   // const itemDetail: IGetGenerativeTokenUriResponse = MOCK;
   const [itemDetail, setItemDetail] = useState<IGetGenerativeTokenUriResponse>({
@@ -83,18 +87,18 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   const scanURL = getScanUrl();
 
-  const handleIframeLoaded = (): void => {
+  const handleAnimationTrigger = () => {
+    setStartAnimaton(!startAnimaton);
     if (sandboxRef.current) {
-      const iframe = sandboxRef.current.getHtmlIframe();
-      if (iframe) {
-        // @ts-ignore: Allow read iframe's window object
-        if (iframe.contentWindow?.$generativeTraits) {
-          // @ts-ignore: Allow read iframe's window object
-          // setAttributes(iframe.contentWindow?.$generativeTraits);
-        } else {
-          // setAttributes(null);
-        }
-      }
+      sandboxRef.current.reloadIframe();
+      const iframe = sandboxRef.current.getHtmlIframe() as HTMLIFrameElement;
+      setIframeSrc(iframe.src);
+    }
+  };
+
+  const handleRefreshAnimation = () => {
+    if (sandboxRef.current) {
+      sandboxRef.current.reloadIframe();
     }
   };
 
@@ -266,6 +270,27 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
           <div className={styles.rightWrapper}>
             <div className={styles.thumbnail}>
+              <div
+                className={cs(
+                  // startAnimaton ? 'opacity-100' : 'opacity-0',
+                  startAnimaton ? 'd-block' : 'd-none',
+                  styles.sandboxContainer
+                )}
+              >
+                <SandboxPreview
+                  ref={sandboxRef}
+                  rawHtml={base64ToUtf8(
+                    itemDetail.animationUrl.replace(
+                      'data:text/html;base64,',
+                      ''
+                    )
+                  )}
+                  hash={null}
+                  sandboxFiles={null}
+                  // onLoaded={handleIframeLoaded}
+                />
+              </div>
+
               <Image
                 src={convertIpfsToHttp(
                   itemDetail?.image ||
@@ -274,8 +299,13 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 alt={itemDetail.name}
                 fill
                 style={{ width: '100%' }}
+                className={cs(
+                  startAnimaton ? 'd-none' : 'd-block'
+
+                  // startAnimaton ? 'opacity-0' : 'opacity-100'
+                )}
                 sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 25vw"
+  (max-width: 1200px) 25vw"
               />
             </div>
             <Stack
@@ -283,14 +313,22 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               className={styles.actionButtons}
               gap={5}
             >
-              <div>Run</div>
-              <div>Refresh</div>
-              <div>Open</div>
+              <div onClick={handleAnimationTrigger}>
+                {startAnimaton ? 'Stop' : 'Run'}
+              </div>
+              <div onClick={handleRefreshAnimation}>Refresh</div>
+              <Link
+                href={iframeSrc ? iframeSrc : itemDetail.animationUrl}
+                target={`_blank`}
+                rel="noopener"
+              >
+                Open
+              </Link>
             </Stack>
           </div>
         </div>
         <h3>More on this Colleciton</h3>
-        <SandboxPreview
+        {/* <SandboxPreview
           ref={sandboxRef}
           rawHtml={base64ToUtf8(
             itemDetail.animationUrl.replace('data:text/html;base64,', '')
@@ -298,7 +336,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           hash={null}
           sandboxFiles={null}
           onLoaded={handleIframeLoaded}
-        />
+        /> */}
 
         {/* <CollectionList/> */}
       </Container>
