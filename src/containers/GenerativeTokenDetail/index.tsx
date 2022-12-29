@@ -285,7 +285,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                       ''
                     )
                   )}
-                  hash={null}
+                  hash={''}
                   sandboxFiles={null}
                   // onLoaded={handleIframeLoaded}
                 />
