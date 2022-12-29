@@ -7,13 +7,22 @@ import { AnimParallax } from '@animations/parallax';
 import { AnimFade } from '@animations/fade';
 import classNames from 'classnames';
 import { AnimHeading } from '@animations/heading';
+import { useAppDispatch } from '@redux';
+import { setIsScrolling } from '@redux/general/action';
 
 export const SectionHero = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const scrollTo = () => {
+    dispatch(setIsScrolling(true));
     gsap.to(window, {
       scrollTo: '#tech-spec',
       duration: 0.6,
       ease: 'power3.inOut',
+      onComplete: () => {
+        setTimeout(() => {
+          dispatch(setIsScrolling(false));
+        }, 1500);
+      },
     });
   };
 
@@ -28,7 +37,7 @@ export const SectionHero = (): JSX.Element => {
       <AnimParallax className={s.Home_video_hero}>
         <video autoPlay loop muted playsInline preload="auto">
           <source
-            src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221220/video8275052af6.mp4"
+            src="https://storage.googleapis.com/generative-static-prod/pages/home/Block-v2-1-1.mp4"
             type="video/mp4"
           />
         </video>

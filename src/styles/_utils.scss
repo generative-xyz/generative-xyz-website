@@ -80,3 +80,18 @@
 .shadow {
   box-shadow: $shadow;
 }
+
+.text-error {
+  color: $secondary-red;
+  font-weight: 500;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}

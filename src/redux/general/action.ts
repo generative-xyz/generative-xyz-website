@@ -21,3 +21,5 @@ export const setPageLoadStatus = createAction<string>(
 );
 
 export const setDisabledMenu = createAction<boolean>('general/setDisabledMenu');
+
+export const setIsScrolling = createAction<boolean>('general/setIsScrolling');

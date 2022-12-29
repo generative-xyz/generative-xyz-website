@@ -5,16 +5,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 26px;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+
   span {
     font-size: 14px;
     line-height: 26px;
+
+    @include min-pc{
+      font-size: calc-auto(1200px, 1920px, 14px, 16px);
+    }
   }
 
   padding: {
@@ -35,10 +43,11 @@
 
   &__md {
     min-height: 40px;
-    font-size: 12px;
     line-height: 24px;
+    font-size: 14px;
 
     @include min-pc {
+      font-size: calc-auto(1200px, 1920px, 12px, 14px);
       min-height: calc-auto(1200px, 1920px, 32px, 40px);
     }
 
@@ -134,7 +143,7 @@
 
   &__ctaAnim {
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;
@@ -145,6 +154,7 @@
     box-shadow: none;
     clip-path: inset(0);
     position: relative;
+    background: $neutral-08;
     transition: color 0.6s $easeOutCubic;
 
     :global(.text) {
@@ -156,11 +166,10 @@
     &::before {
       content: '';
       display: block;
-      width: 100%;
+      width: 101%;
       height: 102%;
       transition: transform 0.6s $easeOutCubic;
       position: absolute;
-      will-change: transform;
       top: 0;
       left: 0;
     }
@@ -191,6 +200,7 @@
 
     &__black {
       color: white;
+      background: $white;
 
       &::after {
         background-color: $white;
@@ -210,7 +220,7 @@
 
   &__ctaBorder {
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;
@@ -288,7 +298,7 @@
   &__ctaNone {
     position: relative;
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;

@@ -113,4 +113,24 @@
       }
     }
   }
+
+  &_benchmark {
+    padding-top: var(--spacing-supper);
+    padding-bottom: var(--spacing-medium);
+    background-color: $neutral-08;
+
+    &_header {
+      text-align: center;
+      margin-bottom: var(--spacing-small);
+
+      h3 {
+        color: $white;
+        margin-bottom: rem(24px);
+      }
+
+      p {
+        color: rgba(255, 255, 255, 0.8)
+      }
+    }
+  }
 }
