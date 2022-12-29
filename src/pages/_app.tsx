@@ -79,7 +79,6 @@ export default function App({ Component, pageProps }: MyAppProps) {
       </Head>
 
       <NextNprogress />
-
       <Provider store={store}>
         <WalletProvider>
           <AuthWrapper>
