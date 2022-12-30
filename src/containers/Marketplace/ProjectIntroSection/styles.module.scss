@@ -1,0 +1,15 @@
+@import 'src/styles/_themes/mixins';
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 0.9fr 1fr 0.6fr;
+
+  > div:nth-child(1) {
+    margin-right: 6.5vw;
+  }
+  > div:nth-child(2) {
+  }
+  > div:nth-child(3) {
+    margin-left: 3.65vw;
+  }
+}
