@@ -24,9 +24,20 @@ body {
 }
 
 a {
-  color: var(--text-link);
+  color: inherit;
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  background-color: $white-100;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 26px;
+  color: $black-60;
+  font-weight: 500;
 
   &:hover {
-    color: blue;
+    background-color: $white-5;
+    color: $black-100;
   }
 }
