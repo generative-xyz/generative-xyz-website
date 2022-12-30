@@ -53,9 +53,7 @@ const Header: React.FC = (): React.ReactElement => {
     {
       id: 'profile-2',
       name: 'Disconnect wallet',
-      onClick: () => {
-        return;
-      },
+      onClick: () => walletCtx.disconnect(),
     },
   ];
 
