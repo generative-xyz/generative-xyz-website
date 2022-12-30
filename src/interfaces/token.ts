@@ -1,5 +1,5 @@
 import { User } from '@interfaces/user';
-import { IProjectDetail } from '@interfaces/api/project';
+import { Project } from './project';
 
 export type TokenAttribute = {
   trait_type: string;
@@ -15,6 +15,6 @@ export type Token = {
   genNFTAddr: string;
   owner: User;
   ownerAddress: string;
-  project: IProjectDetail;
+  project: Project;
   mintedTime: string;
 };

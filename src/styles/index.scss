@@ -50,7 +50,8 @@ body {
   -webkit-font-smoothing: antialiased !important;
 }
 
-input {
+input,
+textarea {
   outline: 0;
   overflow: hidden;
   text-overflow: ellipsis;

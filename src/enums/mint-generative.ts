@@ -3,3 +3,8 @@ export enum MintGenerativeStep {
   PROJECT_DETAIL = 'project-detail',
   SET_PRICE = 'set-price',
 }
+
+export enum PreviewDisplayMode {
+  Animation = 'Animation',
+  Thumbnail = 'Thumbnail',
+}

@@ -7,6 +7,15 @@ async function fetchUrl(url, file) {
   return new Response(record.body, options);
 }
 
+self.addEventListener("install", (event) => {
+  // The promise that skipWaiting() returns can be safely ignored.
+  self.skipWaiting();
+
+  // Perform any other actions required for your
+  // service worker to install, potentially inside
+  // of event.waitUntil();
+});
+
 self.addEventListener("fetch", async (event) => {
   const url = new URL(event.request.referrer);
   const id = url.searchParams.get("id");
@@ -34,7 +43,7 @@ self.addEventListener("fetch", async (event) => {
 })
 
 self.addEventListener("message", async (event) => {
-  
+
   if (event?.data?.type === "REGISTER_REFERRER") {
     referrers[event.data.data.id] = event.data.data.referrer
   }

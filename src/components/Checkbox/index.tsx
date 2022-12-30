@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cs from 'classnames';
 import styles from './styles.module.scss';
 
 type CheckboxProps = {
@@ -6,14 +7,21 @@ type CheckboxProps = {
   label: string | number | boolean;
   checked?: boolean;
   onClick?: () => void;
-};
+} & React.HTMLProps<HTMLInputElement>;
 
-const Checkbox = ({ id, label, checked, onClick, ...props }: CheckboxProps) => {
+const Checkbox = ({
+  id,
+  label,
+  checked,
+  onClick,
+  className = '',
+  ...props
+}: CheckboxProps) => {
   const defaultChecked = checked ? checked : false;
 
   const [isChecked, setIsChecked] = useState(defaultChecked);
   return (
-    <div className={styles.wrapper}>
+    <div className={cs(styles.wrapper, className)}>
       <input
         id={id}
         type="checkbox"

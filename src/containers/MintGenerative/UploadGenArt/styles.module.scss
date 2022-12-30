@@ -44,4 +44,94 @@
     color: $black-100;
     text-decoration: underline;
   }
+
+  .uploadFiles {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid $black-10;
+  }
+
+  .zipFileInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .folderIcon {
+    display: inline-block;
+    margin-right: 14px;
+  }
+
+  .zipFileName {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 34px;
+    color: $black-100;
+  }
+
+  .zipFileList {
+    padding-left: 42px;
+  }
+
+  .fileItem {
+    display: flex;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+
+  .codeIcon {
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  .fileName {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    color: $black-100;
+  }
+
+  .stepFooterWrapper {
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    width: 100vw;
+    left: 0;
+    right: 0;
+  }
+
+  .stepFooter {
+    padding: 28px 0;
+    background-color: $white-100;
+    border-top: 1px solid $black-10;
+  }
+
+  .container {
+    max-width: 1016px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .checkbox {
+    :global(label) {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 24px;
+      color: $black-40;
+    }
+
+    :global(input) {
+      accent-color: $black-100;
+    }
+  }
+
+  .nextBtn {
+    width: 48px;
+    height: 48px;
+  }
 }

@@ -1,4 +1,5 @@
 import { IPagingParams, IPagingResponse } from '@interfaces/paging';
+import { Project } from '@interfaces/project';
 import { RawTokenAttributes } from '@interfaces/sandbox';
 
 export interface IGetProjectDetailParams {
@@ -6,45 +7,7 @@ export interface IGetProjectDetailParams {
   projectID: string;
 }
 
-export interface IProjectSocial {
-  Web: string;
-  Twitter: string;
-  Discord: string;
-  Medium: string;
-  Instagram: string;
-}
-
-export interface IProjectDetail {
-  id: string;
-  maxSupply: number;
-  limit: number;
-  mintPrice: string;
-  mintPriceAddr: string;
-  name: string;
-  creator: string;
-  creatorAddr: string;
-  license: string;
-  desc: string;
-  image: string;
-  scriptType: string[];
-  social: IProjectSocial;
-  scripts: string[];
-  styles: string;
-  completeTime: number;
-  genNFTAddr: string;
-  itemDesc: string;
-  status: boolean;
-  nftTokenURI: string;
-  projectURI: string;
-  royalty?: number;
-  tokenID: string;
-  mintingInfo: {
-    index: number;
-    indexReserve: number;
-  };
-}
-
-export type IGetProjectDetailResponse = IProjectDetail;
+export type IGetProjectDetailResponse = Project;
 
 export interface IGetProjectItemsParams extends IPagingParams {
   contractAddress: string;
@@ -82,5 +45,5 @@ export interface IGetProjectListParams extends IPagingParams {
 }
 
 export interface IGetProjectListResponse extends IPagingResponse {
-  result: Array<IProjectDetail>;
+  result: Array<Project>;
 }
