@@ -33,7 +33,7 @@ export const HARDWARE_CONTENTS: IHardwareItem[] = [
     options: [
       {
         subtitle: 'LCD Display',
-        title: `55” Oled & 43” LCD`,
+        title: `55” OLED & 43” LCD`,
         icon: 'https://cdn.autonomous.ai/static/upload/images/common/upload/20221222/Icon_set-053ce2eba7cd.svg',
       },
       {

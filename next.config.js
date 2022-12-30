@@ -34,7 +34,16 @@ module.exports = withBundleAnalyzer({
         ],
       },
       {
-        source: '/sandbox/sw.js',
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'service-worker-allowed',
+            value: '/',
+          },
+        ],
+      },
+      {
+        source: '/caching.sw.js',
         headers: [
           {
             key: 'service-worker-allowed',

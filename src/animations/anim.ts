@@ -1,4 +1,6 @@
 import { gsap } from 'gsap';
+import store from '@redux';
+import { default as ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export class Anim {
   DOM: Record<string, HTMLElement>;
@@ -12,8 +14,18 @@ export class Anim {
     ScrollTrigger.create({
       trigger: el,
       onEnter: function (target: ScrollTrigger) {
-        onEnter();
-        target.kill();
+        const isScrolling = store.getState()?.general.isScrolling;
+        if (!isScrolling) {
+          onEnter();
+          target.kill();
+        }
+      },
+      onEnterBack: function (target: ScrollTrigger) {
+        const isScrolling = store.getState()?.general.isScrolling;
+        if (!isScrolling) {
+          onEnter();
+          target.kill();
+        }
       },
     });
   }

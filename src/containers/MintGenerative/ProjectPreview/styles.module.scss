@@ -12,4 +12,26 @@
     height: 400px;
     margin-bottom: 8px;
   }
+
+  .actionWrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sandboxControls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .actionBtn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $black-10;
+  }
 }

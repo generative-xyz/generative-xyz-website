@@ -79,11 +79,10 @@
 
   &_ctas {
     position: absolute;
-    opacity: 0;
+    top: calc(100% - #{rem(25px)});
     left: 0;
-    top: 0;
+    opacity: 0;
     width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,9 +109,6 @@
     text-align: center;
     @include max-tablet {
       margin-top: rem(20px);
-    }
-    @include min-pc {
-      padding: rem(40px);
     }
 
     li {

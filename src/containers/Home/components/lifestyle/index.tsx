@@ -3,7 +3,7 @@ import { SectionInfo } from '../section-info';
 import s from './lifestyle.module.scss';
 import classNames from 'classnames';
 import { MaskerStart } from '@animations/masker-start';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { gsap } from 'gsap';
 
 export const LifeStyle = () => {
@@ -55,10 +55,10 @@ export const LifeStyle = () => {
             height={1080}
             className={s.lifeStyle_canvas_main}
             urlFrame={
-              'https://storage.googleapis.com/generative-static-prod/pages/home/frame-4/block-4-v2-%d.jpg'
+              'https://storage.googleapis.com/generative-static-prod/pages/home/frame-4-v4/block-4-v4-%d.png'
             }
             webmFrame={
-              'https://storage.googleapis.com/generative-static-prod/pages/home/frame-4/block-4-v2-%d.jpg.webp'
+              'https://storage.googleapis.com/generative-static-prod/pages/home/frame-4-v4/block-4-v4-%d.png.webp'
             }
             totalFrames={124}
             onProcessing={processing}
@@ -90,12 +90,10 @@ export const LifeStyle = () => {
         </MaskerStart>
         <div className={s.lifeStyle_mobile}>
           <div className={s.lifeStyle_mobile_top}>
-            <div className={s.lifeStyle_mobile_inner}>
-              <video
-                autoPlay
-                playsInline
-                loop
-                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/video-rightc8ecf13cd4.mp4"
+            <div className={classNames(s.lifeStyle_mobile_inner, 'image__fit')}>
+              <img
+                src="https://storage.googleapis.com/generative-static-prod/pages/home/thumbnails/block4.png"
+                alt="block4"
               />
             </div>
           </div>
@@ -106,12 +104,12 @@ export const LifeStyle = () => {
               title={'Ultimate app controls built in.'}
             />
             <div className={s.lifeStyle_mobile_inner}>
-              <video
-                autoPlay
-                playsInline
-                loop
-                src="https://cdn.autonomous.ai/static/upload/images/common/upload/20221223/video-rightc8ecf13cd4.mp4"
-              />
+              <video autoPlay playsInline loop muted preload="auto">
+                <source
+                  src="https://storage.googleapis.com/generative-static-prod/pages/home/thumbnails/block_4_1.mp4"
+                  type="video/mp4"
+                />
+              </video>
             </div>
           </div>
         </div>

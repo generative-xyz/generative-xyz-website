@@ -98,6 +98,12 @@
         display: flex;
         gap: rem(16px);
         align-items: center;
+
+        :global(.desc__body){
+          @include max-tablet{
+            font-size: rem(20px);
+          }
+        }
       }
     }
   }
