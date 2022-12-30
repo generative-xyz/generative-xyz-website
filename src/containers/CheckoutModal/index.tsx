@@ -163,7 +163,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <SvgInset
               size={68}
               svgUrl={`${CDN_URL}/icons/ic-order-success.svg`}
-            ></SvgInset>
+            />
           </div>
           <div className={s.OrderSuccessModal_title}>
             Your order was successful!
@@ -225,8 +225,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               values={selectedCountry ? [selectedCountry] : []}
               options={Countries}
               labelField="value"
-              valueField="key"
-              searchable={false}
+              valueField="value"
               multi={false}
               onChange={value => {
                 setShippingInfo({
@@ -242,6 +241,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               placeholder="Full name"
               className={s.CheckoutModal_input}
               value={shippingInfo.name}
+              clearable={false}
               onChange={value =>
                 setShippingInfo({
                   ...shippingInfo,
@@ -253,6 +253,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <Input
               placeholder="Email"
               type="email"
+              clearable={false}
               className={s.CheckoutModal_input}
               value={shippingInfo.email}
               onChange={value =>
@@ -264,6 +265,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               required
             />
             <Input
+              clearable={false}
               placeholder="Street address"
               className={s.CheckoutModal_input}
               value={shippingInfo.address}
@@ -278,6 +280,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <Input
               placeholder="Apartment, suite, etc"
               className={s.CheckoutModal_input}
+              clearable={false}
               value={shippingInfo.address2}
               onChange={value =>
                 setShippingInfo({
@@ -289,6 +292,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <div className={s.CheckoutModal_regionGroup}>
               <Input
                 placeholder="City"
+                clearable={false}
                 value={shippingInfo.city}
                 onChange={value =>
                   setShippingInfo({
@@ -303,7 +307,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                   values={selectedState ? [selectedState] : []}
                   options={StateOfUS}
                   labelField="value"
-                  valueField="key"
+                  valueField="value"
                   placeholder="State"
                   onChange={value =>
                     setShippingInfo({
@@ -317,6 +321,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                 <Input
                   placeholder="State"
                   value={shippingInfo.state}
+                  clearable={false}
                   onChange={value =>
                     setShippingInfo({
                       ...shippingInfo,
@@ -329,6 +334,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               <Input
                 placeholder="Zip code"
                 value={shippingInfo.zip}
+                clearable={false}
                 onChange={value =>
                   setShippingInfo({
                     ...shippingInfo,

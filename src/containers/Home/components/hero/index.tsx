@@ -64,7 +64,6 @@ export const SectionHero = (): JSX.Element => {
               </Button>
             </AnimFade>
           </li>
-
           {/*<li>*/}
           {/*  <AnimFade screen={0.4}>*/}
           {/*    <Button*/}

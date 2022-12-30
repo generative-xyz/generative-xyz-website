@@ -28,7 +28,7 @@
         @include max-tablet {
           display: none;
         }
-        @include min-pc{
+        @include min-pc {
           width: 20%;
         }
       }
@@ -66,7 +66,7 @@
             top: rem(32px);
           }
 
-          @include min-pc{
+          @include min-pc {
             display: none;
           }
         }
@@ -90,12 +90,18 @@
           top: 0;
           display: block;
           margin-bottom: rem(20px);
-          @include min-pc{
+          @include min-pc {
             display: none;
           }
         }
 
 
+      }
+
+      &.Home_specTitle_large {
+        @include max-tablet{
+          padding-top: rem(100px) !important;
+        }
       }
     }
   }
@@ -148,7 +154,7 @@
     &.highlight {
       font-weight: 600;
 
-      &__name{
+      &__name {
         font-weight: 600;
         font-size: rem(20px);
         line-height: 140%;

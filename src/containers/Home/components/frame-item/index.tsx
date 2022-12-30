@@ -31,7 +31,7 @@ export const FrameItem = ({ data, openCheckoutPopup }: IProp): JSX.Element => {
             <li className={s.frameItem_uls_item}>
               <Button
                 size="xl"
-                variant="cta-anim__black"
+                variant="black"
                 className={classNames(s.Home_video_content_ctas_orderBtn)}
                 onClick={openCheckoutPopup}
               >

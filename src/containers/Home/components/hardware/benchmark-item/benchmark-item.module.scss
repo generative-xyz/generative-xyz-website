@@ -16,23 +16,78 @@
     margin-bottom: calc-auto(1200px, 1920px, 30px, 48px);
   }
 
+  &_header {
+    display: flex;
+    margin-bottom: rem(16px);
+    align-items: center;
+
+    @include tablet {
+      margin-bottom: rem(20px);
+    }
+
+    @include min-pc {
+      margin-bottom: rem(20px);
+    }
+  }
+
   &_heading {
     color: #FFFFFF;
 
     font-style: normal;
     font-weight: 700;
     line-height: 140%;
-    font-size: rem(16px);
-    margin-bottom: rem(16px);
+    display: flex;
 
+    font-size: rem(16px);
     @include tablet {
       font-size: rem(24px);
-      margin-bottom: rem(20px);
     }
 
     @include min-pc {
-      margin-bottom: rem(20px);
       font-size: calc-auto(1200px, 1920px, 16px, 24px);
+    }
+
+    &_tool {
+      display: flex;
+      gap: rem(6px);
+      align-items: center;
+      margin-left: rem(12px);
+      padding-left: rem(12px);
+      color: $white;
+      font-weight: 700;
+      position: relative;
+
+      &:before {
+        content: '';
+        border-left: 1px solid rgba($white, .2);
+        display: block;
+        position: absolute;
+        left: 0;
+        top: .1em;
+        height: 16px;
+
+        @include min-pc{
+          height: calc-auto(1200px, 1920px, 14px, 20px);
+        }
+      }
+
+      font-size: rem(14);
+      @include tablet {
+        font-size: rem(20px);
+      }
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 14px, 20px);
+      }
+
+      img {
+        aspect-ratio: 1/1;
+        transform: translateY(-.1em);
+        @include min-pc {
+          height: auto;
+          width: calc-auto(1200px, 1920px, 20px, 24px);
+        }
+      }
     }
 
   }
@@ -55,12 +110,12 @@
         font-size: calc-auto(1200px, 1920px, 12px, 16px);
       }
 
-      &__target1{
+      &__target1 {
         margin-top: rem(-4px);
-       @include tablet{
-         margin-top: rem(-10px);
-       }
-        @include min-pc{
+        @include tablet {
+          margin-top: rem(-10px);
+        }
+        @include min-pc {
           margin-top: rem(-12px);
         }
       }

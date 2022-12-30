@@ -88,7 +88,7 @@ export const Prices = (): JSX.Element => {
                     </div>
                     <div className={s.Home_specContent}>Aspect Ratio 16:9</div>
                     <div className={s.Home_specContent}>
-                      Brightness (Typ.,cd/m²) 500 unit
+                      Brightness (Typ.,cd/m²) 800 unit
                     </div>
                     <div className={s.Home_specContent}>
                       Contrast Ratio 1,000,000:1
@@ -367,7 +367,7 @@ export const Prices = (): JSX.Element => {
                       Electrical and Operating Requirements
                     </span>
                   </td>
-                  <td>
+                  <td className={s.Home_specTitle_large}>
                     <span className={s.Home_specTitle}>
                       Electrical and Operating Requirements
                     </span>

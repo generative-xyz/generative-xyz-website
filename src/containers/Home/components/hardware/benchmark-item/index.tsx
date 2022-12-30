@@ -10,6 +10,7 @@ import { Anim } from '@animations/anim';
 interface IProp {
   title: string;
   className: string;
+  isCine: boolean;
   color: 'yellow' | 'blue' | 'dep-blue';
   target1: { title: string; value: number };
   target2: { title: string; value: number };
@@ -30,6 +31,7 @@ export const BenchmarkItem = ({
   title,
   target1,
   target2,
+  isCine = true,
 }: IProp): JSX.Element => {
   const comp = useRef<HTMLDivElement>(null);
 
@@ -93,7 +95,31 @@ export const BenchmarkItem = ({
 
   return (
     <div ref={comp} className={classNames(s.benchmark, className)}>
-      <h5 className={classNames(s.benchmark_heading)}>{title}</h5>
+      <div className={s.benchmark_header}>
+        <h5 className={classNames(s.benchmark_heading)}>{title}</h5>
+        <div className={classNames(s.benchmark_heading_tool)}>
+          {isCine ? (
+            <>
+              <img
+                src="https://storage.googleapis.com/generative-static-prod/pages/home/icons/cin.png"
+                width={20}
+                height={20}
+              />
+              Cinebench R20
+            </>
+          ) : (
+            <>
+              <img
+                src="https://storage.googleapis.com/generative-static-prod/pages/home/icons/gfx.png"
+                width={20}
+                height={20}
+              />
+              GFXBench 4.0 - Car Chase Offscreen
+            </>
+          )}
+        </div>
+      </div>
+
       <div className={s.benchmark_target}>
         <div className={s.benchmark_val}>
           <div className={s.benchmark_val_border}>
