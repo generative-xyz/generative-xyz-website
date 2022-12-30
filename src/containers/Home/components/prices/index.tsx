@@ -170,7 +170,7 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>Dimensions</span>
                     <img
-                      src="https://storage.googleapis.com/generative-static-prod/pages/home/icons/55_.svg"
+                      src="https://cdn.generative.xyz/pages/home/icons/55_.svg"
                       alt="55_"
                       className={s.Home_specDimension}
                     />
@@ -185,7 +185,7 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <img
-                      src="https://storage.googleapis.com/generative-static-prod/pages/home/icons/43_.svg"
+                      src="https://cdn.generative.xyz/pages/home/icons/43_.svg"
                       alt="43_"
                       className={s.Home_specDimension}
                     />

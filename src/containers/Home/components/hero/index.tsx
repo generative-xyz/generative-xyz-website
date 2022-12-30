@@ -37,7 +37,11 @@ export const SectionHero = (): JSX.Element => {
       <AnimParallax className={s.Home_video_hero}>
         <video autoPlay loop muted playsInline preload="auto">
           <source
-            src="https://storage.googleapis.com/generative-static-prod/pages/home/Block-v2-1-1.mp4"
+            src="https://cdn.generative.xyz/pages/home/videos/Block%201-1.webm"
+            type="video/webm"
+          />
+          <source
+            src="https://cdn.generative.xyz/pages/home/Block-v2-1-1.mp4"
             type="video/mp4"
           />
         </video>

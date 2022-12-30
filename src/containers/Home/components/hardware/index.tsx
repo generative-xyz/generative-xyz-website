@@ -94,9 +94,9 @@ export const HardWare = (): JSX.Element => {
               height={1080}
               className={s.hardWare_content_main}
               urlFrame={
-                'https://storage.googleapis.com/generative-static-prod/pages/home/frame-3/block-3-v2-%d.png'
+                'https://cdn.generative.xyz/pages/home/frame-3/block-3-v2-%d.png'
               }
-              webmFrame={`https://storage.googleapis.com/generative-static-prod/pages/home/frame-3/block-3-v2-%d.png.webp`}
+              webmFrame={`https://cdn.generative.xyz/pages/home/frame-3/block-3-v2-%d.png.webp`}
               totalFrames={111}
               onProcessing={processing}
             >
