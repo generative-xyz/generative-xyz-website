@@ -30,6 +30,10 @@
 
   &_item {
 
+    a {
+      font-family: $font-paragraph;
+    }
+
     @include w-min(768px) {
       display: flex;
       align-items: center;
@@ -39,6 +43,9 @@
     }
 
     &:not(:first-child) {
+      @include min-pc{
+        border-top: 1px solid rgb(255 255 255 / 20%);
+      }
       margin-top: rem(16);
       padding-top: rem(16);
 
@@ -150,12 +157,14 @@
     line-height: 20px;
     color: $white;
     margin-top: rem(24);
-    @include max-tablet{
+    font-family: $font-paragraph;
+
+    @include max-tablet {
       padding-top: rem(16px);
       border-top: 1px solid rgba($white, .2);
     }
 
-    @include min-pc{
+    @include min-pc {
       text-align: center;
     }
     @include w-min(768px) {

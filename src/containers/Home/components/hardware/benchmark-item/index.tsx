@@ -101,7 +101,7 @@ export const BenchmarkItem = ({
           {isCine ? (
             <>
               <img
-                src="https://storage.googleapis.com/generative-static-prod/pages/home/icons/cin.png"
+                src="https://cdn.generative.xyz/pages/home/icons/cin.png"
                 width={20}
                 height={20}
               />
@@ -110,7 +110,7 @@ export const BenchmarkItem = ({
           ) : (
             <>
               <img
-                src="https://storage.googleapis.com/generative-static-prod/pages/home/icons/gfx.png"
+                src="https://cdn.generative.xyz/pages/home/icons/gfx.png"
                 width={20}
                 height={20}
               />

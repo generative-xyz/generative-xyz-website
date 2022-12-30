@@ -55,10 +55,10 @@ export const LifeStyle = () => {
             height={1080}
             className={s.lifeStyle_canvas_main}
             urlFrame={
-              'https://storage.googleapis.com/generative-static-prod/pages/home/frame-4-v4/block-4-v4-%d.png'
+              'https://cdn.generative.xyz/pages/home/frame-4-v4/block-4-v4-%d.png'
             }
             webmFrame={
-              'https://storage.googleapis.com/generative-static-prod/pages/home/frame-4-v4/block-4-v4-%d.png.webp'
+              'https://cdn.generative.xyz/pages/home/frame-4-v4/block-4-v4-%d.png.webp'
             }
             totalFrames={124}
             onProcessing={processing}
@@ -92,7 +92,7 @@ export const LifeStyle = () => {
           <div className={s.lifeStyle_mobile_top}>
             <div className={classNames(s.lifeStyle_mobile_inner, 'image__fit')}>
               <img
-                src="https://storage.googleapis.com/generative-static-prod/pages/home/thumbnails/block4.png"
+                src="https://cdn.generative.xyz/pages/home/thumbnails/block4.png"
                 alt="block4"
               />
             </div>
@@ -106,7 +106,7 @@ export const LifeStyle = () => {
             <div className={s.lifeStyle_mobile_inner}>
               <video autoPlay playsInline loop muted preload="auto">
                 <source
-                  src="https://storage.googleapis.com/generative-static-prod/pages/home/thumbnails/block_4_1.mp4"
+                  src="https://cdn.generative.xyz/pages/home/thumbnails/block_4_1.mp4"
                   type="video/mp4"
                 />
               </video>
