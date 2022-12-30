@@ -28,7 +28,7 @@ const MENU_HEADER = [
     activePath: 'mint-generative',
   },
   {
-    id: 'menu-1',
+    id: 'menu-2',
     name: 'marketplace',
     route: ROUTE_PATH.HOME,
     activePath: 'marketplace',

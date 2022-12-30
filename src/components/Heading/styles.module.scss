@@ -1,0 +1,21 @@
+.heading {
+  &:is(h1) {
+    font-size: 56px;
+    line-height: 66px;
+  }
+
+  &:is(h2) {
+    font-size: 48px;
+    line-height: 58px;
+  }
+
+  &:is(h3) {
+    font-size: 34px;
+    line-height: 44px;
+  }
+
+  &:is(h4) {
+    font-size: 24px;
+    line-height: 34px;
+  }
+}
