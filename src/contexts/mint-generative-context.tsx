@@ -15,6 +15,7 @@ import React, {
   useRef,
   useState,
   useMemo,
+  useEffect,
 } from 'react';
 
 type Props = {
@@ -35,6 +36,9 @@ export type TMintGenerativeContext = {
   hash: string;
   setHash: Dispatch<SetStateAction<string>>;
   formValues: Partial<IFormValue>;
+  setFormValues: Dispatch<SetStateAction<Partial<IFormValue>>>;
+  thumbnailPreviewUrl: string | null;
+  setThumbnailPreviewUrl: Dispatch<SetStateAction<string | null>>;
 };
 
 const initialValues: TMintGenerativeContext = {
@@ -60,7 +64,14 @@ const initialValues: TMintGenerativeContext = {
   setHash: _ => {
     return;
   },
-  formValues: {} as IFormValue,
+  formValues: {},
+  setFormValues: _ => {
+    return;
+  },
+  thumbnailPreviewUrl: null,
+  setThumbnailPreviewUrl: _ => {
+    return;
+  },
 };
 
 export const MintGenerativeContext =
@@ -75,7 +86,22 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
   const [zipFile, setZipFile] = useState<File | null>(null);
   const sandboxRef = useRef<ISandboxRef | null>(null);
   const [hash, setHash] = useState<string>(generateHash());
-  const [formValues] = useState({} as IFormValue);
+  const [formValues, setFormValues] = useState<Partial<IFormValue>>({});
+  const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (!thumbnailFile) {
+      setThumbnailPreviewUrl(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(thumbnailFile);
+    setThumbnailPreviewUrl(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [thumbnailFile]);
 
   const currentStep = useMemo(() => {
     switch (stepParam) {
@@ -109,6 +135,9 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
         hash,
         setHash,
         formValues,
+        setFormValues,
+        thumbnailPreviewUrl,
+        setThumbnailPreviewUrl,
       }}
     >
       {children}

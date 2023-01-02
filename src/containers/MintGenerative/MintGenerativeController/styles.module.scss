@@ -1,9 +1,19 @@
 .mintGenerative {
   padding-top: 60px;
-  padding-bottom: 112px;
+  padding-bottom: 152px;
+  display: table-cell;
+
+  &__success {
+    background-position: center;
+    background-size: 100%;
+  }
 
   .stepHeaderWrapper {
     margin-bottom: 50px;
+
+    &__hide {
+      visibility: hidden;
+    }
   }
 
   .previewWrapper {

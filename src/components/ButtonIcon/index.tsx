@@ -40,8 +40,8 @@ const ButtonIcon = React.forwardRef<
           styles.button,
           styles[`${variants}`],
           styles[`${sizes}`],
-          className,
-          iconOnly && styles.iconOnly
+          iconOnly && styles.iconOnly,
+          className
         )}
         ref={ref}
         {...delegatedProps}

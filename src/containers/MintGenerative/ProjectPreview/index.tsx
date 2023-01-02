@@ -8,11 +8,23 @@ import Button from '@components/ButtonIcon';
 import Image from 'next/image';
 import { CDN_URL } from '@constants/config';
 import { PreviewDisplayMode } from '@enums/mint-generative';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@redux/user/selector';
+import { formatAddress } from '@utils/format';
+import Skeleton from '@components/Skeleton';
+import UploadThumbnailButton from '../UploadThumbnailButton';
 
 const ProjectPreview = () => {
-  const { filesSandbox, thumbnailFile } = useContext(MintGenerativeContext);
+  const user = useSelector(getUserSelector);
+  const {
+    filesSandbox,
+    thumbnailFile,
+    formValues,
+    currentStep,
+    thumbnailPreviewUrl,
+  } = useContext(MintGenerativeContext);
   const sandboxRef = useRef<ISandboxRef>(null);
-  const [displayMode, _] = useState<PreviewDisplayMode>(
+  const [displayMode, setDisplayMode] = useState<PreviewDisplayMode>(
     PreviewDisplayMode.Animation
   );
   const [hash] = useState<string>(generateHash());
@@ -35,31 +47,51 @@ const ProjectPreview = () => {
     }
   };
 
+  const handlePlay = (): void => {
+    setDisplayMode(PreviewDisplayMode.Animation);
+  };
+
+  const handlePause = (): void => {
+    setDisplayMode(PreviewDisplayMode.Thumbnail);
+  };
+
   const canPlay = useMemo(() => {
     return !!filesSandbox && displayMode === PreviewDisplayMode.Thumbnail;
-  }, [filesSandbox]);
+  }, [filesSandbox, displayMode]);
 
   const canPause = useMemo(() => {
     return !!thumbnailFile && displayMode === PreviewDisplayMode.Animation;
-  }, [thumbnailFile]);
+  }, [thumbnailFile, displayMode]);
 
   return (
     <div className={s.projectPreview}>
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
           <SandboxPreview
+            showIframe={displayMode === PreviewDisplayMode.Animation}
             rawHtml={null}
             ref={sandboxRef}
             hash={hash}
             sandboxFiles={filesSandbox}
             onLoaded={handleIframeLoaded}
           />
+          {displayMode === PreviewDisplayMode.Thumbnail &&
+            thumbnailPreviewUrl && (
+              <Image fill src={thumbnailPreviewUrl} alt="thumbnail"></Image>
+            )}
         </div>
         <div className={s.actionWrapper}>
-          <div className={s.uploadPreviewWrapper}></div>
+          <div className={s.uploadPreviewWrapper}>
+            <UploadThumbnailButton />
+          </div>
           <div className={s.sandboxControls}>
             {canPlay && (
-              <Button className={s.actionBtn} sizes="small" variants="outline">
+              <Button
+                onClick={handlePlay}
+                className={s.actionBtn}
+                sizes="small"
+                variants="outline"
+              >
                 <Image
                   alt="play icon"
                   width={14}
@@ -69,7 +101,12 @@ const ProjectPreview = () => {
               </Button>
             )}
             {canPause && (
-              <Button className={s.actionBtn} sizes="small" variants="outline">
+              <Button
+                onClick={handlePause}
+                className={s.actionBtn}
+                sizes="small"
+                variants="outline"
+              >
                 <Image
                   alt="pause icon"
                   width={14}
@@ -94,6 +131,46 @@ const ProjectPreview = () => {
             </Button>
           </div>
         </div>
+        {currentStep >= 2 && (
+          <div className={s.projectInfoWrapper}>
+            <div className={s.ownerInfo}>
+              <Image
+                alt="owner avatar"
+                src={`${CDN_URL}/images/default-avatar.svg`}
+                width={48}
+                height={48}
+              ></Image>
+              <span className={s.ownerName}>
+                {user.displayName || formatAddress(user.walletAddress)}
+              </span>
+            </div>
+            <div className={s.projectInfo}>
+              <h3 className={s.projectName}>
+                {formValues.name ? (
+                  <>{formValues.name}</>
+                ) : (
+                  <Skeleton width={200} height={30}></Skeleton>
+                )}
+              </h3>
+              <div className={s.mintingInfo}>
+                {formValues.mintPrice ? (
+                  <span
+                    className={s.mintPrice}
+                  >{`${formValues.mintPrice} ETH`}</span>
+                ) : (
+                  <Skeleton width={100} height={30}></Skeleton>
+                )}
+                {formValues.maxSupply ? (
+                  <span
+                    className={s.mintCount}
+                  >{`0/${formValues.maxSupply}`}</span>
+                ) : (
+                  <Skeleton width={100} height={30}></Skeleton>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -87,15 +87,15 @@ class MintGenerativeProjectOperation extends ContractOperation<
       _completeTime: 0,
       _genNFTAddr: ROOT_ADDRESS,
       _itemDesc: tokenDescription,
+      _reserves: reservationList,
+      _royalty: royalty,
     };
 
     const data = await this.contract.methods
       .mint(
         JSON.parse(JSON.stringify(projectPayload)),
-        reservationList,
         false,
-        openMintUnixTimestamp,
-        royalty
+        openMintUnixTimestamp
       )
       .send({
         from: walletAddress,
