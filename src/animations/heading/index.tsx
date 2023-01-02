@@ -76,9 +76,7 @@ export const AnimHeading = ({
     if (refDom.current.heading && loadStatus === PAGE_ENTER) {
       new Anim(refDom.current.heading, () => {
         const delay = getDelay(screen, offset);
-        refDom.current.resizeObserver?.unobserve(
-          refDom.current?.heading as HTMLElement
-        );
+
         gsap.to(refDom.current.texts?.chars || [], {
           opacity: 1,
           ease: 'power3.inOut',
@@ -87,6 +85,12 @@ export const AnimHeading = ({
           stagger: {
             amount: 0.6,
             from: 'random',
+          },
+          onComplete: () => {
+            refDom.current.resizeObserver?.unobserve(
+              refDom.current?.heading as HTMLElement
+            );
+            // refDom.current.texts?.revert();
           },
         });
       });

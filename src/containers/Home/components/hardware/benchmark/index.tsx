@@ -18,7 +18,16 @@ export const Benchmark = (): JSX.Element => {
         <div className="col-xl-6 offset-xl-3 col-md-10 offset-md-1 col-12">
           <BenchmarkItem
             className={s.hardWare_benchmark_item}
+            title={'GPU'}
+            isCine={false}
+            color={'dep-blue'}
+            target1={{ title: 'Generative Display', value: 27478 }}
+            target2={{ title: 'Apple M1 8 core', value: 10433 }}
+          />
+          <BenchmarkItem
+            className={s.hardWare_benchmark_item}
             color={'yellow'}
+            isCine={true}
             title={'Multi-core CPU'}
             target1={{ title: 'Generative Display', value: 3945 }}
             target2={{ title: 'Apple M1 8 core', value: 2040 }}
@@ -27,15 +36,9 @@ export const Benchmark = (): JSX.Element => {
             className={s.hardWare_benchmark_item}
             title={'Single-core CPU'}
             color={'blue'}
+            isCine={true}
             target1={{ title: 'Generative Display', value: 502 }}
             target2={{ title: 'Apple M1 8 core', value: 403 }}
-          />
-          <BenchmarkItem
-            className={s.hardWare_benchmark_item}
-            title={'GPU'}
-            color={'dep-blue'}
-            target1={{ title: 'Generative Display', value: 120183 }}
-            target2={{ title: 'Apple M1 8 core', value: 18171 }}
           />
         </div>
       </div>

@@ -1,3 +1,5 @@
+@import 'src/styles/_themes/mixins';
+
 .wrapper {
   min-height: calc(100vh - 20px);
   display: flex;
@@ -34,5 +36,19 @@ header {
       margin-bottom: 0;
       padding: 0;
     }
+  }
+}
+
+.footer {
+  min-height: rem(198);
+  border: 1px solid $black-10;
+  background-color: $primary-brand;
+  color: $white-100;
+  display: grid;
+  place-items: center;
+
+  &_content {
+    display: flex;
+    gap: 40px;
   }
 }

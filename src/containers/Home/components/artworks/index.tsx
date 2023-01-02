@@ -66,7 +66,7 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Left-1.mp4"
+                src="https://cdn.generative.xyz/pages/home/Block2_Left-1.mp4"
                 type="video/mp4"
               />
             </video>
@@ -76,7 +76,11 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Mid-1.mp4"
+                src="https://cdn.generative.xyz/pages/home/videos/Block2%20Frame%20Mid-1.webm"
+                type="video/webm"
+              />
+              <source
+                src="https://cdn.generative.xyz/pages/home/Block2_Mid-1.mp4"
                 type="video/mp4"
               />
             </video>
@@ -86,7 +90,11 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://storage.googleapis.com/generative-static-prod/pages/home/Block2_Right-1.mp4"
+                src="https://cdn.generative.xyz/pages/home/videos/Block2%20Frame%20Right-1.webm"
+                type="video/webm"
+              />
+              <source
+                src="https://cdn.generative.xyz/pages/home/Block2_Right-1.mp4"
                 type="video/mp4"
               />
             </video>

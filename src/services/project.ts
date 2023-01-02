@@ -31,6 +31,17 @@ export const getProjectDetail = async (
   }
 };
 
+export const getRandomProject =
+  async (): Promise<IGetProjectDetailResponse> => {
+    try {
+      const res = await get<IGetProjectDetailResponse>(`${API_PATH}/random`);
+      return res;
+    } catch (err: unknown) {
+      log('failed to get project detail', LogLevel.Error, LOG_PREFIX);
+      throw Error('Failed to get project detail');
+    }
+  };
+
 export const getProjectItems = async (
   params: IGetProjectItemsParams
 ): Promise<IGetProjectItemsResponse> => {

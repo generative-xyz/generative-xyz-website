@@ -29,7 +29,10 @@
   }
 
   &_item {
-    text-align: center;
+
+    a {
+      font-family: $font-paragraph;
+    }
 
     @include w-min(768px) {
       display: flex;
@@ -40,7 +43,6 @@
     }
 
     &:not(:first-child) {
-      border-top: 1px solid rgb(255 255 255 / 20%);
       margin-top: rem(16);
       padding-top: rem(16);
 
@@ -132,12 +134,14 @@
   }
 
   &_bottomMenuDivider {
-    background-color: $white;
+
     width: 80px;
     height: 1px;
     margin: rem(16) auto;
 
     @include w-min(768px) {
+      background-color: $white;
+      display: block;
       width: 1px;
       height: 18px;
       margin: 0 rem(24);
@@ -148,10 +152,18 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
-    text-align: center;
     color: $white;
-    margin-top: rem(16);
+    margin-top: rem(24);
+    font-family: $font-paragraph;
 
+    @include max-tablet {
+      padding-top: rem(16px);
+      border-top: 1px solid rgba($white, .2);
+    }
+
+    @include min-pc {
+      text-align: center;
+    }
     @include w-min(768px) {
       width: 100%;
     }
