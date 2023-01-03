@@ -16,6 +16,7 @@ import Head from 'next/head';
 import NextNprogress from 'nextjs-progressbar';
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 
 const LOG_PREFIX = 'App';
 
@@ -168,6 +169,7 @@ export default function App({ Component, pageProps }: MyAppProps) {
         <WalletProvider>
           <AuthWrapper>
             <Component {...pageProps} />
+            <Toaster />
           </AuthWrapper>
         </WalletProvider>
       </Provider>

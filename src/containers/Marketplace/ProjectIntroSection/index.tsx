@@ -4,19 +4,27 @@ import {
   IProjectItem,
 } from '@interfaces/api/project';
 import { useRouter } from 'next/router';
-
 import Avatar from '@components/Avatar';
 import ButtonIcon from '@components/ButtonIcon';
 import ProgressBar from '@components/ProgressBar';
 import SvgInset from '@components/SvgInset';
 import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
-import { CDN_URL } from '@constants/config';
+import { CDN_URL, NETWORK_CHAIN_ID } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
 import { base64ToUtf8, formatAddress } from '@utils/format';
 import dayjs from 'dayjs';
-import { useEffect, useMemo, useState } from 'react';
 import s from './styles.module.scss';
+import { useEffect, useMemo, useState } from 'react';
+import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
+import useContractOperation from '@hooks/useContractOperation';
+import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
+import { TransactionReceipt } from 'web3-eth';
+import { LogLevel } from '@enums/log-level';
+import log from '@utils/logger';
+import toast from 'react-hot-toast';
+
+const LOG_PREFIX = 'ProjectIntroSection';
 
 type Props = {
   project: IGetProjectDetailResponse;
@@ -26,14 +34,48 @@ const MOCK_DATE = '2022-12-30T03:51:28.986Z';
 
 const ProjectIntroSection = ({ project }: Props) => {
   const router = useRouter();
-
   const [projectDetail, setProjectDetail] =
     useState<Omit<IProjectItem, 'owner'>>();
-
   const { creatorProfile } = project;
-
   const createdDate = dayjs(MOCK_DATE).format('MMM DD');
   const createdYear = dayjs(MOCK_DATE).format('YYYY');
+  const {
+    call: mintToken,
+    reset: resetMintToken,
+    errorMessage,
+  } = useContractOperation<IMintGenerativeNFTParams, TransactionReceipt>(
+    MintGenerativeNFTOperation,
+    true
+  );
+  const [isMinting, setIsMinting] = useState(false);
+
+  const handleMintToken = async () => {
+    try {
+      setIsMinting(true);
+
+      if (!project) {
+        return;
+      }
+
+      await mintToken({
+        projectAddress: project.genNFTAddr,
+        mintFee: project.mintPrice.toString(),
+        chainID: NETWORK_CHAIN_ID,
+      });
+    } catch (err: unknown) {
+      log(err as Error, LogLevel.Error, LOG_PREFIX);
+    } finally {
+      setIsMinting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.remove();
+      toast.error('Oops. Something went wrong. Please try again later.');
+      resetMintToken();
+    }
+  }, [errorMessage]);
 
   const isProjectDetailPage = useMemo(
     () => !!router.query?.projectID,
@@ -66,9 +108,6 @@ const ProjectIntroSection = ({ project }: Props) => {
           {project?.name}
         </Heading>
         <div className={s.usersInfo}>
-          {/* <div>
-            <Avatar imgSrcs={[``, ``, ``]} width={40} height={40} />
-          </div> */}
           <div className={s.usersInfo_item}>
             <SvgInset svgUrl={`${CDN_URL}/icons/ic-calendar.svg`} />
             <div>
@@ -117,8 +156,13 @@ const ProjectIntroSection = ({ project }: Props) => {
             endIcon={
               <SvgInset svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`} />
             }
+            disabled={isMinting}
+            onClick={handleMintToken}
           >
-            {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'}
+            {isMinting && 'Minting...'}
+            {!isMinting && (
+              <>{isProjectDetailPage ? 'Mint iteration now' : 'Mint now'}</>
+            )}
           </ButtonIcon>
           {!isProjectDetailPage && (
             <ButtonIcon
