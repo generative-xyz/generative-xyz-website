@@ -33,7 +33,18 @@
 
   &_info {
     &_title {
+      display: block;
       margin-top: rem(10px);
+
+      h4 {
+        font-weight: 600;
+        font-size: rem(24px);
+        line-height: rem(34px);
+      }
     }
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }

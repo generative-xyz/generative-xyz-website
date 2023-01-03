@@ -31,11 +31,14 @@ import {
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-eth';
 import styles from './styles.module.scss';
+import { useDispatch } from 'react-redux';
+import { setProjectCurrent } from '@redux/project/action';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
 
 const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const {
     call: mintToken,
     reset: resetMintToken,
@@ -93,6 +96,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
           contractAddress: GENERATIVE_PROJECT_CONTRACT,
           projectID,
         });
+        dispatch(setProjectCurrent(data));
         setProjectInfo(data);
       } catch (_: unknown) {
         log('failed to fetch project detail data', LogLevel.Error, LOG_PREFIX);

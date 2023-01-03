@@ -39,13 +39,15 @@ export const RecentWorks = (): JSX.Element => {
         </Col>
         <Col xs="9">
           <div className={s.recentWorks_slider}>
-            {projects.map(project => {
-              return (
-                <div key={project.id} className={s.recentWorks_slider_item}>
-                  <ProjectCard project={project} />
-                </div>
-              );
-            })}
+            <div className={s.recentWorks_slider_inner}>
+              {projects.map(project => {
+                return (
+                  <div key={project.id} className={s.recentWorks_slider_item}>
+                    <ProjectCard project={project} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </Col>
       </Row>

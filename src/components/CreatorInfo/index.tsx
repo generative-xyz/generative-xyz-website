@@ -5,6 +5,7 @@ import { CDN_URL } from '@constants/config';
 interface IProps {
   creator: User;
 }
+
 export const CreatorInfo = ({ creator }: IProps): JSX.Element => {
   return (
     <div className={s.useInfo}>
@@ -14,9 +15,7 @@ export const CreatorInfo = ({ creator }: IProps): JSX.Element => {
           alt="avatar"
         />
       </div>
-      <div className={s.userInfo_displayName}>
-        {creator.displayName || 'Meo Meo'}
-      </div>
+      <div className={s.userInfo_displayName}>{creator.displayName}</div>
     </div>
   );
 };

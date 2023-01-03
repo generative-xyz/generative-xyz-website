@@ -9,7 +9,7 @@
       color: $black-60
     }
 
-    p{
+    p {
       margin-top: rem(24px);
       color: $black-60;
       font-weight: 500;
@@ -21,12 +21,39 @@
   &_slider {
     width: calc(100% + #{rem(54px)});
     padding-left: rem(54px);
-    display: flex;
-    gap: rem(24px);
+
+    &_inner {
+      display: flex;
+      gap: rem(24px);
+      overflow-x: auto;
+      padding-right: rem(54px);
+      padding-bottom: rem(50px);
+
+      /* width */
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: rgba(#000, .2);
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: rgba(#000, .4);
+      }
+    }
 
     &_item {
       flex: 0 0 33.33%;
-
     }
   }
 
