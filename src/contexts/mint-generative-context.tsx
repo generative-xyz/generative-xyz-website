@@ -39,6 +39,8 @@ export type TMintGenerativeContext = {
   setFormValues: Dispatch<SetStateAction<Partial<IFormValue>>>;
   thumbnailPreviewUrl: string | null;
   setThumbnailPreviewUrl: Dispatch<SetStateAction<string | null>>;
+  mintedProjectID: string | null;
+  setMintedProjectID: Dispatch<SetStateAction<string | null>>;
 };
 
 const initialValues: TMintGenerativeContext = {
@@ -72,6 +74,10 @@ const initialValues: TMintGenerativeContext = {
   setThumbnailPreviewUrl: _ => {
     return;
   },
+  mintedProjectID: null,
+  setMintedProjectID: _ => {
+    return;
+  },
 };
 
 export const MintGenerativeContext =
@@ -90,6 +96,7 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
   const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string | null>(
     null
   );
+  const [mintedProjectID, setMintedProjectID] = useState<string | null>(null);
 
   useEffect(() => {
     if (!thumbnailFile) {
@@ -113,6 +120,9 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
 
       case MintGenerativeStep.SET_PRICE:
         return 3;
+
+      case MintGenerativeStep.MINT_SUCCESS:
+        return 4;
 
       default:
         return 1;
@@ -138,6 +148,8 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
         setFormValues,
         thumbnailPreviewUrl,
         setThumbnailPreviewUrl,
+        mintedProjectID,
+        setMintedProjectID,
       }}
     >
       {children}
