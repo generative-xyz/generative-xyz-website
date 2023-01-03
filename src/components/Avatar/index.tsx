@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import styles from './styles.module.scss';
 import { v4 } from 'uuid';
+import { convertIpfsToHttp } from '@utils/image';
 
 type Props = {
   imgSrcs: string | string[];
@@ -16,7 +17,12 @@ const Avatar = ({ imgSrcs, width = 48, height = 48 }: Props) => {
     return (
       <div style={{ width, height }}>
         {src ? (
-          <Image src={src} alt="user avatar" width={width} height={height} />
+          <Image
+            src={convertIpfsToHttp(src)}
+            alt="user avatar"
+            width={width}
+            height={height}
+          />
         ) : (
           <div className={styles.defaultAvatar}>
             <SvgInset
