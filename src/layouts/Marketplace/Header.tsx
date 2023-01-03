@@ -33,6 +33,12 @@ const MENU_HEADER = [
     route: ROUTE_PATH.HOME,
     activePath: 'marketplace',
   },
+  {
+    id: 'menu-3',
+    name: 'sandbox',
+    route: ROUTE_PATH.SANDBOX,
+    activePath: 'sandbox',
+  },
 ];
 
 const Header: React.FC = (): React.ReactElement => {
