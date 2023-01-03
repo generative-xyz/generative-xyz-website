@@ -1,0 +1,37 @@
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+
+  > p {
+    color: $black-100;
+  }
+
+  p {
+    color: $black-60;
+    font-weight: 600;
+  }
+}
+
+.wrapper {
+  margin-block: 16px;
+
+  .progressWrapper {
+    width: 100%;
+    max-width: 620px;
+    height: 4px;
+    position: relative;
+    background-color: $black-10;
+    border-radius: 100px;
+
+    .progressBar {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 100%;
+      border-radius: 100px;
+      background-color: $secondary-green-c;
+    }
+  }
+}

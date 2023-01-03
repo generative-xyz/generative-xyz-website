@@ -2,10 +2,8 @@
 @import "src/styles/_themes/mixins";
 
 .benchmark {
-
-
   &:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
   }
 
   padding-bottom: rem(24px);
@@ -31,14 +29,13 @@
   }
 
   &_heading {
-    color: #FFFFFF;
-
+    color: #fff;
     font-style: normal;
     font-weight: 700;
     line-height: 140%;
     display: flex;
-
     font-size: rem(16px);
+
     @include tablet {
       font-size: rem(24px);
     }
@@ -57,21 +54,22 @@
       font-weight: 700;
       position: relative;
 
-      &:before {
-        content: '';
-        border-left: 1px solid rgba($white, .2);
+      &::before {
+        content: "";
+        border-left: 1px solid rgba($white, 0.2);
         display: block;
         position: absolute;
         left: 0;
-        top: .1em;
+        top: 0.1em;
         height: 16px;
 
-        @include min-pc{
+        @include min-pc {
           height: calc-auto(1200px, 1920px, 14px, 20px);
         }
       }
 
       font-size: rem(14);
+
       @include tablet {
         font-size: rem(20px);
       }
@@ -82,14 +80,14 @@
 
       img {
         aspect-ratio: 1/1;
-        transform: translateY(-.1em);
+        transform: translateY(-0.1em);
+
         @include min-pc {
           height: auto;
           width: calc-auto(1200px, 1920px, 20px, 24px);
         }
       }
     }
-
   }
 
   &_target {
@@ -99,7 +97,7 @@
       font-family: $font-paragraph;
       font-weight: 700;
       line-height: 140%;
-      color: #FFFFFF;
+      color: #fff;
       font-size: rem(12px);
 
       @include tablet {
@@ -112,9 +110,11 @@
 
       &__target1 {
         margin-top: rem(-4px);
+
         @include tablet {
           margin-top: rem(-10px);
         }
+
         @include min-pc {
           margin-top: rem(-12px);
         }
@@ -135,7 +135,7 @@
 
         .benchmark_val_border_span {
           width: 100%;
-          background: rgba(255, 255, 255, 0.8);
+          background: rgb(255 255 255 / 80%);
           border-radius: 100px;
           transform: rotate(180deg);
         }
@@ -147,19 +147,19 @@
         width: 0;
 
         &__yellow {
-          background: linear-gradient(90deg, #E65C00 0%, #F9D423 100%);
+          background: linear-gradient(90deg, #e65c00 0%, #f9d423 100%);
           border-radius: 100px;
           transform: rotate(180deg);
         }
 
         &__blue {
-          background: linear-gradient(90deg, #5433FF 0%, #20BDFF 50%, #A5FECB 100%);
+          background: linear-gradient(90deg, #5433ff 0%, #20bdff 50%, #a5fecb 100%);
           border-radius: 100px;
           transform: rotate(180deg);
         }
 
         &__depBlue {
-          background: linear-gradient(90deg, #DA22FF 0%, #9733EE 100%);
+          background: linear-gradient(90deg, #da22ff 0%, #9733ee 100%);
           border-radius: 100px;
           transform: rotate(180deg);
         }
@@ -171,9 +171,8 @@
       font-style: normal;
       font-weight: 700;
       line-height: 140%;
-      color: #FFFFFF;
+      color: #fff;
       font-family: $font-paragraph;
-
       font-size: rem(20px);
 
       @include tablet {
@@ -185,8 +184,7 @@
       }
 
       &__target2 {
-
-        color: rgba(255, 255, 255, 0.8);
+        color: rgb(255 255 255 / 80%);
         font-size: rem(14px);
 
         @include tablet {

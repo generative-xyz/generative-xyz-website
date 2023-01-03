@@ -14,7 +14,7 @@
 
   &_content {
     background: $neutral-02;
-    transition: background-color .4s $easeOutCubic;
+    transition: background-color 0.4s $easeOutCubic;
 
     &_detail {
       padding-top: rem(40px);
@@ -22,6 +22,7 @@
       @include tablet {
         padding-top: rem(68px);
       }
+
       @include min-pc {
         position: relative;
         z-index: 2;
@@ -34,7 +35,7 @@
           width: 100%;
           height: vh(350px);
           background-image: linear-gradient($neutral-02, rgba($neutral-02, 0));
-          transition: background-image .4s $easeOutCubic;
+          transition: background-image 0.4s $easeOutCubic;
           position: absolute;
           top: 0;
           left: 0;
@@ -55,7 +56,6 @@
       }
 
       &_cpu {
-
         margin-top: rem(80px);
 
         @include min-pc {
@@ -71,7 +71,6 @@
     }
 
     &_frames {
-
       display: none;
 
       @include min-pc {
@@ -96,13 +95,14 @@
             background-image: linear-gradient($neutral-08, rgba($neutral-08, 0));
           }
 
-          :global(.heading__medium), :global(.desc__small) {
+          :global(.heading__medium),
+          :global(.desc__small) {
             color: $white;
           }
 
           :global(.desc__medium),
           :global(.text__black) {
-            color: rgba(255, 255, 255, 0.8) !important;
+            color: rgb(255 255 255 / 80%) !important;
           }
 
           path {
@@ -128,7 +128,7 @@
       }
 
       p {
-        color: rgba(255, 255, 255, 0.8)
+        color: rgb(255 255 255 / 80%);
       }
     }
   }

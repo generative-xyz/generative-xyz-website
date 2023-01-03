@@ -231,11 +231,11 @@
 }
 
 @function rem($px, $base: $font_size_rem) {
-  @if (unitless($px)) {
+  @if unitless($px) {
     $px: $px * 1px;
   }
 
-  @if (unitless($base)) {
+  @if unitless($base) {
     $base: $base * 1px;
   }
 
@@ -254,7 +254,7 @@
   }
 }
 
-@mixin mobile{
+@mixin mobile {
   @media (max-width: 767px) {
     @content;
   }
@@ -284,7 +284,6 @@
   }
 }
 
-
 @mixin min-pc-mid {
   @media screen and (min-width: #{$screen-xxl}) {
     @content;
@@ -311,8 +310,8 @@
 
 @function calc-auto($min-vw, $max-vw, $min-font-size, $max-font-size) {
   @return calc(
-          #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
-          calc((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
+    #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
+    calc((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
   );
 }
 

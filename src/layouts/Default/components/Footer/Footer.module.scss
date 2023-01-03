@@ -1,5 +1,5 @@
-@import "src/styles/_themes/variables.scss";
-@import "src/styles/_themes/mixins.scss";
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
 
 .Footer {
   background-color: $neutral-08;
@@ -29,7 +29,6 @@
   }
 
   &_item {
-
     a {
       font-family: $font-paragraph;
     }
@@ -134,7 +133,6 @@
   }
 
   &_bottomMenuDivider {
-
     width: 80px;
     height: 1px;
     margin: rem(16) auto;
@@ -158,12 +156,13 @@
 
     @include max-tablet {
       padding-top: rem(16px);
-      border-top: 1px solid rgba($white, .2);
+      border-top: 1px solid rgba($white, 0.2);
     }
 
     @include min-pc {
       text-align: center;
     }
+
     @include w-min(768px) {
       width: 100%;
     }

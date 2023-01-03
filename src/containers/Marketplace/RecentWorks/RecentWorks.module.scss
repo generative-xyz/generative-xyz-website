@@ -2,6 +2,22 @@
 @import 'src/styles/_themes/mixins.scss';
 
 .recentWorks {
+
+  &_paragraph {
+    h4 {
+      font-size: rem(24px);
+      color: $black-60
+    }
+
+    p{
+      margin-top: rem(24px);
+      color: $black-60;
+      font-weight: 500;
+      font-size: rem(16px);
+      line-height: (26/16);
+    }
+  }
+
   &_slider {
     width: calc(100% + #{rem(54px)});
     padding-left: rem(54px);

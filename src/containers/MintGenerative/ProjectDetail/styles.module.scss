@@ -32,12 +32,12 @@
       opacity: 1; /* Firefox */
     }
 
-    &:-ms-input-placeholder {
+    &:input-placeholder {
       /* Internet Explorer 10-11 */
       color: $black-40;
     }
 
-    &::-ms-input-placeholder {
+    &::input-placeholder {
       /* Microsoft Edge */
       color: $black-40;
     }
@@ -92,7 +92,6 @@
   }
 
   .selectInput {
-
     :global(.select__control) {
       background-color: $background;
       border: none;

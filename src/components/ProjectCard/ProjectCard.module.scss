@@ -4,13 +4,7 @@
 .projectCard {
 
   &_inner {
-    padding: {
-      top: rem(16px);
-      left: rem(16px);
-      right: rem(16px);
-      bottom: rem(32px);
-    };
-
+    padding: rem(16px);
     background: #FFFFFF;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 2px;

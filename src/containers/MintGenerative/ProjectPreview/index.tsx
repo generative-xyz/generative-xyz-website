@@ -82,7 +82,7 @@ const ProjectPreview = () => {
         </div>
         <div className={s.actionWrapper}>
           <div className={s.uploadPreviewWrapper}>
-            <UploadThumbnailButton />
+            {currentStep > 1 && currentStep < 3 && <UploadThumbnailButton />}
           </div>
           <div className={s.sandboxControls}>
             {canPlay && (

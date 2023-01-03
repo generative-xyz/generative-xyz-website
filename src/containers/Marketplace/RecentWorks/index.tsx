@@ -16,6 +16,8 @@ export const RecentWorks = (): JSX.Element => {
   useAsyncEffect(async () => {
     const tmpProject = await getProjectList({
       contractAddress: String(GENERATIVE_PROJECT_CONTRACT),
+      limit: 10,
+      page: 0,
     });
 
     setProjects(tmpProject.result);
@@ -24,8 +26,8 @@ export const RecentWorks = (): JSX.Element => {
   return (
     <div className={s.recentWorks}>
       <Row>
-        <Col xs="3">
-          <span>Recent works</span>
+        <Col className={s.recentWorks_paragraph} xs="3">
+          <Heading as="h4">Recent works</Heading>
           <Heading as="h3" fontWeight={'bold'}>
             Join the Elite Collectors Club.
           </Heading>

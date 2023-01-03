@@ -2,7 +2,6 @@ import s from './styles.module.scss';
 import { Formik } from 'formik';
 import React, { useContext, useState } from 'react';
 import TagsInput from 'react-tagsinput';
-import { IFormValue } from '@interfaces/mint-generative';
 import Button from '@components/ButtonIcon';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
@@ -12,15 +11,16 @@ import { getCategoryList } from '@services/category';
 import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { useRouter } from 'next/router';
 
-type IProductDetailFormValue = Pick<
-  IFormValue,
-  | 'name'
-  | 'categories'
-  | 'description'
-  | 'tokenDescription'
-  | 'tags'
-  | 'thirdPartyScripts'
->;
+type SelectOption = { value: string; label: string };
+
+type IProductDetailFormValue = {
+  name: string;
+  categories: Array<SelectOption>;
+  description: string;
+  tokenDescription: string;
+  tags: Array<string>;
+  thirdPartyScripts: Array<SelectOption>;
+};
 
 const THIRD_PARTY_SCRIPTS = [
   {
@@ -36,8 +36,6 @@ const THIRD_PARTY_SCRIPTS = [
     value: 'tonejs@14.8.49',
   },
 ];
-
-type SelectOption = { value: string; label: string };
 
 const ProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
@@ -62,6 +60,12 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
     setFormValues({
       ...formValues,
       ..._formValues,
+      categories: _formValues.categories
+        ? _formValues.categories.map(cat => cat.value)
+        : [],
+      thirdPartyScripts: _formValues.thirdPartyScripts
+        ? _formValues.thirdPartyScripts.map(lib => lib.value)
+        : [],
     });
 
     const errors: Record<string, string> = {};

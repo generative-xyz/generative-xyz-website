@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import Image from 'next/image';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
+import { convertIpfsToHttp } from '@utils/image';
 
 type Props = {
   imgSrc: string;
@@ -25,7 +26,12 @@ const AvatarInfo = ({
     <div className="horizontalStack" style={wrapperStyle} onClick={onClick}>
       <div className={styles.avatar}>
         {imgSrc ? (
-          <Image src={imgSrc} alt="user avatar" width={width} height={height} />
+          <Image
+            src={convertIpfsToHttp(imgSrc)}
+            alt="user avatar"
+            width={width}
+            height={height}
+          />
         ) : (
           <div className={styles.defaultAvatar} style={{ width, height }}>
             <SvgInset

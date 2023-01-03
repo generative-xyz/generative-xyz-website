@@ -4,7 +4,7 @@ import { NETWORK_CHAIN_ID } from '@constants/config';
 import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { Formik } from 'formik';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Button from '@components/ButtonIcon';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
@@ -32,22 +32,25 @@ type ISetPriceFormValue = {
 
 const SetPrice = () => {
   const router = useRouter();
-  const { formValues, setFormValues, filesSandbox, thumbnailFile } = useContext(
-    MintGenerativeContext
-  );
-  const walletCtx = useContext(WalletContext);
   const {
-    call: mintProject,
-    isLoading: isMinting,
-    reset: resetContractOperation,
-  } = useContractOperation<IMintGenerativeProjectParams, TransactionReceipt>(
-    MintGenerativeProjectOperation,
-    true
-  );
+    formValues,
+    setFormValues,
+    filesSandbox,
+    thumbnailFile,
+    setMintedProjectID,
+    setShowErrorAlert,
+  } = useContext(MintGenerativeContext);
+  const walletCtx = useContext(WalletContext);
+  const { call: mintProject, reset: resetContractOperation } =
+    useContractOperation<IMintGenerativeProjectParams, TransactionReceipt>(
+      MintGenerativeProjectOperation,
+      true
+    );
   const { call: getParamControl } = useContractOperation<
     IGetParameterControlParams,
     number
   >(GetParamControlOperation, false);
+  const [isMinting, setIsMinting] = useState(false);
 
   const validateForm = (values: ISetPriceFormValue): Record<string, string> => {
     const errors: Record<string, string> = {};
@@ -86,6 +89,7 @@ const SetPrice = () => {
   };
 
   const handleSubmit = async (): Promise<void> => {
+    // TODO Show error
     if (!filesSandbox) {
       log('No sandbox files', LogLevel.Debug, LOG_PREFIX);
       return;
@@ -96,27 +100,28 @@ const SetPrice = () => {
       return;
     }
 
-    resetContractOperation();
-
-    const {
-      description,
-      license,
-      maxSupply,
-      mintPrice,
-      name,
-      royalty,
-      socialDiscord,
-      socialInstagram,
-      socialMedium,
-      socialTwitter,
-      socialWeb,
-      thirdPartyScripts,
-      tokenDescription,
-      categories,
-      tags,
-    } = formValues;
-
     try {
+      setIsMinting(true);
+      resetContractOperation();
+
+      const {
+        description,
+        license,
+        maxSupply,
+        mintPrice,
+        name,
+        royalty,
+        socialDiscord,
+        socialInstagram,
+        socialMedium,
+        socialTwitter,
+        socialWeb,
+        thirdPartyScripts,
+        tokenDescription,
+        categories,
+        tags,
+      } = formValues;
+
       const mintFee = await getParamControl({
         key: ParameterControlKey.CREATE_PROJECT_FEE,
         chainID: NETWORK_CHAIN_ID,
@@ -172,10 +177,12 @@ const SetPrice = () => {
         'events.Transfer.returnValues.tokenId',
         null
       );
+
       if (tokenID === null) {
         return;
       }
 
+      setMintedProjectID(tokenID);
       await createProjectMetadata({
         tokenID,
         categories: categories ?? [],
@@ -188,6 +195,9 @@ const SetPrice = () => {
       });
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
+      setShowErrorAlert(true);
+    } finally {
+      setIsMinting(false);
     }
   };
 

@@ -1,0 +1,45 @@
+.text {
+  &.size {
+    &-d1 {
+      font-size: 128px;
+      line-height: 138px;
+    }
+    &-d2 {
+      font-size: 96px;
+      line-height: 106px;
+    }
+    &-d3 {
+      font-size: 72px;
+      line-height: 82px;
+    }
+    &-18 {
+      font-size: 18px;
+      line-height: 28px;
+    }
+    &-16 {
+      font-size: 16px;
+      line-height: 26px;
+    }
+    &-14 {
+      font-size: 14px;
+      line-height: 24px;
+    }
+    &-12 {
+      font-size: 12px;
+      line-height: 20px;
+    }
+  }
+
+  &.size-d1,
+  &.size-d2,
+  &.size-d3 {
+    letter-spacing: -0.02em;
+  }
+
+  &.size-18,
+  &.size-16,
+  &.size-14,
+  &.size-12 {
+    letter-spacing: -0.01em;
+  }
+}

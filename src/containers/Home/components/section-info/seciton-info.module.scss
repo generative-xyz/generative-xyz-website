@@ -1,11 +1,11 @@
-@import "src/styles/_themes/variables.scss";
-@import "src/styles/_themes/mixins.scss";
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
 
 .sectionInfo {
   padding-top: var(--spacing-supper);
   padding-bottom: var(--spacing-medium);
 
-  @include min-pc{
+  @include min-pc {
     padding-bottom: var(--spacing-supper);
   }
 

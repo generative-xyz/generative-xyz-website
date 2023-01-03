@@ -1,11 +1,10 @@
-@import "src/styles/_themes/variables.scss";
-@import "src/styles/_themes/mixins.scss";
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
 
 .Header {
   position: relative;
   z-index: 10;
   width: 100%;
-
 
   &_logo {
     svg {
@@ -17,6 +16,7 @@
       fill: $white;
     }
   }
+
   &_container {
     display: flex;
     align-items: center;
@@ -25,5 +25,4 @@
     width: 100%;
     padding: rem(10px) 0;
   }
-
 }

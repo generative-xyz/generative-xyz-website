@@ -2,10 +2,9 @@
 @import "src/styles/_themes/mixins";
 
 .frameItem {
-
   text-align: center;
   background-color: $neutral-02;
-  transition: background-color .4s $easeOutCubic;
+  transition: background-color 0.4s $easeOutCubic;
   cursor: pointer;
   position: relative;
   padding: rem(16px);
@@ -87,7 +86,7 @@
     align-items: center;
     justify-content: center;
     z-index: 3;
-    transition: opacity .4s $easeOutCubic;
+    transition: opacity 0.4s $easeOutCubic;
 
     &__in {
       @include max-tablet {
@@ -98,6 +97,7 @@
     &__out {
       display: none;
       position: relative;
+
       @include max-tablet {
         display: block;
         opacity: 1;
@@ -107,6 +107,7 @@
 
   &_uls {
     text-align: center;
+
     @include max-tablet {
       margin-top: rem(20px);
     }
@@ -118,6 +119,7 @@
 
     button {
       width: 100%;
+
       @include min-pc {
         padding-left: rem(14px);
         padding-right: rem(14px);
@@ -126,10 +128,11 @@
     }
   }
 
-  :global(.desc__medium){
+  :global(.desc__medium) {
     font-size: 16px;
     margin-bottom: rem(4px);
-    @include min-pc{
+
+    @include min-pc {
       font-size: calc-auto(1200px, 1920px, 14px, 16px);
     }
   }

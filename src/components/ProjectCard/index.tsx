@@ -9,6 +9,7 @@ import { User } from '@interfaces/user';
 import { CDN_URL } from '@constants/config';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import Heading from '@components/Heading';
+import ProgressBar from '@components/ProgressBar';
 
 interface IPros {
   project: Project;
@@ -48,6 +49,7 @@ export const ProjectCard = ({ project }: IPros): JSX.Element => {
           <Heading as={'h4'} className={s.projectCard_info_title}>
             {project.name}
           </Heading>
+          <ProgressBar size={'small'} />
         </div>
       </div>
     </div>
