@@ -17,16 +17,7 @@ import log from '@utils/logger';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  Container,
-  Form,
-  InputGroup,
-  Stack,
-  Tab,
-  Tabs,
-} from 'react-bootstrap';
-import Web3 from 'web3';
+import { Container, Form, InputGroup, Tab, Tabs } from 'react-bootstrap';
 import { TransactionReceipt } from 'web3-eth';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
