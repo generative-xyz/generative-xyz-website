@@ -1,4 +1,4 @@
-@import "src/styles/_themes/mixins";
+@import 'src/styles/_themes/mixins';
 
 .wrapper {
   display: grid;
@@ -13,6 +13,41 @@
   > div:nth-child(3) {
     // margin-left: 3.65vw;
   }
+}
+
+.usersInfo {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 50px;
+
+  &_item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > div:first-of-type {
+      min-height: 34px;
+    }
+  }
+
+  &_mainText {
+    text-transform: uppercase;
+    color: $black-60;
+  }
+
+  &_subText {
+    color: $black-60;
+    transform: translateY(-7px);
+  }
+}
+
+.progressBar {
+  margin-bottom: 28px;
+}
+
+.CTA {
+  display: flex;
 }
 
 .usersInfo {
