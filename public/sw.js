@@ -2,23 +2,21 @@ const cache = {}
 const referrers = {}
 
 async function fetchUrl(url, file) {
+  console.log('fetchUrl', url);
   const record = await fetch(url)
   const options = /\.m?js([#?].*)?$/.test(file) ? { headers: { 'content-type': 'text/javascript' } } : undefined
   return new Response(record.body, options);
 }
 
-self.addEventListener("install", (event) => {
-  // The promise that skipWaiting() returns can be safely ignored.
-  self.skipWaiting();
-
-  // Perform any other actions required for your
-  // service worker to install, potentially inside
-  // of event.waitUntil();
-});
-
 self.addEventListener("fetch", async (event) => {
+  console.log('cache', cache);
+  console.log('referrers', referrers);
+  console.log('referrerURL', event.request.referrer);
+
   const url = new URL(event.request.referrer);
   const id = url.searchParams.get("id");
+
+  console.log('id', event.request.referrer);
 
   if (id && cache[id] && referrers[id]) {
     if (`${url.origin}${url.pathname}` === referrers[id].base) {
@@ -43,7 +41,7 @@ self.addEventListener("fetch", async (event) => {
 })
 
 self.addEventListener("message", async (event) => {
-
+  
   if (event?.data?.type === "REGISTER_REFERRER") {
     referrers[event.data.data.id] = event.data.data.referrer
   }
