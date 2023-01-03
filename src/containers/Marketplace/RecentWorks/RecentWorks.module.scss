@@ -1,0 +1,24 @@
+@import 'src/styles/_themes/variables.scss';
+@import 'src/styles/_themes/mixins.scss';
+
+.recentWorks {
+  &_slider {
+    width: calc(100% + #{rem(54px)});
+    padding-left: rem(54px);
+    display: flex;
+    gap: rem(24px);
+
+    &_item {
+      flex: 0 0 33.33%;
+
+    }
+  }
+
+  margin-bottom: rem(106px);
+}
+
+.projectSlider {
+  padding-left: rem(12px);
+  padding-right: rem(12px);
+
+}

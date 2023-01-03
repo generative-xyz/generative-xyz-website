@@ -5,6 +5,7 @@ type THeading = {
   as?: 'h1' | 'h2' | 'h3' | 'h4';
   fontWeight?: 'bold' | 'semibold' | 'meidum' | 'regular' | 'light';
   style?: CSSProperties;
+  className?: string;
 };
 
 const Heading = ({
@@ -12,12 +13,17 @@ const Heading = ({
   children,
   fontWeight = 'regular',
   style,
+  className,
   ...props
 }: PropsWithChildren<THeading>) => {
   const Text = as;
 
   return (
-    <Text {...props} className={s.heading} style={{ fontWeight, ...style }}>
+    <Text
+      {...props}
+      className={`${s.heading} ${className}`}
+      style={{ fontWeight, ...style }}
+    >
       {children}
     </Text>
   );

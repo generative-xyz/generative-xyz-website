@@ -1,3 +1,5 @@
+import { User } from '@interfaces/user';
+
 export type ProjectSocial = {
   Web: string;
   Twitter: string;
@@ -34,4 +36,5 @@ export type Project = {
     index: number;
     indexReserve: number;
   };
+  creatorProfile?: User;
 };

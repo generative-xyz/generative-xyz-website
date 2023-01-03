@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ProjectIntroSection from './ProjectIntroSection';
-import { IGetProjectDetailResponse } from '@interfaces/api/project';
 import { getRandomProject } from '@services/project';
 import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
+import { GridDebug } from '@components/Grid/grid';
+import { RecentWorks } from '@containers/Marketplace/RecentWorks';
+import { Project } from '@interfaces/project';
+
+import s from './Marketplace.module.scss';
 
 const LOG_PREFIX = 'Marketplace';
 
 const Marketplace = () => {
-  const [projectInfo, setProjectInfo] = useState<IGetProjectDetailResponse>({
+  const [projectInfo, setProjectInfo] = useState<Project>({
     id: '',
     maxSupply: 0,
     limit: 0,
@@ -59,9 +63,13 @@ const Marketplace = () => {
   }, []);
 
   return (
-    <Container>
-      <ProjectIntroSection project={projectInfo} />
-    </Container>
+    <>
+      <Container className={s.marketplaceContainer}>
+        <ProjectIntroSection project={projectInfo} />
+        <RecentWorks />
+      </Container>
+      <GridDebug />
+    </>
   );
 };
 
