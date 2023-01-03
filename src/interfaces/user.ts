@@ -7,5 +7,5 @@ export type User = {
   walletAddress: string;
   id: string;
   createdAt: string;
-  profileSocial: ProjectSocial;
+  profileSocial?: ProjectSocial;
 };

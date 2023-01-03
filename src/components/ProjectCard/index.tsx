@@ -5,7 +5,6 @@ import s from './ProjectCard.module.scss';
 import { Project } from '@interfaces/project';
 import { CreatorInfo } from '@components/CreatorInfo';
 import { User } from '@interfaces/user';
-import { CDN_URL } from '@constants/config';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import Heading from '@components/Heading';
 import ProgressBar from '@components/ProgressBar';
@@ -18,13 +17,7 @@ interface IPros {
 
 export const ProjectCard = ({ project }: IPros): JSX.Element => {
   const router = useRouter();
-  const [creator, setCreator] = useState<User>({
-    displayName: 'MeoMeo',
-    bio: 'test_bio',
-    avatar: `${CDN_URL}/images/default-avatar.svg`,
-    walletAddress: '0x0000000',
-    id: '1',
-  });
+  const [creator, setCreator] = useState<User | null>(null);
 
   const [thumb, setThumb] = useState<string>(project.image);
 
@@ -39,7 +32,7 @@ export const ProjectCard = ({ project }: IPros): JSX.Element => {
   }, [project]);
 
   const onClick = () => {
-    router.push(`${ROUTE_PATH.GENERATIVE}/${project.id}`);
+    router.push(`${ROUTE_PATH.GENERATIVE}/${project.tokenID}`);
   };
 
   return (
@@ -58,7 +51,7 @@ export const ProjectCard = ({ project }: IPros): JSX.Element => {
           />
         </div>
         <div className={s.projectCard_info}>
-          <CreatorInfo creator={creator} />
+          {creator && <CreatorInfo creator={creator} />}
           <div className={s.projectCard_info_title}>
             <Heading as={'h4'}>{project.name}</Heading>
           </div>

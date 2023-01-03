@@ -19,7 +19,6 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Container, Form, InputGroup, Tab, Tabs } from 'react-bootstrap';
 import { TransactionReceipt } from 'web3-eth';
-import styles from './styles.module.scss';
 import { useDispatch } from 'react-redux';
 import { setProjectCurrent } from '@redux/project/action';
 

@@ -71,7 +71,9 @@ const ProjectIntroSection = ({ project }: Props) => {
             </div>
           </div>
           <div className={s.usersInfo_item}>
-            <Avatar imgSrcs={creatorProfile?.avatar} width={34} height={34} />
+            {creatorProfile && (
+              <Avatar imgSrcs={creatorProfile?.avatar} width={34} height={34} />
+            )}
             <div>
               <Text
                 size="12"

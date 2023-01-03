@@ -18,9 +18,11 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
 
   const tokenID = useMemo(() => data.name.split('#')[1], [data.name]);
   const tokenName = useMemo(() => data.name.split('#')[0], [data.name]);
-  const listingPrice = 0.02; // TODO call api marketplace to getting this data
+  const listingPrice = 0.02;
   const handleClickItem = () => {
-    router.push(`${ROUTE_PATH.GENERATIVE}/${projectCurrent.id}/${tokenID}`);
+    router.push(
+      `${ROUTE_PATH.GENERATIVE}/${projectCurrent.tokenID}/${tokenID}`
+    );
   };
 
   const [thumb, setThumb] = useState<string>(data.image);
