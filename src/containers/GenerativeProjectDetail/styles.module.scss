@@ -33,7 +33,7 @@
     position: relative;
 
     .progressBar {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       height: 100%;
@@ -56,4 +56,26 @@
 
 .desc {
   margin-block: 16px;
+}
+
+.tabs {
+  border-bottom: 1px solid $black-20;
+}
+
+.tab {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  border: none !important;
+  letter-spacing: -0.01em;
+  color: $black-100 !important;
+  padding: 10px 0 !important;
+
+  &:global(.active) {
+    border-bottom: 2px solid $black-100 !important;
+  }
+}
+
+.filterWrapper {
+  margin-top: 32px;
 }

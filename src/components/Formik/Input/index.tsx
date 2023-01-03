@@ -6,7 +6,7 @@ import s from './styles.module.scss';
 
 interface IInputProps {
   name: string;
-  label: string;
+  label?: string;
   desc?: string;
   size?: 'large' | 'medium';
   variant?: 'filled' | 'outline';
@@ -21,6 +21,7 @@ interface IInputProps {
   };
   validate?: () => void;
   as?: 'input' | 'textarea';
+  inputClassName?: string;
 }
 
 const Input: React.FC<
@@ -42,6 +43,7 @@ const Input: React.FC<
     useFormik = false,
     required,
     as = 'input',
+    inputClassName,
     ...rest
   } = props;
   const isError = errors?.label;
@@ -51,7 +53,7 @@ const Input: React.FC<
   const renderInput = (inputProps?: any) => {
     return (
       <>
-        <div className={s.input}>
+        <div className={cs(s.input, inputClassName)}>
           {startIcon && (
             <div className={cs(s.icon, s.leftIcon)}>{startIcon}</div>
           )}
@@ -77,12 +79,13 @@ const Input: React.FC<
         isError ? s.error : s.default
       )}
     >
-      <label htmlFor={name}>
-        {' '}
-        {label}
-        {required && ' * '}
-      </label>
-      <p>{desc}</p>
+      {label && (
+        <label htmlFor={name}>
+          {label}
+          {required && ' * '}
+        </label>
+      )}
+      {desc && <p>{desc}</p>}
       {useFormik ? (
         <Field name={name} {...rest}>
           {({ field }: any) => renderInput(field)}

@@ -19,18 +19,12 @@ import cs from 'classnames';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  Container,
-  Form,
-  InputGroup,
-  Stack,
-  Tab,
-  Tabs,
-} from 'react-bootstrap';
+import { Button, Container, Stack, Tab, Tabs } from 'react-bootstrap';
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-eth';
 import styles from './styles.module.scss';
+import TokenTopFilter from './TokenTopFilter';
+import ClientOnly from '@components/Utils/ClientOnly';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
 
@@ -270,55 +264,28 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
             </div>
           </div>
           <ThumbnailPreview data={projectDetail} allowVariation />
-          {/* <div className={styles.thumbnail}>
-            <Image
-              src={convertIpfsToHttp(
-                projectInfo?.image ||
-                  'ipfs://QmNTU5ctcffhZz5Hphd44yPivh2Y89pDYYG8QQ6yWGY3wn'
-              )}
-              fill
-              style={{ objectFit: 'cover', width: '100%' }}
-              sizes="(max-width: 1200px) 330px"
-              alt={'project thumbnail image'}
-            />
-          </div> */}
         </div>
-        <Tabs
-          defaultActiveKey="items"
-          id="uncontrolled-tab-example"
-          className="mt-4"
-          fill
-        >
-          <Tab eventKey="items" title="Items">
-            <InputGroup size="sm" className="my-4">
-              <InputGroup.Text id="inputGroup-sizing-sm">
-                Search
-              </InputGroup.Text>
-              <Form.Control
-                placeholder="owner, item, address..."
-                aria-label="Small"
-                aria-describedby="inputGroup-sizing-sm"
-              />
-            </InputGroup>
-            <CollectionList listData={listItems} />
-          </Tab>
-          <Tab
-            eventKey="analytics"
-            title="Analytics"
-            tabClassName="invisible"
-            disabled
-          >
-            Analytics
-          </Tab>
-          <Tab
-            eventKey="activity"
-            title="Activity"
-            tabClassName="invisible"
-            disabled
-          >
-            Activity
-          </Tab>
-        </Tabs>
+        <ClientOnly>
+          <Tabs className={styles.tabs} defaultActiveKey="items">
+            <Tab tabClassName={styles.tab} eventKey="items" title="Items">
+              <div className={styles.filterWrapper}>
+                <TokenTopFilter
+                  keyword=""
+                  sort=""
+                  onKeyWordChange={() => {
+                    //
+                  }}
+                  onSortChange={() => {
+                    //
+                  }}
+                />
+              </div>
+              <div className={styles.tokenListWrapper}>
+                <CollectionList listData={listItems} />
+              </div>
+            </Tab>
+          </Tabs>
+        </ClientOnly>
       </Container>
     </section>
   );
