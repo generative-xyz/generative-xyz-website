@@ -1,5 +1,6 @@
 html.is-landing {
   font-size: 10px;
+
   @include min-pc {
     font-size: vw(10px);
   }
@@ -37,7 +38,6 @@ html.is-landing {
   &__large {
     font-weight: 700;
     line-height: 120%;
-
     font-size: rem(48px);
     margin-bottom: rem(20px);
 
@@ -51,7 +51,6 @@ html.is-landing {
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
-
     font-size: rem(48px);
 
     @include tablet {
@@ -85,7 +84,6 @@ html.is-landing {
     font-weight: 500;
     line-height: 140%;
     color: $neutral-06;
-
     font-size: rem(14px);
 
     @include tablet {

@@ -1,4 +1,4 @@
-@import 'src/styles/_themes/mixins';
+@import "src/styles/_themes/mixins";
 
 .wrapper {
   display: grid;
@@ -7,8 +7,7 @@
   > div:nth-child(1) {
     margin-right: 6.5vw;
   }
-  > div:nth-child(2) {
-  }
+
   > div:nth-child(3) {
     margin-left: 3.65vw;
   }

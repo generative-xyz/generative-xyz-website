@@ -2,7 +2,6 @@
 @import "src/styles/_themes/mixins";
 
 .Home {
-
   &_video {
     overflow: hidden;
     display: flex;
@@ -56,7 +55,6 @@
 
         &_orderBtn,
         &_bookBtn {
-
           padding-right: rem(24);
           padding-left: rem(24);
           text-align: center;

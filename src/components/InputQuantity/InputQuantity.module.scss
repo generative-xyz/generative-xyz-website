@@ -1,5 +1,5 @@
-@import 'src/styles/_themes/variables';
-@import 'src/styles/_themes/mixins';
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
 
 .wrapperQty {
   display: flex;
@@ -17,15 +17,11 @@
     padding: 0;
   }
 
-  // @include is-mobile {
-  //   border-radius: 0;
-  // }
-
   .labelName {
     display: block;
     margin-bottom: 0;
 
-    @include max-tablet() {
+    @include max-tablet {
       display: none;
       font-size: rem(12);
       line-height: rem(20);
@@ -33,7 +29,6 @@
   }
 
   .btnEditQty {
-    display: block;
     background: none !important;
     color: $white !important;
     border: 0 none;
@@ -52,7 +47,7 @@
     &:hover,
     &:focus {
       outline: 0;
-      background: rgba($color: #000000, $alpha: 0.05) !important;
+      background: rgba($color: #000, $alpha: 5%) !important;
     }
 
     &.disabled {
@@ -85,12 +80,12 @@
     color: $neutral-07;
     background: transparent !important;
     border: 0;
-    -moz-appearance: textfield;
     width: 100%;
     height: auto;
     margin: 0;
-    -webkit-appearance: none;
-    @include max-tablet() {
+    appearance: none;
+
+    @include max-tablet {
       text-align: center;
       font-weight: 500;
       font-size: rem(16);
@@ -102,7 +97,7 @@
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
+      appearance: none;
       margin: 0;
     }
 
@@ -127,7 +122,8 @@
     .btnEditQty {
       font-size: rem(16);
     }
-    @include max-tablet() {
+
+    @include max-tablet {
       .btnEditQty {
         padding: 10px 11px;
       }
@@ -140,13 +136,13 @@
 
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+    appearance: none;
     margin: 0;
   }
 
   /* Firefox */
 
-  input[type='number'] {
-    -moz-appearance: textfield;
+  input[type="number"] {
+    appearance: textfield;
   }
 }

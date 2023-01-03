@@ -1,5 +1,6 @@
-@import 'src/styles/_themes/variables';
-@import 'src/styles/_themes/mixins';
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
 .CheckoutModal {
   &_title {
     font-weight: 700;
@@ -21,9 +22,6 @@
   &_optionItem {
     flex: 1;
     max-width: 243px;
-    // &:last-child {
-    //   margin-left: rem(76);
-    // }
 
     img {
       width: 100%;
@@ -62,7 +60,7 @@
       color: $white !important;
     }
 
-    :global(.btnEditQty:not([class*='disabled']) svg) {
+    :global(.btnEditQty:not([class*="disabled"]) svg) {
       color: $white;
     }
   }
@@ -85,11 +83,11 @@
     gap: rem(12);
     margin-top: rem(12);
 
-    @include max-tablet() {
+    @include max-tablet {
       grid-template-columns: 1fr;
     }
 
-    @include mobile() {
+    @include mobile {
       gap: rem(5);
     }
   }
@@ -100,7 +98,8 @@
     padding: rem(16);
     background-color: $neutral-02;
     align-self: baseline;
-    @include mobile() {
+
+    @include mobile {
       min-width: 100%;
       margin-left: 0;
     }
@@ -145,7 +144,7 @@
     display: flex;
     padding: rem(40) rem(32);
 
-    @include mobile() {
+    @include mobile {
       flex-direction: column;
       gap: 32px;
     }

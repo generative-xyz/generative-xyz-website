@@ -41,6 +41,8 @@ export type TMintGenerativeContext = {
   setThumbnailPreviewUrl: Dispatch<SetStateAction<string | null>>;
   mintedProjectID: string | null;
   setMintedProjectID: Dispatch<SetStateAction<string | null>>;
+  showErrorAlert: boolean;
+  setShowErrorAlert: Dispatch<SetStateAction<boolean>>;
 };
 
 const initialValues: TMintGenerativeContext = {
@@ -78,6 +80,10 @@ const initialValues: TMintGenerativeContext = {
   setMintedProjectID: _ => {
     return;
   },
+  showErrorAlert: false,
+  setShowErrorAlert: _ => {
+    return;
+  },
 };
 
 export const MintGenerativeContext =
@@ -97,6 +103,7 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
     null
   );
   const [mintedProjectID, setMintedProjectID] = useState<string | null>(null);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
 
   useEffect(() => {
     if (!thumbnailFile) {
@@ -150,6 +157,8 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
         setThumbnailPreviewUrl,
         mintedProjectID,
         setMintedProjectID,
+        showErrorAlert,
+        setShowErrorAlert,
       }}
     >
       {children}

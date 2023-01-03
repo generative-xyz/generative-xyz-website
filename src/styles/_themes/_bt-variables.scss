@@ -1,25 +1,19 @@
 $grid-gutter-width: rem(24px);
 $grid-breakpoints: (
-        xs: 0,
-        sm: 576px,
-        md: 768px,
-        lg: 992px,
-        xl: 1200px,
-        xxl: 1440px,
-        xxxl: 1600px
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1440px,
+  xxxl: 1600px
 );
 
-///
 :root {
-
-  //spacing
-
   --spacing-large: #{rem(165px)};
   --spacing-small: #{rem(80px)};
   --spacing-still: #{rem(28px)};
   --spacing-sx: #{rem(32px)};
-
-  //mobile
   --spacing-supper: #{rem(80px)};
   --spacing-medium: #{rem(32px)};
 
@@ -33,6 +27,4 @@ $grid-breakpoints: (
     --spacing-medium: #{rem(120px)};
     --spacing-still: #{rem(48px)};
   }
-
-  //end
 }

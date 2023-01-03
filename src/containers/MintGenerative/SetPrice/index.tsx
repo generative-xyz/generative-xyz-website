@@ -38,6 +38,7 @@ const SetPrice = () => {
     filesSandbox,
     thumbnailFile,
     setMintedProjectID,
+    setShowErrorAlert,
   } = useContext(MintGenerativeContext);
   const walletCtx = useContext(WalletContext);
   const { call: mintProject, reset: resetContractOperation } =
@@ -194,6 +195,7 @@ const SetPrice = () => {
       });
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
+      setShowErrorAlert(true);
     } finally {
       setIsMinting(false);
     }

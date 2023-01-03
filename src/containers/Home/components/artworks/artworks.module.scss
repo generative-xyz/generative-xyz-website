@@ -1,12 +1,11 @@
-@import "src/styles/_themes/variables.scss";
-@import "src/styles/_themes/mixins.scss";
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
 
 .artWork {
   overflow: hidden;
   background: $neutral-08;
 
   &_show {
-
     margin-bottom: rem(20px);
 
     @include tablet {
@@ -34,7 +33,6 @@
         background: $neutral-08;
       }
     }
-
   }
 
   &_fame {
@@ -47,7 +45,7 @@
     }
 
     &__small {
-      @include max-tablet{
+      @include max-tablet {
         display: none;
       }
     }
@@ -77,6 +75,5 @@
         right: rem(-320px);
       }
     }
-
   }
 }

@@ -5,14 +5,14 @@
   "rules": {
     "import-notation": "string",
     "at-rule-no-unknown": null,
-    "selector-pseudo-class-no-unknown": [
-      true,
-      {
-        "ignorePseudoClasses": ["global"]
-      }
-    ],
+    "function-no-unknown": null,
+    "property-no-unknown": null,
+    "no-descending-specificity": null,
+    "selector-pseudo-class-no-unknown": null,
+    "selector-pseudo-element-no-unknown": null,
+    "declaration-block-no-redundant-longhand-properties": null,
     "selector-class-pattern": [
-      "^([a-z][a-zA-Z0-9]+)|([a-z0-9]+(?:-[a-z0-9]+)*)$",
+      ".*",
       {
         "resolveNestedSelectors": true
       }

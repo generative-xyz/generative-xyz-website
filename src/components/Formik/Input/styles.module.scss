@@ -1,4 +1,4 @@
-@import 'src/styles/_themes/mixins.scss';
+@import "src/styles/_themes/mixins";
 
 .wrapper {
   label {
@@ -8,6 +8,7 @@
     font-weight: 700;
     margin-bottom: 6px;
   }
+
   .input {
     display: flex;
     padding: 16px;
@@ -52,7 +53,7 @@
     color: $secondary-red;
 
     .input {
-      background-color: rgba(255, 71, 71, 0.1);
+      background-color: rgb(255 71 71 / 10%);
 
       input {
         color: inherit;

@@ -1,0 +1,47 @@
+.errorAlert {
+  position: fixed;
+  bottom: 148px;
+  left: 0;
+  right: 0;
+  width: 100%;
+
+  .alertWrapper {
+    max-width: 1016px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .alertContainer {
+    background: rgb(255 71 71 / 6%);
+    border-radius: 6px;
+    box-shadow: 8px 7px 24px rgb(0 0 0 / 15%);
+    padding: 10px 20px;
+    border: 2px solid $secondary-red;
+    backdrop-filter: blur(100px);
+    display: flex;
+    gap: 16px;
+    max-width: 344px;
+  }
+
+  .iconWrapper {
+    flex-basis: 24px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 10px;
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    color: $secondary-red;
+  }
+
+  .errorMessage {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: $secondary-red;
+  }
+}

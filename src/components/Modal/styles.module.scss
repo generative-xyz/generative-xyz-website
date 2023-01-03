@@ -36,7 +36,7 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    background: rgba($color: #000000, $alpha: 1);
+    background: rgba($color: #000, $alpha: 100%);
     opacity: 0.86;
     outline: 0;
   }
@@ -44,8 +44,8 @@
   .body {
     position: relative;
     z-index: 2;
-    background: rgba($color: #ffffff, $alpha: 0.12);
-    border: 1px solid rgba($color: #ffffff, $alpha: 0.2);
+    background: rgba($color: #fff, $alpha: 12%);
+    border: 1px solid rgba($color: #fff, $alpha: 20%);
     padding: 60px 28px 28px;
     width: 100%;
     max-width: 420px;
@@ -99,9 +99,7 @@
       color: transparent !important;
       border: 0;
       transition: transform linear 0.25s;
-      // background: $blue !important;
-      // background: rgba(255, 255, 255, 0.2) !important;
-      background: #999999 !important;
+      background: #999 !important;
 
       &::before,
       &::after {
@@ -129,7 +127,7 @@
 
     .title {
       font-size: 26px;
-      color: #ffffff;
+      color: #fff;
       line-height: 36px;
       word-break: break-word;
       font-weight: 500;
@@ -139,6 +137,7 @@
       padding: 0 0 24px;
       max-height: 100%;
       overflow: auto;
+
       @include disable-scrollbar;
     }
 

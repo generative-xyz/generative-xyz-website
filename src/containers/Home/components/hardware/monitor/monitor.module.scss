@@ -8,6 +8,7 @@
     display: block;
     aspect-ratio: 16/9;
     width: 100%;
+
     @include min-pc {
       display: none;
     }
@@ -33,7 +34,6 @@
   }
 
   &_detail {
-
     margin-top: rem(35px);
     margin-bottom: rem(32px);
 
@@ -43,7 +43,6 @@
     }
 
     &_item_desc {
-
       font-size: rem(16px);
 
       @include tablet {
@@ -59,10 +58,9 @@
       transform: translateY(0.2em);
       display: block;
 
-      img, svg {
-
+      img,
+      svg {
         display: block;
-
         width: rem(24);
         height: rem(24);
 
@@ -89,7 +87,6 @@
       }
 
       li {
-
         @include min-pc {
           flex: 0 0 calc(50% - var(--spacing-sx));
           width: calc(50% - var(--spacing-sx));
@@ -99,8 +96,8 @@
         gap: rem(16px);
         align-items: center;
 
-        :global(.desc__body){
-          @include max-tablet{
+        :global(.desc__body) {
+          @include max-tablet {
             font-size: rem(20px);
           }
         }

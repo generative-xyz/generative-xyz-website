@@ -5,7 +5,6 @@
   padding-top: var(--spacing-supper);
   padding-bottom: var(--spacing-supper);
 
-
   tr {
     border-top: 1px solid $neutral-03;
 
@@ -28,6 +27,7 @@
         @include max-tablet {
           display: none;
         }
+
         @include min-pc {
           width: 20%;
         }
@@ -56,7 +56,6 @@
       }
 
       &:nth-child(2) {
-
         .Home_specTitle {
           position: absolute;
           left: 0;
@@ -77,10 +76,10 @@
       }
 
       &.table_td_one {
-
         @include mobile {
           padding-top: rem(20px) !important;
         }
+
         @include tablet {
           padding-top: rem(32px) !important;
         }
@@ -90,16 +89,15 @@
           top: 0;
           display: block;
           margin-bottom: rem(20px);
+
           @include min-pc {
             display: none;
           }
         }
-
-
       }
 
       &.Home_specTitle_large {
-        @include max-tablet{
+        @include max-tablet {
           padding-top: rem(100px) !important;
         }
       }
