@@ -17,20 +17,8 @@ import log from '@utils/logger';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  Container,
-  Form,
-  InputGroup,
-  Stack,
-  Tab,
-  Tabs,
-} from 'react-bootstrap';
-import Web3 from 'web3';
+import { Container, Form, InputGroup, Tab, Tabs } from 'react-bootstrap';
 import { TransactionReceipt } from 'web3-eth';
-import styles from './styles.module.scss';
-import TokenTopFilter from './TokenTopFilter';
-import ClientOnly from '@components/Utils/ClientOnly';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
 
@@ -59,7 +47,13 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     desc: '',
     image: '',
     scriptType: [''],
-    social: null,
+    social: {
+      web: '',
+      twitter: '',
+      discord: '',
+      medium: '',
+      instagram: '',
+    },
     scripts: [''],
     styles: '',
     completeTime: 0,
@@ -110,7 +104,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   };
 
   const fetchProjectItems = async (): Promise<void> => {
-    if (projectInfo) {
+    if (projectInfo.genNFTAddr) {
       try {
         const res = await getProjectItems({
           contractAddress: projectInfo.genNFTAddr,
