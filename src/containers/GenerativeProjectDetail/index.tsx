@@ -56,7 +56,13 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     desc: '',
     image: '',
     scriptType: [''],
-    social: null,
+    social: {
+      web: '',
+      twitter: '',
+      discord: '',
+      medium: '',
+      instagram: '',
+    },
     scripts: [''],
     styles: '',
     completeTime: 0,
@@ -107,7 +113,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   };
 
   const fetchProjectItems = async (): Promise<void> => {
-    if (projectInfo) {
+    if (projectInfo.genNFTAddr) {
       try {
         const res = await getProjectItems({
           contractAddress: projectInfo.genNFTAddr,
