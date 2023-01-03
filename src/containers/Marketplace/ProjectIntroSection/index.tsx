@@ -8,10 +8,11 @@ import ProgressBar from '@components/ProgressBar';
 import SvgInset from '@components/SvgInset';
 import Text from '@components/Text';
 import { CDN_URL } from '@constants/config';
+import { ROUTE_PATH } from '@constants/route-path';
 import { formatAddress } from '@utils/format';
 import dayjs from 'dayjs';
 import s from './styles.module.scss';
-import { ROUTE_PATH } from '@constants/route-path';
+import { useMemo } from 'react';
 
 type Props = {
   project: IGetProjectDetailResponse;
@@ -27,10 +28,15 @@ const ProjectIntroSection = ({ project }: Props) => {
   const createdDate = dayjs(MOCK_DATE).format('MMM DD');
   const createdYear = dayjs(MOCK_DATE).format('YYYY');
 
+  const isProjectDetailPage = useMemo(
+    () => !!router.query?.projectID,
+    [router.query?.projectID]
+  );
+
   return (
     <div className={s.wrapper} style={{ marginBottom: '100px' }}>
       <div className={s.info}>
-        {!router.query?.projectID && (
+        {!isProjectDetailPage && (
           <Heading
             as="h5"
             fontWeight="semibold"
@@ -93,17 +99,19 @@ const ProjectIntroSection = ({ project }: Props) => {
               <SvgInset svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`} />
             }
           >
-            Mint now
+            {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'}
           </ButtonIcon>
-          <ButtonIcon
-            sizes="large"
-            variants="ghost"
-            onClick={() =>
-              router.push(`${ROUTE_PATH.GENERATIVE}/${project?.tokenID}`)
-            }
-          >
-            Explore this collection
-          </ButtonIcon>
+          {!isProjectDetailPage && (
+            <ButtonIcon
+              sizes="large"
+              variants="ghost"
+              onClick={() =>
+                router.push(`${ROUTE_PATH.GENERATIVE}/${project?.tokenID}`)
+              }
+            >
+              Explore this collection
+            </ButtonIcon>
+          )}
         </div>
       </div>
       <div className="h-divider"></div>
