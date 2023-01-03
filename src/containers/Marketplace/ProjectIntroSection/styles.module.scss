@@ -2,7 +2,8 @@
 
 .wrapper {
   display: grid;
-  grid-template-columns: 0.9fr 1fr 0.6fr;
+  grid-template-columns: 395px 1fr 1fr;
+  color: $black-100;
 
   > div:nth-child(1) {
     margin-right: 6.5vw;
