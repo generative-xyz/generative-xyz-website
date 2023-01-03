@@ -111,3 +111,16 @@
 .font-light {
   font-weight: 300;
 }
+
+.text-secondary-color {
+  color: $black-60;
+}
+.text-primary-color {
+  color: $black-100;
+}
+
+.h-divider {
+  height: 100%;
+  width: 1px;
+  background-color: $black-20;
+}

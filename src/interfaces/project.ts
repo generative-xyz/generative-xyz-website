@@ -1,11 +1,11 @@
 import { User } from '@interfaces/user';
 
 export type ProjectSocial = {
-  Web: string;
-  Twitter: string;
-  Discord: string;
-  Medium: string;
-  Instagram: string;
+  web: string;
+  twitter: string;
+  discord: string;
+  medium: string;
+  instagram: string;
 };
 
 export type Project = {
@@ -21,7 +21,7 @@ export type Project = {
   desc: string;
   image: string;
   scriptType: string[];
-  social: ProjectSocial;
+  social: ProjectSocial | null;
   scripts: string[];
   styles: string;
   completeTime: number;

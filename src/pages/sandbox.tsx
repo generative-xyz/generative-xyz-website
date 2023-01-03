@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
-import DefaultLayout from '@components/Layout/DefaultLayout';
 import Sandbox from '@containers/Sandbox';
+import MarketplaceLayout from '@layouts/Marketplace';
 
 const SandboxPage: NextPage = () => {
   return (
-    <DefaultLayout>
+    <MarketplaceLayout>
       <Sandbox />
-    </DefaultLayout>
+    </MarketplaceLayout>
   );
 };
 

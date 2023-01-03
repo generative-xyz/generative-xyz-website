@@ -8,6 +8,14 @@ const initialState: User = {
   avatar: '',
   id: '',
   walletAddress: '',
+  createdAt: '',
+  profileSocial: {
+    web: '',
+    twitter: '',
+    discord: '',
+    medium: '',
+    instagram: '',
+  },
 };
 
 const userReducer = createReducer(initialState, builder =>

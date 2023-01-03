@@ -11,9 +11,8 @@
 
   .input {
     display: flex;
-    padding: 16px;
+    padding: 11px 16px;
     align-items: center;
-    max-width: 330px;
     gap: 11px;
     border-radius: 8px;
 
@@ -25,6 +24,8 @@
 
       &::placeholder {
         color: $black-40;
+        font-weight: 500;
+        opacity: 1;
       }
     }
 
