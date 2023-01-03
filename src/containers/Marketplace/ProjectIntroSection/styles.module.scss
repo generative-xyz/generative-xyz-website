@@ -2,7 +2,7 @@
 
 .wrapper {
   display: grid;
-  grid-template-columns: 420px 1px 1fr;
+  grid-template-columns: rem(420px) 1px 1fr;
   color: $black-100;
   gap: 60px;
 }
@@ -40,6 +40,7 @@
 
 .CTA {
   display: flex;
+  margin-bottom: 32px;
 }
 
 .usersInfo {

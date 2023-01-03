@@ -1,5 +1,6 @@
 .wrapper {
   flex: 1;
+  position: relative;
 }
 
 .thumbnail {
@@ -21,4 +22,27 @@
 .actionButtons {
   justify-content: center;
   margin-top: 15px;
+}
+
+.sandboxWrapper {
+  position: relative;
+  aspect-ratio: 1283 / 722;
+}
+
+.actionBtn {
+  border-radius: 50%;
+  border-color: $black-10 !important;
+  background-color: #fff !important;
+}
+
+.sandboxControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actionWrapper {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
 }
