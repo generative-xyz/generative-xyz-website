@@ -1,8 +1,6 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import Avatar from '@components/Avatar';
+import { CSSProperties, ReactNode } from 'react';
 import styles from './styles.module.scss';
-import Image from 'next/image';
-import SvgInset from '@components/SvgInset';
-import { CDN_URL } from '@constants/config';
 
 type Props = {
   imgSrc: string;
@@ -24,15 +22,7 @@ const AvatarInfo = ({
   return (
     <div className="horizontalStack" style={wrapperStyle} onClick={onClick}>
       <div className={styles.avatar}>
-        {imgSrc ? (
-          <Image src={imgSrc} alt="user avatar" width={width} height={height} />
-        ) : (
-          <div className={styles.defaultAvatar} style={{ width, height }}>
-            <SvgInset
-              svgUrl={`${CDN_URL}/images/default-avatar.svg`}
-            ></SvgInset>
-          </div>
-        )}
+        <Avatar imgSrcs={imgSrc} width={width} height={height} />
       </div>
       {leftContent && <div className={styles.address}>{leftContent}</div>}
     </div>

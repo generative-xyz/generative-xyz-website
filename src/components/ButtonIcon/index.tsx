@@ -1,6 +1,7 @@
 import cs from 'classnames';
 import React, { PropsWithChildren, ReactNode } from 'react';
 import styles from './styles.module.scss';
+
 type ButtonType = 'button' | 'submit' | 'reset' | undefined;
 type ButtonVariantsType = 'default' | 'secondary' | 'outline' | 'ghost';
 type ButtonSizesType = 'large' | 'medium' | 'small' | 'xsmall';

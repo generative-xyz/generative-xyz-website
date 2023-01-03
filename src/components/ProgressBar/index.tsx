@@ -2,24 +2,27 @@ import React, { useMemo } from 'react';
 import s from './styles.module.scss';
 import Heading from '@components/Heading';
 import Text from '@components/Text';
+import cs from 'classnames';
 
 type TProgressBar = {
   current?: number;
   total?: number;
   size?: 'regular' | 'small';
+  className?: string;
 };
 
 const ProgressBar = ({
   current = 25,
   total = 50,
   size = 'regular',
+  className,
 }: TProgressBar) => {
   const calcMintProgress = useMemo(() => {
     return (current / total) * 100;
   }, [total, current]);
 
   return (
-    <div className={s.wrapper}>
+    <div className={cs(s.wrapper, className)}>
       <div className={s.stats}>
         {size === 'regular' && (
           <>
