@@ -5,14 +5,6 @@
   grid-template-columns: 420px 1px 1fr;
   color: $black-100;
   gap: 60px;
-
-  > div:nth-child(1) {
-    // margin-right: 6.5vw;
-  }
-
-  > div:nth-child(3) {
-    // margin-left: 3.65vw;
-  }
 }
 
 .usersInfo {
