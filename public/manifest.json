@@ -10,7 +10,7 @@
   ],
   "id": "/?source=pwa",
   "start_url": "/?source=pwa",
-  "background_color": "#fffff",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "theme_color": "#3367D6",
