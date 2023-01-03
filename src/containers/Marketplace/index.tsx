@@ -23,11 +23,11 @@ const Marketplace = () => {
     image: '',
     scriptType: [''],
     social: {
-      Web: '',
-      Twitter: '',
-      Discord: '',
-      Medium: '',
-      Instagram: '',
+      web: '',
+      twitter: '',
+      discord: '',
+      medium: '',
+      instagram: '',
     },
     scripts: [''],
     styles: '',
@@ -41,6 +41,21 @@ const Marketplace = () => {
     mintingInfo: {
       index: 0,
       indexReserve: 0,
+    },
+    creatorProfile: {
+      displayName: '',
+      bio: '',
+      avatar: '',
+      walletAddress: '',
+      id: '',
+      createdAt: '',
+      profileSocial: {
+        web: '',
+        twitter: '',
+        discord: '',
+        medium: '',
+        instagram: '',
+      },
     },
   });
 

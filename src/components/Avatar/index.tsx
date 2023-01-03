@@ -15,7 +15,7 @@ type Props = {
 const Avatar = ({ imgSrcs, width = 48, height = 48 }: Props) => {
   const SingleAvatar = ({ src }: { src: string }) => {
     return (
-      <div style={{ width, height }}>
+      <div style={{ width, height, borderRadius: '50%', overflow: 'hidden' }}>
         {src ? (
           <Image
             src={convertIpfsToHttp(src)}
@@ -35,8 +35,7 @@ const Avatar = ({ imgSrcs, width = 48, height = 48 }: Props) => {
     );
   };
 
-  if (imgSrcs && typeof imgSrcs === 'string')
-    return <SingleAvatar src={imgSrcs} />;
+  if (typeof imgSrcs === 'string') return <SingleAvatar src={imgSrcs} />;
 
   if (imgSrcs?.length > 0 && typeof imgSrcs === 'object') {
     return (

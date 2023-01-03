@@ -60,11 +60,11 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     image: '',
     scriptType: [''],
     social: {
-      Web: '',
-      Twitter: '',
-      Discord: '',
-      Medium: '',
-      Instagram: '',
+      web: '',
+      twitter: '',
+      discord: '',
+      medium: '',
+      instagram: '',
     },
     scripts: [''],
     styles: '',
@@ -78,6 +78,21 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     mintingInfo: {
       index: 0,
       indexReserve: 0,
+    },
+    creatorProfile: {
+      displayName: '',
+      bio: '',
+      avatar: '',
+      walletAddress: '',
+      id: '',
+      createdAt: '',
+      profileSocial: {
+        web: '',
+        twitter: '',
+        discord: '',
+        medium: '',
+        instagram: '',
+      },
     },
   });
 
@@ -101,7 +116,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   };
 
   const fetchProjectItems = async (): Promise<void> => {
-    if (projectInfo) {
+    if (projectInfo.genNFTAddr) {
       try {
         const res = await getProjectItems({
           contractAddress: projectInfo.genNFTAddr,
@@ -129,7 +144,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     });
   };
 
-  const totalItems = projectInfo?.mintingInfo.index || 0;
+  const totalItems = projectInfo?.mintingInfo?.index || 0;
 
   const calcMintProgress = useMemo(() => {
     return (totalItems / (projectInfo?.maxSupply || 1)) * 100;
@@ -144,12 +159,14 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   }, [projectID]);
 
   useEffect(() => {
-    const _projectDetail = base64ToUtf8(
-      projectInfo.projectURI.replace('data:application/json;base64,', '')
-    );
-    if (_projectDetail) {
-      const projectDetailObj = JSON.parse(_projectDetail);
-      setProjectDetail(projectDetailObj);
+    if (projectInfo.projectURI) {
+      const _projectDetail = base64ToUtf8(
+        projectInfo.projectURI.replace('data:application/json;base64,', '')
+      );
+      if (_projectDetail) {
+        const projectDetailObj = JSON.parse(_projectDetail);
+        setProjectDetail(projectDetailObj);
+      }
     }
   }, [projectInfo.id]);
 
