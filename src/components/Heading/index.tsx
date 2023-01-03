@@ -3,7 +3,7 @@ import s from './styles.module.scss';
 import cs from 'classnames';
 
 type THeading = {
-  as?: 'h1' | 'h2' | 'h3' | 'h4';
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
   fontWeight?: 'bold' | 'semibold' | 'medium' | 'normal' | 'light';
   style?: CSSProperties;
   className?: string;
