@@ -20,7 +20,7 @@ export type Project = {
   desc: string;
   image: string;
   scriptType: string[];
-  social: ProjectSocial;
+  social: ProjectSocial | null;
   scripts: string[];
   styles: string;
   completeTime: number;

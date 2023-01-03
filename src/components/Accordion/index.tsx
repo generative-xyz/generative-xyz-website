@@ -12,7 +12,7 @@ const AccordionComponent = ({ header, content }: Props) => {
     <div className={styles.wrapper}>
       <Accordion defaultActiveKey="0">
         <Accordion.Item eventKey="0">
-          <Accordion.Header bsPrefix="custom">{header}</Accordion.Header>
+          <Accordion.Header>{header}</Accordion.Header>
           <Accordion.Body>{content}</Accordion.Body>
         </Accordion.Item>
       </Accordion>
