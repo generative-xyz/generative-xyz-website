@@ -1,4 +1,7 @@
-.collectionCard {
+@import 'src/styles/_themes/variables.scss';
+@import 'src/styles/_themes/mixins.scss';
+
+.projectCard {
 
   &_inner {
     padding: rem(16px);
@@ -34,22 +37,10 @@
       margin-top: rem(10px);
 
       h4 {
+        font-weight: 600;
         font-size: rem(24px);
         line-height: rem(34px);
-        font-weight: 600;
       }
-    }
-
-    &_stack {
-      justify-content: space-between;
-    }
-  }
-
-  &_listing {
-    justify-content: space-between;
-
-    &_owner {
-      color: $black-40
     }
   }
 

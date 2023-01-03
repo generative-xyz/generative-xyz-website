@@ -23,81 +23,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     tokenID: string;
   };
 
-  const [itemDetail, setItemDetail] = useState<IGetGenerativeTokenUriResponse>({
-    name: '',
-    description: '',
-    image: '',
-    animationUrl: '',
-    attributes: [],
-    genNFTAddr: '',
-    owner: {
-      displayName: '',
-      bio: '',
-      avatar: '',
-      walletAddress: '',
-      id: '',
-      createdAt: '',
-      profileSocial: {
-        web: '',
-        twitter: '',
-        discord: '',
-        medium: '',
-        instagram: '',
-      },
-    },
-    ownerAddress: '',
-    project: {
-      id: '',
-      maxSupply: 0,
-      limit: 0,
-      mintPrice: '',
-      mintPriceAddr: '',
-      name: '',
-      creator: '',
-      creatorAddr: '',
-      license: '',
-      desc: '',
-      image: '',
-      scriptType: [],
-      social: {
-        web: '',
-        twitter: '',
-        discord: '',
-        medium: '',
-        instagram: '',
-      },
-      scripts: [],
-      styles: '',
-      completeTime: 0,
-      genNFTAddr: '',
-      itemDesc: '',
-      status: false,
-      nftTokenURI: '',
-      projectURI: '',
-      royalty: 0,
-      tokenID: '',
-      mintingInfo: {
-        index: 0,
-        indexReserve: 0,
-      },
-      creatorProfile: {
-        displayName: '',
-        bio: '',
-        avatar: '',
-        walletAddress: '',
-        id: '',
-        createdAt: '',
-        profileSocial: {
-          web: '',
-          twitter: '',
-          discord: '',
-          medium: '',
-          instagram: '',
-        },
-      },
-    },
-    mintedTime: '',
-  });
+  const [itemDetail, setItemDetail] =
+    useState<IGetGenerativeTokenUriResponse | null>(null);
 
   const scanURL = getScanUrl();
 
@@ -119,7 +46,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const renderAttributes = () => {
     return (
       <>
-        {itemDetail.attributes?.length > 0 &&
+        {itemDetail &&
+          itemDetail.attributes?.length > 0 &&
           itemDetail.attributes.map((attr, index: number) => (
             <div key={`${attr.trait_type}-${index}`}>{attr.trait_type}</div>
           ))}
@@ -163,9 +91,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                     <div>
                       <p>Creator</p>
                       <p>
-                        {itemDetail.project.creator
-                          ? formatAddress(itemDetail.project.creator)
-                          : formatAddress(itemDetail.project.creatorAddr)}
+                        {itemDetail && itemDetail.project.creator
+                          ? formatAddress(itemDetail.project.creator || '')
+                          : formatAddress(
+                              itemDetail?.project.creatorAddr || ''
+                            )}
                       </p>
                     </div>
                   }
@@ -177,7 +107,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   leftContent={
                     <div>
                       <p>Minted on</p>
-                      <p>{itemDetail.mintedTime}</p>
+                      <p>{itemDetail?.mintedTime}</p>
                     </div>
                   }
                 />
@@ -222,9 +152,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   <p>
                     <Link
                       target={`_blank`}
-                      href={`${scanURL}/token/${itemDetail.project.genNFTAddr}`}
+                      href={`${scanURL}/token/${itemDetail?.project.genNFTAddr}`}
                     >
-                      {formatAddress(itemDetail.project.genNFTAddr)}
+                      {formatAddress(itemDetail?.project.genNFTAddr || '')}
                     </Link>
                   </p>
                 </Stack>
@@ -233,7 +163,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   <p>
                     <Link
                       target={`_blank`}
-                      href={`${scanURL}/token/${itemDetail.project.genNFTAddr}?a=${tokenID}`}
+                      href={`${scanURL}/token/${itemDetail?.project.genNFTAddr}?a=${tokenID}`}
                     >
                       {tokenID}
                     </Link>
@@ -253,7 +183,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                     <Link
                       target={`_blank`}
                       href={`${getOpenseaAssetUrl()}/${
-                        itemDetail.project.genNFTAddr
+                        itemDetail?.project.genNFTAddr
                       }/${tokenID}`}
                     >
                       Opensea

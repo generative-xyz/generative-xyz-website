@@ -1,59 +1,84 @@
-import React, { useMemo } from 'react';
-import styles from './styles.module.scss';
-import { Stack } from 'react-bootstrap';
-import AvatarInfo from '@components/AvatarInfo';
+import React, { useMemo, useState } from 'react';
+import s from './styles.module.scss';
 import { IProjectItem } from '@interfaces/api/project';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@constants/route-path';
+import { LOGO_MARKETPLACE_URL } from '@constants/common';
+import { CreatorInfo } from '@components/CreatorInfo';
+import Heading from '@components/Heading';
+import { Stack } from 'react-bootstrap';
+import AvatarInfo from '@components/AvatarInfo';
+import { useSelector } from 'react-redux';
+import { projectCurrentSelector } from '@redux/project/selector';
+import { User } from '@interfaces/user';
 
 const CollectionItem = ({ data }: { data: IProjectItem }) => {
   const router = useRouter();
-  const { projectID } = router.query as {
-    projectID: string;
-  };
+  const projectCurrent = useSelector(projectCurrentSelector);
 
   const tokenID = useMemo(() => data.name.split('#')[1], [data.name]);
-  const owner = data.owner?.name;
-  const ownerAvatar = data.owner?.avatar;
-  const listingPrice = 0.02; // TODO call api marketplace to getting this data
+  const tokenName = useMemo(() => data.name.split('#')[0], [data.name]);
+  const listingPrice = 0.02;
   const handleClickItem = () => {
-    router.push(`${ROUTE_PATH.GENERATIVE}/${projectID}/${tokenID}`);
+    router.push(
+      `${ROUTE_PATH.GENERATIVE}/${projectCurrent.tokenID}/${tokenID}`
+    );
+  };
+
+  const [thumb, setThumb] = useState<string>(data.image);
+
+  const onThumbError = () => {
+    setThumb(LOGO_MARKETPLACE_URL);
   };
 
   return (
-    <div className={styles.wrapper} onClick={handleClickItem}>
-      <div className={styles.thumbnail}>
-        <Image
-          src={data.image}
-          alt="item thumbnail"
-          fill
-          style={{ objectFit: 'cover', width: '100%' }}
-          sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 25vw"
-        />
-      </div>
-      <h5>{`# ${parseInt(tokenID) % 1e6}`}</h5>
-      {data.owner != null && (
-        <Stack direction="horizontal" className={styles.creator} gap={2}>
-          <AvatarInfo
-            imgSrc={ownerAvatar}
-            leftContent={owner}
-            width={32}
-            height={32}
-            wrapperStyle={{ marginBottom: '20px' }}
+    <div onClick={handleClickItem} className={s.collectionCard}>
+      <div className={s.collectionCard_inner}>
+        <div
+          className={`${s.collectionCard_thumb} ${
+            thumb === LOGO_MARKETPLACE_URL ? s.isDefault : ''
+          }`}
+        >
+          <img
+            onError={onThumbError}
+            src={thumb}
+            alt={data.name}
+            loading={'lazy'}
           />
-        </Stack>
-      )}
-      {listingPrice > 0 && (
-        <div className={styles.info}>
-          <b>{listingPrice} ETH</b>
-          {/*<Stack direction="horizontal">
-            <span>by &nbsp;</span>
-            <AvatarInfo imgSrc="" width={32} height={32}/>
-          </Stack>*/}
         </div>
-      )}
+        <div className={s.collectionCard_info}>
+          {projectCurrent.creatorProfile && (
+            <CreatorInfo creator={projectCurrent.creatorProfile as User} />
+          )}
+          <div className={s.collectionCard_info_title}>
+            <Stack
+              className={s.collectionCard_info_stack}
+              direction="horizontal"
+            >
+              <Heading as={'h4'}>{tokenName}</Heading>
+              <Heading as={'h4'} className="token_id ml-auto">
+                #{tokenID}
+              </Heading>
+            </Stack>
+          </div>
+          {listingPrice > 0 && (
+            <Stack direction="horizontal" className={s.collectionCard_listing}>
+              <b>{listingPrice} ETH</b>
+              <Stack
+                className={s.collectionCard_listing_owner}
+                direction="horizontal"
+              >
+                <span>by &nbsp;</span>
+                <AvatarInfo
+                  imgSrc={data.owner?.avatar}
+                  width={32}
+                  height={32}
+                />
+              </Stack>
+            </Stack>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,67 @@
+@import 'src/styles/_themes/variables.scss';
+@import 'src/styles/_themes/mixins.scss';
+
+.recentWorks {
+
+  &_paragraph {
+    h4 {
+      font-size: rem(24px);
+      color: $black-60
+    }
+
+    p {
+      margin-top: rem(24px);
+      color: $black-60;
+      font-weight: 500;
+      font-size: rem(16px);
+      line-height: (26/16);
+    }
+  }
+
+  &_slider {
+    width: calc(100% + #{rem(54px)});
+    padding-left: rem(54px);
+
+    &_inner {
+      display: flex;
+      gap: rem(24px);
+      overflow-x: auto;
+      padding-right: rem(54px);
+      padding-bottom: rem(50px);
+
+      /* width */
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: rgba(#000, .2);
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: rgba(#000, .4);
+      }
+    }
+
+    &_item {
+      flex: 0 0 33.33%;
+    }
+  }
+
+  margin-bottom: rem(106px);
+}
+
+.projectSlider {
+  padding-left: rem(12px);
+  padding-right: rem(12px);
+
+}

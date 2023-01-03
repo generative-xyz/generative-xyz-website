@@ -1,4 +1,5 @@
 import CollectionList from '@components/Collection/List';
+import ClientOnly from '@components/Utils/ClientOnly';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { ROUTE_PATH } from '@constants/route-path';
 import ProjectIntroSection from '@containers/Marketplace/ProjectIntroSection';
@@ -17,13 +18,18 @@ import log from '@utils/logger';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Container, Form, InputGroup, Tab, Tabs } from 'react-bootstrap';
+import { Container, Tab, Tabs } from 'react-bootstrap';
 import { TransactionReceipt } from 'web3-eth';
+import TokenTopFilter from './TokenTopFilter';
+import styles from './styles.module.scss';
+import { useDispatch } from 'react-redux';
+import { setProjectCurrent } from '@redux/project/action';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
 
 const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const {
     // call: mintToken,
     // reset: resetMintToken,
@@ -96,6 +102,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
           contractAddress: GENERATIVE_PROJECT_CONTRACT,
           projectID,
         });
+        dispatch(setProjectCurrent(data));
         setProjectInfo(data);
       } catch (_: unknown) {
         log('failed to fetch project detail data', LogLevel.Error, LOG_PREFIX);
@@ -272,7 +279,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
             />
           </div> */}
         {/* </div> */}
-        <Tabs
+        {/* <Tabs
           defaultActiveKey="items"
           id="uncontrolled-tab-example"
           className="mt-4"
@@ -307,7 +314,28 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
           >
             Activity
           </Tab>
-        </Tabs>
+        </Tabs> */}
+        <ClientOnly>
+          <Tabs className={styles.tabs} defaultActiveKey="items">
+            <Tab tabClassName={styles.tab} eventKey="items" title="Items">
+              <div className={styles.filterWrapper}>
+                <TokenTopFilter
+                  keyword=""
+                  sort=""
+                  onKeyWordChange={() => {
+                    //
+                  }}
+                  onSortChange={() => {
+                    //
+                  }}
+                />
+              </div>
+              <div className={styles.tokenListWrapper}>
+                <CollectionList listData={listItems} />
+              </div>
+            </Tab>
+          </Tabs>
+        </ClientOnly>
       </Container>
     </section>
   );

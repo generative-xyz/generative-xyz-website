@@ -84,6 +84,8 @@ module.exports = withBundleAnalyzer({
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    prependData: `@import "@styles/_variables.scss";`,
+    prependData: `@import "@styles/_variables.scss";
+      @import "@styles/_themes/_mixins.scss";
+    `,
   },
 });

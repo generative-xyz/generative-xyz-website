@@ -1,4 +1,5 @@
-import { User } from './user';
+import { User } from '@interfaces/user';
+
 export type ProjectSocial = {
   web: string;
   twitter: string;
@@ -35,5 +36,5 @@ export type Project = {
     index: number;
     indexReserve: number;
   };
-  creatorProfile: User;
+  creatorProfile?: User;
 };

@@ -1,18 +1,5 @@
 @import "src/styles/_themes/mixins";
 
-.wrapper {
-  min-height: calc(100vh - 20px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  main {
-    flex: 1;
-    margin-top: 32px;
-    display: table;
-  }
-}
-
 header {
   .headerWrapper {
     display: flex;
