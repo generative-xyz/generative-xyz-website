@@ -15,10 +15,11 @@ import s from './styles.module.scss';
 type Props = {
   data?: any;
   allowVariantion?: boolean;
+  previewToken?: boolean;
 };
 
 const ThumbnailPreview = (props: Props) => {
-  const { data, allowVariantion = false } = props;
+  const { data, allowVariantion = false, previewToken = false } = props;
 
   const animationUrl = data?.animationUrl || data?.animation_url || '';
 
@@ -84,7 +85,7 @@ const ThumbnailPreview = (props: Props) => {
                 showIframe={displayMode === PreviewDisplayMode.Animation}
                 rawHtml={rawHtmlFile}
                 ref={sandboxRef}
-                hash={hash}
+                hash={previewToken ? '' : hash}
                 sandboxFiles={null}
                 onLoaded={handleIframeLoaded}
               />
@@ -112,9 +113,9 @@ const ThumbnailPreview = (props: Props) => {
                 >
                   <Image
                     alt="play icon"
-                    width={16}
-                    height={16}
-                    src={`${CDN_URL}/icons/ic-shuffle.svg`}
+                    width={14}
+                    height={14}
+                    src={`${CDN_URL}/icons/ic-shuffle-24x24.svg`}
                   ></Image>
                 </Button>
               )}

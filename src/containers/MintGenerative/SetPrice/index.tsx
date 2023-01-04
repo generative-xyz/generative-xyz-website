@@ -169,6 +169,7 @@ const SetPrice = () => {
       const mintTx = await mintProject(projectPayload);
 
       if (!mintTx) {
+        setShowErrorAlert({ open: true, message: null });
         return;
       }
 
@@ -195,7 +196,7 @@ const SetPrice = () => {
       });
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
-      setShowErrorAlert(true);
+      setShowErrorAlert({ open: true, message: null });
     } finally {
       setIsMinting(false);
     }
@@ -205,13 +206,14 @@ const SetPrice = () => {
     <Formik
       key="setPrice"
       initialValues={{
-        maxSupply: 0,
-        mintPrice: 0,
-        royalty: 10,
+        maxSupply: formValues.maxSupply ?? 0,
+        mintPrice: parseFloat(formValues.mintPrice ?? '0'),
+        royalty: formValues.royalty ?? 10,
       }}
       validate={validateForm}
       onSubmit={handleSubmit}
       validateOnChange
+      enableReinitialize
     >
       {({
         values,

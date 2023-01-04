@@ -1,40 +1,63 @@
 .wrapper {
-  display: flex;
-  gap: 24px;
-  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: rem(420px) 1px 1fr;
+  color: $black-100;
+  gap: 60px;
+  margin-top: rem(72);
 }
 
-.leftWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 50%;
+.collectionName {
+  color: $black-60;
+  margin-bottom: rem(16px);
+}
 
-  > div {
-    padding: 32px;
-    border-radius: 16px;
-    border: 1px solid var(--dark-grey);
+.usersInfo {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 50px;
+
+  &_item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > div:first-of-type {
+      min-height: 34px;
+    }
+  }
+
+  &_mainText {
+    text-transform: uppercase;
+    color: $black-60;
+  }
+
+  &_subText {
+    color: $black-60;
+    transform: translateY(-7px);
   }
 }
 
-.rightWrapper {
-  flex: 1;
-}
-
-.itemInfo {
+.prices {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  gap: rem(32px);
+  margin-top: rem(10px);
+  margin-bottom: rem(24px);
+
+  p {
+    text-transform: uppercase;
+    color: $black-60;
+  }
 }
 
-.thumbnail {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  height: fit-content;
-}
-
-.tokenInfo {
+.CTA_btn {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  gap: rem(10px);
+
+  button {
+    flex: 1;
+    justify-content: center;
+  }
 }
