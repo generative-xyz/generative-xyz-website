@@ -5,13 +5,16 @@ import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
 import ImagePreviewInput from '@components/ImagePreviewInput';
 import Button from '@components/Button';
+import { useAppSelector } from '@redux';
+import { getUserSelector } from '@redux/user/selector';
+import Image from 'next/image';
 
 const LOG_PREFIX = 'Profile';
 
 const Profile: React.FC = (): React.ReactElement => {
   const walletCtx = useContext(WalletContext);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-
+  const user = useAppSelector(getUserSelector);
   const handleDisconnectWallet = async (): Promise<void> => {
     try {
       await walletCtx.disconnect();
@@ -24,9 +27,25 @@ const Profile: React.FC = (): React.ReactElement => {
     <div className={s.profile}>
       <div className="container">
         <div className="d-grid">
-          <ImagePreviewInput file={avatarFile} onFileChange={setAvatarFile} />
+          <ImagePreviewInput
+            file={avatarFile}
+            onFileChange={setAvatarFile}
+            placeHolderHtml={
+              <Image
+                src={user.avatar}
+                alt={user.displayName}
+                width={100}
+                height={100}
+              />
+            }
+          />
         </div>
-        <Button onClick={handleDisconnectWallet}>Disconnect wallet</Button>
+        <div>{user.displayName}</div>
+        <hr />
+        <div>Wallet {user.walletAddress}</div>
+        <div>
+          <Button onClick={handleDisconnectWallet}>Disconnect wallet</Button>
+        </div>
       </div>
     </div>
   );
