@@ -3,9 +3,8 @@
 
 .recentWorks {
   &_paragraph {
-    h4 {
-      font-size: rem(24px);
-      color: $black-60;
+    h5 {
+      color: $black-60
     }
 
     p {
@@ -36,7 +35,7 @@
 
       /* Track */
       &::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: transparent;
       }
 
       /* Handle */
@@ -55,8 +54,6 @@
       flex: 0 0 33.33%;
     }
   }
-
-  margin-bottom: rem(106px);
 }
 
 .projectSlider {

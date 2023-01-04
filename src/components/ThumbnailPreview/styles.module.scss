@@ -32,7 +32,7 @@
 }
 
 .actionBtn {
-  border-radius: 50%;
+  border-radius: 50% !important;
   border-color: $black-10 !important;
   background-color: #fff !important;
 }
@@ -40,11 +40,11 @@
 .sandboxControls {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: rem(10px);
 }
 
 .actionWrapper {
   position: absolute;
-  bottom: 32px;
-  right: 32px;
+  bottom: rem(32px);
+  right: rem(32px);
 }

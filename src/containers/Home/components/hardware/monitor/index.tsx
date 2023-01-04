@@ -53,6 +53,7 @@ export const Monitor = ({ data }: { data: IHardwareItem }): JSX.Element => {
         playsInline
         loop
         preload="auto"
+        poster={data.poster}
         src={data.video}
       />
     </div>

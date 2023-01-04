@@ -106,14 +106,14 @@ const ThumbnailPreview = (props: Props) => {
                 <Button
                   onClick={handleVariation}
                   className={s.actionBtn}
-                  sizes="small"
+                  sizes="mid"
                   variants="outline"
                   iconOnly
                 >
                   <Image
                     alt="play icon"
-                    width={14}
-                    height={14}
+                    width={16}
+                    height={16}
                     src={`${CDN_URL}/icons/ic-shuffle.svg`}
                   ></Image>
                 </Button>
@@ -122,14 +122,14 @@ const ThumbnailPreview = (props: Props) => {
               <Button
                 onClick={handlePlay}
                 className={s.actionBtn}
-                sizes="small"
+                sizes="mid"
                 variants="outline"
                 iconOnly
               >
                 <Image
                   alt="play icon"
-                  width={14}
-                  height={14}
+                  width={16}
+                  height={16}
                   src={`${CDN_URL}/icons/ic-play-14x14.svg`}
                 ></Image>
               </Button>
@@ -138,14 +138,14 @@ const ThumbnailPreview = (props: Props) => {
               <Button
                 onClick={handlePause}
                 className={s.actionBtn}
-                sizes="small"
+                sizes="mid"
                 variants="outline"
                 iconOnly
               >
                 <Image
                   alt="pause icon"
-                  width={14}
-                  height={14}
+                  width={16}
+                  height={16}
                   src={`${CDN_URL}/icons/ic-pause-14x14.svg`}
                 ></Image>
               </Button>
@@ -153,14 +153,14 @@ const ThumbnailPreview = (props: Props) => {
             <Button
               onClick={reloadIframe}
               className={s.actionBtn}
-              sizes="small"
+              sizes="mid"
               variants="outline"
               iconOnly
             >
               <Image
                 alt="refresh icon"
-                width={14}
-                height={14}
+                width={16}
+                height={16}
                 src={`${CDN_URL}/icons/ic-refresh-14x14.svg`}
               ></Image>
             </Button>
@@ -169,14 +169,14 @@ const ThumbnailPreview = (props: Props) => {
                 <Button
                   // onClick={}
                   className={s.actionBtn}
-                  sizes="small"
+                  sizes="mid"
                   variants="outline"
                   iconOnly
                 >
                   <Image
                     alt="pause icon"
-                    width={14}
-                    height={14}
+                    width={16}
+                    height={16}
                     src={`${CDN_URL}/icons/ic-expand.svg`}
                   ></Image>
                 </Button>

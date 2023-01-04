@@ -138,7 +138,7 @@ const ProjectIntroSection = ({ project }: Props) => {
               >
                 Creator
               </Text>
-              <Text fontWeight="semibold" className="text-secondary-color">
+              <Text fontWeight="semibold">
                 {creatorProfile?.displayName ||
                   formatAddress(
                     creatorProfile?.walletAddress || project?.creatorAddr
