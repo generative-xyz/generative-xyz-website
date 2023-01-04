@@ -4,15 +4,15 @@
   display: grid;
   grid-template-columns: rem(420px) 1px 1fr;
   color: $black-100;
-  gap: 60px;
-  margin-top: rem(72);
+  gap: rem(60px);
+  padding-top: rem(60px);
 }
 
 .usersInfo {
   margin-bottom: 16px;
   display: flex;
   align-items: flex-start;
-  column-gap: 50px;
+  column-gap: rem(50px);
 
   &_item {
     display: flex;
@@ -20,7 +20,7 @@
     gap: 10px;
 
     > div:first-of-type {
-      min-height: 34px;
+      min-height: rem(34px);
     }
   }
 
@@ -30,33 +30,32 @@
   }
 
   &_subText {
-    color: $black-60;
     transform: translateY(-7px);
   }
 }
 
 .progressBar {
-  margin-bottom: 28px;
+  margin-bottom: rem(28px);
 }
 
 .CTA {
   display: flex;
-  margin-bottom: 32px;
+  margin-bottom: rem(32px);
 }
 
 .usersInfo {
   margin-bottom: 16px;
   display: flex;
   align-items: flex-start;
-  column-gap: 50px;
+  column-gap: rem(50px);
 
   &_item {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: rem(10px);
 
     > div:first-of-type {
-      min-height: 34px;
+      min-height: rem(34px);
     }
   }
 
@@ -66,13 +65,12 @@
   }
 
   &_subText {
-    color: $black-60;
     transform: translateY(-7px);
   }
 }
 
 .progressBar {
-  margin-bottom: 28px;
+  margin-bottom: rem(28px);
 }
 
 .CTA {

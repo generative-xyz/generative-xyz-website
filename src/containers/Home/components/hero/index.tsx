@@ -35,7 +35,14 @@ export const SectionHero = (): JSX.Element => {
   return (
     <div className={s.Home_video} id="frame-video">
       <AnimParallax className={s.Home_video_hero}>
-        <video autoPlay loop muted playsInline preload="auto">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster="https://cdn.generative.xyz/pages/home/videos/video-hero-block-1-poster.jpeg"
+        >
           <source
             src="https://cdn.generative.xyz/pages/home/videos/Block%201-1.webm"
             type="video/webm"

@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 
 type ButtonType = 'button' | 'submit' | 'reset' | undefined;
 type ButtonVariantsType = 'default' | 'secondary' | 'outline' | 'ghost';
-type ButtonSizesType = 'large' | 'medium' | 'small' | 'xsmall';
+type ButtonSizesType = 'large' | 'medium' | 'mid' | 'small' | 'xsmall';
 
 interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   className?: string;

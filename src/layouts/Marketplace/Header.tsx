@@ -13,10 +13,12 @@ import { formatAddress } from '@utils/format';
 import log from '@utils/logger';
 import cs from 'classnames';
 import { useRouter } from 'next/router';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
 import styles from './Header.module.scss';
 import useOnClickOutside from '@hooks/useOnClickOutSide';
+import { WalletManager } from '@services/wallet';
+import Web3 from 'web3';
 
 const LOG_PREFIX = 'MarketplaceHeader';
 
@@ -47,6 +49,15 @@ const Header: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const activePath = router.asPath.split('/')[1];
   const [openProfile, setOpenProfile] = useState(false);
+  const [balance, setBalance] = useState('');
+  const handleBalance = async (walletAddr: string) => {
+    const walletManagerInstance = new WalletManager();
+    const balance = await walletManagerInstance.balanceOf(walletAddr);
+    if (balance.data) {
+      const temp = Web3.utils.fromWei(balance.data.toString(), 'ether');
+      setBalance(parseFloat(temp).toFixed(4));
+    }
+  };
 
   const dropdownRef = useRef<HTMLUListElement>(null);
 
@@ -79,7 +90,7 @@ const Header: React.FC = (): React.ReactElement => {
           <SvgInset svgUrl={`${CDN_URL}/icons/ic-caret-down.svg`}></SvgInset>
         </div>
         <div className={styles.price}>
-          {0}
+          {balance}
           <SvgInset svgUrl={`${CDN_URL}/icons/ic-eth-token.svg`} />
         </div>
       </div>
@@ -100,7 +111,9 @@ const Header: React.FC = (): React.ReactElement => {
   };
 
   useOnClickOutside(dropdownRef, () => setOpenProfile(false));
-
+  useEffect(() => {
+    handleBalance(user.walletAddress);
+  }, []);
   return (
     <header className={styles.header}>
       <Container>

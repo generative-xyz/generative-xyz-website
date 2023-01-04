@@ -13,6 +13,7 @@ import { getUserSelector } from '@redux/user/selector';
 import { formatAddress } from '@utils/format';
 import Skeleton from '@components/Skeleton';
 import UploadThumbnailButton from '../UploadThumbnailButton';
+import ClientOnly from '@components/Utils/ClientOnly';
 
 const ProjectPreview = () => {
   const user = useSelector(getUserSelector);
@@ -67,14 +68,16 @@ const ProjectPreview = () => {
     <div className={s.projectPreview}>
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
-          <SandboxPreview
-            showIframe={displayMode === PreviewDisplayMode.Animation}
-            rawHtml={null}
-            ref={sandboxRef}
-            hash={hash}
-            sandboxFiles={filesSandbox}
-            onLoaded={handleIframeLoaded}
-          />
+          <ClientOnly>
+            <SandboxPreview
+              showIframe={displayMode === PreviewDisplayMode.Animation}
+              rawHtml={null}
+              ref={sandboxRef}
+              hash={hash}
+              sandboxFiles={filesSandbox}
+              onLoaded={handleIframeLoaded}
+            />
+          </ClientOnly>
           {displayMode === PreviewDisplayMode.Thumbnail &&
             thumbnailPreviewUrl && (
               <Image fill src={thumbnailPreviewUrl} alt="thumbnail"></Image>

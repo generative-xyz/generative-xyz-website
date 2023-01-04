@@ -26,8 +26,6 @@ interface MyAppProps extends AppProps {
   } & NextComponentType<NextPageContext, unknown, unknown>;
 }
 
-const LOG_PREFIX = 'App';
-
 export default function App({ Component, pageProps }: MyAppProps) {
   const { seoInfo = {} } = pageProps;
   const { title, description, image } = seoInfo;
@@ -38,11 +36,8 @@ export default function App({ Component, pageProps }: MyAppProps) {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/caching.sw.js', { scope: '/' })
-        .then(function () {
-          log('Service worker registered!', LogLevel.Debug, LOG_PREFIX);
-        })
         .catch(function (err) {
-          log(err as Error, LogLevel.Error, LOG_PREFIX);
+          log(err as Error, LogLevel.Error, 'App');
         });
     }
 

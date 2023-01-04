@@ -23,11 +23,12 @@ import { TransactionReceipt } from 'web3-eth';
 import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
 import toast from 'react-hot-toast';
+import Web3 from 'web3';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
 type Props = {
-  project: IGetProjectDetailResponse;
+  project: IGetProjectDetailResponse | null;
 };
 
 const MOCK_DATE = '2022-12-30T03:51:28.986Z';
@@ -83,6 +84,7 @@ const ProjectIntroSection = ({ project }: Props) => {
   );
 
   useEffect(() => {
+    if (!project) return;
     const _projectDetail = base64ToUtf8(
       project.projectURI.replace('data:application/json;base64,', '')
     );
@@ -138,10 +140,10 @@ const ProjectIntroSection = ({ project }: Props) => {
               >
                 Creator
               </Text>
-              <Text fontWeight="semibold" className="text-secondary-color">
+              <Text fontWeight="semibold">
                 {creatorProfile?.displayName ||
                   formatAddress(
-                    creatorProfile?.walletAddress || project?.creatorAddr
+                    creatorProfile?.walletAddress || project?.creatorAddr || ''
                   )}
               </Text>
             </div>
@@ -162,8 +164,11 @@ const ProjectIntroSection = ({ project }: Props) => {
             onClick={handleMintToken}
           >
             {isMinting && 'Minting...'}
-            {!isMinting && (
-              <>{isProjectDetailPage ? 'Mint iteration now' : 'Mint now'}</>
+            {!isMinting && project?.mintPrice && (
+              <>
+                {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'} Ξ
+                {Web3.utils.fromWei(project?.mintPrice, 'ether')}
+              </>
             )}
           </ButtonIcon>
           {!isProjectDetailPage && (
@@ -210,15 +215,16 @@ const ProjectIntroSection = ({ project }: Props) => {
             </div>
           </div>
         )}
-
-        <div className={s.description}>
-          <Text size="14" fontWeight="bold" className="text-secondary-color">
-            DESCRIPTION
-          </Text>
-          <Text size="18" fontWeight="medium">
-            {project?.desc}
-          </Text>
-        </div>
+        {project?.desc && project?.desc.length > 0 && (
+          <div className={s.description}>
+            <Text size="14" fontWeight="bold" className="text-secondary-color">
+              DESCRIPTION
+            </Text>
+            <Text size="18" fontWeight="medium">
+              {project?.desc}
+            </Text>
+          </div>
+        )}
       </div>
       <div className="h-divider"></div>
       <div>

@@ -1,4 +1,5 @@
 import Button from '@components/ButtonIcon';
+import ClientOnly from '@components/Utils/ClientOnly';
 import { CDN_URL } from '@constants/config';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import { PreviewDisplayMode } from '@enums/mint-generative';
@@ -8,9 +9,8 @@ import { generateHash } from '@utils/generate-data';
 import { convertIpfsToHttp } from '@utils/image';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import s from './styles.module.scss';
-// import UploadThumbnailButton from '../UploadThumbnailButton';
 
 type Props = {
   data?: any;
@@ -41,9 +41,7 @@ const ThumbnailPreview = (props: Props) => {
       const iframe = sandboxRef.current.getHtmlIframe();
       if (iframe) {
         // @ts-ignore: Allow read iframe's window object
-        if (iframe.contentWindow?.$generativeTraits) {
-          // @ts-ignore: Allow read iframe's window object
-        }
+        setPreviewSrc(iframe.src);
       }
     }
   };
@@ -76,37 +74,30 @@ const ThumbnailPreview = (props: Props) => {
 
   const openPreview = useMemo(() => !!previewSrc, [previewSrc]);
 
-  useEffect(() => {
-    if (sandboxRef.current) {
-      const iframe = sandboxRef.current.getHtmlIframe() as HTMLIFrameElement;
-      if (iframe) {
-        setPreviewSrc(iframe.src);
-      }
-    }
-  }, [sandboxRef.current]);
-
   return (
     <div className={s.ThumbnailPreview}>
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
           <div className={s.sandboxContent}>
-            <SandboxPreview
-              showIframe={displayMode === PreviewDisplayMode.Animation}
-              rawHtml={rawHtmlFile}
-              ref={sandboxRef}
-              hash={hash}
-              sandboxFiles={null}
-              onLoaded={handleIframeLoaded}
-            />
-            {displayMode === PreviewDisplayMode.Thumbnail &&
-              thumbnailPreviewUrl && (
-                <Image
-                  fill
-                  src={convertIpfsToHttp(thumbnailPreviewUrl)}
-                  alt="thumbnail"
-                ></Image>
-              )}
+            <ClientOnly>
+              <SandboxPreview
+                showIframe={displayMode === PreviewDisplayMode.Animation}
+                rawHtml={rawHtmlFile}
+                ref={sandboxRef}
+                hash={hash}
+                sandboxFiles={null}
+                onLoaded={handleIframeLoaded}
+              />
+            </ClientOnly>
           </div>
+          {displayMode === PreviewDisplayMode.Thumbnail &&
+            thumbnailPreviewUrl && (
+              <Image
+                fill
+                src={convertIpfsToHttp(thumbnailPreviewUrl)}
+                alt="thumbnail"
+              ></Image>
+            )}
         </div>
         <div className={s.actionWrapper}>
           <div className={s.sandboxControls}>
@@ -115,14 +106,14 @@ const ThumbnailPreview = (props: Props) => {
                 <Button
                   onClick={handleVariation}
                   className={s.actionBtn}
-                  sizes="small"
+                  sizes="mid"
                   variants="outline"
                   iconOnly
                 >
                   <Image
                     alt="play icon"
-                    width={14}
-                    height={14}
+                    width={16}
+                    height={16}
                     src={`${CDN_URL}/icons/ic-shuffle.svg`}
                   ></Image>
                 </Button>
@@ -131,14 +122,14 @@ const ThumbnailPreview = (props: Props) => {
               <Button
                 onClick={handlePlay}
                 className={s.actionBtn}
-                sizes="small"
+                sizes="mid"
                 variants="outline"
                 iconOnly
               >
                 <Image
                   alt="play icon"
-                  width={14}
-                  height={14}
+                  width={16}
+                  height={16}
                   src={`${CDN_URL}/icons/ic-play-14x14.svg`}
                 ></Image>
               </Button>
@@ -147,14 +138,14 @@ const ThumbnailPreview = (props: Props) => {
               <Button
                 onClick={handlePause}
                 className={s.actionBtn}
-                sizes="small"
+                sizes="mid"
                 variants="outline"
                 iconOnly
               >
                 <Image
                   alt="pause icon"
-                  width={14}
-                  height={14}
+                  width={16}
+                  height={16}
                   src={`${CDN_URL}/icons/ic-pause-14x14.svg`}
                 ></Image>
               </Button>
@@ -162,14 +153,14 @@ const ThumbnailPreview = (props: Props) => {
             <Button
               onClick={reloadIframe}
               className={s.actionBtn}
-              sizes="small"
+              sizes="mid"
               variants="outline"
               iconOnly
             >
               <Image
                 alt="refresh icon"
-                width={14}
-                height={14}
+                width={16}
+                height={16}
                 src={`${CDN_URL}/icons/ic-refresh-14x14.svg`}
               ></Image>
             </Button>
@@ -178,14 +169,14 @@ const ThumbnailPreview = (props: Props) => {
                 <Button
                   // onClick={}
                   className={s.actionBtn}
-                  sizes="small"
+                  sizes="mid"
                   variants="outline"
                   iconOnly
                 >
                   <Image
                     alt="pause icon"
-                    width={14}
-                    height={14}
+                    width={16}
+                    height={16}
                     src={`${CDN_URL}/icons/ic-expand.svg`}
                   ></Image>
                 </Button>
