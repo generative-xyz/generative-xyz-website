@@ -181,7 +181,6 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     <section>
       <Container>
         <ProjectIntroSection project={projectInfo} />
-
         <ClientOnly>
           <Tabs className={styles.tabs} defaultActiveKey="items">
             <Tab tabClassName={styles.tab} eventKey="items" title="Items">
