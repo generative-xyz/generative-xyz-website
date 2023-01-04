@@ -2,29 +2,30 @@ import AvatarInfo from '@components/AvatarInfo';
 import ButtonIcon from '@components/ButtonIcon';
 import Link from '@components/Link';
 import SvgInset from '@components/SvgInset';
-import { LOGO_GENERATIVE, LOGO_MARKETPLACE_URL } from '@constants/common';
+import Text from '@components/Text';
+import { LOGO_GENERATIVE } from '@constants/common';
 import { CDN_URL } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
 import { WalletContext } from '@contexts/wallet-context';
 import { LogLevel } from '@enums/log-level';
+import { getScrollTop } from '@helpers/common';
+import useOnClickOutside from '@hooks/useOnClickOutSide';
+import s from '@layouts/Default/components/HeaderFixed/Header.module.scss';
 import { useAppSelector } from '@redux';
+import { disabledMenuSelector } from '@redux/general/selector';
 import { getUserSelector } from '@redux/user/selector';
+import { WalletManager } from '@services/wallet';
 import { formatAddress } from '@utils/format';
 import log from '@utils/logger';
 import cs from 'classnames';
+import { gsap } from 'gsap';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
-import styles from './Header.module.scss';
-import useOnClickOutside from '@hooks/useOnClickOutSide';
-import { WalletManager } from '@services/wallet';
-import Web3 from 'web3';
-import Image from 'next/image';
 import { useSelector } from 'react-redux';
-import { disabledMenuSelector } from '@redux/general/selector';
-import { gsap } from 'gsap';
-import { getScrollTop } from '@helpers/common';
-import s from '@layouts/Default/components/HeaderFixed/Header.module.scss';
+import Web3 from 'web3';
+import styles from './Header.module.scss';
 
 const LOG_PREFIX = 'MarketplaceHeader';
 
@@ -102,14 +103,22 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
 
   const renderProfileHeader = () => {
     return (
-      <div className="">
+      <div>
         <div className={styles.username}>
-          <span>{user.displayName || formatAddress(user.walletAddress)}</span>
-          <SvgInset svgUrl={`${CDN_URL}/icons/ic-caret-down.svg`}></SvgInset>
+          <Text size="14" fontWeight="semibold">
+            {user.displayName || formatAddress(user.walletAddress)}
+          </Text>
+          <SvgInset
+            svgUrl={`${CDN_URL}/icons/ic-caret-down.svg`}
+            className={styles.caret_icon}
+          ></SvgInset>
         </div>
         <div className={styles.price}>
           {balance}
-          <SvgInset svgUrl={`${CDN_URL}/icons/ic-eth-token.svg`} />
+          <SvgInset
+            svgUrl={`${CDN_URL}/icons/ic-eth-token.svg`}
+            className={s.eth_icon}
+          />
         </div>
       </div>
     );

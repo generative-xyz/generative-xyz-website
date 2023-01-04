@@ -1,4 +1,4 @@
-@import "src/styles/_themes/mixins";
+@import 'src/styles/_themes/mixins';
 
 .header {
   &.dark {
@@ -6,6 +6,28 @@
 
     :global(.divider) {
       display: none;
+    }
+    .headerWrapper {
+      .username {
+        color: $white-100;
+      }
+      .price {
+        color: $white-80;
+      }
+      .caret_icon {
+        filter: brightness(0) invert(1);
+      }
+      .dropdown {
+        :global(.dropdown-item) {
+          background-color: $black-100;
+          color: $white-40;
+
+          &:hover {
+            background-color: #000;
+            color: $white-100;
+          }
+        }
+      }
     }
   }
 
@@ -42,7 +64,7 @@
       }
 
       &.dark {
-        color: rgba($white, .4);
+        color: rgba($white, 0.4);
 
         .active,
         a:hover {
@@ -59,9 +81,8 @@
       font-size: 14px;
       font-weight: 700;
 
-      span {
+      p {
         @include text-ellipsis;
-
         max-width: 150px;
         line-height: 24px;
       }
