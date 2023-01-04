@@ -23,6 +23,7 @@ import { TransactionReceipt } from 'web3-eth';
 import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
 import toast from 'react-hot-toast';
+import Web3 from 'web3';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -163,8 +164,11 @@ const ProjectIntroSection = ({ project }: Props) => {
             onClick={handleMintToken}
           >
             {isMinting && 'Minting...'}
-            {!isMinting && (
-              <>{isProjectDetailPage ? 'Mint iteration now' : 'Mint now'}</>
+            {!isMinting && project?.mintPrice && (
+              <>
+                {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'} Ξ
+                {Web3.utils.fromWei(project?.mintPrice, 'ether')}
+              </>
             )}
           </ButtonIcon>
           {!isProjectDetailPage && (
@@ -211,7 +215,7 @@ const ProjectIntroSection = ({ project }: Props) => {
             </div>
           </div>
         )}
-        {project?.desc.length > 0 && (
+        {project?.desc && project?.desc.length > 0 && (
           <div className={s.description}>
             <Text size="14" fontWeight="bold" className="text-secondary-color">
               DESCRIPTION
