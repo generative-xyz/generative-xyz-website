@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 
-import s from './Home.module.scss';
-import { SectionHero } from '@containers/Home/components/hero';
+import s from './Display.module.scss';
+import { SectionHero } from '@containers/Display/components/hero';
 import { registerLoading, unRegisterLoading } from '@helpers/anim.helpers';
-import { Loading } from '@containers/Home/components/loading';
-import { Artworks } from '@containers/Home/components/artworks';
+import { Loading } from '@containers/Display/components/loading';
+import { Artworks } from '@containers/Display/components/artworks';
 import { HardWare } from './components/hardware';
-import { LifeStyle } from '@containers/Home/components/lifestyle';
-import { Prices } from '@containers/Home/components/prices';
-import { ScrollTriggerHelper } from '@containers/Home/scrolltrigger-helper';
+import { LifeStyle } from '@containers/Display/components/lifestyle';
+import { Prices } from '@containers/Display/components/prices';
+import { ScrollTriggerHelper } from '@containers/Display/scrolltrigger-helper';
 
-const Home: React.FC = (): JSX.Element => {
+const Display: React.FC = (): JSX.Element => {
   registerLoading();
   useEffect(() => {
     new ScrollTriggerHelper();
@@ -40,4 +40,4 @@ const Home: React.FC = (): JSX.Element => {
   );
 };
 
-export default Home;
+export default Display;

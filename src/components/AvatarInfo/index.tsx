@@ -10,6 +10,7 @@ type Props = {
   height?: number;
   wrapperStyle?: CSSProperties;
   onClick?: () => void;
+  theme?: 'light' | 'dark';
 };
 
 const AvatarInfo = ({
@@ -19,10 +20,15 @@ const AvatarInfo = ({
   height = 56,
   wrapperStyle,
   onClick,
+  theme = 'light',
 }: Props) => {
   return (
-    <div className="horizontalStack" style={wrapperStyle} onClick={onClick}>
-      <div className={styles.avatar}>
+    <div
+      className={`horizontalStack ${styles[theme]}`}
+      style={wrapperStyle}
+      onClick={onClick}
+    >
+      <div className={`${styles.avatar}`}>
         <Avatar
           imgSrcs={convertIpfsToHttp(imgSrc)}
           width={width}

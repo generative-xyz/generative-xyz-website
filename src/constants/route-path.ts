@@ -4,4 +4,5 @@ export const ROUTE_PATH = {
   GENERATIVE: '/generative',
   PROFILE: '/profile',
   SANDBOX: '/sandbox',
+  DISPLAY: '/display',
 };

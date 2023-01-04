@@ -1,7 +1,7 @@
 import s from './hardware.module.scss';
 import { gsap } from 'gsap';
-import { SectionInfo } from '@containers/Home/components/section-info';
-import { Monitor } from '@containers/Home/components/hardware/monitor';
+import { SectionInfo } from '@containers/Display/components/section-info';
+import { Monitor } from '@containers/Display/components/hardware/monitor';
 import classNames from 'classnames';
 import { MaskerStart } from 'src/animations/masker-start';
 import { Frames } from '@animations/frames';

@@ -5,7 +5,13 @@ import { animationRegister } from '@redux/general/selector';
 import { useEffect, useRef } from 'react';
 import { useAppDispatch } from '@redux';
 import { setPageLoadStatus } from '@redux/general/action';
-import { PAGE_LOADED, PAGE_ENTER, LOGO_URL } from '@constants/common';
+import {
+  PAGE_LOADED,
+  PAGE_ENTER,
+  LOGO_URL,
+  LOGO_GENERATIVE,
+} from '@constants/common';
+import Image from 'next/image';
 
 interface IProcessing {
   value: number;
@@ -92,7 +98,7 @@ export const Loading = (): JSX.Element => {
   return (
     <div ref={refLoading} className={s.loading}>
       <div className={s.loading_inner}>
-        <img src={LOGO_URL} alt={'logo-url'} />
+        <Image width={64} height={64} src={LOGO_GENERATIVE} alt={'logo-url'} />
         <h5 className={s.loading_text}>The Benchmark for Generative Art</h5>
         <span ref={refPersent}>0%</span>
       </div>

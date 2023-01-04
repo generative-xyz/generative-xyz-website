@@ -1,4 +1,4 @@
-import s from '@containers/Home/components/hardware/hardware.module.scss';
+import s from '@containers/Display/components/hardware/hardware.module.scss';
 import { BenchmarkItem } from '../benchmark-item';
 import classNames from 'classnames';
 
