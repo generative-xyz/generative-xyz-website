@@ -1,8 +1,7 @@
 .collectionCard {
-
   &_inner {
     padding: rem(16px);
-    background: #FFFFFF;
+    background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 2px;
   }
@@ -49,7 +48,7 @@
     justify-content: space-between;
 
     &_owner {
-      color: $black-40
+      color: $black-40;
     }
   }
 
