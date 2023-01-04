@@ -16,7 +16,7 @@ export const RecentWorks = (): JSX.Element => {
   useAsyncEffect(async () => {
     const tmpProject = await getProjectList({
       contractAddress: String(GENERATIVE_PROJECT_CONTRACT),
-      limit: 10,
+      limit: 100,
       page: 0,
     });
 
