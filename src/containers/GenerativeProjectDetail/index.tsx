@@ -23,10 +23,12 @@ import { useDispatch } from 'react-redux';
 import { TransactionReceipt } from 'web3-eth';
 import TokenTopFilter from './TokenTopFilter';
 import styles from './styles.module.scss';
+import { Loading } from '@components/Loading';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
 
 const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const {
@@ -39,55 +41,8 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     true
   );
   const { projectID } = router.query as { projectID: string };
-  const [projectInfo, setProjectInfo] = useState<IGetProjectDetailResponse>({
-    id: '',
-    maxSupply: 0,
-    limit: 0,
-    mintPrice: '',
-    mintPriceAddr: '',
-    name: '',
-    creator: '',
-    creatorAddr: '',
-    license: '',
-    desc: '',
-    image: '',
-    scriptType: [''],
-    social: {
-      web: '',
-      twitter: '',
-      discord: '',
-      medium: '',
-      instagram: '',
-    },
-    scripts: [''],
-    styles: '',
-    completeTime: 0,
-    genNFTAddr: '',
-    itemDesc: '',
-    status: false,
-    nftTokenURI: '',
-    projectURI: '',
-    tokenID: '',
-    mintingInfo: {
-      index: 0,
-      indexReserve: 0,
-    },
-    creatorProfile: {
-      displayName: '',
-      bio: '',
-      avatar: '',
-      walletAddress: '',
-      id: '',
-      createdAt: '',
-      profileSocial: {
-        web: '',
-        twitter: '',
-        discord: '',
-        medium: '',
-        instagram: '',
-      },
-    },
-  });
+  const [projectInfo, setProjectInfo] =
+    useState<IGetProjectDetailResponse | null>(null);
 
   // const [projectDetail, setProjectDetail] =
   //   useState<Omit<IProjectItem, 'owner'>>();
@@ -101,6 +56,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
           contractAddress: GENERATIVE_PROJECT_CONTRACT,
           projectID,
         });
+        setIsLoaded(true);
         dispatch(setProjectCurrent(data));
         setProjectInfo(data);
       } catch (_: unknown) {
@@ -110,7 +66,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   };
 
   const fetchProjectItems = async (): Promise<void> => {
-    if (projectInfo.genNFTAddr) {
+    if (projectInfo?.genNFTAddr) {
       try {
         const res = await getProjectItems({
           contractAddress: projectInfo.genNFTAddr,
@@ -147,6 +103,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   // }, [projectID]);
 
   useEffect(() => {
+    if (!projectInfo) return;
     const _projectDetail = base64ToUtf8(
       projectInfo.projectURI.replace('data:application/json;base64,', '')
     );
@@ -154,7 +111,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
       // const projectDetailObj = JSON.parse(_projectDetail);
       // setProjectDetail(projectDetailObj);
     }
-  }, [projectInfo.id]);
+  }, [projectInfo?.id]);
 
   useEffect(() => {
     if (!mintTx) {
@@ -198,7 +155,8 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
                 />
               </div>
               <div className={styles.tokenListWrapper}>
-                <CollectionList listData={listItems} />
+                <Loading isLoaded={isLoaded} />
+                {isLoaded && <CollectionList listData={listItems} />}
               </div>
             </Tab>
           </Tabs>
