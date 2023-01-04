@@ -60,6 +60,8 @@ const Marketplace = () => {
         instagram: '',
       },
     },
+    mintedTime: 0,
+    royalty: 0,
   });
 
   const fetchRandomProject = async () => {

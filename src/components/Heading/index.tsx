@@ -7,6 +7,7 @@ type THeading = {
   fontWeight?: 'bold' | 'semibold' | 'medium' | 'normal' | 'light';
   style?: CSSProperties;
   className?: string;
+  color?: string;
 };
 
 const Heading = ({
@@ -14,6 +15,7 @@ const Heading = ({
   children,
   fontWeight = 'normal',
   style,
+  color,
   className,
   ...props
 }: PropsWithChildren<THeading>) => {
@@ -22,7 +24,12 @@ const Heading = ({
   return (
     <Text
       {...props}
-      className={cs(className, s.heading, `font-${fontWeight}`)}
+      className={cs(
+        className,
+        s.heading,
+        `font-${fontWeight}`,
+        `text-${color}`
+      )}
       style={{ ...style }}
     >
       {children}

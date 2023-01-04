@@ -1,14 +1,14 @@
 import { NextPage } from 'next';
 
+import DisplayTemplate from '@containers/Display';
 import MarketplaceLayout from '@layouts/Marketplace';
-import { Landingpage } from '@containers/Landingpage';
 
-const HomePage: NextPage = () => {
+const DisplayPage: NextPage = () => {
   return (
     <MarketplaceLayout theme={'dark'}>
-      <Landingpage />
+      <DisplayTemplate />
     </MarketplaceLayout>
   );
 };
 
-export default HomePage;
+export default DisplayPage;

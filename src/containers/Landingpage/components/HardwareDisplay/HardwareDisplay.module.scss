@@ -1,0 +1,15 @@
+.hardwareDisplay {
+  background: #333333;
+  padding-top: rem(165px);
+  padding-bottom: rem(190px);
+
+  &_content {
+    button svg path {
+      stroke: $primary-brand;
+    }
+  }
+
+  &_fame {
+    margin-top: rem(-250px);
+  }
+}
