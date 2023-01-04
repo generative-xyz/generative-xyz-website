@@ -1,40 +1,7 @@
 .wrapper {
-  display: flex;
-  gap: 24px;
-  margin-bottom: 40px;
-}
-
-.leftWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 50%;
-
-  > div {
-    padding: 32px;
-    border-radius: 16px;
-    border: 1px solid var(--dark-grey);
-  }
-}
-
-.rightWrapper {
-  flex: 1;
-}
-
-.itemInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.thumbnail {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  height: fit-content;
-}
-
-.tokenInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: rem(420px) 1px 1fr;
+  color: $black-100;
+  gap: 60px;
+  margin-top: rem(72);
 }
