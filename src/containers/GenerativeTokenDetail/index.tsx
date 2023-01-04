@@ -23,8 +23,6 @@ import Link from 'next/link';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
-const MARKETPLACE_API = false; // TODO: wait for Marketplace API
-
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const { tokenID } = router.query as {
@@ -225,12 +223,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               </Heading>
             </div>
           </div>
-          {MARKETPLACE_API && (
-            <div className={s.CTA_btn}>
-              <ButtonIcon>Buy</ButtonIcon>
-              <ButtonIcon variants="outline">Make offer</ButtonIcon>
-            </div>
-          )}
+          <div className={s.CTA_btn}>
+            <ButtonIcon>Buy</ButtonIcon>
+            <ButtonIcon variants="outline">Make offer</ButtonIcon>
+          </div>
           <div className={s.accordions}>
             <Accordion
               header={'DESCRIPTION'}
