@@ -23,6 +23,8 @@ import Link from 'next/link';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
+const MARKETPLACE_API = false; // TODO: wait for Marketplace API
+
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const { tokenID } = router.query as {
