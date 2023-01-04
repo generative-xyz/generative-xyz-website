@@ -32,7 +32,11 @@ const Profile: React.FC = (): React.ReactElement => {
             onFileChange={setAvatarFile}
             placeHolderHtml={
               <Image
-                src={user.avatar}
+                src={
+                  user.avatar
+                    ? user.avatar
+                    : 'https://cdn.generative.xyz/icons/logo-marketplace.svg'
+                }
                 alt={user.displayName}
                 width={100}
                 height={100}
