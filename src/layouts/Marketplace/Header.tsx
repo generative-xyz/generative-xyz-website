@@ -2,7 +2,7 @@ import AvatarInfo from '@components/AvatarInfo';
 import ButtonIcon from '@components/ButtonIcon';
 import Link from '@components/Link';
 import SvgInset from '@components/SvgInset';
-import { LOGO_GENERATIVE, LOGO_MARKETPLACE_URL } from '@constants/common';
+import { LOGO_GENERATIVE } from '@constants/common';
 import { CDN_URL } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
 import { WalletContext } from '@contexts/wallet-context';

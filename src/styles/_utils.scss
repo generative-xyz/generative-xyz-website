@@ -124,3 +124,21 @@
   width: 1px;
   background-color: $black-20;
 }
+
+.text-blue-c{
+  color: $blue-c
+}
+
+.spacing{
+  &__large{
+    margin-bottom: rem(60px);
+  }
+
+  &__medium{
+    margin-bottom: rem(40px);
+  }
+
+  &__small{
+    margin-bottom: rem(24px);
+  }
+}

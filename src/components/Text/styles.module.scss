@@ -12,6 +12,10 @@
       font-size: 72px;
       line-height: 82px;
     }
+    &-24{
+      font-size: rem(24px);
+      line-height: rem(34px);
+    }
     &-18 {
       font-size: 18px;
       line-height: 28px;
@@ -42,4 +46,6 @@
   &.size-12 {
     letter-spacing: -0.01em;
   }
+
+
 }

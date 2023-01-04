@@ -5,12 +5,7 @@ import { animationRegister } from '@redux/general/selector';
 import { useEffect, useRef } from 'react';
 import { useAppDispatch } from '@redux';
 import { setPageLoadStatus } from '@redux/general/action';
-import {
-  PAGE_LOADED,
-  PAGE_ENTER,
-  LOGO_URL,
-  LOGO_GENERATIVE,
-} from '@constants/common';
+import { PAGE_LOADED, PAGE_ENTER, LOGO_GENERATIVE } from '@constants/common';
 import Image from 'next/image';
 
 interface IProcessing {

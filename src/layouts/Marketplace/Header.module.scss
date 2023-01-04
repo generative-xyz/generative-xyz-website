@@ -5,7 +5,7 @@
     background: $primary-brand;
 
     :global(.divider) {
-      display: none;
+      background: rgba(0, 0, 0, 0.1);
     }
   }
 
