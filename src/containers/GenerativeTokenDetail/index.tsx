@@ -7,7 +7,7 @@ import log from '@utils/logger';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import s from './styles.module.scss';
-import { Container } from 'react-bootstrap';
+import { Container, Stack } from 'react-bootstrap';
 import Heading from '@components/Heading';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
@@ -16,6 +16,10 @@ import dayjs from 'dayjs';
 import Avatar from '@components/Avatar';
 import { formatAddress } from '@utils/format';
 import ButtonIcon from '@components/ButtonIcon';
+import Accordion from '@components/Accordion';
+import { getChainName, getScanUrl } from '@utils/chain';
+import { v4 } from 'uuid';
+import Link from 'next/link';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -31,7 +35,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const [itemDetail, setItemDetail] =
     useState<IGetGenerativeTokenUriResponse | null>(null);
 
-  // const scanURL = getScanUrl();
+  const scanURL = getScanUrl();
 
   const mintedDate = dayjs(itemDetail?.mintedTime).format('MMM DD, YYYY');
 
@@ -61,6 +65,56 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   //     </>
   //   );
   // };
+
+  const TokenInfo = () => {
+    const tokenInfos = [
+      {
+        id: 'contract-address',
+        info: 'Contract Address',
+        value: formatAddress(itemDetail?.project.genNFTAddr || ''),
+        link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}`,
+      },
+      {
+        id: 'token-id',
+        info: 'Token ID',
+        value: tokenID,
+        link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}?a=${tokenID}`,
+      },
+      {
+        id: 'token-standard',
+        info: 'Token Standard',
+        value: 'ERC-721',
+      },
+      {
+        id: 'blockchain',
+        info: 'Blockchain',
+        value: getChainName(),
+      },
+    ];
+
+    return (
+      <>
+        {tokenInfos.length > 0 &&
+          tokenInfos.map(item => (
+            <div className={s.tokenInfo} key={`token-${v4()}`}>
+              <Text size="18" fontWeight="semibold">
+                {item.info}
+              </Text>
+              <Stack direction="horizontal">
+                <Text size="18" fontWeight="semibold">
+                  {item.value}
+                </Text>
+                {!!item?.link && (
+                  <Link href={item.link}>
+                    <SvgInset svgUrl={`${CDN_URL}/icons/ic-share.svg`} />
+                  </Link>
+                )}
+              </Stack>
+            </div>
+          ))}
+      </>
+    );
+  };
 
   useEffect(() => {
     fetchItemDetail();
@@ -177,6 +231,21 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               <ButtonIcon variants="outline">Make offer</ButtonIcon>
             </div>
           )}
+          <div className={s.accordions}>
+            <Accordion
+              header={'DESCRIPTION'}
+              content={itemDetail?.description}
+            ></Accordion>
+
+            <Accordion
+              header={'Features'}
+              content={itemDetail?.description}
+            ></Accordion>
+            <Accordion
+              header={'Token Info'}
+              content={<TokenInfo />}
+            ></Accordion>
+          </div>
         </div>
         <div className="h-divider"></div>
         <div>
