@@ -17,5 +17,7 @@ export type Token = {
   ownerAddress: string;
   project: Project;
   mintedTime: string;
-  creatorProfile: User;
+  creatorProfile?: User;
+  ownerAddr: string;
+  creator: User;
 };
