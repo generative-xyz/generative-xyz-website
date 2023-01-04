@@ -16,8 +16,5 @@ export const base64ToUtf8 = (str: string): string => {
 
 export const formatAddress = (address: string): string => {
   if (address.length < 14) return address;
-  return `${address.substring(0, 7)}...${address.substring(
-    address.length - 7,
-    address.length
-  )}`;
+  return `${address.substring(0, 7)}`;
 };

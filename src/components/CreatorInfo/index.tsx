@@ -10,7 +10,7 @@ interface IProps {
 
 export const CreatorInfo = ({ creator }: IProps): JSX.Element => {
   return (
-    <div className={s.useInfo}>
+    <div className={`${s.useInfo} useInfo`}>
       <div className={s.useInfo_avatar}>
         <Avatar
           imgSrcs={convertIpfsToHttp(creator.avatar)}

@@ -35,12 +35,15 @@
     &_title {
       display: block;
       margin-top: rem(10px);
-
+      margin-bottom: rem(10px);
       h4 {
         font-weight: 600;
         font-size: rem(24px);
         line-height: rem(34px);
       }
+    }
+    :global(.useInfo) {
+      margin-bottom: rem(10px);
     }
   }
 
