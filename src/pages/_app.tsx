@@ -34,16 +34,16 @@ export default function App({ Component, pageProps }: MyAppProps) {
   // const Layout = Component.Layout || React.Fragment;
 
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/caching.sw.js', { scope: '/' })
-        .then(function () {
-          log('Service worker registered!', LogLevel.Debug, LOG_PREFIX);
-        })
-        .catch(function (err) {
-          log(err as Error, LogLevel.Error, LOG_PREFIX);
-        });
-    }
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker
+    //     .register('/caching.sw.js', { scope: '/' })
+    //     .then(function () {
+    //       log('Service worker registered!', LogLevel.Debug, LOG_PREFIX);
+    //     })
+    //     .catch(function (err) {
+    //       log(err as Error, LogLevel.Error, LOG_PREFIX);
+    //     });
+    // }
 
     const ddInstance = DatadogService.getInstance();
     ddInstance.init();
