@@ -15,15 +15,20 @@ import Image from 'next/image';
 import Checkbox from '@components/Checkbox';
 import { useRouter } from 'next/router';
 import { MintGenerativeStep } from '@enums/mint-generative';
+import { SandboxFileError } from '@enums/sandbox';
 
 const LOG_PREFIX = 'UploadGenArt';
 
 const UploadGenArt: React.FC = (): ReactElement => {
   const router = useRouter();
   const [isProjectWork, setIsProjectWork] = useState(false);
-  const { filesSandbox, setFilesSandbox, zipFile, setZipFile } = useContext(
-    MintGenerativeContext
-  );
+  const {
+    filesSandbox,
+    setFilesSandbox,
+    zipFile,
+    setZipFile,
+    setShowErrorAlert,
+  } = useContext(MintGenerativeContext);
 
   const handleChangeIsProjectWork = (): void => {
     setIsProjectWork(!isProjectWork);
@@ -36,6 +41,21 @@ const UploadGenArt: React.FC = (): ReactElement => {
       setFilesSandbox(files);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
+      let errorMessage =
+        'There is a problem with your zip file. Please check and try again. ';
+      if ((err as Error).message === SandboxFileError.NO_INDEX_HTML) {
+        errorMessage += 'index.html is not found.';
+      }
+      if (
+        (err as Error).message === SandboxFileError.NO_SNIPPET_CONTRACT ||
+        (err as Error).message === SandboxFileError.NO_SNIPPET_RANDOM
+      ) {
+        errorMessage += 'Snippet code is not found.';
+      }
+      if ((err as Error).message === SandboxFileError.WRONG_FORMAT) {
+        errorMessage += 'Invalid file format.';
+      }
+      setShowErrorAlert({ open: true, message: errorMessage });
     }
   };
 

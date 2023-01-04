@@ -51,11 +51,13 @@ const Header: React.FC = (): React.ReactElement => {
   const [openProfile, setOpenProfile] = useState(false);
   const [balance, setBalance] = useState('');
   const handleBalance = async (walletAddr: string) => {
-    const walletManagerInstance = new WalletManager();
-    const balance = await walletManagerInstance.balanceOf(walletAddr);
-    if (balance.data) {
-      const temp = Web3.utils.fromWei(balance.data.toString(), 'ether');
-      setBalance(parseFloat(temp).toFixed(4));
+    if (walletAddr && walletAddr.length > 0) {
+      const walletManagerInstance = new WalletManager();
+      const balance = await walletManagerInstance.balanceOf(walletAddr);
+      if (balance.data) {
+        const temp = Web3.utils.fromWei(balance.data.toString(), 'ether');
+        setBalance(parseFloat(temp).toFixed(4));
+      }
     }
   };
 
@@ -113,7 +115,7 @@ const Header: React.FC = (): React.ReactElement => {
   useOnClickOutside(dropdownRef, () => setOpenProfile(false));
   useEffect(() => {
     handleBalance(user.walletAddress);
-  }, []);
+  }, [user.walletAddress]);
   return (
     <header className={styles.header}>
       <Container>

@@ -28,7 +28,11 @@ const ProjectPreview = () => {
   const [displayMode, setDisplayMode] = useState<PreviewDisplayMode>(
     PreviewDisplayMode.Animation
   );
-  const [hash] = useState<string>(generateHash());
+  const [hash, setHash] = useState<string>(generateHash());
+
+  const handleVariation = (): void => {
+    setHash(generateHash());
+  };
 
   const handleIframeLoaded = (): void => {
     if (sandboxRef.current) {
@@ -88,6 +92,19 @@ const ProjectPreview = () => {
             {currentStep > 1 && currentStep < 3 && <UploadThumbnailButton />}
           </div>
           <div className={s.sandboxControls}>
+            <Button
+              onClick={handleVariation}
+              className={s.actionBtn}
+              sizes="small"
+              variants="outline"
+            >
+              <Image
+                alt="play icon"
+                width={14}
+                height={14}
+                src={`${CDN_URL}/icons/ic-shuffle-24x24.svg`}
+              />
+            </Button>
             {canPlay && (
               <Button
                 onClick={handlePlay}
