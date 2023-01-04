@@ -36,7 +36,7 @@ const ProjectIntroSection = ({ project }: Props) => {
   const router = useRouter();
   const [projectDetail, setProjectDetail] =
     useState<Omit<IProjectItem, 'owner'>>();
-  const { creatorProfile } = project;
+  const creatorProfile = project?.creatorProfile;
   const createdDate = dayjs(MOCK_DATE).format('MMM DD');
   const createdYear = dayjs(MOCK_DATE).format('YYYY');
   const {
@@ -90,7 +90,7 @@ const ProjectIntroSection = ({ project }: Props) => {
       const projectDetailObj = JSON.parse(_projectDetail);
       setProjectDetail(projectDetailObj);
     }
-  }, [project.id]);
+  }, [project?.id]);
 
   return (
     <div className={s.wrapper} style={{ marginBottom: '100px' }}>
@@ -178,6 +178,39 @@ const ProjectIntroSection = ({ project }: Props) => {
             </ButtonIcon>
           )}
         </div>
+        {isProjectDetailPage && (
+          <div className={s.stats}>
+            <div className={s.stats_item}>
+              <Text size="12" fontWeight="bold">
+                Items
+              </Text>
+              <Text size="18" fontWeight="bold">
+                {project?.mintingInfo?.index}
+              </Text>
+            </div>
+            {/* <div className={s.stats_item}>
+            <Text size='12' fontWeight='bold'>Total Volume</Text>
+            <Text size='18' fontWeight='bold'></Text>
+          </div>
+          <div className={s.stats_item}>
+            <Text size='12' fontWeight='bold'>Floor price</Text>
+            <Text size='18' fontWeight='bold'></Text>
+          </div>
+          <div className={s.stats_item}>
+            <Text size='12' fontWeight='bold'>highest offer</Text>
+            <Text size='18' fontWeight='bold'></Text>
+          </div> */}
+            <div className={s.stats_item}>
+              <Text size="12" fontWeight="bold">
+                royalty
+              </Text>
+              <Text size="18" fontWeight="bold">
+                {(project?.royalty || 0) / 100}%
+              </Text>
+            </div>
+          </div>
+        )}
+
         <div className={s.description}>
           <Text size="14" fontWeight="bold" className="text-secondary-color">
             DESCRIPTION

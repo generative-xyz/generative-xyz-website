@@ -90,16 +90,18 @@ const ThumbnailPreview = (props: Props) => {
     <div className={s.ThumbnailPreview}>
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
-          <ClientOnly>
-            <SandboxPreview
-              showIframe={displayMode === PreviewDisplayMode.Animation}
-              rawHtml={rawHtmlFile}
-              ref={sandboxRef}
-              hash={hash}
-              sandboxFiles={null}
-              onLoaded={handleIframeLoaded}
-            />
-          </ClientOnly>
+          <div className={s.sandboxContent}>
+            <ClientOnly>
+              <SandboxPreview
+                showIframe={displayMode === PreviewDisplayMode.Animation}
+                rawHtml={rawHtmlFile}
+                ref={sandboxRef}
+                hash={hash}
+                sandboxFiles={null}
+                onLoaded={handleIframeLoaded}
+              />
+            </ClientOnly>
+          </div>
           {displayMode === PreviewDisplayMode.Thumbnail &&
             thumbnailPreviewUrl && (
               <Image

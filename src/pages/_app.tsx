@@ -15,10 +15,8 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNprogress from 'nextjs-progressbar';
 import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
-
-const LOG_PREFIX = 'App';
+import { Provider } from 'react-redux';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -39,7 +37,7 @@ export default function App({ Component, pageProps }: MyAppProps) {
       navigator.serviceWorker
         .register('/caching.sw.js', { scope: '/' })
         .catch(function (err) {
-          log(err as Error, LogLevel.Error, LOG_PREFIX);
+          log(err as Error, LogLevel.Error, 'App');
         });
     }
 

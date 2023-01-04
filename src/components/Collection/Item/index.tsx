@@ -1,16 +1,15 @@
-import React, { useMemo, useState } from 'react';
-import s from './styles.module.scss';
-import { IProjectItem } from '@interfaces/api/project';
-import { useRouter } from 'next/router';
-import { ROUTE_PATH } from '@constants/route-path';
-import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import { CreatorInfo } from '@components/CreatorInfo';
 import Heading from '@components/Heading';
-import { Stack } from 'react-bootstrap';
-import AvatarInfo from '@components/AvatarInfo';
-import { useSelector } from 'react-redux';
-import { projectCurrentSelector } from '@redux/project/selector';
+import { LOGO_MARKETPLACE_URL } from '@constants/common';
+import { ROUTE_PATH } from '@constants/route-path';
+import { IProjectItem } from '@interfaces/api/project';
 import { User } from '@interfaces/user';
+import { projectCurrentSelector } from '@redux/project/selector';
+import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
+import { Stack } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import s from './styles.module.scss';
 
 const CollectionItem = ({ data }: { data: IProjectItem }) => {
   const router = useRouter();
@@ -18,7 +17,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
 
   const tokenID = useMemo(() => data.name.split('#')[1], [data.name]);
   const tokenName = useMemo(() => data.name.split('#')[0], [data.name]);
-  const listingPrice = 0.02;
+  // const listingPrice = 0.02;
   const handleClickItem = () => {
     router.push(
       `${ROUTE_PATH.GENERATIVE}/${projectCurrent.tokenID}/${tokenID}`
@@ -61,22 +60,11 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
               </Heading>
             </Stack>
           </div>
-          {listingPrice > 0 && (
+          {/* {listingPrice > 0 && (
             <Stack direction="horizontal" className={s.collectionCard_listing}>
               <b>{listingPrice} ETH</b>
-              <Stack
-                className={s.collectionCard_listing_owner}
-                direction="horizontal"
-              >
-                <span>by &nbsp;</span>
-                <AvatarInfo
-                  imgSrc={data.owner?.avatar}
-                  width={32}
-                  height={32}
-                />
-              </Stack>
             </Stack>
-          )}
+          )} */}
         </div>
       </div>
     </div>
