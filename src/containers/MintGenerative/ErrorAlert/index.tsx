@@ -13,7 +13,7 @@ const ErrorAlert: React.FC = (): React.ReactElement => {
     let timeOutId: NodeJS.Timeout;
     if (showErrorAlert) {
       timeOutId = setTimeout(() => {
-        setShowErrorAlert(false);
+        setShowErrorAlert({ open: false, message: null });
       }, 5000);
     }
     return () => {
@@ -21,7 +21,7 @@ const ErrorAlert: React.FC = (): React.ReactElement => {
     };
   }, [showErrorAlert, setShowErrorAlert]);
 
-  if (!showErrorAlert) {
+  if (!showErrorAlert.open) {
     return <></>;
   }
 
@@ -40,7 +40,9 @@ const ErrorAlert: React.FC = (): React.ReactElement => {
           <div className={s.errorInfoWrapper}>
             <h3 className={s.title}>Error</h3>
             <p className={s.errorMessage}>
-              Unable to create NFT. Please check your input and try again.
+              {showErrorAlert.message
+                ? showErrorAlert.message
+                : 'Unable to create NFT. Please check your input and try again.'}
             </p>
           </div>
         </div>

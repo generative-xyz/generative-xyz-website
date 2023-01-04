@@ -1,7 +1,7 @@
 import s from './styles.module.scss';
 import { Formik } from 'formik';
 import React, { useContext, useState } from 'react';
-import TagsInput from 'react-tagsinput';
+// import TagsInput from 'react-tagsinput';
 import Button from '@components/ButtonIcon';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
@@ -24,22 +24,23 @@ type IProductDetailFormValue = {
 
 const THIRD_PARTY_SCRIPTS = [
   {
-    label: 'p5js',
+    label: 'p5js@1.5.0',
     value: 'p5js@1.5.0',
   },
   {
-    label: 'threejs',
+    label: 'threejs@r124',
     value: 'threejs@r124',
   },
   {
-    label: 'tonejs',
+    label: 'tonejs@14.8.49',
     value: 'tonejs@14.8.49',
   },
 ];
 
 const ProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
-  const { formValues, setFormValues } = useContext(MintGenerativeContext);
+  const { formValues, setFormValues, thumbnailFile, setShowErrorAlert } =
+    useContext(MintGenerativeContext);
   const [categoryOptions, setCategoryOptions] = useState<Array<SelectOption>>(
     []
   );
@@ -78,18 +79,25 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
       errors.description = 'Description is required';
     }
 
-    if (!_formValues.tokenDescription) {
-      errors.tokenDescription = 'Token description is required';
-    }
+    // if (!_formValues.tokenDescription) {
+    //   errors.tokenDescription = 'Token description is required';
+    // }
 
-    if (!_formValues.tags.length) {
-      errors.tags = 'Hashtag is required';
-    }
+    // if (!_formValues.tags.length) {
+    //   errors.tags = 'Hashtag is required';
+    // }
 
     return errors;
   };
 
   const handleSubmit = (_formValues: IProductDetailFormValue): void => {
+    if (!thumbnailFile) {
+      setShowErrorAlert({
+        open: true,
+        message: 'Thumbnail image is required. ',
+      });
+      return;
+    }
     router.push('/mint-generative/set-price', undefined, { shallow: true });
   };
 
@@ -97,16 +105,25 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
     <Formik
       key="projectDetail"
       initialValues={{
-        name: '',
-        description: '',
+        name: formValues.name ?? '',
+        description: formValues.description ?? '',
         tokenDescription: '',
-        tags: [],
-        categories: [],
-        thirdPartyScripts: [],
+        tags: formValues.tags ?? [],
+        categories: formValues.categories
+          ? formValues.categories.map(cat => {
+              return categoryOptions.find(op => cat === op.value)!;
+            })
+          : [],
+        thirdPartyScripts: formValues.thirdPartyScripts
+          ? formValues.thirdPartyScripts.map(lib => {
+              return THIRD_PARTY_SCRIPTS.find(script => lib === script.value)!;
+            })
+          : [],
       }}
       validate={validateForm}
       onSubmit={handleSubmit}
       validateOnChange
+      enableReinitialize
     >
       {({
         values,
@@ -144,20 +161,20 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
                   <sup className={s.requiredTag}>*</sup>
                 </label>
                 <textarea
-                  id="tokenDescription"
-                  name="tokenDescription"
+                  id="description"
+                  name="description"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.tokenDescription}
+                  value={values.description}
                   className={s.input}
                   rows={4}
-                  placeholder="Provide a detailed description of your item."
+                  placeholder="Provide a description of your item. &#10;Markdown language supported."
                 />
-                {errors.tokenDescription && touched.tokenDescription && (
-                  <p className={s.error}>{errors.tokenDescription}</p>
+                {errors.description && touched.description && (
+                  <p className={s.error}>{errors.description}</p>
                 )}
               </div>
-              <div className={s.formItem}>
+              {/* <div className={s.formItem}>
                 <label className={s.label} htmlFor="description">
                   Collected NFTs description{' '}
                   <sup className={s.requiredTag}>*</sup>
@@ -175,7 +192,7 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
                 {errors.description && touched.description && (
                   <p className={s.error}>{errors.description}</p>
                 )}
-              </div>
+              </div> */}
               <div className={s.formItem}>
                 <label className={s.label} htmlFor="thirdPartyScripts">
                   Third party lib
@@ -194,9 +211,9 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
                   placeholder="Select library"
                 />
               </div>
-              <div className={s.formItem}>
+              {/* <div className={s.formItem}>
                 <label className={s.label} htmlFor="tags">
-                  Hashtag <sup className={s.requiredTag}>*</sup>
+                  Hashtag
                 </label>
                 <TagsInput
                   inputProps={{
@@ -283,7 +300,7 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
                   onBlur={handleBlur}
                   placeholder="Select category"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
 
