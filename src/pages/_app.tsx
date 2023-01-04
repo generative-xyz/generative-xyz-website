@@ -5,9 +5,11 @@ import {
   SEO_TITLE,
 } from '@constants/seo-default-info';
 import { WalletProvider } from '@contexts/wallet-context';
+import { LogLevel } from '@enums/log-level';
 import store from '@redux';
 import DatadogService from '@services/datadog';
 import '@styles/index.scss';
+import log from '@utils/logger';
 import { NextComponentType, NextPageContext } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -23,6 +25,8 @@ interface MyAppProps extends AppProps {
     }>;
   } & NextComponentType<NextPageContext, unknown, unknown>;
 }
+
+const LOG_PREFIX = 'App';
 
 export default function App({ Component, pageProps }: MyAppProps) {
   const { seoInfo = {} } = pageProps;
