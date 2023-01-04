@@ -26,7 +26,7 @@ self.addEventListener("fetch", async (event) => {
       const cacheId = Object.keys(cache).pop();
       const moduleName = event.request.url.split('/').pop();
 
-      if (cacheId && moduleName && cache[cacheId][moduleName]) {
+      if (cacheId && moduleName && cache[cacheId][moduleName] && cache[cacheId][moduleName].url && event.request.url) {
         event.respondWith(async function () {
           return await fetchUrl(cache[cacheId][moduleName].url, event.request.url)
         }());
@@ -34,10 +34,11 @@ self.addEventListener("fetch", async (event) => {
     }
   } catch (e) {
     console.log(e);
-  };
+  }
 })
 
 self.addEventListener("install", (event) => {
+  console.log(event);
   self.skipWaiting();
 })
 
