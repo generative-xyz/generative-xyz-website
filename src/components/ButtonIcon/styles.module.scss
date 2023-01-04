@@ -106,6 +106,30 @@
     }
   }
 
+  &.mid {
+    padding: 5px 14px;
+    gap: 7px;
+
+    &:has(.leftIcon) {
+      padding-left: 10px;
+    }
+
+    &:has(.rightIcon) {
+      padding-right: 10px;
+    }
+
+    &.iconOnly {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+    }
+
+    .icon {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
   &.xsmall {
     padding: 3px 12px;
     gap: 7px;

@@ -26,7 +26,7 @@ const ProgressBar = ({
       <div className={s.stats}>
         {size === 'regular' && (
           <>
-            <Heading as="h4" fontWeight="bold">
+            <Heading as="h5" fontWeight="bold">
               {current}/{total}
             </Heading>
             <Text fontWeight="semibold">minted</Text>

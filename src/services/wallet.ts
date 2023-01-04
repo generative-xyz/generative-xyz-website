@@ -134,6 +134,18 @@ export class WalletManager {
     }
   }
 
+  async balanceOf(
+    walletAddress: string
+  ): Promise<WalletOperationReturn<string | null>> {
+    const balance = await this.getWeb3Provider().eth.getBalance(walletAddress);
+    return {
+      isError: false,
+      isSuccess: true,
+      message: '',
+      data: balance,
+    };
+  }
+
   async signMessage(
     message: string,
     walletAddress: string

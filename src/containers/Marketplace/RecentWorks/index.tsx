@@ -27,7 +27,9 @@ export const RecentWorks = (): JSX.Element => {
     <div className={s.recentWorks}>
       <Row>
         <Col className={s.recentWorks_paragraph} xs="3">
-          <Heading as="h4">Recent works</Heading>
+          <Heading as="h5" fontWeight="semibold">
+            Recent works
+          </Heading>
           <Heading as="h3" fontWeight={'bold'}>
             Join the Elite Collectors Club.
           </Heading>
