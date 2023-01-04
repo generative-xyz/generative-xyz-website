@@ -37,4 +37,5 @@ export type Project = {
     indexReserve: number;
   };
   creatorProfile?: User;
+  mintedTime: number;
 };
