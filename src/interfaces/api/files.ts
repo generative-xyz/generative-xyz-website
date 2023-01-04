@@ -27,6 +27,7 @@ export interface IMinifyFileResponse {
     {
       content: string;
       mediaType: string;
+      deflate: string;
     }
   >;
 }

@@ -1,7 +1,111 @@
-.sandbox {
-  color: #000;
+.uploadGenArt {
+  padding-top: 60px;
+  padding-bottom: 150px;
 
-  .errorContainer {
-    color: red;
+  .uploadWrapper {
+    margin: auto;
+    max-width: 500px;
+    text-align: center;
+    padding: 48px 64px 64px;
+    box-shadow: 35px 15px 120px $black-10;
+    border-radius: 24px;
+    margin-bottom: 42px;
+  }
+
+  .sectionTitle {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 34px;
+    color: $black-100;
+    margin-bottom: 24px;
+  }
+
+  .infoIcon {
+    margin-left: 8px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+
+  .dropZoneWrapper {
+    margin-bottom: 32px;
+  }
+
+  .disclaimerWrapper {
+    margin: auto;
+    max-width: 422px;
+  }
+
+  .disclaimer {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 20px;
+    color: $black-40;
+    margin-bottom: 16px;
+  }
+
+  .link {
+    color: $black-100;
+    text-decoration: underline;
+  }
+
+  .uploadFiles {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid $black-10;
+  }
+
+  .zipFileInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .folderIcon {
+    display: inline-block;
+    margin-right: 14px;
+  }
+
+  .zipFileName {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 34px;
+    color: $black-100;
+  }
+
+  .zipFileList {
+    padding-left: 42px;
+  }
+
+  .fileItem {
+    display: flex;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+
+  .codeIcon {
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  .fileName {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    color: $black-100;
+  }
+
+  .uploadSuccessWrapper {
+    padding-top: 24px;
+  }
+
+  .mainWrapper {
+    display: grid;
+    grid-template-columns: 500px 416px;
+    column-gap: 100px;
+    grid-template-rows: auto;
+    justify-content: center;
   }
 }

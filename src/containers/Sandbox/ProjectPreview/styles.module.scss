@@ -1,0 +1,81 @@
+.projectPreview {
+  .wrapper {
+    background-color: $white-100;
+    padding: 50px 16px 16px;
+    border: 1px solid $black-10;
+    box-shadow: 35px 15px 120px $black-10;
+    border-radius: 24px;
+  }
+
+  .sandboxWrapper {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .actionWrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .sandboxControls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .actionBtn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $black-10;
+  }
+
+  .projectInfoWrapper {
+    margin-top: 24px;
+  }
+
+  .ownerInfo {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .ownerName {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    color: $black-100;
+  }
+
+  .projectInfo {
+    margin-top: 24px;
+  }
+
+  .projectName {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 34px;
+    color: $black-100;
+    margin-bottom: 6px;
+  }
+
+  .mintingInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mintPrice,
+  .mintCount {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    color: $black-100;
+  }
+}

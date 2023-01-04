@@ -1,17 +1,10 @@
 import CollectionList from '@components/Collection/List';
 import ClientOnly from '@components/Utils/ClientOnly';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
-import { ROUTE_PATH } from '@constants/route-path';
 import ProjectIntroSection from '@containers/Marketplace/ProjectIntroSection';
 import { LogLevel } from '@enums/log-level';
-import useContractOperation from '@hooks/useContractOperation';
-import {
-  IGetProjectDetailResponse,
-  IProjectItem,
-} from '@interfaces/api/project';
-import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
+import { IProjectItem } from '@interfaces/api/project';
 import { setProjectCurrent } from '@redux/project/action';
-import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { getProjectDetail, getProjectItems } from '@services/project';
 import { base64ToUtf8 } from '@utils/format';
 import log from '@utils/logger';
@@ -20,10 +13,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Container, Tab, Tabs } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { TransactionReceipt } from 'web3-eth';
 import TokenTopFilter from './TokenTopFilter';
 import styles from './styles.module.scss';
 import { Loading } from '@components/Loading';
+import { Project } from '@interfaces/project';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
 
@@ -31,21 +24,8 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const {
-    // call: mintToken,
-    // reset: resetMintToken,
-    // isLoading: isMinting,
-    data: mintTx,
-  } = useContractOperation<IMintGenerativeNFTParams, TransactionReceipt>(
-    MintGenerativeNFTOperation,
-    true
-  );
   const { projectID } = router.query as { projectID: string };
-  const [projectInfo, setProjectInfo] =
-    useState<IGetProjectDetailResponse | null>(null);
-
-  // const [projectDetail, setProjectDetail] =
-  //   useState<Omit<IProjectItem, 'owner'>>();
+  const [projectInfo, setProjectInfo] = useState<Project | null>(null);
 
   const [listItems, setListItems] = useState<IProjectItem[]>([]);
 
@@ -80,20 +60,6 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
     }
   };
 
-  // const handleMintToken = () => {
-  //   resetMintToken();
-
-  //   if (!projectInfo) {
-  //     return;
-  //   }
-
-  //   mintToken({
-  //     projectAddress: projectInfo.genNFTAddr,
-  //     mintFee: projectInfo.mintPrice.toString(),
-  //     chainID: NETWORK_CHAIN_ID,
-  //   });
-  // };
-
   // const openseaUrl = useMemo(() => {
   //   const openseaAssetURL = getOpenseaAssetUrl();
   //   if (!openseaAssetURL) {
@@ -112,19 +78,6 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
       // setProjectDetail(projectDetailObj);
     }
   }, [projectInfo?.id]);
-
-  useEffect(() => {
-    if (!mintTx) {
-      return;
-    }
-
-    const tokenID = _get(mintTx, 'events.Transfer.returnValues.tokenId', null);
-    if (tokenID === null) {
-      return;
-    }
-
-    router.push(`${ROUTE_PATH.GENERATIVE}/${projectID}/${tokenID}`);
-  }, [mintTx, projectID]);
 
   useEffect(() => {
     fetchProjectDetail();
@@ -155,7 +108,14 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
               </div>
               <div className={styles.tokenListWrapper}>
                 <Loading isLoaded={isLoaded} />
-                {isLoaded && <CollectionList listData={listItems} />}
+                {isLoaded && (
+                  <div className={styles.tokenList}>
+                    <CollectionList
+                      projectInfo={projectInfo}
+                      listData={listItems}
+                    />
+                  </div>
+                )}
               </div>
             </Tab>
           </Tabs>
