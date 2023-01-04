@@ -29,6 +29,8 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
     const workerReg = useRef<ServiceWorkerRegistration | null>(null);
     const { sandboxFiles, rawHtml, hash, onLoaded, showIframe = true } = props;
     const [id, setId] = useState<string>('0');
+    const [workerIns, setWorkerIns] =
+      useState<ServiceWorkerRegistration | null>(null);
 
     const reloadIframe = () => {
       if (iframeRef.current) {
@@ -54,6 +56,7 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
           })
           .then(reg => {
             workerReg.current = reg;
+            setWorkerIns(reg);
           })
           .catch((err: Error) => {
             log(err, LogLevel.Error, LOG_PREFIX);
@@ -92,7 +95,7 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
 
         setId(id);
       }
-    }, [sandboxFiles]);
+    }, [sandboxFiles, workerIns]);
 
     useAsyncEffect(async () => {
       if (rawHtml && workerReg.current) {

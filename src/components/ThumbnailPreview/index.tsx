@@ -1,4 +1,5 @@
 import Button from '@components/ButtonIcon';
+import ClientOnly from '@components/Utils/ClientOnly';
 import { CDN_URL } from '@constants/config';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import { PreviewDisplayMode } from '@enums/mint-generative';
@@ -8,9 +9,8 @@ import { generateHash } from '@utils/generate-data';
 import { convertIpfsToHttp } from '@utils/image';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import s from './styles.module.scss';
-// import UploadThumbnailButton from '../UploadThumbnailButton';
 
 type Props = {
   data?: any;
@@ -41,9 +41,7 @@ const ThumbnailPreview = (props: Props) => {
       const iframe = sandboxRef.current.getHtmlIframe();
       if (iframe) {
         // @ts-ignore: Allow read iframe's window object
-        if (iframe.contentWindow?.$generativeTraits) {
-          // @ts-ignore: Allow read iframe's window object
-        }
+        setPreviewSrc(iframe.src);
       }
     }
   };
@@ -76,37 +74,30 @@ const ThumbnailPreview = (props: Props) => {
 
   const openPreview = useMemo(() => !!previewSrc, [previewSrc]);
 
-  useEffect(() => {
-    if (sandboxRef.current) {
-      const iframe = sandboxRef.current.getHtmlIframe() as HTMLIFrameElement;
-      if (iframe) {
-        setPreviewSrc(iframe.src);
-      }
-    }
-  }, [sandboxRef.current]);
-
   return (
     <div className={s.ThumbnailPreview}>
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
           <div className={s.sandboxContent}>
-            <SandboxPreview
-              showIframe={displayMode === PreviewDisplayMode.Animation}
-              rawHtml={rawHtmlFile}
-              ref={sandboxRef}
-              hash={hash}
-              sandboxFiles={null}
-              onLoaded={handleIframeLoaded}
-            />
-            {displayMode === PreviewDisplayMode.Thumbnail &&
-              thumbnailPreviewUrl && (
-                <Image
-                  fill
-                  src={convertIpfsToHttp(thumbnailPreviewUrl)}
-                  alt="thumbnail"
-                ></Image>
-              )}
+            <ClientOnly>
+              <SandboxPreview
+                showIframe={displayMode === PreviewDisplayMode.Animation}
+                rawHtml={rawHtmlFile}
+                ref={sandboxRef}
+                hash={hash}
+                sandboxFiles={null}
+                onLoaded={handleIframeLoaded}
+              />
+            </ClientOnly>
           </div>
+          {displayMode === PreviewDisplayMode.Thumbnail &&
+            thumbnailPreviewUrl && (
+              <Image
+                fill
+                src={convertIpfsToHttp(thumbnailPreviewUrl)}
+                alt="thumbnail"
+              ></Image>
+            )}
         </div>
         <div className={s.actionWrapper}>
           <div className={s.sandboxControls}>

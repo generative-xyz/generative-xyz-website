@@ -1,4 +1,5 @@
 import ButtonIcon from '@components/ButtonIcon';
+import ClientOnly from '@components/Utils/ClientOnly';
 import DropFile from '@containers/MintGenerative/DropFile';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import { LogLevel } from '@enums/log-level';
@@ -110,13 +111,15 @@ const Sandbox: React.FC = (): React.ReactElement => {
         </div>
       )}
       <div className={s.previewContainer}>
-        <SandboxPreview
-          rawHtml={null}
-          ref={sandboxRef}
-          hash={hash}
-          sandboxFiles={filesSandbox}
-          onLoaded={handleIframeLoaded}
-        />
+        <ClientOnly>
+          <SandboxPreview
+            rawHtml={null}
+            ref={sandboxRef}
+            hash={hash}
+            sandboxFiles={filesSandbox}
+            onLoaded={handleIframeLoaded}
+          />
+        </ClientOnly>
       </div>
     </section>
   );
