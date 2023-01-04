@@ -80,9 +80,14 @@ const Marketplace = () => {
     <>
       <Container className={s.marketplaceContainer}>
         <ProjectIntroSection project={projectInfo} />
-        <RecentWorks />
       </Container>
-      {/* <GridDebug /> */}
+
+      <div className={s.marketplaceContainer_recentWorks}>
+        <Container>
+          <RecentWorks />
+        </Container>
+      </div>
+
     </>
   );
 };

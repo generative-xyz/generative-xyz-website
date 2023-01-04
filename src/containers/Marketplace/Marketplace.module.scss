@@ -1,3 +1,13 @@
-.marketplaceContainer{
+.marketplaceContainer {
   overflow: hidden;
+
+  &_recentWorks {
+    background: $primary-light;
+    overflow: hidden;
+    padding: {
+      top: rem(100px);
+      bottom: rem(100px);
+    }
+  }
 }
+
