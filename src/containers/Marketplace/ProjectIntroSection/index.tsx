@@ -27,7 +27,7 @@ import toast from 'react-hot-toast';
 const LOG_PREFIX = 'ProjectIntroSection';
 
 type Props = {
-  project: IGetProjectDetailResponse;
+  project: IGetProjectDetailResponse | null;
 };
 
 const MOCK_DATE = '2022-12-30T03:51:28.986Z';
@@ -83,6 +83,7 @@ const ProjectIntroSection = ({ project }: Props) => {
   );
 
   useEffect(() => {
+    if (!project) return;
     const _projectDetail = base64ToUtf8(
       project.projectURI.replace('data:application/json;base64,', '')
     );
@@ -141,7 +142,7 @@ const ProjectIntroSection = ({ project }: Props) => {
               <Text fontWeight="semibold">
                 {creatorProfile?.displayName ||
                   formatAddress(
-                    creatorProfile?.walletAddress || project?.creatorAddr
+                    creatorProfile?.walletAddress || project?.creatorAddr || ''
                   )}
               </Text>
             </div>
