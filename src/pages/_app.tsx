@@ -5,11 +5,11 @@ import {
   SEO_TITLE,
 } from '@constants/seo-default-info';
 import { WalletProvider } from '@contexts/wallet-context';
-// import { LogLevel } from '@enums/log-level';
+import { LogLevel } from '@enums/log-level';
 import store from '@redux';
 import DatadogService from '@services/datadog';
 import '@styles/index.scss';
-// import log from '@utils/logger';
+import log from '@utils/logger';
 import { NextComponentType, NextPageContext } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -18,7 +18,7 @@ import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 
-// const LOG_PREFIX = 'App';
+const LOG_PREFIX = 'App';
 
 interface MyAppProps extends AppProps {
   Component: {
@@ -35,16 +35,16 @@ export default function App({ Component, pageProps }: MyAppProps) {
   // const Layout = Component.Layout || React.Fragment;
 
   useEffect(() => {
-    // if ('serviceWorker' in navigator) {
-    //   navigator.serviceWorker
-    //     .register('/caching.sw.js', { scope: '/' })
-    //     .then(function () {
-    //       log('Service worker registered!', LogLevel.Debug, LOG_PREFIX);
-    //     })
-    //     .catch(function (err) {
-    //       log(err as Error, LogLevel.Error, LOG_PREFIX);
-    //     });
-    // }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/caching.sw.js', { scope: '/' })
+        .then(function () {
+          log('Service worker registered!', LogLevel.Debug, LOG_PREFIX);
+        })
+        .catch(function (err) {
+          log(err as Error, LogLevel.Error, LOG_PREFIX);
+        });
+    }
 
     const ddInstance = DatadogService.getInstance();
     ddInstance.init();
