@@ -210,7 +210,7 @@ const ProjectIntroSection = ({ project }: Props) => {
             </div>
           </div>
         )}
-        {project?.desc.length && (
+        {project?.desc.length > 0 && (
           <div className={s.description}>
             <Text size="14" fontWeight="bold" className="text-secondary-color">
               DESCRIPTION
