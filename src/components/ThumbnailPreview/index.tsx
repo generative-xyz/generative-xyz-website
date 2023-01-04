@@ -1,4 +1,5 @@
 import Button from '@components/ButtonIcon';
+import ClientOnly from '@components/Utils/ClientOnly';
 import { CDN_URL } from '@constants/config';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import { PreviewDisplayMode } from '@enums/mint-generative';
@@ -89,14 +90,16 @@ const ThumbnailPreview = (props: Props) => {
     <div className={s.ThumbnailPreview}>
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
-          <SandboxPreview
-            showIframe={displayMode === PreviewDisplayMode.Animation}
-            rawHtml={rawHtmlFile}
-            ref={sandboxRef}
-            hash={hash}
-            sandboxFiles={null}
-            onLoaded={handleIframeLoaded}
-          />
+          <ClientOnly>
+            <SandboxPreview
+              showIframe={displayMode === PreviewDisplayMode.Animation}
+              rawHtml={rawHtmlFile}
+              ref={sandboxRef}
+              hash={hash}
+              sandboxFiles={null}
+              onLoaded={handleIframeLoaded}
+            />
+          </ClientOnly>
           {displayMode === PreviewDisplayMode.Thumbnail &&
             thumbnailPreviewUrl && (
               <Image

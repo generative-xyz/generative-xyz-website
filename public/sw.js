@@ -8,7 +8,7 @@ async function fetchUrl(url, file) {
 }
 
 self.addEventListener("fetch", async (event) => {
- const url = new URL(event.request.referrer);
+  const url = new URL(event.request.referrer);
   const id = url.searchParams.get("id");
 
   if (id && cache[id] && referrers[id]) {
