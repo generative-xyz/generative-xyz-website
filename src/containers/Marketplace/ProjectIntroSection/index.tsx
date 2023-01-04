@@ -210,15 +210,16 @@ const ProjectIntroSection = ({ project }: Props) => {
             </div>
           </div>
         )}
-
-        <div className={s.description}>
-          <Text size="14" fontWeight="bold" className="text-secondary-color">
-            DESCRIPTION
-          </Text>
-          <Text size="18" fontWeight="medium">
-            {project?.desc}
-          </Text>
-        </div>
+        {project?.desc.length && (
+          <div className={s.description}>
+            <Text size="14" fontWeight="bold" className="text-secondary-color">
+              DESCRIPTION
+            </Text>
+            <Text size="18" fontWeight="medium">
+              {project?.desc}
+            </Text>
+          </div>
+        )}
       </div>
       <div className="h-divider"></div>
       <div>
