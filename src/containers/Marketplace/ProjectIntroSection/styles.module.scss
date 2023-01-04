@@ -5,6 +5,7 @@
   grid-template-columns: rem(420px) 1px 1fr;
   color: $black-100;
   gap: 60px;
+  margin-top: rem(72);
 }
 
 .usersInfo {
@@ -76,4 +77,17 @@
 
 .CTA {
   display: flex;
+}
+
+.stats {
+  display: flex;
+  gap: rem(24);
+  margin-bottom: rem(38);
+
+  &_item {
+    > p:first-of-type {
+      color: $black-60;
+      text-transform: uppercase;
+    }
+  }
 }

@@ -1,17 +1,17 @@
-.useInfo{
+@import 'src/styles/_themes/mixins';
 
+.useInfo {
   display: flex;
   gap: rem(6px);
   align-items: center;
 
-  &_avatar{
-
+  &_avatar {
     width: rem(34px);
     height: rem(34px);
     border-radius: 50%;
     overflow: hidden;
 
-    img{
+    img {
       width: 100%;
       height: auto;
       aspect-ratio: 1/1;
@@ -19,7 +19,7 @@
     }
   }
 
-  &_displayName{
+  &_displayName {
     font-weight: 600;
     font-size: rem(16px);
     line-height: rem(26px);

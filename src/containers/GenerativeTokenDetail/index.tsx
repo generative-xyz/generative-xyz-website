@@ -255,7 +255,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
             </Stack>
           </div> */}
         </div>
-        <h3>More on this Colleciton</h3>
+        {/* <h3>More on this Colleciton</h3> */}
         {/* <SandboxPreview
           ref={sandboxRef}
           rawHtml={base64ToUtf8(

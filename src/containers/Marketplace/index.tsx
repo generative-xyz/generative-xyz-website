@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { RecentWorks } from '@containers/Marketplace/RecentWorks';
+import { LogLevel } from '@enums/log-level';
+import { Project } from '@interfaces/project';
+import { getRandomProject } from '@services/project';
+import log from '@utils/logger';
+import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ProjectIntroSection from './ProjectIntroSection';
-import { getRandomProject } from '@services/project';
-import { LogLevel } from '@enums/log-level';
-import log from '@utils/logger';
-import { GridDebug } from '@components/Grid/grid';
-import { RecentWorks } from '@containers/Marketplace/RecentWorks';
-import { Project } from '@interfaces/project';
 
 import s from './Marketplace.module.scss';
 
@@ -82,12 +81,13 @@ const Marketplace = () => {
       <Container className={s.marketplaceContainer}>
         <ProjectIntroSection project={projectInfo} />
       </Container>
+
       <div className={s.marketplaceContainer_recentWorks}>
         <Container>
           <RecentWorks />
         </Container>
       </div>
-      <GridDebug />
+
     </>
   );
 };

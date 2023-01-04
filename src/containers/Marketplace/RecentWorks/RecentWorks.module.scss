@@ -2,11 +2,10 @@
 @import 'src/styles/_themes/mixins.scss';
 
 .recentWorks {
-
   &_paragraph {
     h4 {
       font-size: rem(24px);
-      color: $black-60
+      color: $black-60;
     }
 
     p {
@@ -43,12 +42,12 @@
       /* Handle */
       &::-webkit-scrollbar-thumb {
         border-radius: 10px;
-        background: rgba(#000, .2);
+        background: rgba(#000, 0.2);
       }
 
       /* Handle on hover */
       &::-webkit-scrollbar-thumb:hover {
-        background: rgba(#000, .4);
+        background: rgba(#000, 0.4);
       }
     }
 
@@ -63,5 +62,4 @@
 .projectSlider {
   padding-left: rem(12px);
   padding-right: rem(12px);
-
 }
