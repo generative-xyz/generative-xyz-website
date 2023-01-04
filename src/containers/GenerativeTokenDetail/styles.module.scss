@@ -5,3 +5,59 @@
   gap: 60px;
   margin-top: rem(72);
 }
+
+.collectionName {
+  color: $black-60;
+  margin-bottom: rem(16px);
+}
+
+.usersInfo {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 50px;
+
+  &_item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > div:first-of-type {
+      min-height: 34px;
+    }
+  }
+
+  &_mainText {
+    text-transform: uppercase;
+    color: $black-60;
+  }
+
+  &_subText {
+    color: $black-60;
+    transform: translateY(-7px);
+  }
+}
+
+.prices {
+  display: flex;
+  align-items: center;
+  gap: rem(32px);
+  margin-top: rem(10px);
+  margin-bottom: rem(24px);
+
+  p {
+    text-transform: uppercase;
+    color: $black-60;
+  }
+}
+
+.CTA_btn {
+  display: flex;
+  align-items: center;
+  gap: rem(10px);
+
+  button {
+    flex: 1;
+    justify-content: center;
+  }
+}
