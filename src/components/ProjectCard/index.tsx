@@ -51,11 +51,17 @@ export const ProjectCard = ({ project }: IPros): JSX.Element => {
           />
         </div>
         <div className={s.projectCard_info}>
-          {creator && <CreatorInfo creator={creator} />}
           <div className={s.projectCard_info_title}>
             <Heading as={'h4'}>{project.name}</Heading>
           </div>
-          <ProgressBar size={'small'} />
+          {creator && <CreatorInfo creator={creator} />}
+          <ProgressBar
+            size={'small'}
+            current={
+              project.mintingInfo.index + project.mintingInfo.indexReserve
+            }
+            total={project.limit}
+          />
         </div>
       </div>
     </div>

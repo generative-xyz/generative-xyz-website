@@ -3,7 +3,7 @@ import React, { PropsWithChildren, ReactNode } from 'react';
 import styles from './styles.module.scss';
 
 type ButtonType = 'button' | 'submit' | 'reset' | undefined;
-type ButtonVariantsType = 'default' | 'secondary' | 'outline' | 'ghost';
+type ButtonVariantsType = 'primary' | 'secondary' | 'outline' | 'ghost';
 type ButtonSizesType = 'large' | 'medium' | 'mid' | 'small' | 'xsmall';
 
 interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
@@ -25,7 +25,7 @@ const ButtonIcon = React.forwardRef<
       children,
       className,
       type = 'button',
-      variants = 'default',
+      variants = 'primary',
       sizes = 'medium',
       startIcon,
       endIcon,

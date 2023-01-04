@@ -31,15 +31,18 @@ type Props = {
   project: IGetProjectDetailResponse | null;
 };
 
-const MOCK_DATE = '2022-12-30T03:51:28.986Z';
-
 const ProjectIntroSection = ({ project }: Props) => {
   const router = useRouter();
   const [projectDetail, setProjectDetail] =
     useState<Omit<IProjectItem, 'owner'>>();
   const creatorProfile = project?.creatorProfile;
-  const createdDate = dayjs(MOCK_DATE).format('MMM DD');
-  const createdYear = dayjs(MOCK_DATE).format('YYYY');
+  const mintedTime = project?.mintedTime;
+  let mintDate = dayjs();
+  if (mintedTime) {
+    mintDate = dayjs(mintedTime);
+  }
+  const createdDate = mintDate.format('MMM DD');
+  const createdYear = mintDate.format('YYYY');
   const {
     call: mintToken,
     reset: resetMintToken,
