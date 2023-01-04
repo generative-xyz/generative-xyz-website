@@ -25,7 +25,8 @@ export const LOGO_URL =
 export const LOGO_MARKETPLACE_URL = `${CDN_URL}/icons/logo-marketplace.svg`;
 export const LOGO_GENERATIVE = `https://cdn.generative.xyz/pages/home/logo.jpg`;
 
-export const CLOUDFRONT_SERVER_NAME = 'https://cdn.autonomous.ai/';
+export const CLOUDFRONT_SERVER_NAME = `https://cdn.autonomous.ai/`;
+export const DEFAULT_ART_THUMBNAIL = `${CDN_URL}/images/default-thumbnail.svg`;
 export const PLACE_HOLDER_IMAGE = `${CLOUDFRONT_SERVER_NAME}static/upload/images/common/upload/20210519/2560x1600-dark-gray-solid-color-backgrounda218631f0e.jpeg`;
 export const CONTACT_EMAIL = 'team@generative.xyz';
 export const SOCIALS = {

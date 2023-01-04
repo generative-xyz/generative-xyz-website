@@ -24,6 +24,7 @@ import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
 import toast from 'react-hot-toast';
 import Web3 from 'web3';
+import _get from 'lodash/get';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -31,15 +32,18 @@ type Props = {
   project: IGetProjectDetailResponse | null;
 };
 
-const MOCK_DATE = '2022-12-30T03:51:28.986Z';
-
 const ProjectIntroSection = ({ project }: Props) => {
   const router = useRouter();
   const [projectDetail, setProjectDetail] =
     useState<Omit<IProjectItem, 'owner'>>();
   const creatorProfile = project?.creatorProfile;
-  const createdDate = dayjs(MOCK_DATE).format('MMM DD');
-  const createdYear = dayjs(MOCK_DATE).format('YYYY');
+  const mintedTime = project?.mintedTime;
+  let mintDate = dayjs();
+  if (mintedTime) {
+    mintDate = dayjs(mintedTime);
+  }
+  const createdDate = mintDate.format('MMM DD');
+  const createdYear = mintDate.format('YYYY');
   const {
     call: mintToken,
     reset: resetMintToken,
@@ -58,11 +62,24 @@ const ProjectIntroSection = ({ project }: Props) => {
         return;
       }
 
-      await mintToken({
+      const mintTx = await mintToken({
         projectAddress: project.genNFTAddr,
         mintFee: project.mintPrice.toString(),
         chainID: NETWORK_CHAIN_ID,
       });
+
+      if (!mintTx) {
+        toast.error('Something went wrong. Please try again.');
+        return;
+      }
+
+      const tokenID: string | null = _get(
+        mintTx,
+        'events.Transfer.returnValues.tokenId',
+        null
+      );
+
+      router.push(`/generative/${project.tokenID}/${tokenID}`);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
     } finally {

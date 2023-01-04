@@ -61,3 +61,18 @@
     justify-content: center;
   }
 }
+
+.accordions {
+  display: flex;
+  flex-direction: column;
+  gap: rem(32px);
+}
+
+.tokenInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: rem(14px);
+  padding-bottom: rem(14px);
+  border-bottom: 1px solid $black-10;
+}
