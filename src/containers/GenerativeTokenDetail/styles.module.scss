@@ -2,8 +2,17 @@
   display: grid;
   grid-template-columns: rem(420px) 1px 1fr;
   color: $black-100;
-  gap: 60px;
+  gap: rem(60px);
   margin-top: rem(72);
+}
+
+.itemInfo {
+  max-height: rem(554px);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
 }
 
 .collectionName {
@@ -55,6 +64,7 @@
   display: flex;
   align-items: center;
   gap: rem(10px);
+  margin-bottom: rem(32px);
 
   button {
     flex: 1;
@@ -68,11 +78,9 @@
   gap: rem(32px);
 }
 
-.tokenInfo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: rem(14px);
-  padding-bottom: rem(14px);
-  border-bottom: 1px solid $black-10;
+.walletAddress {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }

@@ -13,6 +13,11 @@ import { LogLevel } from '@enums/log-level';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import _get from 'lodash/get';
+import { WalletManager } from '@services/wallet';
+import { isTestnet } from '@utils/chain';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@redux/user/selector';
+import BN from 'bn.js';
 
 const LOG_PREFIX = 'Empty';
 
@@ -21,6 +26,7 @@ export const Empty = ({
 }: {
   projectInfo: Project | null;
 }): JSX.Element => {
+  const user = useSelector(getUserSelector);
   const router = useRouter();
   const {
     call: mintToken,
@@ -38,6 +44,27 @@ export const Empty = ({
 
       if (!projectInfo) {
         return;
+      }
+
+      if (new BN(projectInfo.mintPrice).cmp(new BN(0)) == 1) {
+        const walletManagerInstance = new WalletManager();
+        if (walletManagerInstance) {
+          const check = await walletManagerInstance.checkInsufficient(
+            user.walletAddress,
+            '0x0000000000000000000000000000000000000000',
+            projectInfo.mintPrice.toString()
+          );
+          if (!check) {
+            if (isTestnet()) {
+              toast.error(
+                'Insufficient funds testnet. Go to profile and get testnet faucet'
+              );
+            } else {
+              toast.error('Insufficient funds.');
+            }
+            return;
+          }
+        }
       }
 
       const mintTx = await mintToken({

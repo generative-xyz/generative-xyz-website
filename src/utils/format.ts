@@ -18,3 +18,12 @@ export const formatAddress = (address: string): string => {
   if (address.length < 14) return address;
   return `${address.substring(0, 7)}`;
 };
+
+export const getProjectIdFromTokenId = (tokenId: number): number => {
+  return Math.floor(tokenId / 1000000);
+};
+
+export const formatTokenId = (tokenId: string): string => {
+  const id = Number(tokenId) % 1000000;
+  return id.toString();
+};

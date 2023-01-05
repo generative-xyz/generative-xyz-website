@@ -25,6 +25,11 @@ import log from '@utils/logger';
 import toast from 'react-hot-toast';
 import Web3 from 'web3';
 import _get from 'lodash/get';
+import { WalletManager } from '@services/wallet';
+import { isTestnet } from '@utils/chain';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@redux/user/selector';
+import BN from 'bn.js';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -33,6 +38,7 @@ type Props = {
 };
 
 const ProjectIntroSection = ({ project }: Props) => {
+  const user = useSelector(getUserSelector);
   const router = useRouter();
   const [projectDetail, setProjectDetail] =
     useState<Omit<IProjectItem, 'owner'>>();
@@ -60,6 +66,28 @@ const ProjectIntroSection = ({ project }: Props) => {
 
       if (!project) {
         return;
+      }
+
+      // check balance
+      if (new BN(project.mintPrice).cmp(new BN(0)) == 1) {
+        const walletManagerInstance = new WalletManager();
+        if (walletManagerInstance) {
+          const check = await walletManagerInstance.checkInsufficient(
+            user.walletAddress,
+            '0x0000000000000000000000000000000000000000',
+            project.mintPrice.toString()
+          );
+          if (!check) {
+            if (isTestnet()) {
+              toast.error(
+                'Insufficient funds testnet. Go to profile and get testnet faucet'
+              );
+            } else {
+              toast.error('Insufficient funds.');
+            }
+            return;
+          }
+        }
       }
 
       const mintTx = await mintToken({
@@ -172,22 +200,26 @@ const ProjectIntroSection = ({ project }: Props) => {
           className={s.progressBar}
         />
         <div className={s.CTA}>
-          <ButtonIcon
-            sizes="large"
-            endIcon={
-              <SvgInset svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`} />
-            }
-            disabled={isMinting}
-            onClick={handleMintToken}
-          >
-            {isMinting && 'Minting...'}
-            {!isMinting && project?.mintPrice && (
-              <>
-                {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'} Ξ
-                {Web3.utils.fromWei(project?.mintPrice, 'ether')}
-              </>
-            )}
-          </ButtonIcon>
+          {project?.status && (
+            <ButtonIcon
+              sizes="large"
+              endIcon={
+                <SvgInset
+                  svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
+                />
+              }
+              disabled={isMinting}
+              onClick={handleMintToken}
+            >
+              {isMinting && 'Minting...'}
+              {!isMinting && project?.mintPrice && (
+                <>
+                  {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'} Ξ
+                  {Web3.utils.fromWei(project?.mintPrice, 'ether')}
+                </>
+              )}
+            </ButtonIcon>
+          )}
           {!isProjectDetailPage && (
             <ButtonIcon
               sizes="large"

@@ -1,12 +1,12 @@
-import { NextPage } from 'next';
-import DefaultLayout from '@components/Layout/DefaultLayout';
 import Profile from '@containers/Profile';
+import MarketplaceLayout from '@layouts/Marketplace';
+import { NextPage } from 'next';
 
 const ProfilePage: NextPage = () => {
   return (
-    <DefaultLayout>
+    <MarketplaceLayout>
       <Profile />
-    </DefaultLayout>
+    </MarketplaceLayout>
   );
 };
 

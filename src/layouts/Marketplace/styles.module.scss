@@ -1,4 +1,7 @@
-@import "src/styles/_themes/mixins";
+@import 'src/styles/_themes/mixins';
+
+$header-height: 80px;
+$footer-height: 198px;
 
 header {
   .headerWrapper {
@@ -36,7 +39,7 @@ header {
 
   padding-top: rem(60px);
   padding-bottom: rem(60px);
-  
+
   @include min-tablet{
     min-height: rem(198);
     padding: 0;

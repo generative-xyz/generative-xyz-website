@@ -10,6 +10,7 @@ import Heading from '@components/Heading';
 import ProgressBar from '@components/ProgressBar';
 import { ROUTE_PATH } from '@constants/route-path';
 import { useRouter } from 'next/router';
+import { convertIpfsToHttp } from '@utils/image';
 
 interface IPros {
   project: Project;
@@ -45,7 +46,7 @@ export const ProjectCard = ({ project }: IPros): JSX.Element => {
         >
           <img
             onError={onThumbError}
-            src={thumb}
+            src={convertIpfsToHttp(thumb)}
             alt={project.name}
             loading={'lazy'}
           />

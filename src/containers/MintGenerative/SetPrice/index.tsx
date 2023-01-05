@@ -21,6 +21,11 @@ import { CSS_EXTENSION, JS_EXTENSION } from '@constants/file';
 import _get from 'lodash/get';
 import { createProjectMetadata } from '@services/project';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import { isTestnet } from '@utils/chain';
+import { WalletManager } from '@services/wallet';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@redux/user/selector';
 
 const LOG_PREFIX = 'SetPrice';
 
@@ -32,6 +37,7 @@ type ISetPriceFormValue = {
 
 const SetPrice = () => {
   const router = useRouter();
+  const user = useSelector(getUserSelector);
   const {
     formValues,
     setFormValues,
@@ -166,6 +172,27 @@ const SetPrice = () => {
         mintFee: mintFee,
       };
 
+      if (mintFee > 0) {
+        const walletManagerInstance = new WalletManager();
+        if (walletManagerInstance) {
+          const check = await walletManagerInstance.checkInsufficient(
+            user.walletAddress,
+            '0x0000000000000000000000000000000000000000',
+            mintFee.toString()
+          );
+          if (!check) {
+            if (isTestnet()) {
+              toast.error(
+                'Insufficient funds testnet. Go to profile and get testnet faucet'
+              );
+            } else {
+              toast.error('Insufficient funds.');
+            }
+            return;
+          }
+        }
+      }
+
       const mintTx = await mintProject(projectPayload);
 
       if (!mintTx) {
@@ -273,7 +300,13 @@ const SetPrice = () => {
                     name="mintPrice"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.mintPrice}
+                    value={
+                      values.mintPrice
+                        ? values.mintPrice
+                        : isTestnet()
+                        ? 0.0001
+                        : values.mintPrice
+                    }
                     className={s.input}
                     placeholder="Provide a number"
                   />
