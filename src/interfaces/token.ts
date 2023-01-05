@@ -20,4 +20,5 @@ export type Token = {
   creatorProfile?: User;
   ownerAddr: string;
   creator: User;
+  tokenID: string;
 };
