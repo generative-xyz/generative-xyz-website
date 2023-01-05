@@ -172,22 +172,26 @@ const ProjectIntroSection = ({ project }: Props) => {
           className={s.progressBar}
         />
         <div className={s.CTA}>
-          <ButtonIcon
-            sizes="large"
-            endIcon={
-              <SvgInset svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`} />
-            }
-            disabled={isMinting}
-            onClick={handleMintToken}
-          >
-            {isMinting && 'Minting...'}
-            {!isMinting && project?.mintPrice && (
-              <>
-                {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'} Ξ
-                {Web3.utils.fromWei(project?.mintPrice, 'ether')}
-              </>
-            )}
-          </ButtonIcon>
+          {project?.status && (
+            <ButtonIcon
+              sizes="large"
+              endIcon={
+                <SvgInset
+                  svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
+                />
+              }
+              disabled={isMinting}
+              onClick={handleMintToken}
+            >
+              {isMinting && 'Minting...'}
+              {!isMinting && project?.mintPrice && (
+                <>
+                  {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'} Ξ
+                  {Web3.utils.fromWei(project?.mintPrice, 'ether')}
+                </>
+              )}
+            </ButtonIcon>
+          )}
           {!isProjectDetailPage && (
             <ButtonIcon
               sizes="large"
