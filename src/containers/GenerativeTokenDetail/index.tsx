@@ -1,26 +1,26 @@
+import Accordion from '@components/Accordion';
+import Avatar from '@components/Avatar';
+import ButtonIcon from '@components/ButtonIcon';
+import Heading from '@components/Heading';
+import Stats from '@components/Stats';
+import SvgInset from '@components/SvgInset';
+import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
+import { CDN_URL } from '@constants/config';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { LogLevel } from '@enums/log-level';
 import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
 import { getTokenUri } from '@services/token-uri';
+import { getChainName, getScanUrl } from '@utils/chain';
+import { formatAddress } from '@utils/format';
 import log from '@utils/logger';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import s from './styles.module.scss';
-import { Container, Stack } from 'react-bootstrap';
-import Heading from '@components/Heading';
-import SvgInset from '@components/SvgInset';
-import { CDN_URL } from '@constants/config';
-import Text from '@components/Text';
-import dayjs from 'dayjs';
-import Avatar from '@components/Avatar';
-import { formatAddress } from '@utils/format';
-import ButtonIcon from '@components/ButtonIcon';
-import Accordion from '@components/Accordion';
-import { getChainName, getScanUrl } from '@utils/chain';
+import { Container } from 'react-bootstrap';
 import { v4 } from 'uuid';
-import Link from 'next/link';
 import MoreItemsSection from './MoreItemsSection';
+import s from './styles.module.scss';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -40,6 +40,48 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   const mintedDate = dayjs(itemDetail?.mintedTime).format('MMM DD, YYYY');
 
+  const tokenInfos = [
+    {
+      id: 'contract-address',
+      info: 'Contract Address',
+      value: formatAddress(itemDetail?.project.genNFTAddr || ''),
+      link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}`,
+    },
+    {
+      id: 'token-id',
+      info: 'Token ID',
+      value: tokenID,
+      link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}?a=${tokenID}`,
+    },
+    {
+      id: 'token-standard',
+      info: 'Token Standard',
+      value: 'ERC-721',
+      link: '',
+    },
+    {
+      id: 'blockchain',
+      info: 'Blockchain',
+      value: getChainName() || '',
+      link: '',
+    },
+  ];
+
+  const featuresList = () => {
+    if (itemDetail?.attributes && itemDetail.attributes?.length > 0) {
+      const list = itemDetail.attributes.map(attr => {
+        return {
+          id: `attr-${v4()}`,
+          info: attr.trait_type,
+          value: attr.value.toString(),
+          link: '',
+        };
+      });
+      return list;
+    }
+    return null;
+  };
+
   const fetchItemDetail = async (): Promise<void> => {
     try {
       if (tokenID) {
@@ -53,68 +95,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
       log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
       throw Error('failed to fetch item detail');
     }
-  };
-
-  const AttributeList = () => {
-    return (
-      <>
-        {itemDetail &&
-          itemDetail.attributes?.length > 0 &&
-          itemDetail.attributes.map((attr, index: number) => (
-            <div key={`${attr.trait_type}-${index}`}>{attr.trait_type}</div>
-          ))}
-      </>
-    );
-  };
-
-  const TokenInfo = () => {
-    const tokenInfos = [
-      {
-        id: 'contract-address',
-        info: 'Contract Address',
-        value: formatAddress(itemDetail?.project.genNFTAddr || ''),
-        link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}`,
-      },
-      {
-        id: 'token-id',
-        info: 'Token ID',
-        value: tokenID,
-        link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}?a=${tokenID}`,
-      },
-      {
-        id: 'token-standard',
-        info: 'Token Standard',
-        value: 'ERC-721',
-      },
-      {
-        id: 'blockchain',
-        info: 'Blockchain',
-        value: getChainName(),
-      },
-    ];
-
-    return (
-      <>
-        {tokenInfos.length > 0 &&
-          tokenInfos.map(item => (
-            <div className={s.tokenInfo} key={`token-${v4()}`}>
-              <Text size="18" fontWeight="semibold">
-                {item.info}
-              </Text>
-              <Stack direction="horizontal" gap={2}>
-                <Text size="18" fontWeight="semibold">
-                  {item.value}
-                </Text>
-                {!!item?.link && (
-                  <Link href={item.link}>
-                    <SvgInset svgUrl={`${CDN_URL}/icons/ic-link.svg`} />
-                  </Link>
-                )}
-              </Stack>
-            </div>
-          ))}
-      </>
-    );
   };
 
   useEffect(() => {
@@ -172,7 +152,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   fontWeight="bold"
                   className={s.usersInfo_mainText}
                 >
-                  Owner
+                  Creator
                 </Text>
                 <Text fontWeight="semibold">
                   {itemDetail?.creator?.displayName ||
@@ -235,14 +215,15 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               header={'DESCRIPTION'}
               content={itemDetail?.description}
             ></Accordion>
-
-            <Accordion
-              header={'Features'}
-              content={<AttributeList />}
-            ></Accordion>
+            {itemDetail?.attributes && itemDetail.attributes?.length > 0 && (
+              <Accordion
+                header={'Features'}
+                content={<Stats data={featuresList()} />}
+              ></Accordion>
+            )}
             <Accordion
               header={'Token Info'}
-              content={<TokenInfo />}
+              content={<Stats data={tokenInfos} />}
             ></Accordion>
           </div>
         </div>
