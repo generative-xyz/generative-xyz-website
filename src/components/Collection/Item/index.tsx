@@ -93,7 +93,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
                   direction="horizontal"
                   className={s.collectionCard_listing}
                 >
-                  <b>{listingPrice} Ξ</b>
+                  <b>Ξ{listingPrice}</b>
                 </Stack>
               )}
             </Stack>
