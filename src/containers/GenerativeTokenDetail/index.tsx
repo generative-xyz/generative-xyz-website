@@ -1,52 +1,50 @@
-import Accordion from '@components/Accordion';
 import ButtonIcon from '@components/ButtonIcon';
-import Heading from '@components/Heading';
 import Stats from '@components/Stats';
-import Text from '@components/Text';
-import ThumbnailPreview from '@components/ThumbnailPreview';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { LogLevel } from '@enums/log-level';
-import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
 import { getTokenUri } from '@services/token-uri';
-import { getChainName, getScanUrl } from '@utils/chain';
 import { formatAddress, formatTokenId } from '@utils/format';
 import log from '@utils/logger';
-import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
-import { v4 } from 'uuid';
-import MoreItemsSection from './MoreItemsSection';
+import React, { useContext, useEffect } from 'react';
 import s from './styles.module.scss';
+import { Container } from 'react-bootstrap';
+import Heading from '@components/Heading';
+import Text from '@components/Text';
+import dayjs from 'dayjs';
+import Accordion from '@components/Accordion';
+import { getChainName, getScanUrl } from '@utils/chain';
+import { v4 } from 'uuid';
+import {
+  GenerativeTokenDetailContext,
+  GenerativeTokenDetailProvider,
+} from '@contexts/generative-token-detail-context';
+import MoreItemsSection from './MoreItemsSection';
+import ThumbnailPreview from '@components/ThumbnailPreview';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
+  const { tokenData, setTokenData } = useContext(GenerativeTokenDetailContext);
   const { tokenID } = router.query as {
     projectID: string;
     tokenID: string;
   };
-
-  const [itemDetail, setItemDetail] =
-    useState<IGetGenerativeTokenUriResponse | null>(null);
-
   const scanURL = getScanUrl();
-
-  const mintedDate = dayjs(itemDetail?.mintedTime).format('MMM DD, YYYY');
-
+  const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
   const tokenInfos = [
     {
       id: 'contract-address',
       info: 'Contract Address',
-      value: formatAddress(itemDetail?.project.genNFTAddr || ''),
-      link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}`,
+      value: formatAddress(tokenData?.project.genNFTAddr || ''),
+      link: `${scanURL}/token/${tokenData?.project.genNFTAddr}`,
     },
     {
       id: 'token-id',
       info: 'Token ID',
       value: formatTokenId(tokenID),
-      link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}?a=${tokenID}`,
+      link: `${scanURL}/token/${tokenData?.project.genNFTAddr}?a=${tokenID}`,
     },
     {
       id: 'token-standard',
@@ -63,8 +61,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   ];
 
   const featuresList = () => {
-    if (itemDetail?.attributes && itemDetail.attributes?.length > 0) {
-      const list = itemDetail.attributes.map(attr => {
+    if (tokenData?.attributes && tokenData.attributes?.length > 0) {
+      const list = tokenData.attributes.map(attr => {
         return {
           id: `attr-${v4()}`,
           info: attr.trait_type,
@@ -78,16 +76,16 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   };
 
   const tokenDescription =
-    itemDetail?.description || itemDetail?.project?.desc || '';
+    tokenData?.description || tokenData?.project?.desc || '';
 
-  const fetchItemDetail = async (): Promise<void> => {
+  const fetchTokenData = async (): Promise<void> => {
     try {
       if (tokenID) {
         const res = await getTokenUri({
           contractAddress: GENERATIVE_PROJECT_CONTRACT,
           tokenID,
         });
-        setItemDetail(res);
+        setTokenData(res);
       }
     } catch (err: unknown) {
       log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
@@ -96,7 +94,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   };
 
   useEffect(() => {
-    fetchItemDetail();
+    fetchTokenData();
   }, [tokenID]);
 
   return (
@@ -104,8 +102,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
       <div className={s.wrapper} style={{ marginBottom: '100px' }}>
         <div className={s.itemInfo}>
           <Heading as="h4" fontWeight="bold">
-            {itemDetail?.project?.name} #
-            {formatTokenId(itemDetail?.tokenID || '')}
+            {tokenData?.project?.name} #
+            {formatTokenId(tokenData?.tokenID || '')}
           </Heading>
           <div className={s.prices}>
             {/* TODO: Remove when API ready  */}
@@ -130,12 +128,13 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 Royalty
               </Text>
               <Heading as="h4" fontWeight="bold">
-                {(itemDetail?.project?.royalty || 0) / 100}%
+                {(tokenData?.project?.royalty || 0) / 100}%
               </Heading>
             </div>
           </div>
           <div className={s.CTA_btn}>
-            <ButtonIcon>Buy</ButtonIcon>
+            {/* Due to owner and status of this token to render appropriate action */}
+            <ButtonIcon>Sell</ButtonIcon>
             <ButtonIcon variants="outline">Make offer</ButtonIcon>
           </div>
           <div className={s.accordions}>
@@ -145,7 +144,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 content={tokenDescription}
               ></Accordion>
             )}
-            {itemDetail?.attributes && itemDetail.attributes?.length > 0 && (
+            {tokenData?.attributes && tokenData.attributes?.length > 0 && (
               <Accordion
                 header={'Features'}
                 content={<Stats data={featuresList()} />}
@@ -155,10 +154,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               header={'Owner'}
               content={
                 <Text size="18" fontWeight="medium" className={s.walletAddress}>
-                  {itemDetail?.owner?.displayName ||
+                  {tokenData?.owner?.displayName ||
                     formatAddress(
-                      itemDetail?.ownerAddr ||
-                        itemDetail?.owner?.walletAddress ||
+                      tokenData?.ownerAddr ||
+                        tokenData?.owner?.walletAddress ||
                         ''
                     )}
                 </Text>
@@ -168,8 +167,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               header={'Creator'}
               content={
                 <Text size="18" fontWeight="medium" className={s.walletAddress}>
-                  {itemDetail?.creator?.displayName ||
-                    formatAddress(itemDetail?.creator?.walletAddress || '')}
+                  {tokenData?.creator?.displayName ||
+                    formatAddress(tokenData?.creator?.walletAddress || '')}
                 </Text>
               }
             ></Accordion>
@@ -190,15 +189,23 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
         </div>
         <div className="h-divider"></div>
         <div>
-          <ThumbnailPreview data={itemDetail} previewToken />
+          <ThumbnailPreview data={tokenData} previewToken />
         </div>
       </div>
       <div></div>
-      {itemDetail?.project.genNFTAddr && (
-        <MoreItemsSection genNFTAddr={itemDetail.project.genNFTAddr} />
+      {tokenData?.project.genNFTAddr && (
+        <MoreItemsSection genNFTAddr={tokenData.project.genNFTAddr} />
       )}
     </Container>
   );
 };
 
-export default GenerativeTokenDetail;
+const GenerativeTokenDetailWrapper: React.FC = (): React.ReactElement => {
+  return (
+    <GenerativeTokenDetailProvider>
+      <GenerativeTokenDetail />
+    </GenerativeTokenDetailProvider>
+  );
+};
+
+export default GenerativeTokenDetailWrapper;
