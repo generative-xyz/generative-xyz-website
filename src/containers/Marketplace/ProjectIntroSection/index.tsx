@@ -31,6 +31,7 @@ import s from './styles.module.scss';
 import Accordion from '@components/Accordion';
 import Link from '@components/Link';
 import dayjs from 'dayjs';
+import Skeleton from '@components/Skeleton';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -152,6 +153,7 @@ const ProjectIntroSection = ({ project }: Props) => {
           </Heading>
         )}
         <Heading as="h4" fontWeight="bold" style={{ marginBottom: '16px' }}>
+          <Skeleton width={200} height={44} isLoaded={!!project?.name} />
           {project?.name}
         </Heading>
         <ProgressBar
@@ -160,26 +162,30 @@ const ProjectIntroSection = ({ project }: Props) => {
           className={s.progressBar}
         />
         <div className={s.CTA}>
-          {project?.status && (
-            <ButtonIcon
-              sizes="large"
-              className={s.mint_btn}
-              endIcon={
-                <SvgInset
-                  svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
-                />
-              }
-              disabled={isMinting}
-              onClick={handleMintToken}
-            >
-              {isMinting && 'Minting...'}
-              {!isMinting && project?.mintPrice && (
-                <>
-                  {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'} Ξ
-                  {Web3.utils.fromWei(project?.mintPrice, 'ether')}
-                </>
-              )}
-            </ButtonIcon>
+          {project?.status ? (
+            <>
+              <ButtonIcon
+                sizes="large"
+                className={s.mint_btn}
+                endIcon={
+                  <SvgInset
+                    svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
+                  />
+                }
+                disabled={isMinting}
+                onClick={handleMintToken}
+              >
+                {isMinting && 'Minting...'}
+                {!isMinting && project?.mintPrice && (
+                  <>
+                    {isProjectDetailPage ? 'Mint iteration now' : 'Mint now'} Ξ
+                    {Web3.utils.fromWei(project?.mintPrice, 'ether')}
+                  </>
+                )}
+              </ButtonIcon>
+            </>
+          ) : (
+            <Skeleton width={200} height={56} isLoaded={!!project?.status} />
           )}
           {!isProjectDetailPage && (
             <Link
@@ -287,11 +293,17 @@ const ProjectIntroSection = ({ project }: Props) => {
           </>
         ) : (
           <>
-            {project?.desc && project?.desc.length > 0 && (
+            {project?.desc && project?.desc.length > 0 ? (
               <div className={s.description}>
                 <Text size="18" fontWeight="medium">
                   {project?.desc}
                 </Text>
+              </div>
+            ) : (
+              <div className={s.description}>
+                <Skeleton width={400} height={28} />
+                <Skeleton width={400} height={28} />
+                <Skeleton width={200} height={28} />
               </div>
             )}
           </>
