@@ -18,11 +18,11 @@ export const Artworks = (): JSX.Element => {
         .fromTo(
           comp.current?.querySelector('.js-fame__big'),
           {
-            width: '100vw',
+            height: '100vh',
             // scale: 1,
           },
           {
-            width: `${(1122 / 1920) * 100}%`,
+            height: `${(820 / 1080) * 100}%`,
             // scale: 1
           },
           0
@@ -66,7 +66,11 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://cdn.generative.xyz/pages/home/Block2_Left-1.mp4"
+                src="https://cdn.generative.xyz/pages/home/videos/Block2%20Frame%20Mid-1.webm"
+                type="video/webm"
+              />
+              <source
+                src="https://cdn.generative.xyz/pages/home/Block2_Mid-1.mp4"
                 type="video/mp4"
               />
             </video>
@@ -76,11 +80,11 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://cdn.generative.xyz/pages/home/videos/Block2%20Frame%20Mid-1.webm"
+                src="https://cdn.generative.xyz/pages/home/videos/Square-1.webm"
                 type="video/webm"
               />
               <source
-                src="https://cdn.generative.xyz/pages/home/Block2_Mid-1.mp4"
+                src="https://cdn.generative.xyz/pages/home/videos/Square-1.mp4"
                 type="video/mp4"
               />
             </video>
