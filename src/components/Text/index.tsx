@@ -56,6 +56,7 @@ const Text = ({
   onClick,
   ...props
 }: PropsWithChildren<TText>) => {
+  // console.log('🚀 ~ props', props);
   const Text = as;
 
   const comp = useRef<any>(null);
