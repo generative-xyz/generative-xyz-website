@@ -6,11 +6,15 @@ import { IProjectItem } from '@interfaces/api/project';
 import { User } from '@interfaces/user';
 // import { projectCurrentSelector } from '@redux/project/selector';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 // import { useSelector } from 'react-redux';
 import s from './styles.module.scss';
 import { formatTokenId, getProjectIdFromTokenId } from '@utils/format';
+import { getListing } from '@services/marketplace';
+import Web3 from 'web3';
+import log from '@utils/logger';
+import { LogLevel } from '@enums/log-level';
 
 const CollectionItem = ({ data }: { data: IProjectItem }) => {
   const router = useRouter();
@@ -18,7 +22,24 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
 
   const tokenID = useMemo(() => data.name.split('#')[1], [data.name]);
   // const tokenName = useMemo(() => data.name.split('#')[0], [data.name]);
-  // const listingPrice = 0.02;
+  const [listingPrice, setListingPrice] = useState('0');
+  const handleFetchPrice = async () => {
+    try {
+      const listingTokens = await getListing({
+        genNFTAddr: data.genNFTAddr,
+        tokenId: tokenID,
+        closed: false,
+      });
+      if (listingTokens && listingTokens.result[0]) {
+        setListingPrice(
+          Web3.utils.fromWei(listingTokens.result[0].price, 'ether')
+        );
+      }
+    } catch (e) {
+      log('can not fetch price', LogLevel.Error, '');
+      throw Error('failed to fetch item detail');
+    }
+  };
   const handleClickItem = () => {
     router.push(
       `${ROUTE_PATH.GENERATIVE}/${getProjectIdFromTokenId(
@@ -32,6 +53,10 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
   const onThumbError = () => {
     setThumb(LOGO_MARKETPLACE_URL);
   };
+
+  useEffect(() => {
+    handleFetchPrice();
+  }, []);
 
   return (
     <div onClick={handleClickItem} className={s.collectionCard}>
@@ -63,13 +88,16 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
               <Heading as={'h4'} className="token_id ml-auto">
                 #{formatTokenId(tokenID)}
               </Heading>
+              {listingPrice != '0' && (
+                <Stack
+                  direction="horizontal"
+                  className={s.collectionCard_listing}
+                >
+                  <b>{listingPrice} Ξ</b>
+                </Stack>
+              )}
             </Stack>
           </div>
-          {/* {listingPrice > 0 && (
-            <Stack direction="horizontal" className={s.collectionCard_listing}>
-              <b>{listingPrice} Ξ</b>
-            </Stack>
-          )} */}
         </div>
       </div>
     </div>
