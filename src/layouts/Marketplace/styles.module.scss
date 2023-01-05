@@ -1,4 +1,7 @@
-@import "src/styles/_themes/mixins";
+@import 'src/styles/_themes/mixins';
+
+$header-height: 80px;
+$footer-height: 198px;
 
 header {
   .headerWrapper {
@@ -51,11 +54,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba($white, .4);
+    border: 1px solid rgba($white, 0.4);
     transition: border-color 0.4s $easeOutCubic;
     svg path {
       transition: fill 0.4s $easeOutCubic;
-      fill: rgba($white, .4);
+      fill: rgba($white, 0.4);
     }
 
     &:hover {
@@ -75,7 +78,7 @@ header {
       position: absolute;
       display: block;
       height: rem(60px);
-      border-right: 2px solid rgba($white, .2);
+      border-right: 2px solid rgba($white, 0.2);
       right: 0;
       top: 0;
     }
