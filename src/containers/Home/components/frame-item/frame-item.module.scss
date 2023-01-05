@@ -78,16 +78,19 @@
   }
 
   &_ctas {
-    position: absolute;
-    top: calc(100% - #{rem(25px)});
     left: 0;
-    opacity: 0;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 3;
     transition: opacity .4s $easeOutCubic;
+
+    @include  min-pc{
+      position: absolute;
+      opacity: 0;
+      top: calc(100% - #{rem(25px)});
+    }
 
     &__in {
       @include max-tablet {

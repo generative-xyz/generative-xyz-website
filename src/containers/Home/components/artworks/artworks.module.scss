@@ -54,11 +54,17 @@
 
     @include min-pc {
       &__big {
-        height: 100vh;
-        aspect-ratio: 1122/720;
+        width: 100vh;
+        aspect-ratio: 1/1;
         position: relative;
         z-index: 2;
         will-change: transform;
+        img, video{
+          object-fit: contain;
+          height: 100%;
+          width: 100%;
+          aspect-ratio: 1/1;
+        }
       }
 
       &__small {

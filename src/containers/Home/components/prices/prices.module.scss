@@ -99,7 +99,7 @@
       }
 
       &.Home_specTitle_large {
-        @include max-tablet{
+        @include mobile{
           padding-top: rem(100px) !important;
         }
       }
@@ -198,4 +198,11 @@
 
 .home_rowFrame {
   margin-top: var(--spacing-supper);
+}
+
+.dimensions{
+  img{
+    width: auto;
+    height: rem(200px);
+  }
 }
