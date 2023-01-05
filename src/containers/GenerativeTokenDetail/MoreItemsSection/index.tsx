@@ -104,6 +104,7 @@ const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
                 variants="outline"
                 endIcon={
                   <SvgInset
+                    className={s.icon_btn}
                     svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
                   />
                 }
