@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 // import { useSelector } from 'react-redux';
 import s from './styles.module.scss';
-import { formatTokenId } from '@utils/format';
+import { formatTokenId, getProjectIdFromTokenId } from '@utils/format';
 
 const CollectionItem = ({ data }: { data: IProjectItem }) => {
   const router = useRouter();
@@ -21,8 +21,8 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
   // const listingPrice = 0.02;
   const handleClickItem = () => {
     router.push(
-      `${ROUTE_PATH.GENERATIVE}/${Math.floor(
-        parseInt(tokenID) / 1000000
+      `${ROUTE_PATH.GENERATIVE}/${getProjectIdFromTokenId(
+        parseInt(tokenID)
       )}/${tokenID}`
     );
   };
