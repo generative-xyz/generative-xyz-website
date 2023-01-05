@@ -1,0 +1,20 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.dark {
+    background: $primary-brand;
+  }
+}

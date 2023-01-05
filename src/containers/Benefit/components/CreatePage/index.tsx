@@ -6,7 +6,6 @@ import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { useEffect } from 'react';
 import { Project } from '@interfaces/project';
-import Heading from '@components/Heading';
 import Text from '@components/Text';
 import { Col, Container, Row } from 'react-bootstrap';
 import { DATA_CREATE_PAGE_SECTIONS } from '@constants/landing';
@@ -20,6 +19,7 @@ import { AnimFade } from '@animations/fade';
 import { PAGE_ENTER } from '@constants/common';
 import { useSelector } from 'react-redux';
 import { pageLoadStatus } from '@redux/general/selector';
+import { BlockContent } from '@containers/Benefit/components/BlockContent';
 
 export const CreatePageSection = (): JSX.Element => {
   const [_, setProject] = useState<Project | null>(null);
@@ -27,6 +27,7 @@ export const CreatePageSection = (): JSX.Element => {
   const loadStatus = useSelector(pageLoadStatus);
   const refAnim = useRef<HTMLDivElement | null>(null);
   const refList = useRef<any>([]);
+
   const fetchRandomProject = async () => {
     try {
       const res = await getRandomProject();
@@ -38,10 +39,11 @@ export const CreatePageSection = (): JSX.Element => {
   };
 
   const onClick = () => {
-    router.push(ROUTE_PATH.BENEFIT);
+    router.push(ROUTE_PATH.CREATE_PROJECT);
   };
 
   useEffect(() => {
+    // unRegisterLoading();
     refAnim.current && gsap.set(refList.current, { opacity: 0, y: 100 });
     fetchRandomProject();
   }, []);
@@ -76,15 +78,6 @@ export const CreatePageSection = (): JSX.Element => {
         <Row>
           <Col xl={{ span: 5, order: 0 }} xs={{ span: 12, order: 1 }}>
             <div className={s.createPage_content}>
-              <Heading
-                as={'h5'}
-                color={'blue-c'}
-                className={'spacing__small'}
-                fontWeight={'semibold'}
-                animOption={{ screen: 0, offset: 0, type: 'random' }}
-              >
-                Artist
-              </Heading>
               <Text
                 as={'h2'}
                 color={'white'}
@@ -93,7 +86,8 @@ export const CreatePageSection = (): JSX.Element => {
                 size={'d3'}
                 animOption={{ screen: 0.2, offset: 0, type: 'heading' }}
               >
-                Where imagination comes to life.
+                A full-service platform for generative artists to launch
+                collections.
               </Text>
               <Text
                 size="24"
@@ -103,14 +97,31 @@ export const CreatePageSection = (): JSX.Element => {
                 as="p"
                 animOption={{ screen: 0.4, offset: 0, type: 'paragraph' }}
               >
-                World-renowned artists. A hand-crafted experience for
-                discovering art you love.{' '}
-                <strong className={'text-blue-c'}>
-                  100% verified collections
-                </strong>
-                . And industry-leading 1% fees when {`you're`} ready to buy.
+                Have the freedom to tell the world your creativity with our
+                platform. At Generative, you use creative code to create varied,
+                generative art that evolves each time a collector mints a piece.
               </Text>
-              <AnimFade screen={0.5}>
+              <AnimFade screen={0.6}>
+                <BlockContent heading={'Permanently stored on the blockchain'}>
+                  [Description here]
+                </BlockContent>
+              </AnimFade>
+              <AnimFade screen={0.7}>
+                <BlockContent
+                  heading={'Transparent & efficient submission process'}
+                >
+                  [Description here]
+                </BlockContent>
+              </AnimFade>
+              <AnimFade screen={0.8}>
+                <BlockContent
+                  className={'spacing__medium'}
+                  heading={'Competitive royalty structure'}
+                >
+                  [Description here]
+                </BlockContent>
+              </AnimFade>
+              <AnimFade screen={0.9}>
                 <ButtonIcon
                   onClick={onClick}
                   sizes={'medium'}
@@ -121,7 +132,7 @@ export const CreatePageSection = (): JSX.Element => {
                     />
                   }
                 >
-                  Get started
+                  Start upload
                 </ButtonIcon>
               </AnimFade>
             </div>

@@ -1,0 +1,12 @@
+.blockContent {
+  padding: rem(24px);
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    background: linear-gradient(90deg, rgba(79, 67, 226, 0.1) 9.24%, rgba(226, 96, 67, 0.06) 97.01%);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    border-top: 2px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+  }
+}
