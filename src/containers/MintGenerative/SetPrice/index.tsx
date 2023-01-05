@@ -21,6 +21,7 @@ import { CSS_EXTENSION, JS_EXTENSION } from '@constants/file';
 import _get from 'lodash/get';
 import { createProjectMetadata } from '@services/project';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import { isTestnet } from '@utils/chain';
 
 const LOG_PREFIX = 'SetPrice';
 
@@ -273,7 +274,13 @@ const SetPrice = () => {
                     name="mintPrice"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.mintPrice}
+                    value={
+                      values.mintPrice
+                        ? values.mintPrice
+                        : isTestnet()
+                        ? 0.0001
+                        : values.mintPrice
+                    }
                     className={s.input}
                     placeholder="Provide a number"
                   />
