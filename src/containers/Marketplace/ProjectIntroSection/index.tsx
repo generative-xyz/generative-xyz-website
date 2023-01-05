@@ -25,6 +25,10 @@ import log from '@utils/logger';
 import toast from 'react-hot-toast';
 import Web3 from 'web3';
 import _get from 'lodash/get';
+import { WalletManager } from '@services/wallet';
+import { isTestnet } from '@utils/chain';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@redux/user/selector';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -33,6 +37,7 @@ type Props = {
 };
 
 const ProjectIntroSection = ({ project }: Props) => {
+  const user = useSelector(getUserSelector);
   const router = useRouter();
   const [projectDetail, setProjectDetail] =
     useState<Omit<IProjectItem, 'owner'>>();
@@ -60,6 +65,26 @@ const ProjectIntroSection = ({ project }: Props) => {
 
       if (!project) {
         return;
+      }
+
+      // check balance
+      const walletManagerInstance = new WalletManager();
+      if (walletManagerInstance) {
+        const balance = await walletManagerInstance.balanceOf(
+          user.walletAddress
+        );
+        if (balance.data) {
+          if (balance.data < project.mintPrice) {
+            if (isTestnet()) {
+              toast.error(
+                'Insufficient funds testnet. Go to profile and get testnet faucet'
+              );
+            } else {
+              toast.error('Insufficient funds.');
+            }
+            return;
+          }
+        }
       }
 
       const mintTx = await mintToken({
