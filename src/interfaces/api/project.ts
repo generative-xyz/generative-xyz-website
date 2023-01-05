@@ -22,6 +22,7 @@ export interface IProjectItem {
   image: string;
   animation_url?: string;
   attributes: RawTokenAttributes;
+  genNFTAddr: string;
 }
 
 export interface IGetProjectItemsResponse extends IPagingResponse {
