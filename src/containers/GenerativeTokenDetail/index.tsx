@@ -1,31 +1,44 @@
-import ButtonIcon from '@components/ButtonIcon';
-import Stats from '@components/Stats';
-import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
-import { LogLevel } from '@enums/log-level';
-import { getTokenUri } from '@services/token-uri';
-import { formatAddress, formatTokenId } from '@utils/format';
-import log from '@utils/logger';
-import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react';
-import s from './styles.module.scss';
-import { Container } from 'react-bootstrap';
-import Heading from '@components/Heading';
-import Text from '@components/Text';
-import dayjs from 'dayjs';
 import Accordion from '@components/Accordion';
-import { getChainName, getScanUrl } from '@utils/chain';
-import { v4 } from 'uuid';
+import ButtonIcon from '@components/ButtonIcon';
+import Heading from '@components/Heading';
+import Stats from '@components/Stats';
+import Text from '@components/Text';
+import ThumbnailPreview from '@components/ThumbnailPreview';
+import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
+import { ROUTE_PATH } from '@constants/route-path';
 import {
   GenerativeTokenDetailContext,
   GenerativeTokenDetailProvider,
 } from '@contexts/generative-token-detail-context';
+import { LogLevel } from '@enums/log-level';
+import { getUserSelector } from '@redux/user/selector';
+import { getTokenUri } from '@services/token-uri';
+import { getChainName, getScanUrl } from '@utils/chain';
+import { formatAddress, formatTokenId } from '@utils/format';
+import log from '@utils/logger';
+import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { Container } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { v4 } from 'uuid';
 import MoreItemsSection from './MoreItemsSection';
-import ThumbnailPreview from '@components/ThumbnailPreview';
+import s from './styles.module.scss';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
+  const user = useSelector(getUserSelector);
+
+  const checkOwnership = useCallback(
+    (address: string) => {
+      if (!address) return false;
+      return address === user?.walletAddress;
+    },
+    [user.walletAddress]
+  );
+
   const { tokenData, setTokenData } = useContext(GenerativeTokenDetailContext);
   const { tokenID } = router.query as {
     projectID: string;
@@ -93,6 +106,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     }
   };
 
+  const handleLinkProfile = () => {
+    // TODO: update to corect profile when profile page finish
+    router.push(`${ROUTE_PATH.PROFILE}`);
+  };
+
   useEffect(() => {
     fetchTokenData();
   }, [tokenID]);
@@ -153,22 +171,35 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
             <Accordion
               header={'Owner'}
               content={
-                <Text size="18" fontWeight="medium" className={s.walletAddress}>
+                <Text
+                  size="18"
+                  fontWeight="medium"
+                  className={s.walletAddress}
+                  onClick={handleLinkProfile}
+                >
                   {tokenData?.owner?.displayName ||
                     formatAddress(
                       tokenData?.ownerAddr ||
                         tokenData?.owner?.walletAddress ||
                         ''
                     )}
+                  {checkOwnership(tokenData?.ownerAddr || '') && ' (by you)'}
                 </Text>
               }
             ></Accordion>
             <Accordion
               header={'Creator'}
               content={
-                <Text size="18" fontWeight="medium" className={s.walletAddress}>
+                <Text
+                  size="18"
+                  fontWeight="medium"
+                  className={s.walletAddress}
+                  onClick={handleLinkProfile}
+                >
                   {tokenData?.creator?.displayName ||
                     formatAddress(tokenData?.creator?.walletAddress || '')}
+                  {checkOwnership(tokenData?.creator?.walletAddress || '') &&
+                    ' (by you)'}
                 </Text>
               }
             ></Accordion>
@@ -188,7 +219,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <div className="h-divider"></div>
-        <div>
+        <div className={s.thumbnailWrapper}>
           <ThumbnailPreview data={tokenData} previewToken />
         </div>
       </div>

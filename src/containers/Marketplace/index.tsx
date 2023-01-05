@@ -62,6 +62,9 @@ const Marketplace = () => {
     },
     mintedTime: 0,
     royalty: 0,
+    stats: {
+      uniqueOwnerCount: 0,
+    },
   });
 
   const fetchRandomProject = async () => {
