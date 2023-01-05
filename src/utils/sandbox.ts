@@ -96,7 +96,9 @@ export const readSandboxFileContent = async (
               },
             },
           });
-          minifiedContent = minifiedFiles[fileName].content;
+          minifiedContent = minifiedFiles[fileName].deflate
+            ? minifiedFiles[fileName].deflate
+            : minifiedFiles[fileName].content;
         } catch (err: unknown) {
           log(err as Error, LogLevel.Error, LOG_PREFIX);
         }

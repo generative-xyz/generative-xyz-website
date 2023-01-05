@@ -38,7 +38,6 @@ self.addEventListener("fetch", async (event) => {
 })
 
 self.addEventListener("install", (event) => {
-  console.log(event);
   self.skipWaiting();
 })
 

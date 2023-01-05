@@ -1,0 +1,28 @@
+.marketplace {
+  background: #0F0F11;
+  padding: {
+    bottom: rem(145px);
+  }
+
+  &_card {
+    position: relative;
+
+    .layer {
+      &__2, &__3 {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      &__2{
+        transform: translate(rem(-80px), rem(80px));
+      }
+    }
+  }
+
+  &_content {
+    button svg path {
+      stroke: $primary-brand;
+    }
+  }
+}

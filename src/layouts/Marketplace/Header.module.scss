@@ -1,11 +1,45 @@
-@import "src/styles/_themes/mixins";
+@import 'src/styles/_themes/mixins';
 
 .header {
+  &.dark {
+    background: $primary-brand;
+
+    :global(.divider) {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    .headerWrapper {
+      .username {
+        color: $white-100;
+      }
+      .price {
+        color: $white-80;
+      }
+      .caret_icon {
+        filter: brightness(0) invert(1);
+      }
+      .dropdown {
+        :global(.dropdown-item) {
+          background-color: $black-100;
+          color: $white-40;
+
+          &:hover {
+            background-color: #000;
+            color: $white-100;
+          }
+        }
+      }
+    }
+  }
+
+  &_logo {
+    border-radius: 4px;
+  }
+
   .headerWrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 0;
+    padding: rem(8px) 0;
 
     a {
       text-decoration: none;
@@ -13,20 +47,30 @@
 
     .navBar {
       display: flex;
-      gap: 24px;
-      margin-left: rem(60);
+      gap: rem(24px);
+      margin-left: rem(60px);
       margin-bottom: 0;
       padding: 0;
       text-transform: uppercase;
-      font-size: 16px;
-      line-height: 26px;
-      font-weight: 700;
+      font-size: rem(16px);
+      line-height: rem(26px);
+      font-weight: 600;
       color: $black-40;
 
       .active,
       a:hover {
         transition: all 0.3s;
         color: $black-100;
+      }
+
+      &.dark {
+        color: rgba($white, 0.4);
+
+        .active,
+        a:hover {
+          transition: all 0.3s;
+          color: $white;
+        }
       }
     }
 
@@ -37,9 +81,8 @@
       font-size: 14px;
       font-weight: 700;
 
-      span {
+      p {
         @include text-ellipsis;
-
         max-width: 150px;
         line-height: 24px;
       }

@@ -1,7 +1,6 @@
 @import '_themes/mixins';
 @import '_themes/bt-variables';
-@import 'bootstrap/scss/bootstrap';
-@import '_bt-importer';
+@import '~bootstrap/scss/bootstrap';
 @import '_fonts';
 @import '_reset';
 @import '_variables';

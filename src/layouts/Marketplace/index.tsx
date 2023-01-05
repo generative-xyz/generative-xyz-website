@@ -1,16 +1,22 @@
-import React, { PropsWithChildren } from 'react';
+import React, { ReactNode } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import styles from './styles.module.scss';
 
-const MarketplaceLayout: React.FC<PropsWithChildren> = ({
+interface IProps {
+  children: ReactNode;
+  theme?: 'light' | 'dark';
+}
+
+const MarketplaceLayout: React.FC<IProps> = ({
   children,
-}: PropsWithChildren): React.ReactElement => {
+  theme = 'light',
+}): React.ReactElement => {
   return (
-    <div className={styles.wrapper}>
-      <Header />
+    <div className={`${styles.wrapper} ${styles[theme]}`}>
+      <Header theme={theme} />
       <main>{children}</main>
-      <Footer />
+      <Footer theme={theme} />
     </div>
   );
 };
