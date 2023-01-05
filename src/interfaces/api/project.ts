@@ -1,6 +1,7 @@
 import { IPagingParams, IPagingResponse } from '@interfaces/paging';
 import { Project } from '@interfaces/project';
 import { RawTokenAttributes } from '@interfaces/sandbox';
+import { User } from '@interfaces/user';
 
 export interface IGetProjectDetailParams {
   contractAddress: string;
@@ -14,17 +15,12 @@ export interface IGetProjectItemsParams extends IPagingParams {
 }
 
 export interface IProjectItem {
-  owner: IProjectItemOwner;
+  owner: User;
   name: string;
   description?: string;
   image: string;
   animation_url?: string;
   attributes: RawTokenAttributes;
-}
-
-export interface IProjectItemOwner {
-  name: string;
-  avatar: string;
 }
 
 export interface IGetProjectItemsResponse extends IPagingResponse {
