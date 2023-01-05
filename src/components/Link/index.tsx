@@ -1,5 +1,7 @@
 import NextLink from 'next/link';
 import { PropsWithChildren } from 'react';
+import cs from 'classnames';
+import s from './styles.module.scss';
 
 type LinkProps = {
   onClick?: () => void;
@@ -31,7 +33,7 @@ export default function Link({
           : undefined
       }
       target={target}
-      className={className}
+      className={cs(s.link, className)}
       rel={rel}
       {...rest}
       passHref
