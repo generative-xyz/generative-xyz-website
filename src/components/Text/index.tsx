@@ -110,9 +110,10 @@ const Text = ({
           if (refDom.current) {
             comp.current?.classList.remove(`is-handle`);
             refDom.current?.texts && refDom.current.texts?.revert();
-            refDom.current?.resizeObserver?.unobserve(
-              comp.current as HTMLElement
-            );
+            comp.current &&
+              refDom.current?.resizeObserver?.unobserve(
+                comp.current as HTMLElement
+              );
           }
           break;
         case 'paragraph':
