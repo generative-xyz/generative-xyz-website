@@ -15,6 +15,7 @@ export interface IGetProjectItemsParams extends IPagingParams {
 }
 
 export interface IProjectItem {
+  ownerAddr: string;
   owner: User;
   name: string;
   description?: string;

@@ -49,7 +49,11 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
           />
         </div>
         <div className={s.collectionCard_info}>
-          {data.owner && <CreatorInfo creator={data.owner as User} />}
+          {data.owner ? (
+            <CreatorInfo creator={data.owner as User} />
+          ) : (
+            <CreatorInfo creator={{ walletAddress: data.ownerAddr } as User} />
+          )}
           <div className={s.collectionCard_info_title}>
             <Stack
               className={s.collectionCard_info_stack}
