@@ -3,6 +3,7 @@ import s from './styles.module.scss';
 import Heading from '@components/Heading';
 import Text from '@components/Text';
 import cs from 'classnames';
+import Skeleton from '@components/Skeleton';
 
 type TProgressBar = {
   current?: number;
@@ -12,12 +13,13 @@ type TProgressBar = {
 };
 
 const ProgressBar = ({
-  current = 25,
-  total = 50,
+  current,
+  total,
   size = 'regular',
   className,
 }: TProgressBar) => {
   const calcMintProgress = useMemo(() => {
+    if (!current || !total) return 0;
     return (current / total) * 100;
   }, [total, current]);
 
@@ -27,7 +29,11 @@ const ProgressBar = ({
         {size === 'regular' && (
           <>
             <Heading as="h5" fontWeight="bold">
-              {current}/{total}
+              {total ? (
+                `${current}/${total}`
+              ) : (
+                <Skeleton width={60} height={34} />
+              )}
             </Heading>
             <Text fontWeight="semibold">minted</Text>
           </>
