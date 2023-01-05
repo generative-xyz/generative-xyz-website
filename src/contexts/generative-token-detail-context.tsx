@@ -15,6 +15,7 @@ import IsApprrovedForAllOperation from '@services/contract-operations/generative
 import SetApprrovalForAllOperation from '@services/contract-operations/generative-nft/set-approval-for-all';
 import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
+import { ListingStep } from '@enums/listing-generative';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
 
@@ -22,10 +23,15 @@ export interface IGenerativeTokenDetailContext {
   tokenData: Token | null;
   setTokenData: Dispatch<SetStateAction<Token | null>>;
   showListingModal: boolean;
-  setShowListingModal: Dispatch<SetStateAction<boolean>>;
-  handleListingToken: () => Promise<void>;
-  isMinting: boolean;
-  setIsMinting: Dispatch<SetStateAction<boolean>>;
+  openListingModal: () => void;
+  hideListingModal: () => void;
+  handleListingToken: (_: string) => Promise<void>;
+  isListing: boolean;
+  setIsListing: Dispatch<SetStateAction<boolean>>;
+  listingStep: ListingStep;
+  setListingStep: Dispatch<SetStateAction<ListingStep>>;
+  listingPrice: number;
+  setListingPrice: Dispatch<SetStateAction<number>>;
 }
 
 const initialValue: IGenerativeTokenDetailContext = {
@@ -34,12 +40,23 @@ const initialValue: IGenerativeTokenDetailContext = {
     return;
   },
   showListingModal: false,
-  setShowListingModal: _ => {
+  openListingModal: () => {
     return;
   },
-  handleListingToken: () => new Promise(r => r()),
-  isMinting: false,
-  setIsMinting: _ => {
+  hideListingModal: () => {
+    return;
+  },
+  handleListingToken: _ => new Promise(r => r()),
+  isListing: false,
+  setIsListing: _ => {
+    return;
+  },
+  listingStep: ListingStep.InputInfo,
+  setListingStep: _ => {
+    return;
+  },
+  listingPrice: 0,
+  setListingPrice: _ => {
     return;
   },
 };
@@ -52,8 +69,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
 }: PropsWithChildren): React.ReactElement => {
   const [tokenData, setTokenData] = useState<Token | null>(null);
   const [showListingModal, setShowListingModal] = useState(false);
-  const [isMinting, setIsMinting] = useState(false);
-  const { call: _ } = useContractOperation(ListingTokenOperation, true);
+  const [isListing, setIsListing] = useState(false);
+  const [listingStep, setListingStep] = useState(ListingStep.InputInfo);
+  const [listingPrice, setListingPrice] = useState(0);
+  const { call: listToken } = useContractOperation(ListingTokenOperation, true);
   const { call: checkTokenIsApproved } = useContractOperation(
     IsApprrovedForAllOperation,
     false
@@ -63,18 +82,32 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     true
   );
 
-  const handleListingToken = async (): Promise<void> => {
+  const openListingModal = () => {
+    setShowListingModal(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const hideListingModal = () => {
+    setShowListingModal(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const handleListingToken = async (price: string): Promise<void> => {
     try {
       if (!tokenData) {
         return;
       }
 
-      // setIsMinting(true);
+      setIsListing(true);
       // Check if token's already been approved
       const isTokenApproved = await checkTokenIsApproved({
         marketplaceAddress: GENERATIVE_MARKETPLACE_CONTRACT,
         chainID: NETWORK_CHAIN_ID,
       });
+      if (isTokenApproved === null) {
+        log('user denied permission', LogLevel.Error, LOG_PREFIX);
+        return;
+      }
       if (!isTokenApproved) {
         const status = await setApprovalForAll({
           marketplaceAddress: GENERATIVE_MARKETPLACE_CONTRACT,
@@ -85,16 +118,17 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
           return;
         }
       }
-      // const tx = await listToken({
-      //   collectionAddress: itemDetail.genNFTAddr,
-      //   tokenID: itemDetail.name,
-      //   durationTime: 0,
-      //   price:
-      // })
+      await listToken({
+        collectionAddress: tokenData.genNFTAddr,
+        tokenID: tokenData.name,
+        durationTime: 0,
+        price: price,
+        chainID: NETWORK_CHAIN_ID,
+      });
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
     } finally {
-      setIsMinting(false);
+      setIsListing(false);
     }
   };
 
@@ -103,19 +137,29 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       tokenData,
       setTokenData,
       showListingModal,
-      setShowListingModal,
-      isMinting,
-      setIsMinting,
+      isListing,
+      setIsListing,
       handleListingToken,
+      listingStep,
+      setListingStep,
+      listingPrice,
+      setListingPrice,
+      openListingModal,
+      hideListingModal,
     };
   }, [
     tokenData,
     setTokenData,
     showListingModal,
-    setShowListingModal,
-    isMinting,
-    setIsMinting,
-    setIsMinting,
+    isListing,
+    setIsListing,
+    handleListingToken,
+    listingStep,
+    setListingStep,
+    listingPrice,
+    setListingPrice,
+    openListingModal,
+    hideListingModal,
   ]);
 
   return (

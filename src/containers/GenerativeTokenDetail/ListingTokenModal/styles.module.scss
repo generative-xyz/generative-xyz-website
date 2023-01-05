@@ -1,0 +1,81 @@
+.listingTokenModal {
+  .backdrop {
+    background: $white-40;
+    backdrop-filter: blur(5px);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    z-index: 1;
+  }
+
+  .modalWrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    right: -445px;
+    width: 444px;
+    background: #ffffff;
+    border-left: 1px solid $black-10;
+    box-shadow: -10px 0px 40px $black-20;
+    transition: all 0.2s ease-in;
+    z-index: 2;
+  }
+
+  .modalHeader {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .closeBtn {
+    padding: 0;
+    background-color: transparent !important;
+
+    &:hover {
+      .closeIcon {
+        transform: rotate(90deg);
+        transition: all 0.3s;
+
+        :global(svg path) {
+          fill: $black-100;
+          fill-opacity: 1;
+        }
+      }
+    }
+  }
+
+  .listingInfoWrapper {
+    &__hide {
+      display: none;
+    }
+  }
+
+  .listingWaitingWrapper {
+    &__hide {
+      display: none;
+    }
+  }
+
+  .modalBody {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  &__show {
+    display: block;
+
+    .backdrop {
+      display: block;
+    }
+
+    .modalWrapper {
+      right: 0;
+    }
+  }
+}

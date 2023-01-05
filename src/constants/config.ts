@@ -27,5 +27,6 @@ export const AA_PLATFORM = 'web';
 export const RAPI_URL = 'https://telize-v1.p.rapidapi.com/geoip';
 export const RAPI_HOST = 'telize-v1.p.rapidapi.com';
 export const RAPID_CLIENT_TOKEN = process.env.RAPID_CLIENT_TOKEN!;
+export const SERVICE_FEE = 2.5 / 100;
 
 /* eslint-enable @typescript-eslint/no-non-null-assertion */

@@ -63,11 +63,12 @@
 .CTA_btn {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: rem(10px);
   margin-bottom: rem(32px);
 
   button {
-    flex: 1;
+    width: calc(50% - 5px);
     justify-content: center;
   }
 }
