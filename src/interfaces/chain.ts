@@ -8,6 +8,7 @@ export type Chain = {
   rpcUrl: string;
   openseaAssetUrl: string;
   iconUrl: string;
+  faucet: string;
 };
 
 export interface IExplore {

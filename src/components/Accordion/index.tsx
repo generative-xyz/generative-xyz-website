@@ -13,11 +13,11 @@ type Props = {
 };
 
 const AccordionComponent = ({ header, content, className }: Props) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <div className={cs(styles.wrapper, className)}>
-      <Accordion defaultActiveKey="0">
+      <Accordion>
         <Accordion.Item eventKey="0" className={styles.accordion_item}>
           <Accordion.Header
             className={styles.accordion_header}

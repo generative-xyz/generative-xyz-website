@@ -15,7 +15,7 @@ const MarketplaceLayout: React.FC<IProps> = ({
   return (
     <div className={`${styles.wrapper} ${styles[theme]}`}>
       <Header theme={theme} />
-      <main>{children}</main>
+      <main className={styles.main}>{children}</main>
       <Footer theme={theme} />
     </div>
   );

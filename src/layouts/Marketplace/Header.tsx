@@ -26,6 +26,7 @@ import { Container, Stack } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Web3 from 'web3';
 import styles from './Header.module.scss';
+import { getFaucet, isTestnet } from '@utils/chain';
 
 const LOG_PREFIX = 'MarketplaceHeader';
 
@@ -82,14 +83,24 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
 
   const PROFILE_MENU = [
     {
-      id: 'profile-1',
+      id: 'view-profile',
       name: 'View Profile',
       onClick: () => router.push(ROUTE_PATH.PROFILE),
     },
     {
-      id: 'profile-2',
+      id: 'disconect-wallet',
       name: 'Disconnect wallet',
       onClick: () => walletCtx.disconnect(),
+    },
+    {
+      id: 'faucet',
+      name: 'Get faucet testnet',
+      onClick: () => {
+        const faucet = getFaucet();
+        if (faucet) {
+          window.open(faucet, '_blank');
+        }
+      },
     },
   ];
 
@@ -128,11 +139,18 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
     return (
       <ul className={styles.dropdown} ref={dropdownRef}>
         {PROFILE_MENU?.length > 0 &&
-          PROFILE_MENU.map(item => (
-            <li className="dropdown-item" onClick={item.onClick} key={item.id}>
-              {item.name}
-            </li>
-          ))}
+          PROFILE_MENU.map(
+            item =>
+              (item.id != 'faucet' || isTestnet()) && (
+                <li
+                  className="dropdown-item"
+                  onClick={item.onClick}
+                  key={item.id}
+                >
+                  {item.name}
+                </li>
+              )
+          )}
       </ul>
     );
   };

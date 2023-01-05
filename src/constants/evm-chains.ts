@@ -11,6 +11,7 @@ export const EVM_CHAINS: Array<Chain> = [
     rpcUrl: 'https://mainnet.infura.io/v3/6fcfb74bf71f4c3e92372d86eb947f43',
     openseaAssetUrl: 'https://opensea.io/assets/ethereum',
     iconUrl: 'https://cdn.rove.to/icons/ethereum-eth-logo.svg',
+    faucet: '',
   },
   {
     name: 'Goerli',
@@ -22,6 +23,7 @@ export const EVM_CHAINS: Array<Chain> = [
     rpcUrl: 'https://goerli.infura.io/v3',
     openseaAssetUrl: 'https://testnets.opensea.io/assets/goerli',
     iconUrl: 'https://cdn.rove.to/icons/ethereum-eth-logo.svg',
+    faucet: 'https://goerlifaucet.com/',
   },
   {
     name: 'Polygon',
@@ -33,6 +35,7 @@ export const EVM_CHAINS: Array<Chain> = [
     rpcUrl: 'https://polygon-rpc.com',
     openseaAssetUrl: 'https://opensea.io/assets/matic',
     iconUrl: 'https://cdn.rove.to/icons/polygon-matic-logo.svg',
+    faucet: '',
   },
   {
     name: 'Mumbai',
@@ -44,5 +47,6 @@ export const EVM_CHAINS: Array<Chain> = [
     rpcUrl: 'https://matic-mumbai.chainstacklabs.com',
     openseaAssetUrl: 'https://testnets.opensea.io/assets/mumbai',
     iconUrl: 'https://cdn.rove.to/icons/polygon-matic-logo.svg',
+    faucet: 'https://mumbaifaucet.com/',
   },
 ];
