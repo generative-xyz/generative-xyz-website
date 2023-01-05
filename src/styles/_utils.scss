@@ -74,7 +74,7 @@
 .divider {
   width: 100%;
   height: 1px;
-  background-color: $black-20;
+  background-color: $black-10;
 }
 
 .shadow {
@@ -124,8 +124,8 @@
   color: $black-100;
 }
 
-.text-white-60{
-  color: rgba($white, .6);
+.text-white-60 {
+  color: rgba($white, 0.6);
 }
 
 .h-divider {
@@ -135,7 +135,7 @@
 }
 
 .text-blue-c {
-  color: $blue-c
+  color: $blue-c;
 }
 
 .spacing {
