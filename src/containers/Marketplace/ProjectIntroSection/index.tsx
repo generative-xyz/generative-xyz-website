@@ -29,6 +29,7 @@ import { WalletManager } from '@services/wallet';
 import { isTestnet } from '@utils/chain';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@redux/user/selector';
+import BN from 'bn.js';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -68,13 +69,15 @@ const ProjectIntroSection = ({ project }: Props) => {
       }
 
       // check balance
-      const walletManagerInstance = new WalletManager();
-      if (walletManagerInstance) {
-        const balance = await walletManagerInstance.balanceOf(
-          user.walletAddress
-        );
-        if (balance.data) {
-          if (balance.data < project.mintPrice) {
+      if (new BN(project.mintPrice).cmp(new BN(0)) == 1) {
+        const walletManagerInstance = new WalletManager();
+        if (walletManagerInstance) {
+          const check = await walletManagerInstance.checkInsufficient(
+            user.walletAddress,
+            '0x0000000000000000000000000000000000000000',
+            project.mintPrice.toString()
+          );
+          if (!check) {
             if (isTestnet()) {
               toast.error(
                 'Insufficient funds testnet. Go to profile and get testnet faucet'

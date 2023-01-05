@@ -20,6 +20,7 @@ import {
   WalletOperationReturn,
 } from '@interfaces/wallet';
 import { WalletError, WalletErrorCode } from '@enums/wallet-error';
+import BN from 'bn.js';
 
 const LOG_PREFIX = 'WalletManager';
 
@@ -144,6 +145,20 @@ export class WalletManager {
       message: '',
       data: balance,
     };
+  }
+
+  async checkInsufficient(
+    walletAddress: string,
+    erc20: string,
+    fee: string
+  ): Promise<boolean> {
+    const balance = await this.balanceOf(walletAddress);
+    if (balance.data) {
+      if (new BN(balance.data).cmp(new BN(fee)) == -1) {
+        return false;
+      }
+    }
+    return true;
   }
 
   async signMessage(
