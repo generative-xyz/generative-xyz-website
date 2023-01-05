@@ -1,22 +1,49 @@
 .createPage {
   background: #0F0F11;
+
   padding: {
-    top: rem(164px);
-    bottom: rem(184px);
+    top: rem(60px);
+    bottom: rem(120px);
+  }
+
+  @include tablet {
+    padding: {
+      top: rem(80px);
+      bottom: rem(240px);
+    }
+  }
+  @include min-pc {
+    padding: {
+      top: rem(164px);
+      bottom: rem(184px);
+    }
   }
 
   &_project {
     display: grid;
-    grid-gap: rem(24px);
+    grid-gap: rem(8px);
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+
+    @include min-pc {
+      grid-gap: rem(24px);
+    }
   }
 
   &_content {
     padding-top: rem(70px);
 
-    button svg path {
-      stroke: $primary-brand;
+    button {
+      width: 100%;
+      justify-content: center;
+      @include min-tablet {
+        width: auto;
+        justify-content: left;
+      }
+
+      svg path {
+        stroke: $primary-brand;
+      }
     }
   }
 }

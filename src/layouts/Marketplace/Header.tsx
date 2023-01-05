@@ -216,17 +216,15 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
         <div className={styles.headerWrapper}>
           <div className="d-flex align-items-center justify-content-between w-100">
             <Stack direction="horizontal">
-              <h1>
-                <Link href={ROUTE_PATH.HOME}>
-                  <Image
-                    className={styles.header_logo}
-                    src={LOGO_GENERATIVE}
-                    alt="LOGO_GENERATIVE"
-                    width={64}
-                    height={64}
-                  />
-                </Link>
-              </h1>
+              <Link href={ROUTE_PATH.HOME}>
+                <Image
+                  className={styles.header_logo}
+                  src={LOGO_GENERATIVE}
+                  alt="LOGO_GENERATIVE"
+                  width={64}
+                  height={64}
+                />
+              </Link>
               <ul className={`${styles.navBar} ${styles[theme]}`}>
                 {MENU_HEADER?.length > 0 &&
                   MENU_HEADER.map(item => (
@@ -255,13 +253,15 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
                 {openProfile && <ProfileDropdown />}
               </div>
             ) : (
-              <ButtonIcon
-                sizes="small"
-                variants={theme === 'dark' ? 'secondary' : 'primary'}
-                onClick={handleConnectWallet}
-              >
-                Connect wallet
-              </ButtonIcon>
+              <div className={'d-md-block d-none'}>
+                <ButtonIcon
+                  sizes="small"
+                  variants={theme === 'dark' ? 'secondary' : 'primary'}
+                  onClick={handleConnectWallet}
+                >
+                  Connect wallet
+                </ButtonIcon>
+              </div>
             )}
           </div>
         </div>

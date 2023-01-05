@@ -7,16 +7,20 @@
     :global(.divider) {
       background: rgba(0, 0, 0, 0.1);
     }
+
     .headerWrapper {
       .username {
         color: $white-100;
       }
+
       .price {
         color: $white-80;
       }
+
       .caret_icon {
         filter: brightness(0) invert(1);
       }
+
       .dropdown {
         :global(.dropdown-item) {
           background-color: $black-100;
@@ -33,6 +37,12 @@
 
   &_logo {
     border-radius: 4px;
+    width: 42px;
+    height: 42px;
+    @include min-tablet {
+      width: 64px;
+      height: 64px;
+    }
   }
 
   .headerWrapper {
@@ -41,21 +51,42 @@
     justify-content: space-between;
     padding: rem(8px) 0;
 
+
     a {
       text-decoration: none;
     }
 
     .navBar {
-      display: flex;
-      gap: rem(24px);
-      margin-left: rem(60px);
+
       margin-bottom: 0;
       padding: 0;
       text-transform: uppercase;
-      font-size: rem(16px);
-      line-height: rem(26px);
+      display: none;
+      flex-wrap: wrap;
       font-weight: 600;
       color: $black-40;
+
+      @include min-tablet {
+        display: flex;
+        gap: rem(24px);
+        font-size: rem(16px);
+        line-height: rem(26px);
+        margin-left: rem(60px);
+      }
+
+      li {
+        @include mobile {
+          flex: 0 0 100%;
+          width: 100%;
+        }
+      }
+
+      a {
+        @include mobile {
+          text-align: center;
+          display: block;
+        }
+      }
 
       .active,
       a:hover {
@@ -75,7 +106,10 @@
     }
 
     .username {
-      display: flex;
+      display: none;
+      @include min-tablet {
+        display: flex;
+      }
       align-items: center;
       gap: 6px;
       font-size: 14px;

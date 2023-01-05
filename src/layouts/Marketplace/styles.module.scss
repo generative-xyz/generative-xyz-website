@@ -27,20 +27,38 @@ header {
 }
 
 .footer {
-  min-height: rem(198);
+
   border: 1px solid $black-10;
   background-color: $primary-brand;
   color: $white-100;
   display: grid;
   place-items: center;
 
+  padding-top: rem(60px);
+  padding-bottom: rem(60px);
+  
+  @include min-tablet{
+    min-height: rem(198);
+    padding: 0;
+  }
+
   &_content {
     display: flex;
+    flex-wrap: wrap;
     gap: rem(40px);
 
     &_logo {
+      flex: 0 0 100%;
+      width: 100%;
+      text-align: center;
+      @include min-tablet {
+        flex: 0 0 auto;
+        width: auto;
+      }
+
       img {
         border-radius: 4px;
+        display: inline-block;
       }
     }
   }
@@ -53,6 +71,7 @@ header {
     justify-content: center;
     border: 1px solid rgba($white, .4);
     transition: border-color 0.4s $easeOutCubic;
+
     svg path {
       transition: fill 0.4s $easeOutCubic;
       fill: rgba($white, .4);
@@ -60,6 +79,7 @@ header {
 
     &:hover {
       border: 1px solid $white;
+
       path {
         fill: $white;
       }
@@ -68,23 +88,44 @@ header {
 
   &_info {
     position: relative;
-    padding-right: rem(40px);
 
-    &:after {
-      content: '';
-      position: absolute;
-      display: block;
-      height: rem(60px);
-      border-right: 2px solid rgba($white, .2);
-      right: 0;
-      top: 0;
+
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: center;
+    @include min-tablet {
+      flex: 0 0 auto;
+      width: auto;
+      padding-right: rem(40px);
+      &:after {
+        content: '';
+        position: absolute;
+        display: block;
+        height: rem(60px);
+        border-right: 2px solid rgba($white, .2);
+        right: 0;
+        top: 0;
+      }
+    }
+
+  }
+
+  &_contact{
+    @include mobile{
+      flex: 0 0 100%;
+      width: 100%;
+      text-align: center;
     }
   }
 
   &_socials {
     display: flex;
-    justify-content: flex-end;
     margin-top: rem(10px);
     gap: rem(6px);
+    justify-content: center;
+
+    @include min-tablet{
+      justify-content: flex-end;
+    }
   }
 }

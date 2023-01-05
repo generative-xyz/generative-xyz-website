@@ -1,33 +1,52 @@
 .text {
   &.size {
     &-d1 {
-      font-size: 128px;
-      line-height: 138px;
+      font-size: rem(128px);
+      line-height: rem(138px);
     }
+
     &-d2 {
-      font-size: 96px;
-      line-height: 106px;
+      font-size: rem(96px);
+      line-height: rem(106px);
     }
+
     &-d3 {
-      font-size: 72px;
-      line-height: 82px;
+
+      font-size: rem(40px);
+      line-height: rem(50px);
+
+      @include min-tablet {
+        font-size: rem(72px);
+        line-height: rem(82px);
+      }
     }
-    &-24{
-      font-size: rem(24px);
-      line-height: rem(34px);
+
+    &-24 {
+
+      font-size: rem(18px);
+      line-height: rem(28px);
+
+      @include min-tablet {
+        font-size: rem(24px);
+        line-height: rem(34px);
+      }
     }
+
     &-18 {
-      font-size: 18px;
-      line-height: 28px;
+      font-size: rem(18px);
+      line-height: rem(28px);
     }
+
     &-16 {
-      font-size: 16px;
-      line-height: 26px;
+      font-size: rem(16px);
+      line-height: rem(26px);
     }
+
     &-14 {
-      font-size: 14px;
-      line-height: 24px;
+      font-size: rem(14px);
+      line-height: rem(24px);
     }
+
     &-12 {
       font-size: 12px;
       line-height: 20px;
