@@ -20,7 +20,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
   // const listingPrice = 0.02;
   const handleClickItem = () => {
     router.push(
-      `${ROUTE_PATH.GENERATIVE}/${projectCurrent.tokenID}/${tokenID}`
+      `${ROUTE_PATH.GENERATIVE}/${parseInt(tokenID) / 1000000}/${tokenID}`
     );
   };
 
