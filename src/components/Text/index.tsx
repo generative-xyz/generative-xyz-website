@@ -9,6 +9,7 @@ type TText = {
   size?: '12' | '14' | '16' | '18' | '24' | 'd1' | 'd2' | 'd3';
   color?: string;
   className?: string;
+  onClick?: () => void;
 };
 
 const Text = ({
@@ -19,13 +20,15 @@ const Text = ({
   style,
   color,
   className,
-  ...props
+  onClick,
+  ...rest
 }: PropsWithChildren<TText>) => {
+  // console.log('🚀 ~ props', props);
   const Text = as;
 
   return (
     <Text
-      {...props}
+      {...rest}
       className={cs(
         s.text,
         s[`size-${size}`],
@@ -34,6 +37,7 @@ const Text = ({
         className
       )}
       style={{ ...style }}
+      onClick={onClick}
     >
       {children}
     </Text>

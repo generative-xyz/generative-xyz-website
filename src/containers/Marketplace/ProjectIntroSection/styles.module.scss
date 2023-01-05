@@ -40,7 +40,26 @@
 
 .CTA {
   display: flex;
-  margin-bottom: rem(32px);
+  margin-bottom: rem(30px);
+  gap: rem(24px);
+  flex-wrap: wrap;
+
+  .explore_btn {
+    flex: 1;
+    white-space: nowrap;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    font-size: rem(16px);
+    line-height: rem(26px);
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: $black-100;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
 
 .usersInfo {
