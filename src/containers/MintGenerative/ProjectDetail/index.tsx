@@ -35,6 +35,18 @@ const THIRD_PARTY_SCRIPTS = [
     label: 'tonejs@14.8.49',
     value: 'tonejs@14.8.49',
   },
+  {
+    label: 'c2.min.js@1.0.0',
+    value: 'c2.min.js@1.0.0',
+  },
+  {
+    label: 'chromajs@2.4.2',
+    value: 'chromajs@2.4.2',
+  },
+  {
+    label: 'p5.grain.js@0.6.1',
+    value: 'p5.grain.js@0.6.1',
+  },
 ];
 
 const ProjectDetail: React.FC = (): React.ReactElement => {
