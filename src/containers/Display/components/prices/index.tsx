@@ -205,7 +205,7 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <span className={s.Home_specTitle}>In the box</span>
-                    <div className={s.Home_specContent}>
+                    <div className={cn(s.Home_specContent, s.highlight)}>
                       Generative Display 55”
                     </div>
                     <div className={s.Home_specContent}>
@@ -213,7 +213,7 @@ export const Prices = (): JSX.Element => {
                     </div>
                   </td>
                   <td>
-                    <div className={s.Home_specContent}>
+                    <div className={cn(s.Home_specContent, s.highlight)}>
                       Generative Display 43”
                     </div>
                     <div className={s.Home_specContent}>
