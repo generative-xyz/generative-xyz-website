@@ -2,8 +2,17 @@
   display: grid;
   grid-template-columns: rem(420px) 1px 1fr;
   color: $black-100;
-  gap: 60px;
+  gap: rem(60px);
   margin-top: rem(72);
+}
+
+.itemInfo {
+  max-height: rem(554px);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
 }
 
 .collectionName {
@@ -67,4 +76,11 @@
   display: flex;
   flex-direction: column;
   gap: rem(32px);
+}
+
+.walletAddress {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }

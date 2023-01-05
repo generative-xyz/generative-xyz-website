@@ -78,7 +78,9 @@ const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
   return (
     <div className="position-relative">
       <Stack direction="horizontal" className="justify-between">
-        <Heading as="h4">More from this collection</Heading>
+        <Heading as="h4" fontWeight="bold">
+          More from this collection
+        </Heading>
         <div className={s.dropDownWrapper}>
           <Select
             isSearchable={false}
