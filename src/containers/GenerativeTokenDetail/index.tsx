@@ -1,11 +1,9 @@
-import ThumbnailPreview from '@components/ThumbnailPreview';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { LogLevel } from '@enums/log-level';
-import { IGetGenerativeTokenUriResponse } from '@interfaces/api/token-uri';
 import { getTokenUri } from '@services/token-uri';
 import log from '@utils/logger';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import s from './styles.module.scss';
 import { Container, Stack } from 'react-bootstrap';
 import Heading from '@components/Heading';
@@ -20,31 +18,31 @@ import Accordion from '@components/Accordion';
 import { getChainName, getScanUrl } from '@utils/chain';
 import { v4 } from 'uuid';
 import Link from 'next/link';
+import {
+  GenerativeTokenDetailContext,
+  GenerativeTokenDetailProvider,
+} from '@contexts/generative-token-detail-context';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
+  const { tokenData, setTokenData } = useContext(GenerativeTokenDetailContext);
   const { tokenID } = router.query as {
     projectID: string;
     tokenID: string;
   };
-
-  const [itemDetail, setItemDetail] =
-    useState<IGetGenerativeTokenUriResponse | null>(null);
-
   const scanURL = getScanUrl();
+  const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
 
-  const mintedDate = dayjs(itemDetail?.mintedTime).format('MMM DD, YYYY');
-
-  const fetchItemDetail = async (): Promise<void> => {
+  const fetchTokenData = async (): Promise<void> => {
     try {
       if (tokenID) {
         const res = await getTokenUri({
           contractAddress: GENERATIVE_PROJECT_CONTRACT,
           tokenID,
         });
-        setItemDetail(res);
+        setTokenData(res);
       }
     } catch (err: unknown) {
       log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
@@ -55,9 +53,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   // const renderAttributes = () => {
   //   return (
   //     <>
-  //       {itemDetail &&
-  //         itemDetail.attributes?.length > 0 &&
-  //         itemDetail.attributes.map((attr, index: number) => (
+  //       {tokenData &&
+  //         tokenData.attributes?.length > 0 &&
+  //         tokenData.attributes.map((attr, index: number) => (
   //           <div key={`${attr.trait_type}-${index}`}>{attr.trait_type}</div>
   //         ))}
   //     </>
@@ -69,14 +67,14 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
       {
         id: 'contract-address',
         info: 'Contract Address',
-        value: formatAddress(itemDetail?.project.genNFTAddr || ''),
-        link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}`,
+        value: formatAddress(tokenData?.project.genNFTAddr || ''),
+        link: `${scanURL}/token/${tokenData?.project.genNFTAddr}`,
       },
       {
         id: 'token-id',
         info: 'Token ID',
         value: tokenID,
-        link: `${scanURL}/token/${itemDetail?.project.genNFTAddr}?a=${tokenID}`,
+        link: `${scanURL}/token/${tokenData?.project.genNFTAddr}?a=${tokenID}`,
       },
       {
         id: 'token-standard',
@@ -115,7 +113,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   };
 
   useEffect(() => {
-    fetchItemDetail();
+    fetchTokenData();
   }, [tokenID]);
 
   return (
@@ -123,16 +121,16 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
       <div className={s.wrapper} style={{ marginBottom: '100px' }}>
         <div>
           <Heading as="h4" fontWeight="bold">
-            {itemDetail?.name}
+            {tokenData?.name}
           </Heading>
           <Heading as="h5" fontWeight="bold" className={s.collectionName}>
-            {itemDetail?.project?.name}
+            {tokenData?.project?.name}
           </Heading>
           <div className={s.usersInfo}>
             <div className={s.usersInfo_item}>
-              {itemDetail?.owner && (
+              {tokenData?.owner && (
                 <Avatar
-                  imgSrcs={itemDetail?.owner?.avatar}
+                  imgSrcs={tokenData?.owner?.avatar}
                   width={34}
                   height={34}
                 />
@@ -146,19 +144,19 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   Owner
                 </Text>
                 <Text fontWeight="semibold">
-                  {itemDetail?.owner?.displayName ||
+                  {tokenData?.owner?.displayName ||
                     formatAddress(
-                      itemDetail?.ownerAddr ||
-                        itemDetail?.owner?.walletAddress ||
+                      tokenData?.ownerAddr ||
+                        tokenData?.owner?.walletAddress ||
                         ''
                     )}
                 </Text>
               </div>
             </div>
             <div className={s.usersInfo_item}>
-              {itemDetail?.creator && (
+              {tokenData?.creator && (
                 <Avatar
-                  imgSrcs={itemDetail?.creator?.avatar}
+                  imgSrcs={tokenData?.creator?.avatar}
                   width={34}
                   height={34}
                 />
@@ -172,10 +170,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   Owner
                 </Text>
                 <Text fontWeight="semibold">
-                  {itemDetail?.creator?.displayName ||
+                  {tokenData?.creator?.displayName ||
                     formatAddress(
-                      itemDetail?.ownerAddr ||
-                        itemDetail?.creator?.walletAddress ||
+                      tokenData?.ownerAddr ||
+                        tokenData?.creator?.walletAddress ||
                         ''
                     )}
                 </Text>
@@ -219,23 +217,24 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 Royalty
               </Text>
               <Heading as="h5" fontWeight="bold">
-                {(itemDetail?.project?.royalty || 0) / 100}%
+                {(tokenData?.project?.royalty || 0) / 100}%
               </Heading>
             </div>
           </div>
           <div className={s.CTA_btn}>
-            <ButtonIcon>Buy</ButtonIcon>
+            {/* Due to owner and status of this token to render appropriate action */}
+            <ButtonIcon>Sell</ButtonIcon>
             <ButtonIcon variants="outline">Make offer</ButtonIcon>
           </div>
           <div className={s.accordions}>
             <Accordion
               header={'DESCRIPTION'}
-              content={itemDetail?.description}
+              content={tokenData?.description}
             ></Accordion>
 
             <Accordion
               header={'Features'}
-              content={itemDetail?.description}
+              content={tokenData?.description}
             ></Accordion>
             <Accordion
               header={'Token Info'}
@@ -244,9 +243,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <div className="h-divider"></div>
-        <div>
-          <ThumbnailPreview data={itemDetail} previewToken />
-        </div>
+        <div>{/* <ThumbnailPreview data={tokenData} previewToken /> */}</div>
       </div>
     </Container>
 
@@ -255,7 +252,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //       <div className={styles.wrapper}>
     //         <div className={styles.leftWrapper}>
     //           <div className={styles.itemInfo}>
-    //             <h3>{itemDetail?.name}</h3>
+    //             <h3>{tokenData?.name}</h3>
     //             <b>projectID: {projectID}</b>
     //             <Stack direction="horizontal" gap={2}>
     //               <AvatarInfo
@@ -266,9 +263,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //                   <div>
     //                     <p>Owner</p>
     //                     <p>
-    //                       {itemDetail?.owner?.displayName
-    //                         ? itemDetail?.owner?.displayName
-    //                         : itemDetail?.owner?.walletAddress}
+    //                       {tokenData?.owner?.displayName
+    //                         ? tokenData?.owner?.displayName
+    //                         : tokenData?.owner?.walletAddress}
     //                     </p>
     //                   </div>
     //                 }
@@ -281,10 +278,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //                   <div>
     //                     <p>Creator</p>
     //                     <p>
-    //                       {itemDetail && itemDetail.project.creator
-    //                         ? formatAddress(itemDetail.project.creator || '')
+    //                       {tokenData && tokenData.project.creator
+    //                         ? formatAddress(tokenData.project.creator || '')
     //                         : formatAddress(
-    //                             itemDetail?.project.creatorAddr || ''
+    //                             tokenData?.project.creatorAddr || ''
     //                           )}
     //                     </p>
     //                   </div>
@@ -297,7 +294,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //                 leftContent={
     //                   <div>
     //                     <p>Minted on</p>
-    //                     <p>{itemDetail?.mintedTime}</p>
+    //                     <p>{tokenData?.mintedTime}</p>
     //                   </div>
     //                 }
     //               />
@@ -331,7 +328,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //               </Button>
     //             </Stack> */}
     //           </div>
-    //           <Accordion header="Description" content={itemDetail?.description} />
+    //           <Accordion header="Description" content={tokenData?.description} />
     //           <Accordion header="Feature" content={renderAttributes()} />
     //           <div>
     //             <b>Token Info</b>
@@ -342,9 +339,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //                 <p>
     //                   <Link
     //                     target={`_blank`}
-    //                     href={`${scanURL}/token/${itemDetail?.project.genNFTAddr}`}
+    //                     href={`${scanURL}/token/${tokenData?.project.genNFTAddr}`}
     //                   >
-    //                     {formatAddress(itemDetail?.project.genNFTAddr || '')}
+    //                     {formatAddress(tokenData?.project.genNFTAddr || '')}
     //                   </Link>
     //                 </p>
     //               </Stack>
@@ -353,7 +350,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //                 <p>
     //                   <Link
     //                     target={`_blank`}
-    //                     href={`${scanURL}/token/${itemDetail?.project.genNFTAddr}?a=${tokenID}`}
+    //                     href={`${scanURL}/token/${tokenData?.project.genNFTAddr}?a=${tokenID}`}
     //                   >
     //                     {tokenID}
     //                   </Link>
@@ -373,7 +370,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //                   <Link
     //                     target={`_blank`}
     //                     href={`${getOpenseaAssetUrl()}/${
-    //                       itemDetail?.project.genNFTAddr
+    //                       tokenData?.project.genNFTAddr
     //                     }/${tokenID}`}
     //                   >
     //                     Opensea
@@ -387,7 +384,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //             <div className="divider"></div>
     //           </div>
     //         </div>
-    //         <ThumbnailPreview data={itemDetail} />
+    //         <ThumbnailPreview data={tokenData} />
     //         {/* <div className={styles.rightWrapper}>
     //           <div className={styles.thumbnail}>
     //             <div
@@ -400,7 +397,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //               <SandboxPreview
     //                 ref={sandboxRef}
     //                 rawHtml={base64ToUtf8(
-    //                   itemDetail.animationUrl.replace(
+    //                   tokenData.animationUrl.replace(
     //                     'data:text/html;base64,',
     //                     ''
     //                   )
@@ -413,10 +410,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
     //             <Image
     //               src={convertIpfsToHttp(
-    //                 itemDetail?.image ||
+    //                 tokenData?.image ||
     //                   'ipfs://QmNTU5ctcffhZz5Hphd44yPivh2Y89pDYYG8QQ6yWGY3wn'
     //               )}
-    //               alt={itemDetail.name}
+    //               alt={tokenData.name}
     //               fill
     //               style={{ width: '100%' }}
     //               className={cs(
@@ -449,7 +446,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     //       {/* <SandboxPreview
     //         ref={sandboxRef}
     //         rawHtml={base64ToUtf8(
-    //           itemDetail.animationUrl.replace('data:text/html;base64,', '')
+    //           tokenData.animationUrl.replace('data:text/html;base64,', '')
     //         )}
     //         hash={null}
     //         sandboxFiles={null}
@@ -462,4 +459,12 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   );
 };
 
-export default GenerativeTokenDetail;
+const GenerativeTokenDetailWrapper: React.FC = (): React.ReactElement => {
+  return (
+    <GenerativeTokenDetailProvider>
+      <GenerativeTokenDetail />
+    </GenerativeTokenDetailProvider>
+  );
+};
+
+export default GenerativeTokenDetailWrapper;
