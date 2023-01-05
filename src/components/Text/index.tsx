@@ -3,7 +3,7 @@ import s from './styles.module.scss';
 import cs from 'classnames';
 
 type TText = {
-  as?: 'p' | 'span' | 'strong' | 'em' | 'sub' | 'h2' | 'h3' | 'h4';
+  as?: 'p' | 'span' | 'strong' | 'em' | 'sub' | 'h2' | 'h3' | 'h4' | 'a';
   fontWeight?: 'bold' | 'semibold' | 'medium' | 'regular' | 'light';
   style?: CSSProperties;
   size?: '12' | '14' | '16' | '18' | '24' | 'd1' | 'd2' | 'd3';

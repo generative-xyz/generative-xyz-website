@@ -38,4 +38,7 @@ export type Project = {
   };
   creatorProfile?: User;
   mintedTime: number;
+  stats: {
+    uniqueOwnerCount: number;
+  };
 };

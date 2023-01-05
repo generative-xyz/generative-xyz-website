@@ -17,11 +17,10 @@ import { getUserSelector } from '@redux/user/selector';
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { WalletManager } from '@services/wallet';
 import { isTestnet } from '@utils/chain';
-import { base64ToUtf8 } from '@utils/format';
+import { base64ToUtf8, formatAddress } from '@utils/format';
 import log from '@utils/logger';
 import BN from 'bn.js';
 import _get from 'lodash/get';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -29,6 +28,9 @@ import { useSelector } from 'react-redux';
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-eth';
 import s from './styles.module.scss';
+import Accordion from '@components/Accordion';
+import Link from '@components/Link';
+import dayjs from 'dayjs';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -42,13 +44,12 @@ const ProjectIntroSection = ({ project }: Props) => {
   const [projectDetail, setProjectDetail] =
     useState<Omit<IProjectItem, 'owner'>>();
   // const creatorProfile = project?.creatorProfile;
-  // const mintedTime = project?.mintedTime;
-  // let mintDate = dayjs();
-  // if (mintedTime) {
-  //   mintDate = dayjs(mintedTime);
-  // }
-  // const createdDate = mintDate.format('MMM DD');
-  // const createdYear = mintDate.format('YYYY');
+  const mintedTime = project?.mintedTime;
+  let mintDate = dayjs();
+  if (mintedTime) {
+    mintDate = dayjs(mintedTime);
+  }
+  const mintedDate = mintDate.format('MMM DD, YYYY');
   const {
     call: mintToken,
     reset: resetMintToken,
@@ -189,17 +190,18 @@ const ProjectIntroSection = ({ project }: Props) => {
             </Link>
           )}
         </div>
-        {isProjectDetailPage && (
-          <div className={s.stats}>
-            <div className={s.stats_item}>
-              <Text size="12" fontWeight="bold">
-                Items
-              </Text>
-              <Text size="18" fontWeight="bold">
-                {project?.mintingInfo?.index}
-              </Text>
-            </div>
-            {/* <div className={s.stats_item}>
+        {isProjectDetailPage ? (
+          <>
+            <div className={s.stats}>
+              <div className={s.stats_item}>
+                <Text size="12" fontWeight="bold">
+                  Items
+                </Text>
+                <Heading as="h4" fontWeight="bold">
+                  {project?.mintingInfo?.index}
+                </Heading>
+              </div>
+              {/* <div className={s.stats_item}>
             <Text size='12' fontWeight='bold'>Total Volume</Text>
             <Text size='18' fontWeight='bold'></Text>
           </div>
@@ -211,22 +213,88 @@ const ProjectIntroSection = ({ project }: Props) => {
             <Text size='12' fontWeight='bold'>highest offer</Text>
             <Text size='18' fontWeight='bold'></Text>
           </div> */}
-            <div className={s.stats_item}>
-              <Text size="12" fontWeight="bold">
-                royalty
-              </Text>
-              <Text size="18" fontWeight="bold">
-                {(project?.royalty || 0) / 100}%
+              <div className={s.stats_item}>
+                <Text size="12" fontWeight="bold">
+                  royalty
+                </Text>
+                <Heading as="h4" fontWeight="bold">
+                  {(project?.royalty || 0) / 100}%
+                </Heading>
+              </div>
+            </div>
+            <div className={s.accordion_list}>
+              {project?.desc && (
+                <Accordion
+                  header={'DESCRIPTION'}
+                  content={
+                    <Text size="18" fontWeight="semibold">
+                      {project?.desc}
+                    </Text>
+                  }
+                ></Accordion>
+              )}
+              <Accordion
+                header={'Collected by'}
+                content={
+                  <Text size="18" fontWeight="semibold">
+                    {project?.stats?.uniqueOwnerCount === 1
+                      ? `${project?.stats?.uniqueOwnerCount} owner`
+                      : `${project?.stats?.uniqueOwnerCount}+ owners`}
+                  </Text>
+                }
+              ></Accordion>
+              <Accordion
+                header={'Creator'}
+                content={
+                  <>
+                    {/* TODO: Update corect profile link */}
+                    <Link href={ROUTE_PATH.PROFILE}>
+                      <Text as="span" size="18" fontWeight="semibold">
+                        {project?.creatorProfile?.displayName ||
+                          formatAddress(
+                            project?.creatorAddr ||
+                              project?.creatorProfile?.walletAddress ||
+                              ''
+                          )}
+                      </Text>
+                    </Link>
+                    {user &&
+                      user?.walletAddress &&
+                      user?.walletAddress === project?.creatorAddr && (
+                        <Text as="span" size="18" fontWeight="semibold">
+                          {' '}
+                          (by you)
+                        </Text>
+                      )}
+                  </>
+                }
+              ></Accordion>
+              <Accordion
+                header={'Created date'}
+                content={
+                  <Text size="18" fontWeight="semibold">
+                    {mintedDate}
+                  </Text>
+                }
+              ></Accordion>
+            </div>
+            <div className="divider"></div>
+            <div className={s.license}>
+              <Text size="14" fontWeight="semibold">
+                License: {project?.license}
               </Text>
             </div>
-          </div>
-        )}
-        {project?.desc && project?.desc.length > 0 && (
-          <div className={s.description}>
-            <Text size="18" fontWeight="medium">
-              {project?.desc}
-            </Text>
-          </div>
+          </>
+        ) : (
+          <>
+            {project?.desc && project?.desc.length > 0 && (
+              <div className={s.description}>
+                <Text size="18" fontWeight="medium">
+                  {project?.desc}
+                </Text>
+              </div>
+            )}
+          </>
         )}
       </div>
       <div className={isProjectDetailPage ? `h-divider` : ''}></div>
