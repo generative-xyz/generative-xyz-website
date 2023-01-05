@@ -36,7 +36,6 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
           contractAddress: GENERATIVE_PROJECT_CONTRACT,
           projectID,
         });
-        setIsLoaded(true);
         dispatch(setProjectCurrent(data));
         setProjectInfo(data);
       } catch (_: unknown) {
@@ -54,6 +53,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
           page: 1,
         });
         setListItems(res.result);
+        setIsLoaded(true);
       } catch (_: unknown) {
         log('failed to fetch project items data', LogLevel.Error, LOG_PREFIX);
       }
