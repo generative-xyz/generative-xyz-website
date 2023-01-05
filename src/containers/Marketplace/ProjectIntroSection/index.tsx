@@ -1,35 +1,34 @@
-import Heading from '@components/Heading';
-import {
-  IGetProjectDetailResponse,
-  IProjectItem,
-} from '@interfaces/api/project';
-import { useRouter } from 'next/router';
-import Avatar from '@components/Avatar';
 import ButtonIcon from '@components/ButtonIcon';
+import Heading from '@components/Heading';
 import ProgressBar from '@components/ProgressBar';
 import SvgInset from '@components/SvgInset';
 import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
 import { CDN_URL, NETWORK_CHAIN_ID } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
-import { base64ToUtf8, formatAddress } from '@utils/format';
-import dayjs from 'dayjs';
-import s from './styles.module.scss';
-import { useEffect, useMemo, useState } from 'react';
-import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
-import useContractOperation from '@hooks/useContractOperation';
-import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
-import { TransactionReceipt } from 'web3-eth';
 import { LogLevel } from '@enums/log-level';
-import log from '@utils/logger';
-import toast from 'react-hot-toast';
-import Web3 from 'web3';
-import _get from 'lodash/get';
+import useContractOperation from '@hooks/useContractOperation';
+import {
+  IGetProjectDetailResponse,
+  IProjectItem,
+} from '@interfaces/api/project';
+import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
+import { getUserSelector } from '@redux/user/selector';
+import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { WalletManager } from '@services/wallet';
 import { isTestnet } from '@utils/chain';
-import { useSelector } from 'react-redux';
-import { getUserSelector } from '@redux/user/selector';
+import { base64ToUtf8 } from '@utils/format';
+import log from '@utils/logger';
 import BN from 'bn.js';
+import _get from 'lodash/get';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import Web3 from 'web3';
+import { TransactionReceipt } from 'web3-eth';
+import s from './styles.module.scss';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -42,14 +41,14 @@ const ProjectIntroSection = ({ project }: Props) => {
   const router = useRouter();
   const [projectDetail, setProjectDetail] =
     useState<Omit<IProjectItem, 'owner'>>();
-  const creatorProfile = project?.creatorProfile;
-  const mintedTime = project?.mintedTime;
-  let mintDate = dayjs();
-  if (mintedTime) {
-    mintDate = dayjs(mintedTime);
-  }
-  const createdDate = mintDate.format('MMM DD');
-  const createdYear = mintDate.format('YYYY');
+  // const creatorProfile = project?.creatorProfile;
+  // const mintedTime = project?.mintedTime;
+  // let mintDate = dayjs();
+  // if (mintedTime) {
+  //   mintDate = dayjs(mintedTime);
+  // }
+  // const createdDate = mintDate.format('MMM DD');
+  // const createdYear = mintDate.format('YYYY');
   const {
     call: mintToken,
     reset: resetMintToken,
@@ -154,46 +153,6 @@ const ProjectIntroSection = ({ project }: Props) => {
         <Heading as="h4" fontWeight="bold" style={{ marginBottom: '16px' }}>
           {project?.name}
         </Heading>
-        <div className={s.usersInfo}>
-          <div className={s.usersInfo_item}>
-            <SvgInset svgUrl={`${CDN_URL}/icons/ic-calendar.svg`} />
-            <div>
-              <Text
-                size="12"
-                fontWeight="bold"
-                className={s.usersInfo_mainText}
-              >
-                Created date
-              </Text>
-              <Heading as="h5" fontWeight="bold">
-                {createdDate}
-              </Heading>
-              <Text fontWeight="semibold" className={s.usersInfo_subText}>
-                {createdYear}
-              </Text>
-            </div>
-          </div>
-          <div className={s.usersInfo_item}>
-            {creatorProfile && (
-              <Avatar imgSrcs={creatorProfile?.avatar} width={34} height={34} />
-            )}
-            <div>
-              <Text
-                size="12"
-                fontWeight="bold"
-                className={s.usersInfo_mainText}
-              >
-                Creator
-              </Text>
-              <Text fontWeight="semibold">
-                {creatorProfile?.displayName ||
-                  formatAddress(
-                    creatorProfile?.walletAddress || project?.creatorAddr || ''
-                  )}
-              </Text>
-            </div>
-          </div>
-        </div>
         <ProgressBar
           current={project?.mintingInfo?.index}
           total={project?.maxSupply}
@@ -203,6 +162,7 @@ const ProjectIntroSection = ({ project }: Props) => {
           {project?.status && (
             <ButtonIcon
               sizes="large"
+              className={s.mint_btn}
               endIcon={
                 <SvgInset
                   svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
@@ -221,15 +181,12 @@ const ProjectIntroSection = ({ project }: Props) => {
             </ButtonIcon>
           )}
           {!isProjectDetailPage && (
-            <ButtonIcon
-              sizes="large"
-              variants="ghost"
-              onClick={() =>
-                router.push(`${ROUTE_PATH.GENERATIVE}/${project?.tokenID}`)
-              }
+            <Link
+              className={s.explore_btn}
+              href={`${ROUTE_PATH.GENERATIVE}/${project?.tokenID}`}
             >
               Explore this collection
-            </ButtonIcon>
+            </Link>
           )}
         </div>
         {isProjectDetailPage && (
@@ -266,16 +223,13 @@ const ProjectIntroSection = ({ project }: Props) => {
         )}
         {project?.desc && project?.desc.length > 0 && (
           <div className={s.description}>
-            <Text size="14" fontWeight="bold" className="text-secondary-color">
-              DESCRIPTION
-            </Text>
             <Text size="18" fontWeight="medium">
               {project?.desc}
             </Text>
           </div>
         )}
       </div>
-      <div className="h-divider"></div>
+      <div className={isProjectDetailPage ? `h-divider` : ''}></div>
       <div>
         <ThumbnailPreview data={projectDetail} allowVariantion />
       </div>

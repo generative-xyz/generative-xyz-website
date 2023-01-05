@@ -31,6 +31,7 @@ type TText = {
     offset: number;
     type: 'heading' | 'random' | 'paragraph';
   };
+  onClick?: () => void;
 };
 
 interface IProRefDom {
@@ -52,6 +53,7 @@ const Text = ({
   color,
   className,
   animOption = undefined,
+  onClick,
   ...props
 }: PropsWithChildren<TText>) => {
   const Text = as;
@@ -235,6 +237,7 @@ const Text = ({
         className
       )}
       style={{ ...style }}
+      onClick={onClick}
     >
       {children}
     </Text>
