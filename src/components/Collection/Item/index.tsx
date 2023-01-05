@@ -10,6 +10,7 @@ import { useMemo, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import s from './styles.module.scss';
+import { formatTokenId } from '@utils/format';
 
 const CollectionItem = ({ data }: { data: IProjectItem }) => {
   const router = useRouter();
@@ -20,7 +21,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
   // const listingPrice = 0.02;
   const handleClickItem = () => {
     router.push(
-      `${ROUTE_PATH.GENERATIVE}/${projectCurrent.tokenID}/${tokenID}`
+      `${ROUTE_PATH.GENERATIVE}/${parseInt(tokenID) / 1000000}/${tokenID}`
     );
   };
 
@@ -56,7 +57,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
             >
               <Heading as={'h4'}>{tokenName}</Heading>
               <Heading as={'h4'} className="token_id ml-auto">
-                #{tokenID}
+                #{formatTokenId(tokenID)}
               </Heading>
             </Stack>
           </div>
