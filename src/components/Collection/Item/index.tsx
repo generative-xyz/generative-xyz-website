@@ -10,12 +10,11 @@ import { Stack } from 'react-bootstrap';
 // import { useSelector } from 'react-redux';
 import s from './styles.module.scss';
 import { formatTokenId, getProjectIdFromTokenId } from '@utils/format';
-import { getListing, getMakeOffers } from '@services/marketplace';
+import { getListing } from '@services/marketplace';
 import Web3 from 'web3';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { Token } from '@interfaces/token';
-import { IMakeOffers } from '@interfaces/api/marketplace';
 
 const CollectionItem = ({ data }: { data: Token }) => {
   const router = useRouter();
@@ -24,7 +23,6 @@ const CollectionItem = ({ data }: { data: Token }) => {
   const tokenID = useMemo(() => data.name.split('#')[1], [data.name]);
   // const tokenName = useMemo(() => data.name.split('#')[0], [data.name]);
   const [listingTokenPrice, setListingTokenPrice] = useState('0');
-  const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
   const handleFetchListingTokenPrice = async () => {
     try {
       const listingTokens = await getListing({
@@ -36,21 +34,6 @@ const CollectionItem = ({ data }: { data: Token }) => {
         setListingTokenPrice(
           Web3.utils.fromWei(listingTokens.result[0].price, 'ether')
         );
-      }
-    } catch (e) {
-      log('can not fetch price', LogLevel.Error, '');
-      // throw Error('failed to fetch item detail');
-    }
-  };
-  const handleFetchMakeOffers = async () => {
-    try {
-      const makeOffers = await getMakeOffers({
-        genNFTAddr: data.genNFTAddr,
-        tokenId: tokenID,
-        closed: false,
-      });
-      if (makeOffers && makeOffers.result[0]) {
-        setMakeOffers(makeOffers);
       }
     } catch (e) {
       log('can not fetch price', LogLevel.Error, '');
@@ -73,8 +56,7 @@ const CollectionItem = ({ data }: { data: Token }) => {
 
   useEffect(() => {
     handleFetchListingTokenPrice();
-    handleFetchMakeOffers();
-  }, []);
+  }, [data.genNFTAddr]);
 
   return (
     <div onClick={handleClickItem} className={s.collectionCard}>
@@ -116,16 +98,6 @@ const CollectionItem = ({ data }: { data: Token }) => {
               )}
             </Stack>
           </div>
-        </div>
-        <div style={{ display: 'none' }}>
-          {makeOffers &&
-            makeOffers.result &&
-            makeOffers.result.length > 0 &&
-            makeOffers.result.map((item, i) => (
-              <div key={`item_listing_token_${i}`}>
-                {item.offeringID}, {item.token ? item.token.image : ''}
-              </div>
-            ))}
         </div>
       </div>
     </div>

@@ -18,13 +18,15 @@ import { formatAddress, formatTokenId } from '@utils/format';
 import log from '@utils/logger';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 import MoreItemsSection from './MoreItemsSection';
 import ListingTokenModal from './ListingTokenModal';
 import s from './styles.module.scss';
+import { IMakeOffers } from '@interfaces/api/marketplace';
+import { getMakeOffers } from '@services/marketplace';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -76,13 +78,31 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     },
   ];
 
+  const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
+  const handleFetchMakeOffers = async () => {
+    try {
+      if (tokenData && tokenData.genNFTAddr && tokenID) {
+        const makeOffers = await getMakeOffers({
+          genNFTAddr: tokenData?.genNFTAddr ? tokenData?.genNFTAddr : '',
+          tokenId: tokenID,
+          closed: false,
+        });
+        if (makeOffers && makeOffers.result[0]) {
+          setMakeOffers(makeOffers);
+        }
+      }
+    } catch (e) {
+      log('can not fetch price', LogLevel.Error, '');
+      // throw Error('failed to fetch item detail');
+    }
+  };
   const handleOpenListingTokenModal = (): void => {
     openListingModal();
   };
 
   const featuresList = () => {
     if (tokenData?.attributes && tokenData.attributes?.length > 0) {
-      const list = tokenData.attributes.map(attr => {
+      return tokenData.attributes.map(attr => {
         return {
           id: `attr-${v4()}`,
           info: attr.trait_type,
@@ -90,7 +110,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           link: '',
         };
       });
-      return list;
     }
     return null;
   };
@@ -120,7 +139,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   useEffect(() => {
     fetchTokenData();
-  }, [tokenID]);
+  }, []);
+
+  useEffect(() => {
+    handleFetchMakeOffers();
+  }, [tokenData]);
 
   return (
     <>
@@ -279,6 +302,17 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
         {/* <div className={s.thumbnailWrapper}>
           <ThumbnailPreview data={tokenData} previewToken />
         </div> */}
+        <div></div>
+        <div style={{ display: 'none' }}>
+          {makeOffers &&
+            makeOffers.result &&
+            makeOffers.result.length > 0 &&
+            makeOffers.result.map((item, i) => (
+              <div key={`item_listing_token_${i}`}>
+                {item.offeringID}, {item.token ? item.token.image : ''}
+              </div>
+            ))}
+        </div>
         <div></div>
         {tokenData?.project.genNFTAddr && (
           <MoreItemsSection genNFTAddr={tokenData.project.genNFTAddr} />
