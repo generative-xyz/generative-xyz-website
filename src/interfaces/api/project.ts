@@ -1,8 +1,6 @@
 import { IPagingParams, IPagingResponse } from '@interfaces/paging';
 import { Project } from '@interfaces/project';
-import { RawTokenAttributes } from '@interfaces/sandbox';
-import { User } from '@interfaces/user';
-
+import { Token } from '@interfaces/token';
 export interface IGetProjectDetailParams {
   contractAddress: string;
   projectID: string;
@@ -14,19 +12,8 @@ export interface IGetProjectItemsParams extends IPagingParams {
   contractAddress: string;
 }
 
-export interface IProjectItem {
-  ownerAddr: string;
-  owner: User;
-  name: string;
-  description?: string;
-  image: string;
-  animation_url?: string;
-  attributes: RawTokenAttributes;
-  genNFTAddr: string;
-}
-
 export interface IGetProjectItemsResponse extends IPagingResponse {
-  result: IProjectItem[];
+  result: Token[];
 }
 
 export interface ICreateProjectMetadataPayload {

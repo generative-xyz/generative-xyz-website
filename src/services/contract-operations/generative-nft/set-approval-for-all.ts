@@ -4,18 +4,16 @@ import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/generative-nft.json';
 import { ISetApprovalForAllParams } from '@interfaces/contract-operations/set-approval-for-all';
-import { GENERATIVE_NFT_CONTRACT } from '@constants/contract-address';
 
 class SetApprrovalForAllOperation extends ContractOperation<
   ISetApprovalForAllParams,
   TransactionReceipt
 > {
   contract: Contract | null = null;
-  contractAddress = GENERATIVE_NFT_CONTRACT;
 
   async prepare(): Promise<void> {
     this.contract = await this.walletManager.getContract(
-      this.contractAddress,
+      this.params.collectionAddress,
       ContractABI.abi as Array<AbiItem>
     );
   }
@@ -25,7 +23,7 @@ class SetApprrovalForAllOperation extends ContractOperation<
       throw Error('Contract not found');
     }
 
-    const { marketplaceAddress } = this.params;
+    const { marketplaceAddress, collectionAddress } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
 
@@ -36,7 +34,7 @@ class SetApprrovalForAllOperation extends ContractOperation<
       )
       .send({
         from: walletAddress,
-        to: this.contractAddress,
+        to: collectionAddress,
         value: '0',
       });
 

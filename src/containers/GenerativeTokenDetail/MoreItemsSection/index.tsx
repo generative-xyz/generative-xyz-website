@@ -6,7 +6,7 @@ import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
 import { LogLevel } from '@enums/log-level';
-import { IProjectItem } from '@interfaces/api/project';
+import { Token } from '@interfaces/token';
 import { getProjectItems } from '@services/project';
 import log from '@utils/logger';
 import { useRouter } from 'next/router';
@@ -53,7 +53,7 @@ const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
   const { projectID } = router.query;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [listItems, setListItems] = useState<IProjectItem[]>([]);
+  const [listItems, setListItems] = useState<Token[]>([]);
 
   const fetchProjectItems = async (): Promise<void> => {
     if (genNFTAddr) {

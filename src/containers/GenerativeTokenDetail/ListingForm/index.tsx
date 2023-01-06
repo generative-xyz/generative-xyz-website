@@ -13,13 +13,8 @@ interface IFormValues {
 }
 
 const ListingForm: React.FC = (): React.ReactElement => {
-  const {
-    tokenData,
-    handleListingToken,
-    isListing,
-    setListingPrice,
-    setListingStep,
-  } = useContext(GenerativeTokenDetailContext);
+  const { tokenData, handleListingToken, setListingPrice, setListingStep } =
+    useContext(GenerativeTokenDetailContext);
   const [userEarning, setUserEarning] = useState('');
 
   const validateForm = (values: IFormValues) => {
@@ -43,10 +38,10 @@ const ListingForm: React.FC = (): React.ReactElement => {
     return errors;
   };
 
-  const handleSubmit = (values: IFormValues) => {
+  const handleSubmit = async (values: IFormValues) => {
     setListingPrice(values.price);
     setListingStep(ListingStep.Processing);
-    handleListingToken(values.price.toString());
+    await handleListingToken(values.price.toString());
   };
 
   const creatorFee = useMemo(() => {
@@ -126,11 +121,7 @@ const ListingForm: React.FC = (): React.ReactElement => {
                   <span className={s.earningLabel}>Potential earnings</span>
                   <span>{userEarning ? `${userEarning} ETH` : '--'}</span>
                 </div>
-                <Button
-                  disabled={isListing}
-                  className={s.submitBtn}
-                  type="submit"
-                >
+                <Button className={s.submitBtn} type="submit">
                   Complete listing
                 </Button>
               </div>

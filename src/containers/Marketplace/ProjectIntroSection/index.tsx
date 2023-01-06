@@ -8,10 +8,7 @@ import { CDN_URL, NETWORK_CHAIN_ID } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
 import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
-import {
-  IGetProjectDetailResponse,
-  IProjectItem,
-} from '@interfaces/api/project';
+import { IGetProjectDetailResponse } from '@interfaces/api/project';
 import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
 import { getUserSelector } from '@redux/user/selector';
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
@@ -32,6 +29,7 @@ import Accordion from '@components/Accordion';
 import Link from '@components/Link';
 import dayjs from 'dayjs';
 import Skeleton from '@components/Skeleton';
+import { Token } from '@interfaces/token';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -42,8 +40,7 @@ type Props = {
 const ProjectIntroSection = ({ project }: Props) => {
   const user = useSelector(getUserSelector);
   const router = useRouter();
-  const [projectDetail, setProjectDetail] =
-    useState<Omit<IProjectItem, 'owner'>>();
+  const [projectDetail, setProjectDetail] = useState<Omit<Token, 'owner'>>();
   // const creatorProfile = project?.creatorProfile;
   const mintedTime = project?.mintedTime;
   let mintDate = dayjs();

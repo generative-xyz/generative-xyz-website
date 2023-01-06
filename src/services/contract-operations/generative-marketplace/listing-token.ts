@@ -8,6 +8,7 @@ import {
   GENERATIVE_MARKETPLACE_CONTRACT,
   ROOT_ADDRESS,
 } from '@constants/contract-address';
+import Web3 from 'web3';
 
 class ListingTokenOperation extends ContractOperation<
   IListingTokenParams,
@@ -40,14 +41,14 @@ class ListingTokenOperation extends ContractOperation<
 
     const data = await this.contract.methods
       .listToken(
-        this.contractAddress,
         JSON.parse(
           JSON.stringify({
             _collectionContract: collectionAddress,
-            _tokenId: tokenID,
-            _price: price, // TODO Convert to Wei,
+            _tokenId: Web3.utils.toHex(tokenID),
+            _price: Web3.utils.toWei(price),
             _erc20Token: erc20Token ?? ROOT_ADDRESS,
             _closed: false,
+            _seller: walletAddress,
             _durationTime: durationTime,
           })
         )

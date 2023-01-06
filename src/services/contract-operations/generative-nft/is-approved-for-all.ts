@@ -2,7 +2,6 @@ import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/generative-nft.json';
-import { GENERATIVE_NFT_CONTRACT } from '@constants/contract-address';
 import { IIsApprovedForAllParams } from '@interfaces/contract-operations/is-approved-for-all';
 
 class IsApprrovedForAllOperation extends ContractOperation<
@@ -10,11 +9,10 @@ class IsApprrovedForAllOperation extends ContractOperation<
   boolean
 > {
   contract: Contract | null = null;
-  contractAddress = GENERATIVE_NFT_CONTRACT;
 
   async prepare(): Promise<void> {
     this.contract = await this.walletManager.getContract(
-      this.contractAddress,
+      this.params.collectionAddress,
       ContractABI.abi as Array<AbiItem>
     );
   }
