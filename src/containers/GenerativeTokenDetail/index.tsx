@@ -203,36 +203,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   content={<Stats data={featuresList()} />}
                 ></Accordion>
               )}
-              <Accordion
-                header={'Owner'}
-                content={
-                  <Text
-                    size="18"
-                    fontWeight="medium"
-                    className={s.walletAddress}
-                  >
-                    {tokenData?.owner?.displayName ||
-                      formatAddress(
-                        tokenData?.ownerAddr ||
-                          tokenData?.owner?.walletAddress ||
-                          ''
-                      )}
-                  </Text>
-                }
-              ></Accordion>
-              <Accordion
-                header={'Creator'}
-                content={
-                  <Text
-                    size="18"
-                    fontWeight="medium"
-                    className={s.walletAddress}
-                  >
-                    {tokenData?.creator?.displayName ||
-                      formatAddress(tokenData?.creator?.walletAddress || '')}
-                  </Text>
-                }
-              ></Accordion>
               {mintedDate && (
                 <Accordion
                   header={'Minted on'}
@@ -275,14 +245,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                       formatAddress(tokenData?.creator?.walletAddress || '')}
                     {checkOwnership(tokenData?.creator?.walletAddress || '') &&
                       ' (by you)'}
-                  </Text>
-                }
-              ></Accordion>
-              <Accordion
-                header={'Minted on'}
-                content={
-                  <Text size="18" fontWeight="semibold">
-                    {mintedDate}
                   </Text>
                 }
               ></Accordion>
