@@ -37,7 +37,7 @@ const CollectionItem = ({ data }: { data: IProjectItem }) => {
       }
     } catch (e) {
       log('can not fetch price', LogLevel.Error, '');
-      throw Error('failed to fetch item detail');
+      // throw Error('failed to fetch item detail');
     }
   };
   const handleClickItem = () => {
