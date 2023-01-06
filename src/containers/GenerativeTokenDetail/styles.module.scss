@@ -2,9 +2,7 @@
   display: grid;
   grid-template-columns: rem(420px) 1px 1fr;
   color: $black-100;
-  // gap: rem(60px);
   margin-top: rem(72);
-  max-height: 60vh;
 }
 
 .itemInfo {
