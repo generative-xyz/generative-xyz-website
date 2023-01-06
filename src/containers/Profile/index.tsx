@@ -35,13 +35,15 @@ const Profile: React.FC = (): React.ReactElement => {
 
   const handleFetchListingTokens = async () => {
     try {
-      const listingTokens = await getListingTokensByWallet({
-        walletAddress: user.walletAddress,
-        closed: false,
-      });
-      if (listingTokens && listingTokens.result) {
-        setListingTokens(listingTokens);
-        // console.log(listingTokens.result);
+      if (user.walletAddress) {
+        const listingTokens = await getListingTokensByWallet({
+          walletAddress: user.walletAddress,
+          closed: false,
+        });
+        if (listingTokens && listingTokens.result) {
+          setListingTokens(listingTokens);
+          // console.log(listingTokens.result);
+        }
       }
     } catch (ex) {
       log('can not fetch listing tokens', LogLevel.Error, '');
@@ -51,13 +53,15 @@ const Profile: React.FC = (): React.ReactElement => {
 
   const handleFetchMakeOffers = async () => {
     try {
-      const makeOffers = await getMakeOffersByWallet({
-        walletAddress: user.walletAddress,
-        closed: false,
-      });
-      if (makeOffers && makeOffers.result) {
-        setMakeOffers(makeOffers);
-        // console.log(listingTokens.result);
+      if (user.walletAddress) {
+        const makeOffers = await getMakeOffersByWallet({
+          walletAddress: user.walletAddress,
+          closed: false,
+        });
+        if (makeOffers && makeOffers.result) {
+          setMakeOffers(makeOffers);
+          // console.log(listingTokens.result);
+        }
       }
     } catch (ex) {
       log('can not fetch listing tokens', LogLevel.Error, '');
@@ -68,7 +72,7 @@ const Profile: React.FC = (): React.ReactElement => {
   useEffect(() => {
     handleFetchListingTokens();
     handleFetchMakeOffers();
-  }, [user]);
+  }, [user.walletAddress]);
 
   return (
     <div className={s.profile}>
