@@ -3,6 +3,7 @@ import { IGetProfileResponse } from '@interfaces/api/profile';
 import { get } from '@services/http-client';
 import log from '@utils/logger';
 import { IGetProjectItemsResponse } from '@interfaces/api/project';
+import { IGetProfileNFTsResponse } from '@interfaces/api/token-uri';
 
 const LOG_PREFIX = 'ProfileService';
 
@@ -26,3 +27,18 @@ export const getProfileProjects =
       throw Error('Failed to get profile');
     }
   };
+
+export const getProfileNFTs = async ({
+  walletAddress,
+}: {
+  walletAddress: string;
+}): Promise<IGetProfileNFTsResponse> => {
+  try {
+    return await get<IGetProfileNFTsResponse>(
+      `${API_PATH}/wallet/${walletAddress}/nfts`
+    );
+  } catch (err: unknown) {
+    log('failed to get profile', LogLevel.Error, LOG_PREFIX);
+    throw Error('Failed to get profile');
+  }
+};

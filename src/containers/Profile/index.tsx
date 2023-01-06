@@ -13,8 +13,9 @@ import {
   getMakeOffersByWallet,
 } from '@services/marketplace';
 import { IListingTokens, IMakeOffers } from '@interfaces/api/marketplace';
-import { getProfileProjects } from '@services/profile';
+import { getProfileNFTs, getProfileProjects } from '@services/profile';
 import { IGetProjectItemsResponse } from '@interfaces/api/project';
+import { IGetProfileNFTsResponse } from '@interfaces/api/token-uri';
 
 const LOG_PREFIX = 'Profile';
 
@@ -24,6 +25,7 @@ const Profile: React.FC = (): React.ReactElement => {
   const user = useAppSelector(getUserSelector);
   const [collections, setCollections] =
     useState<IGetProjectItemsResponse | null>(null);
+  const [tokens, setTokens] = useState<IGetProfileNFTsResponse | null>(null);
   const [listingTokens, setListingTokens] = useState<IListingTokens | null>(
     null
   );
@@ -50,6 +52,22 @@ const Profile: React.FC = (): React.ReactElement => {
       }
     } catch (ex) {
       log('can not fetch created collections', LogLevel.Error, '');
+      // throw Error('failed to fetch item detail');
+    }
+  };
+
+  const handleFetchTokens = async () => {
+    try {
+      if (user.walletAddress) {
+        const tokens = await getProfileNFTs({
+          walletAddress: user.walletAddress,
+        });
+        if (tokens && tokens.result && tokens.result.length > 0) {
+          setTokens(tokens);
+        }
+      }
+    } catch (ex) {
+      log('can not fetch tokens', LogLevel.Error, '');
       // throw Error('failed to fetch item detail');
     }
   };
@@ -94,6 +112,7 @@ const Profile: React.FC = (): React.ReactElement => {
     handleFetchListingTokens();
     handleFetchMakeOffers();
     handleFetchCollections();
+    handleFetchTokens();
   }, [user.walletAddress]);
 
   return (
@@ -129,7 +148,18 @@ const Profile: React.FC = (): React.ReactElement => {
             collections.result &&
             collections.result.length > 0 &&
             collections.result.map((item, i) => (
-              <div key={`item_listing_token_${i}`}>
+              <div key={`collection_${i}`}>
+                {item.name}, {item.owner ? item.image : ''}
+              </div>
+            ))}
+        </div>
+        <div>
+          NFTs
+          {tokens &&
+            tokens.result &&
+            tokens.result.length > 0 &&
+            tokens.result.map((item, i) => (
+              <div key={`token_${i}`}>
                 {item.name}, {item.owner ? item.image : ''}
               </div>
             ))}
@@ -151,7 +181,7 @@ const Profile: React.FC = (): React.ReactElement => {
             makeOffers.result &&
             makeOffers.result.length > 0 &&
             makeOffers.result.map((item, i) => (
-              <div key={`item_listing_token_${i}`}>
+              <div key={`make_offer_${i}`}>
                 {item.offeringID}, {item.token ? item.token.image : ''}
               </div>
             ))}

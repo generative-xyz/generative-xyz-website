@@ -23,3 +23,7 @@ export interface IGetGenerativeTokenAttributesParams {
 export interface IGetGenerativeTokenAttributesResponse {
   attributes: Array<TokenAttribute>;
 }
+
+export interface IGetProfileNFTsResponse {
+  result: Array<Token>;
+}
