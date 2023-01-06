@@ -8,6 +8,10 @@
   padding-top: rem(60px);
 }
 
+.info {
+  position: relative;
+}
+
 .usersInfo {
   margin-bottom: 16px;
   display: flex;
@@ -41,7 +45,8 @@
 .CTA {
   display: flex;
   margin-bottom: rem(30px);
-  gap: rem(24px);
+  column-gap: rem(24px);
+  row-gap: rem(6px);
   flex-wrap: wrap;
 
   .explore_btn {

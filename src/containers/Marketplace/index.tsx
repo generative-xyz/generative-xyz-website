@@ -12,60 +12,7 @@ import s from './Marketplace.module.scss';
 const LOG_PREFIX = 'Marketplace';
 
 const Marketplace = () => {
-  const [projectInfo, setProjectInfo] = useState<Project>({
-    id: '',
-    maxSupply: 0,
-    limit: 0,
-    mintPrice: '',
-    mintPriceAddr: '',
-    name: '',
-    creator: '',
-    creatorAddr: '',
-    license: '',
-    desc: '',
-    image: '',
-    scriptType: [''],
-    social: {
-      web: '',
-      twitter: '',
-      discord: '',
-      medium: '',
-      instagram: '',
-    },
-    scripts: [''],
-    styles: '',
-    completeTime: 0,
-    genNFTAddr: '',
-    itemDesc: '',
-    status: false,
-    nftTokenURI: '',
-    projectURI: '',
-    tokenID: '',
-    mintingInfo: {
-      index: 0,
-      indexReserve: 0,
-    },
-    creatorProfile: {
-      displayName: '',
-      bio: '',
-      avatar: '',
-      walletAddress: '',
-      id: '',
-      createdAt: '',
-      profileSocial: {
-        web: '',
-        twitter: '',
-        discord: '',
-        medium: '',
-        instagram: '',
-      },
-    },
-    mintedTime: 0,
-    royalty: 0,
-    stats: {
-      uniqueOwnerCount: 0,
-    },
-  });
+  const [projectInfo, setProjectInfo] = useState<Project | null>(null);
 
   const fetchRandomProject = async () => {
     try {
