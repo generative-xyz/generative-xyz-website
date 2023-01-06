@@ -20,7 +20,7 @@ import {
 } from '@helpers/anim.helpers';
 
 type TText = {
-  as?: 'p' | 'span' | 'strong' | 'em' | 'sub' | 'h2' | 'h3' | 'h4';
+  as?: 'p' | 'span' | 'strong' | 'em' | 'sub' | 'h2' | 'h3' | 'h4' | 'a';
   fontWeight?: 'bold' | 'semibold' | 'medium' | 'regular' | 'light';
   style?: CSSProperties;
   size?: '12' | '14' | '16' | '18' | '24' | 'd1' | 'd2' | 'd3';
@@ -31,6 +31,7 @@ type TText = {
     offset: number;
     type: 'heading' | 'random' | 'paragraph';
   };
+  onClick?: () => void;
 };
 
 interface IProRefDom {
@@ -52,8 +53,10 @@ const Text = ({
   color,
   className,
   animOption = undefined,
+  onClick,
   ...props
 }: PropsWithChildren<TText>) => {
+  // console.log('🚀 ~ props', props);
   const Text = as;
 
   const comp = useRef<any>(null);
@@ -235,6 +238,7 @@ const Text = ({
         className
       )}
       style={{ ...style }}
+      onClick={onClick}
     >
       {children}
     </Text>

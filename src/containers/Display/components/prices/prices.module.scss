@@ -27,7 +27,6 @@
         @include max-tablet {
           display: none;
         }
-
         @include min-pc {
           width: 20%;
         }
@@ -197,4 +196,11 @@
 
 .home_rowFrame {
   margin-top: var(--spacing-supper);
+}
+
+.dimensions{
+  img{
+    width: auto;
+    height: rem(200px);
+  }
 }

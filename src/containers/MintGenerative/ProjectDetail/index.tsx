@@ -115,7 +115,7 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
 
   return (
     <Formik
-      key="projectDetail"
+      key="projectDetailForm"
       initialValues={{
         name: formValues.name ?? '',
         description: formValues.description ?? '',
