@@ -13,6 +13,8 @@ import {
   getMakeOffersByWallet,
 } from '@services/marketplace';
 import { IListingTokens, IMakeOffers } from '@interfaces/api/marketplace';
+import { getProfileProjects } from '@services/profile';
+import { IGetProjectItemsResponse } from '@interfaces/api/project';
 
 const LOG_PREFIX = 'Profile';
 
@@ -20,16 +22,35 @@ const Profile: React.FC = (): React.ReactElement => {
   const walletCtx = useContext(WalletContext);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const user = useAppSelector(getUserSelector);
+  const [collections, setCollections] =
+    useState<IGetProjectItemsResponse | null>(null);
   const [listingTokens, setListingTokens] = useState<IListingTokens | null>(
     null
   );
-
   const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
   const handleDisconnectWallet = async (): Promise<void> => {
     try {
       await walletCtx.disconnect();
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
+    }
+  };
+
+  const handleFetchCollections = async () => {
+    try {
+      if (user.walletAddress) {
+        const collections = await getProfileProjects();
+        if (
+          collections &&
+          collections.result &&
+          collections.result.length > 0
+        ) {
+          setCollections(collections);
+        }
+      }
+    } catch (ex) {
+      log('can not fetch created collections', LogLevel.Error, '');
+      // throw Error('failed to fetch item detail');
     }
   };
 
@@ -72,6 +93,7 @@ const Profile: React.FC = (): React.ReactElement => {
   useEffect(() => {
     handleFetchListingTokens();
     handleFetchMakeOffers();
+    handleFetchCollections();
   }, [user.walletAddress]);
 
   return (
@@ -102,6 +124,18 @@ const Profile: React.FC = (): React.ReactElement => {
           <Button onClick={handleDisconnectWallet}>Disconnect wallet</Button>
         </div>
         <div>
+          Collections
+          {collections &&
+            collections.result &&
+            collections.result.length > 0 &&
+            collections.result.map((item, i) => (
+              <div key={`item_listing_token_${i}`}>
+                {item.name}, {item.owner ? item.image : ''}
+              </div>
+            ))}
+        </div>
+        <div>
+          Listing
           {listingTokens &&
             listingTokens.result &&
             listingTokens.result.length > 0 &&
@@ -112,6 +146,7 @@ const Profile: React.FC = (): React.ReactElement => {
             ))}
         </div>
         <div>
+          Offers
           {makeOffers &&
             makeOffers.result &&
             makeOffers.result.length > 0 &&
