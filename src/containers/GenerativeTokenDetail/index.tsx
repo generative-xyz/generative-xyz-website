@@ -50,6 +50,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     projectID: string;
     tokenID: string;
   };
+
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
   const tokenInfos = [
@@ -140,7 +141,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   useEffect(() => {
     fetchTokenData();
-  }, []);
+  }, [tokenID]);
 
   useEffect(() => {
     handleFetchMakeOffers();
