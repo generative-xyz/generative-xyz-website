@@ -1,0 +1,17 @@
+.error404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &_inner {
+    width: rem(720px);
+    text-align: center;
+  }
+
+  &_ctas {
+    display: flex;
+    gap: rem(10px);
+    align-items: center;
+    justify-content: center;
+  }
+}
