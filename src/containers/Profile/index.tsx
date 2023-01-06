@@ -8,8 +8,11 @@ import Button from '@components/Button';
 import { useAppSelector } from '@redux';
 import { getUserSelector } from '@redux/user/selector';
 import Image from 'next/image';
-import { getListingTokensByWallet } from '@services/marketplace';
-import { IListingTokens } from '@interfaces/api/marketplace';
+import {
+  getListingTokensByWallet,
+  getMakeOffersByWallet,
+} from '@services/marketplace';
+import { IListingTokens, IMakeOffers } from '@interfaces/api/marketplace';
 
 const LOG_PREFIX = 'Profile';
 
@@ -20,6 +23,8 @@ const Profile: React.FC = (): React.ReactElement => {
   const [listingTokens, setListingTokens] = useState<IListingTokens | null>(
     null
   );
+
+  const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
   const handleDisconnectWallet = async (): Promise<void> => {
     try {
       await walletCtx.disconnect();
@@ -44,8 +49,25 @@ const Profile: React.FC = (): React.ReactElement => {
     }
   };
 
+  const handleFetchMakeOffers = async () => {
+    try {
+      const makeOffers = await getMakeOffersByWallet({
+        walletAddress: user.walletAddress,
+        closed: false,
+      });
+      if (makeOffers && makeOffers.result) {
+        setMakeOffers(makeOffers);
+        // console.log(listingTokens.result);
+      }
+    } catch (ex) {
+      log('can not fetch listing tokens', LogLevel.Error, '');
+      // throw Error('failed to fetch item detail');
+    }
+  };
+
   useEffect(() => {
     handleFetchListingTokens();
+    handleFetchMakeOffers();
   }, [user]);
 
   return (
@@ -80,6 +102,16 @@ const Profile: React.FC = (): React.ReactElement => {
             listingTokens.result &&
             listingTokens.result.length > 0 &&
             listingTokens.result.map((item, i) => (
+              <div key={`item_listing_token_${i}`}>
+                {item.offeringID}, {item.token ? item.token.image : ''}
+              </div>
+            ))}
+        </div>
+        <div>
+          {makeOffers &&
+            makeOffers.result &&
+            makeOffers.result.length > 0 &&
+            makeOffers.result.map((item, i) => (
               <div key={`item_listing_token_${i}`}>
                 {item.offeringID}, {item.token ? item.token.image : ''}
               </div>
