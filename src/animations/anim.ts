@@ -5,6 +5,7 @@ import { default as ScrollTrigger } from 'gsap/ScrollTrigger';
 export class Anim {
   DOM: Record<string, HTMLElement>;
   id: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ScrollTrigger: any;
 
   constructor(el: HTMLElement, onEnter: () => void, offsetPercent = 0) {

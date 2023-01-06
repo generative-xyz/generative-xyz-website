@@ -1,4 +1,3 @@
-import logger from '@helpers/logger';
 import ApiFactory, { DEFAULT_RESPONSE } from '../http';
 
 const ORDER_API = '/v1/order';
@@ -33,7 +32,6 @@ export const makeOrder = async (orderInfo: {
     });
     return response.data;
   } catch (e) {
-    logger.error(e);
     return DEFAULT_RESPONSE;
   }
 };
@@ -44,7 +42,6 @@ export const getOrder = async (orderId: string): Promise<any> => {
 
     return response.data;
   } catch (e) {
-    logger.error(e);
     return DEFAULT_RESPONSE;
   }
 };

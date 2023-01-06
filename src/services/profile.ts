@@ -23,8 +23,8 @@ export const getProfileProjects =
     try {
       return await get<IGetProjectItemsResponse>(`${API_PATH}/projects`);
     } catch (err: unknown) {
-      log('failed to get profile', LogLevel.Error, LOG_PREFIX);
-      throw Error('Failed to get profile');
+      log('failed to get profile projects', LogLevel.Error, LOG_PREFIX);
+      throw Error('Failed to get profile projects');
     }
   };
 
@@ -38,7 +38,7 @@ export const getProfileNFTs = async ({
       `${API_PATH}/wallet/${walletAddress}/nfts`
     );
   } catch (err: unknown) {
-    log('failed to get profile', LogLevel.Error, LOG_PREFIX);
-    throw Error('Failed to get profile');
+    log('failed to get profile nfts', LogLevel.Error, LOG_PREFIX);
+    throw Error('Failed to get profile nfts');
   }
 };

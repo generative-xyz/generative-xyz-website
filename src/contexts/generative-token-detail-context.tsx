@@ -32,6 +32,8 @@ export interface IGenerativeTokenDetailContext {
   setListingStep: Dispatch<SetStateAction<ListingStep>>;
   listingPrice: number;
   setListingPrice: Dispatch<SetStateAction<number>>;
+  txHash: string | null;
+  setTxHash: Dispatch<SetStateAction<string | null>>;
 }
 
 const initialValue: IGenerativeTokenDetailContext = {
@@ -59,6 +61,10 @@ const initialValue: IGenerativeTokenDetailContext = {
   setErrorMessage: _ => {
     return;
   },
+  txHash: null,
+  setTxHash: _ => {
+    return;
+  },
 };
 
 export const GenerativeTokenDetailContext =
@@ -69,9 +75,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
 }: PropsWithChildren): React.ReactElement => {
   const [tokenData, setTokenData] = useState<Token | null>(null);
   const [showListingModal, setShowListingModal] = useState(false);
-  const [listingStep, setListingStep] = useState(ListingStep.InputInfo);
+  const [listingStep, setListingStep] = useState(ListingStep.Success);
   const [listingPrice, setListingPrice] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [txHash, setTxHash] = useState<string | null>(null);
   const { call: listToken } = useContractOperation(ListingTokenOperation, true);
   const { call: checkTokenIsApproved } = useContractOperation(
     IsApprrovedForAllOperation,
@@ -88,8 +95,13 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   };
 
   const hideListingModal = () => {
+    // Reset state
     setShowListingModal(false);
     setListingStep(ListingStep.InputInfo);
+    setTxHash(null);
+    setListingPrice(0);
+
+    // Recover scroll behavior
     document.body.style.overflow = 'auto';
   };
 
@@ -137,6 +149,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       return;
     } else {
       setListingStep(ListingStep.Success);
+      setTxHash(tx.transactionHash);
     }
   };
 
@@ -154,6 +167,8 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       hideListingModal,
       errorMessage,
       setErrorMessage,
+      txHash,
+      setTxHash,
     };
   }, [
     tokenData,
@@ -168,6 +183,8 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     hideListingModal,
     errorMessage,
     setErrorMessage,
+    txHash,
+    setTxHash,
   ]);
 
   return (

@@ -19,12 +19,10 @@ import { IMakeOffers } from '@interfaces/api/marketplace';
 
 const CollectionItem = ({ data }: { data: Token }) => {
   const router = useRouter();
-  // const projectCurrent = useSelector(projectCurrentSelector);
-
   const tokenID = useMemo(() => data.name.split('#')[1], [data.name]);
-  // const tokenName = useMemo(() => data.name.split('#')[0], [data.name]);
   const [listingTokenPrice, setListingTokenPrice] = useState('0');
   const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
+
   const handleFetchListingTokenPrice = async () => {
     try {
       const listingTokens = await getListing({
@@ -39,9 +37,9 @@ const CollectionItem = ({ data }: { data: Token }) => {
       }
     } catch (e) {
       log('can not fetch price', LogLevel.Error, '');
-      // throw Error('failed to fetch item detail');
     }
   };
+
   const handleFetchMakeOffers = async () => {
     try {
       const makeOffers = await getMakeOffers({
@@ -53,10 +51,10 @@ const CollectionItem = ({ data }: { data: Token }) => {
         setMakeOffers(makeOffers);
       }
     } catch (e) {
-      log('can not fetch price', LogLevel.Error, '');
-      // throw Error('failed to fetch item detail');
+      log('can not fetch offer', LogLevel.Error, '');
     }
   };
+
   const handleClickItem = () => {
     router.push(
       `${ROUTE_PATH.GENERATIVE}/${getProjectIdFromTokenId(
@@ -102,11 +100,10 @@ const CollectionItem = ({ data }: { data: Token }) => {
               className={s.collectionCard_info_stack}
               direction="horizontal"
             >
-              {/*<Heading as={'h4'}>{tokenName}</Heading>*/}
               <Heading as={'h4'} className="token_id ml-auto">
                 #{formatTokenId(tokenID)}
               </Heading>
-              {listingTokenPrice != '0' && (
+              {listingTokenPrice !== '0' && (
                 <Stack
                   direction="horizontal"
                   className={s.collectionCard_listing}

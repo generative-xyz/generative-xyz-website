@@ -33,6 +33,7 @@
         "ts-ignore": "allow-with-description"
       }
     ],
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "@next/next/no-img-element": "off"
   }
 }

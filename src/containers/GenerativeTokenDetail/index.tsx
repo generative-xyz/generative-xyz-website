@@ -160,12 +160,19 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
             </div>
             <div className={s.CTA_btn}>
               {/* Due to owner and status of this token to render appropriate action */}
-              <ButtonIcon onClick={handleOpenListingTokenModal}>
+              <ButtonIcon
+                disabled={!tokenData}
+                onClick={handleOpenListingTokenModal}
+              >
                 List for sale
               </ButtonIcon>
-              <ButtonIcon variants="outline">Transfer</ButtonIcon>
-              <ButtonIcon>Buy</ButtonIcon>
-              <ButtonIcon variants="outline">Make offer</ButtonIcon>
+              <ButtonIcon disabled={!tokenData} variants="outline">
+                Transfer
+              </ButtonIcon>
+              <ButtonIcon disabled={!tokenData}>Buy</ButtonIcon>
+              <ButtonIcon disabled={!tokenData} variants="outline">
+                Make offer
+              </ButtonIcon>
             </div>
             <div className={s.accordions}>
               {!!tokenDescription && (
