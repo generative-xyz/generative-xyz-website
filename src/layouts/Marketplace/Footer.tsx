@@ -48,7 +48,9 @@ const Footer: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
             </li>
           </ul>
         </div>
-        <div>Contact us: team@generative.xyz</div>
+        <div className={styles.footer_contact}>
+          Contact us: team@generative.xyz
+        </div>
       </div>
     </footer>
   );

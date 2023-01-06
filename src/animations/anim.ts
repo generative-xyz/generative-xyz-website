@@ -4,15 +4,20 @@ import { default as ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export class Anim {
   DOM: Record<string, HTMLElement>;
+  id: string;
+  ScrollTrigger: any;
 
-  constructor(el: HTMLElement, onEnter: () => void) {
+  constructor(el: HTMLElement, onEnter: () => void, offsetPercent = 0) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const ScrollTrigger = require('gsap/ScrollTrigger').default;
-    gsap.registerPlugin(ScrollTrigger);
+    this.ScrollTrigger = require('gsap/ScrollTrigger').default;
+    gsap.registerPlugin(this.ScrollTrigger);
+    this.id = (Math.random() * 1000000000).toString();
 
     this.DOM = { el };
-    ScrollTrigger.create({
+    this.ScrollTrigger.create({
       trigger: el,
+      id: this.id,
+      start: `${offsetPercent}% bottom`,
       onEnter: function (target: ScrollTrigger) {
         const isScrolling = store.getState()?.general.isScrolling;
         if (!isScrolling) {
@@ -28,5 +33,10 @@ export class Anim {
         }
       },
     });
+  }
+
+  kill() {
+    const trigger = this.ScrollTrigger.getById(this.id);
+    trigger?.kill();
   }
 }

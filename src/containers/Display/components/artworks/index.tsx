@@ -18,11 +18,11 @@ export const Artworks = (): JSX.Element => {
         .fromTo(
           comp.current?.querySelector('.js-fame__big'),
           {
-            width: '100vw',
+            height: '100vh',
             // scale: 1,
           },
           {
-            width: `${(1122 / 1920) * 100}%`,
+            height: `${(820 / 1080) * 100}%`,
             // scale: 1
           },
           0
@@ -64,31 +64,7 @@ export const Artworks = (): JSX.Element => {
           <div
             className={`${s.artWork_fame} ${s.artWork_fame__small} ${s.artWork_fame__left} js-fame__left`}
           >
-            <video
-              muted
-              autoPlay
-              preload={'auto'}
-              playsInline
-              loop
-              poster="https://cdn.generative.xyz/pages/home/videos/video-left-block-2-poster.jpeg"
-            >
-              <source
-                src="https://cdn.generative.xyz/pages/home/Block2_Left-1.mp4"
-                type="video/mp4"
-              />
-            </video>
-          </div>
-          <div
-            className={`${s.artWork_fame} ${s.artWork_fame__big} js-fame__big`}
-          >
-            <video
-              muted
-              autoPlay
-              preload={'auto'}
-              playsInline
-              loop
-              poster="https://cdn.generative.xyz/pages/home/videos/video-mid-block-2-poster.jpeg"
-            >
+            <video muted autoPlay preload={'auto'} playsInline loop>
               <source
                 src="https://cdn.generative.xyz/pages/home/videos/Block2%20Frame%20Mid-1.webm"
                 type="video/webm"
@@ -100,16 +76,23 @@ export const Artworks = (): JSX.Element => {
             </video>
           </div>
           <div
+            className={`${s.artWork_fame} ${s.artWork_fame__big} js-fame__big`}
+          >
+            <video muted autoPlay preload={'auto'} playsInline loop>
+              <source
+                src="https://cdn.generative.xyz/pages/home/videos/Square-1.webm"
+                type="video/webm"
+              />
+              <source
+                src="https://cdn.generative.xyz/pages/home/videos/Square-1.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+          <div
             className={`${s.artWork_fame} ${s.artWork_fame__small} ${s.artWork_fame__right} js-fame__right`}
           >
-            <video
-              muted
-              autoPlay
-              preload={'auto'}
-              playsInline
-              loop
-              poster="https://cdn.generative.xyz/pages/home/videos/video-right-block-2-poster.jpeg"
-            >
+            <video muted autoPlay preload={'auto'} playsInline loop>
               <source
                 src="https://cdn.generative.xyz/pages/home/videos/Block2%20Frame%20Right-1.webm"
                 type="video/webm"

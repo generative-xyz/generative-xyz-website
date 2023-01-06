@@ -27,7 +27,6 @@
         @include max-tablet {
           display: none;
         }
-
         @include min-pc {
           width: 20%;
         }
@@ -135,8 +134,8 @@
   }
 
   &_specContent {
-    color: $neutral-08;
-    font-weight: 500;
+    color: $neutral-06;
+    font-weight: 400;
     font-size: 16px;
 
     @include min-pc {
@@ -150,6 +149,7 @@
     }
 
     &.highlight {
+      color: $neutral-08;
       font-weight: 600;
 
       &__name {
@@ -196,4 +196,11 @@
 
 .home_rowFrame {
   margin-top: var(--spacing-supper);
+}
+
+.dimensions{
+  img{
+    width: auto;
+    height: rem(200px);
+  }
 }

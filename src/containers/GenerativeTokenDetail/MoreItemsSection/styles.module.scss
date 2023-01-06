@@ -41,6 +41,13 @@
   justify-content: center;
   margin-top: rem(50px);
   margin-bottom: rem(90px);
+
+  .icon_btn {
+    svg,
+    path {
+      stroke: $black-100;
+    }
+  }
 }
 
 .listWrapper {
