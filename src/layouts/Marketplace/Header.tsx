@@ -40,7 +40,7 @@ const MENU_HEADER = [
   {
     id: 'menu-2',
     name: 'marketplace',
-    route: ROUTE_PATH.HOME,
+    route: ROUTE_PATH.MARKETPLACE,
     activePath: 'marketplace',
   },
   {
