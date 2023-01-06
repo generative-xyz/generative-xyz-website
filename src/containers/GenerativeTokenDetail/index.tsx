@@ -27,6 +27,7 @@ import ListingTokenModal from './ListingTokenModal';
 import MoreItemsSection from './MoreItemsSection';
 import TokenActivities from './TokenActivities';
 import s from './styles.module.scss';
+import { getMakeOffers } from '@services/marketplace';
 import { TokenOffer } from '@interfaces/token';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
@@ -78,6 +79,22 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     [user.walletAddress]
   );
 
+  const fetchTokenOffers = async () => {
+    try {
+      if (tokenData && tokenData.genNFTAddr && tokenID) {
+        const { result } = await getMakeOffers({
+          genNFTAddr: tokenData.genNFTAddr,
+          tokenId: tokenID,
+          closed: false,
+        });
+        if (result) {
+          setTokenOffers(result);
+        }
+      }
+    } catch (e) {
+      log('can not fetch offers', LogLevel.Error, LOG_PREFIX);
+    }
+  };
   const handleOpenListingTokenModal = (): void => {
     openListingModal();
   };
@@ -124,6 +141,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   useEffect(() => {
     fetchTokenData();
   }, [tokenID]);
+
+  useEffect(() => {
+    fetchTokenOffers();
+  }, [tokenData]);
 
   return (
     <>
