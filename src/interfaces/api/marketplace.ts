@@ -34,3 +34,8 @@ export interface IMakeOfferResult {
 export interface IMakeOffers extends IPagingResponse {
   result: IMakeOfferResult[];
 }
+
+export interface IMarketplaceStatsResponse {
+  floorPrice: string;
+  volume: string;
+}

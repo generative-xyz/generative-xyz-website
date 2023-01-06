@@ -1,7 +1,11 @@
 import { LogLevel } from '@enums/log-level';
 import { get } from '@services/http-client';
 import log from '@utils/logger';
-import { IListingTokens, IMakeOffers } from '@interfaces/api/marketplace';
+import {
+  IListingTokens,
+  IMakeOffers,
+  IMarketplaceStatsResponse,
+} from '@interfaces/api/marketplace';
 
 const LOG_PREFIX = 'MarketplaceService';
 
@@ -76,5 +80,20 @@ export const getMakeOffersByWallet = async ({
   } catch (err: unknown) {
     log('failed to get listing token', LogLevel.Error, LOG_PREFIX);
     throw Error('Failed to get listing');
+  }
+};
+
+export const getMarketplaceStats = async ({
+  projectId,
+}: {
+  projectId: number;
+}): Promise<IMarketplaceStatsResponse | null> => {
+  try {
+    return await get<IMarketplaceStatsResponse>(
+      `${API_PATH}/stats/${projectId}`
+    );
+  } catch (err: unknown) {
+    log('failed to get project stats', LogLevel.Error, LOG_PREFIX);
+    return null;
   }
 };

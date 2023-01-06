@@ -31,6 +31,8 @@ import dayjs from 'dayjs';
 import Skeleton from '@components/Skeleton';
 import { Token } from '@interfaces/token';
 import { Loading } from '@components/Loading';
+import { IMarketplaceStatsResponse } from '@interfaces/api/marketplace';
+import { getMarketplaceStats } from '@services/marketplace';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
@@ -42,7 +44,8 @@ const ProjectIntroSection = ({ project }: Props) => {
   const user = useSelector(getUserSelector);
   const router = useRouter();
   const [projectDetail, setProjectDetail] = useState<Omit<Token, 'owner'>>();
-
+  const [marketplaceStats, setMarketplaceStats] =
+    useState<IMarketplaceStatsResponse | null>(null);
   const mintedTime = project?.mintedTime;
   let mintDate = dayjs();
   if (mintedTime) {
@@ -58,6 +61,19 @@ const ProjectIntroSection = ({ project }: Props) => {
     true
   );
   const [isMinting, setIsMinting] = useState(false);
+
+  const handleFetchMarketplaceStats = async () => {
+    try {
+      if (projectDetail && project?.tokenID && project?.tokenID != '') {
+        const stats = await getMarketplaceStats({
+          projectId: parseInt(project?.tokenID),
+        });
+        setMarketplaceStats(stats);
+      }
+    } catch (e) {
+      log('can not fetch price', LogLevel.Error, '');
+    }
+  };
 
   const handleMintToken = async () => {
     try {
@@ -126,6 +142,10 @@ const ProjectIntroSection = ({ project }: Props) => {
     return false;
   }, [project?.mintingInfo?.index, project?.maxSupply]);
 
+  useEffect(() => {
+    handleFetchMarketplaceStats();
+  }, [projectDetail]);
+
   const renderLeftContent = () => {
     if (!project)
       return (
@@ -166,6 +186,10 @@ const ProjectIntroSection = ({ project }: Props) => {
           ) : (
             <></>
           )}
+          <div>
+            {/*TODO marketplaceStats*/}
+            {marketplaceStats?.floorPrice}
+          </div>
           <div className={s.stats}>
             <div className={s.stats_item}>
               <Text size="12" fontWeight="bold">
