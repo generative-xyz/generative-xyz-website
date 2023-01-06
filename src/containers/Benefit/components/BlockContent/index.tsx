@@ -16,10 +16,10 @@ export const BlockContent = ({
 }: IProps): JSX.Element => {
   return (
     <div className={`${s.blockContent} ${className}`}>
-      <Heading as="h5" color={'white'}>
+      <Heading as="h5" color={'white'} fontWeight={'medium'}>
         {heading}
       </Heading>
-      <Text as="p" color={'white-60'} size="18">
+      <Text as="p" color={'white-60'} size="18" fontWeight={'medium'}>
         {children}
       </Text>
     </div>

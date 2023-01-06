@@ -7,7 +7,6 @@ import { User } from '@interfaces/user';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Stack } from 'react-bootstrap';
-// import { useSelector } from 'react-redux';
 import s from './styles.module.scss';
 import { formatTokenId, getProjectIdFromTokenId } from '@utils/format';
 import { getListing, getMakeOffers } from '@services/marketplace';

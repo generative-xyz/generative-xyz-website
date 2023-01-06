@@ -31,6 +31,10 @@ html {
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased !important;
   -webkit-font-smoothing: antialiased !important;
+
+  @include min-pc {
+    font-size: vw(10px);
+  }
 }
 
 body {

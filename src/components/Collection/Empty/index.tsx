@@ -24,7 +24,7 @@ const LOG_PREFIX = 'Empty';
 export const Empty = ({
   projectInfo,
 }: {
-  projectInfo: Project | null;
+  projectInfo?: Project;
 }): JSX.Element => {
   const user = useSelector(getUserSelector);
   const router = useRouter();

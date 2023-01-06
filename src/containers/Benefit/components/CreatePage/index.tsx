@@ -81,44 +81,54 @@ export const CreatePageSection = (): JSX.Element => {
               <Text
                 as={'h2'}
                 color={'white'}
-                fontWeight={'bold'}
+                fontWeight={'medium'}
                 className={'spacing__small'}
                 size={'d3'}
                 animOption={{ screen: 0.2, offset: 0, type: 'heading' }}
               >
-                A full-service platform for generative artists to launch
-                collections.
+                The most comprehensive platform for generative artists to
+                feature collections
               </Text>
               <Text
                 size="24"
-                color={'white'}
+                color={'white-80'}
                 className={'spacing__large'}
-                fontWeight="semibold"
+                fontWeight="regular"
                 as="p"
                 animOption={{ screen: 0.4, offset: 0, type: 'paragraph' }}
               >
-                Have the freedom to tell the world your creativity with our
-                platform. At Generative, you use creative code to create varied,
-                generative art that evolves each time a collector mints a piece.
+                Below the fold: <br /> <br />
+                Express your creativity to the world! Generative gives you the
+                tools to transform your creative code into a variety of
+                generative art that evolves with each minting of a collection.
               </Text>
               <AnimFade screen={0.6}>
-                <BlockContent heading={'Permanently stored on the blockchain'}>
-                  [Description here]
+                <BlockContent
+                  heading={'Boost the worth of your work on Ethereum'}
+                >
+                  Generative is the first platform for Generative Art running on
+                  Ethereum. The Ethereum community is a high-end market where
+                  digital art is frequently valued higher. Artists will also
+                  receive a loyalty incentive if their artwork is sold on the
+                  secondary market.
                 </BlockContent>
               </AnimFade>
               <AnimFade screen={0.7}>
                 <BlockContent
-                  heading={'Transparent & efficient submission process'}
+                  heading={'Numerous resources for making art are supported'}
                 >
-                  [Description here]
+                  Generative supports a wide range of library, making the
+                  process of producing generative art simplified and more
+                  enjoyable.
                 </BlockContent>
               </AnimFade>
               <AnimFade screen={0.8}>
                 <BlockContent
                   className={'spacing__medium'}
-                  heading={'Competitive royalty structure'}
+                  heading={'Decentralized from the start'}
                 >
-                  [Description here]
+                  No IPFS and no centralized server—your artwork is stored fully
+                  and securely on the blockchain.
                 </BlockContent>
               </AnimFade>
               <AnimFade screen={0.9}>

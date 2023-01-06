@@ -32,22 +32,53 @@
 
     &-18 {
       font-size: rem(18px);
-      line-height: rem(28px);
+      line-height: (28/18);
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 16px, 18px);
+      }
+
+      @include min-pc-wide {
+        font-size: rem(18px);
+      }
     }
 
     &-16 {
+
+      line-height: (26/16);
       font-size: rem(16px);
-      line-height: rem(26px);
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 14px, 16px);
+      }
+
+      @include min-pc-wide {
+        font-size: rem(16px);
+      }
+
     }
 
     &-14 {
+
+      line-height: (24/14);
       font-size: rem(14px);
-      line-height: rem(24px);
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 12px, 14px);
+      }
+
+      @include min-pc-wide {
+        font-size: rem(14px);
+      }
+
     }
 
     &-12 {
-      font-size: rem(12px);
-      line-height: rem(20px);
+      line-height: (20/12);
+      font-size: 12px;
+      @include min-pc-wide {
+        font-size: rem(12px);
+      }
     }
   }
 

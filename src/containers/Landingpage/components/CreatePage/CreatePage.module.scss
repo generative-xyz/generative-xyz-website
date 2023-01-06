@@ -33,6 +33,10 @@
   &_content {
     padding-top: rem(70px);
 
+    strong, b{
+      font-weight: 400 !important;
+    }
+
     button {
       width: 100%;
       justify-content: center;

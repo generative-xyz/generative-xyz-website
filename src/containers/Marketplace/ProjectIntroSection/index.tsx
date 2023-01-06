@@ -34,7 +34,7 @@ import { Token } from '@interfaces/token';
 const LOG_PREFIX = 'ProjectIntroSection';
 
 type Props = {
-  project: IGetProjectDetailResponse | null;
+  project?: IGetProjectDetailResponse;
 };
 
 const ProjectIntroSection = ({ project }: Props) => {

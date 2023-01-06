@@ -37,12 +37,10 @@ header {
   padding-top: rem(60px);
   padding-bottom: rem(60px);
 
-  position: sticky;
-  top: 100vh;
-
-  @include min-tablet{
-    min-height: rem(198);
-    padding: 0;
+  &.isFixed{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
   }
 
   &_content {

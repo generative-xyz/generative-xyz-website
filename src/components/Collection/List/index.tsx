@@ -8,14 +8,14 @@ const CollectionList = ({
   listData,
   projectInfo,
 }: {
-  listData: Token[];
-  projectInfo: Project | null;
+  listData?: Token[];
+  projectInfo?: Project;
 }) => {
   return (
     <>
-      {listData?.length > 0 ? (
+      {listData && listData?.length > 0 ? (
         <div className="grid grid-cols-4">
-          {listData.map((item, index: number) => (
+          {listData?.map((item, index: number) => (
             <CollectionItem key={`collection-item-${index}`} data={item} />
           ))}
         </div>
