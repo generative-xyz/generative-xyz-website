@@ -8,6 +8,7 @@ import SvgInset from '@components/SvgInset';
 import ListingForm from '../ListingForm';
 import { ListingStep } from '@enums/listing-generative';
 import ListingProcess from '../ListingProcess';
+import ListingSuccess from '../ListingSuccess';
 
 const ListingTokenModal: React.FC = (): React.ReactElement => {
   const { showListingModal, listingStep, hideListingModal } = useContext(
@@ -42,6 +43,7 @@ const ListingTokenModal: React.FC = (): React.ReactElement => {
           <div className={s.modalBody}>
             {listingStep === ListingStep.InputInfo && <ListingForm />}
             {listingStep === ListingStep.Processing && <ListingProcess />}
+            {listingStep === ListingStep.Success && <ListingSuccess />}
           </div>
         </div>
       </div>

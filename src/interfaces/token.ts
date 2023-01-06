@@ -22,3 +22,15 @@ export type Token = {
   creator: User;
   tokenID: string;
 };
+
+export type TokenOffer = {
+  offeringID: string;
+  price: string;
+  seller: string;
+  closed: boolean;
+  collectionContract: string;
+  erc20Token: string;
+  finished: boolean;
+  durationTime: number;
+  token?: Token;
+};

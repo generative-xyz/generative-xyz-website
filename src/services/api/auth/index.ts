@@ -1,4 +1,3 @@
-import logger from '@helpers/logger';
 import http from '../http';
 
 const PROFILE_API = `/profile`;
@@ -16,7 +15,6 @@ export const postMessages = async ({ address }: any): Promise<any> => {
     });
     return response;
   } catch (e) {
-    logger.log(e);
     return DEFAULT_RESPONSE;
   }
 };
@@ -32,7 +30,6 @@ export const postMessagesVerify = async ({
     });
     return response;
   } catch (e) {
-    logger.log(e);
     return DEFAULT_RESPONSE;
   }
 };
@@ -42,7 +39,6 @@ export const getProfile = async (): Promise<any> => {
     const response = await http.get(`${PROFILE_API}`);
     return response;
   } catch (e) {
-    logger.log(e);
     return DEFAULT_RESPONSE;
   }
 };

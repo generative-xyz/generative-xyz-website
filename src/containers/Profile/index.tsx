@@ -122,8 +122,8 @@ const Profile: React.FC = (): React.ReactElement => {
     try {
       if (user.walletAddress) {
         const tokens = await getProfileNFTs({
-          walletAddress:
-            '0xE55EAdE1B17BbA28A80a71633aF8C15Dc2D556A5'.toLowerCase(), //todo //user.walletAddress,
+          walletAddress: user.walletAddress,
+          // '0xE55EAdE1B17BbA28A80a71633aF8C15Dc2D556A5'.toLowerCase(), //todo //user.walletAddress,
         });
         if (tokens && tokens.result && tokens.result.length > 0) {
           setTokens(tokens);

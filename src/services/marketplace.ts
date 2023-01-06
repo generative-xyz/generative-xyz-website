@@ -1,7 +1,11 @@
 import { LogLevel } from '@enums/log-level';
 import { get } from '@services/http-client';
 import log from '@utils/logger';
-import { IListingTokens, IMakeOffers } from '@interfaces/api/marketplace';
+import {
+  IListingTokensResponse,
+  ITokenOfferListResponse,
+  IMarketplaceStatsResponse,
+} from '@interfaces/api/marketplace';
 
 const LOG_PREFIX = 'MarketplaceService';
 
@@ -15,9 +19,9 @@ export const getListing = async ({
   genNFTAddr: string;
   tokenId: string;
   closed: boolean;
-}): Promise<IListingTokens> => {
+}): Promise<IListingTokensResponse> => {
   try {
-    return await get<IListingTokens>(
+    return await get<IListingTokensResponse>(
       `${API_PATH}/listing/${genNFTAddr}/token/${tokenId}?closed=${closed}`
     );
   } catch (err: unknown) {
@@ -34,9 +38,9 @@ export const getMakeOffers = async ({
   genNFTAddr: string;
   tokenId: string;
   closed: boolean;
-}): Promise<IMakeOffers> => {
+}): Promise<ITokenOfferListResponse> => {
   try {
-    return await get<IMakeOffers>(
+    return await get<ITokenOfferListResponse>(
       `${API_PATH}/offers/${genNFTAddr}/token/${tokenId}?closed=${closed}`
     );
   } catch (err: unknown) {
@@ -51,9 +55,9 @@ export const getListingTokensByWallet = async ({
 }: {
   walletAddress: string;
   closed: boolean;
-}): Promise<IListingTokens> => {
+}): Promise<IListingTokensResponse> => {
   try {
-    return await get<IListingTokens>(
+    return await get<IListingTokensResponse>(
       `${API_PATH}/wallet/${walletAddress}/listing?closed=${closed}`
     );
   } catch (err: unknown) {
@@ -68,13 +72,28 @@ export const getMakeOffersByWallet = async ({
 }: {
   walletAddress: string;
   closed: boolean;
-}): Promise<IMakeOffers> => {
+}): Promise<ITokenOfferListResponse> => {
   try {
-    return await get<IMakeOffers>(
-      `${API_PATH}/wallet/${walletAddress}/makeoffer?closed=${closed}`
+    return await get<ITokenOfferListResponse>(
+      `${API_PATH}/wallet/${walletAddress}/offer?closed=${closed}`
     );
   } catch (err: unknown) {
     log('failed to get listing token', LogLevel.Error, LOG_PREFIX);
     throw Error('Failed to get listing');
+  }
+};
+
+export const getMarketplaceStats = async ({
+  collectionAddr,
+}: {
+  collectionAddr: string;
+}): Promise<IMarketplaceStatsResponse | null> => {
+  try {
+    return await get<IMarketplaceStatsResponse>(
+      `${API_PATH}/stats/${collectionAddr}`
+    );
+  } catch (err: unknown) {
+    log('failed to get project stats', LogLevel.Error, LOG_PREFIX);
+    return null;
   }
 };

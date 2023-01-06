@@ -18,31 +18,25 @@ import { formatAddress, formatTokenId } from '@utils/format';
 import log from '@utils/logger';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 import MoreItemsSection from './MoreItemsSection';
 import ListingTokenModal from './ListingTokenModal';
 import s from './styles.module.scss';
+import { getMakeOffers } from '@services/marketplace';
+import { Loading } from '@components/Loading';
+import { TokenOffer } from '@interfaces/token';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
-  const { tokenData, setTokenData, openListingModal } = useContext(
-    GenerativeTokenDetailContext
-  );
+  const [tokenOffers, setTokenOffers] = useState<Array<TokenOffer>>([]);
+  const { tokenData, setTokenData, openListingModal, handlePurchaseToken } =
+    useContext(GenerativeTokenDetailContext);
   const user = useSelector(getUserSelector);
-
-  const checkOwnership = useCallback(
-    (address: string) => {
-      if (!address) return false;
-      return address === user?.walletAddress;
-    },
-    [user.walletAddress]
-  );
-
   const { tokenID } = router.query as {
     projectID: string;
     tokenID: string;
@@ -76,13 +70,37 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     },
   ];
 
+  const checkOwnership = useCallback(
+    (address: string) => {
+      if (!address) return false;
+      return address === user?.walletAddress;
+    },
+    [user.walletAddress]
+  );
+
+  const fetchTokenOffers = async () => {
+    try {
+      if (tokenData && tokenData.genNFTAddr && tokenID) {
+        const { result } = await getMakeOffers({
+          genNFTAddr: tokenData.genNFTAddr,
+          tokenId: tokenID,
+          closed: false,
+        });
+        if (result) {
+          setTokenOffers(result);
+        }
+      }
+    } catch (e) {
+      log('can not fetch offers', LogLevel.Error, LOG_PREFIX);
+    }
+  };
   const handleOpenListingTokenModal = (): void => {
     openListingModal();
   };
 
   const featuresList = () => {
     if (tokenData?.attributes && tokenData.attributes?.length > 0) {
-      const list = tokenData.attributes.map(attr => {
+      return tokenData.attributes.map(attr => {
         return {
           id: `attr-${v4()}`,
           info: attr.trait_type,
@@ -90,7 +108,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           link: '',
         };
       });
-      return list;
     }
     return null;
   };
@@ -109,24 +126,31 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
       }
     } catch (err: unknown) {
       log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
-      throw Error('failed to fetch item detail');
     }
   };
 
   const handleLinkProfile = () => {
-    // TODO: update to corect profile when profile page finish
     router.push(`${ROUTE_PATH.PROFILE}`);
+  };
+
+  const handleBuyToken = () => {
+    handlePurchaseToken(tokenOffers[0]);
   };
 
   useEffect(() => {
     fetchTokenData();
   }, [tokenID]);
 
+  useEffect(() => {
+    fetchTokenOffers();
+  }, [tokenData]);
+
   return (
     <>
       <Container>
         <div className={s.wrapper} style={{ marginBottom: '100px' }}>
           <div className={s.itemInfo}>
+            <Loading isLoaded={!!tokenData} className={s.loading_token} />
             <Heading as="h4" fontWeight="bold">
               {tokenData?.project?.name} #
               {formatTokenId(tokenData?.tokenID || '')}
@@ -160,12 +184,24 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
             </div>
             <div className={s.CTA_btn}>
               {/* Due to owner and status of this token to render appropriate action */}
-              <ButtonIcon onClick={handleOpenListingTokenModal}>
+              <ButtonIcon
+                disabled={!tokenData}
+                onClick={handleOpenListingTokenModal}
+              >
                 List for sale
               </ButtonIcon>
-              <ButtonIcon variants="outline">Transfer</ButtonIcon>
-              <ButtonIcon>Buy</ButtonIcon>
-              <ButtonIcon variants="outline">Make offer</ButtonIcon>
+              <ButtonIcon disabled={!tokenData} variants="outline">
+                Transfer
+              </ButtonIcon>
+              <ButtonIcon
+                disabled={!tokenOffers.length}
+                onClick={handleBuyToken}
+              >
+                Buy
+              </ButtonIcon>
+              <ButtonIcon disabled={!tokenData} variants="outline">
+                Make offer
+              </ButtonIcon>
             </div>
             <div className={s.accordions}>
               {!!tokenDescription && (
@@ -180,36 +216,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   content={<Stats data={featuresList()} />}
                 ></Accordion>
               )}
-              <Accordion
-                header={'Owner'}
-                content={
-                  <Text
-                    size="18"
-                    fontWeight="medium"
-                    className={s.walletAddress}
-                  >
-                    {tokenData?.owner?.displayName ||
-                      formatAddress(
-                        tokenData?.ownerAddr ||
-                          tokenData?.owner?.walletAddress ||
-                          ''
-                      )}
-                  </Text>
-                }
-              ></Accordion>
-              <Accordion
-                header={'Creator'}
-                content={
-                  <Text
-                    size="18"
-                    fontWeight="medium"
-                    className={s.walletAddress}
-                  >
-                    {tokenData?.creator?.displayName ||
-                      formatAddress(tokenData?.creator?.walletAddress || '')}
-                  </Text>
-                }
-              ></Accordion>
               {mintedDate && (
                 <Accordion
                   header={'Minted on'}
@@ -255,14 +261,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   </Text>
                 }
               ></Accordion>
-              <Accordion
-                header={'Minted on'}
-                content={
-                  <Text size="18" fontWeight="semibold">
-                    {mintedDate}
-                  </Text>
-                }
-              ></Accordion>
 
               <Accordion
                 header={'Token Info'}
@@ -276,9 +274,16 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <div className="h-divider"></div>
-        {/* <div className={s.thumbnailWrapper}>
-          <ThumbnailPreview data={tokenData} previewToken />
-        </div> */}
+        <div></div>
+        <div style={{ display: 'none' }}>
+          {tokenOffers &&
+            tokenOffers.length > 0 &&
+            tokenOffers.map((item, i) => (
+              <div key={`item_listing_token_${i}`}>
+                {item.offeringID}, {item.token ? item.token.image : ''}
+              </div>
+            ))}
+        </div>
         <div></div>
         {tokenData?.project.genNFTAddr && (
           <MoreItemsSection genNFTAddr={tokenData.project.genNFTAddr} />

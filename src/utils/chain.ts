@@ -46,5 +46,5 @@ export const getFaucet = (): string | null => {
 };
 
 export const isTestnet = (): boolean => {
-  return NETWORK_CHAIN_ID != 1;
+  return NETWORK_CHAIN_ID !== 1;
 };

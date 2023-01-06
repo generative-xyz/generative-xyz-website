@@ -1,36 +1,15 @@
 import { IPagingResponse } from '@interfaces/paging';
-import { Token } from '@interfaces/token';
+import { TokenOffer } from '@interfaces/token';
 
-export interface IListingTokenResult {
-  offeringID: string;
-  price: string;
-  seller: string;
-  closed: boolean;
-  collectionContract: string;
-  erc20Token: string;
-  finished: boolean;
-  durationTime: number;
-
-  token?: Token;
+export interface IListingTokensResponse extends IPagingResponse {
+  result: TokenOffer[];
 }
 
-export interface IListingTokens extends IPagingResponse {
-  result: IListingTokenResult[];
+export interface ITokenOfferListResponse extends IPagingResponse {
+  result: TokenOffer[];
 }
 
-export interface IMakeOfferResult {
-  offeringID: string;
-  price: string;
-  seller: string;
-  closed: boolean;
-  collectionContract: string;
-  erc20Token: string;
-  finished: boolean;
-  durationTime: number;
-
-  token?: Token;
-}
-
-export interface IMakeOffers extends IPagingResponse {
-  result: IMakeOfferResult[];
+export interface IMarketplaceStatsResponse {
+  floorPrice: string;
+  volume: string;
 }

@@ -142,6 +142,10 @@
   color: $blue-c;
 }
 
+.bg-white {
+  background-color: $white;
+}
+
 .spacing {
   &__large {
     margin-bottom: rem(40px);
