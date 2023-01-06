@@ -108,6 +108,7 @@
   display: flex;
   gap: rem(32px);
   margin-bottom: rem(38px);
+  flex-wrap: wrap;
 
   &_item {
     > p:first-of-type {
