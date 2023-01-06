@@ -4,12 +4,13 @@
   color: $black-100;
   // gap: rem(60px);
   margin-top: rem(72);
+  max-height: 60vh;
 }
 
 .itemInfo {
-  max-height: rem(610px);
   overflow-y: scroll;
   padding-right: rem(60px);
+  max-height: rem(610px);
   position: relative;
 
   &::-webkit-scrollbar {
@@ -97,4 +98,8 @@
     cursor: pointer;
     text-decoration: underline;
   }
+}
+
+.loading_token {
+  background-color: $white;
 }

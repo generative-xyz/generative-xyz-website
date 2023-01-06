@@ -81,26 +81,30 @@ const ThumbnailPreview = (props: Props) => {
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
           <Skeleton fill isLoaded={!!data} />
-          <div className={s.sandboxContent}>
-            <ClientOnly>
-              <SandboxPreview
-                showIframe={displayMode === PreviewDisplayMode.Animation}
-                rawHtml={rawHtmlFile}
-                ref={sandboxRef}
-                hash={previewToken ? '' : hash}
-                sandboxFiles={null}
-                onLoaded={handleIframeLoaded}
-              />
-            </ClientOnly>
-          </div>
-          {displayMode === PreviewDisplayMode.Thumbnail &&
-            thumbnailPreviewUrl && (
-              <Image
-                fill
-                src={convertIpfsToHttp(thumbnailPreviewUrl)}
-                alt="thumbnail"
-              ></Image>
-            )}
+          {data && (
+            <>
+              <div className={s.sandboxContent}>
+                <ClientOnly>
+                  <SandboxPreview
+                    showIframe={displayMode === PreviewDisplayMode.Animation}
+                    rawHtml={rawHtmlFile}
+                    ref={sandboxRef}
+                    hash={previewToken ? '' : hash}
+                    sandboxFiles={null}
+                    onLoaded={handleIframeLoaded}
+                  />
+                </ClientOnly>
+              </div>
+              {displayMode === PreviewDisplayMode.Thumbnail &&
+                thumbnailPreviewUrl && (
+                  <Image
+                    fill
+                    src={convertIpfsToHttp(thumbnailPreviewUrl)}
+                    alt="thumbnail"
+                  ></Image>
+                )}
+            </>
+          )}
         </div>
         <div className={s.actionWrapper}>
           <div className={s.sandboxControls}>

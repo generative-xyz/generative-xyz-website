@@ -46,7 +46,6 @@
   display: flex;
   margin-bottom: rem(30px);
   column-gap: rem(24px);
-  row-gap: rem(6px);
   flex-wrap: wrap;
 
   .explore_btn {
@@ -60,6 +59,7 @@
     letter-spacing: 0.1em;
     font-weight: 700;
     color: $black-100;
+    margin-top: rem(24px);
 
     &:hover {
       text-decoration: none;
@@ -126,4 +126,9 @@
   display: flex;
   flex-direction: column;
   gap: rem(5px);
+}
+
+.loading_project {
+  background-color: $white;
+  max-height: rem(550px);
 }
