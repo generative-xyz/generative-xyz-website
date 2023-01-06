@@ -8,6 +8,10 @@
   padding-top: rem(60px);
 }
 
+.info {
+  position: relative;
+}
+
 .usersInfo {
   margin-bottom: 16px;
   display: flex;
@@ -41,7 +45,7 @@
 .CTA {
   display: flex;
   margin-bottom: rem(30px);
-  gap: rem(24px);
+  column-gap: rem(24px);
   flex-wrap: wrap;
 
   .explore_btn {
@@ -55,6 +59,7 @@
     letter-spacing: 0.1em;
     font-weight: 700;
     color: $black-100;
+    margin-top: rem(24px);
 
     &:hover {
       text-decoration: none;
@@ -121,4 +126,9 @@
   display: flex;
   flex-direction: column;
   gap: rem(5px);
+}
+
+.loading_project {
+  background-color: $white;
+  max-height: rem(550px);
 }

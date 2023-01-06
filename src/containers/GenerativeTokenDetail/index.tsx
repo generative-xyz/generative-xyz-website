@@ -18,13 +18,16 @@ import { formatAddress, formatTokenId } from '@utils/format';
 import log from '@utils/logger';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 import MoreItemsSection from './MoreItemsSection';
 import ListingTokenModal from './ListingTokenModal';
 import s from './styles.module.scss';
+import { IMakeOffers } from '@interfaces/api/marketplace';
+import { getMakeOffers } from '@services/marketplace';
+import { Loading } from '@components/Loading';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -47,6 +50,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     projectID: string;
     tokenID: string;
   };
+
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
   const tokenInfos = [
@@ -76,13 +80,31 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     },
   ];
 
+  const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
+  const handleFetchMakeOffers = async () => {
+    try {
+      if (tokenData && tokenData.genNFTAddr && tokenID) {
+        const makeOffers = await getMakeOffers({
+          genNFTAddr: tokenData?.genNFTAddr ? tokenData?.genNFTAddr : '',
+          tokenId: tokenID,
+          closed: false,
+        });
+        if (makeOffers && makeOffers.result[0]) {
+          setMakeOffers(makeOffers);
+        }
+      }
+    } catch (e) {
+      log('can not fetch price', LogLevel.Error, '');
+      // throw Error('failed to fetch item detail');
+    }
+  };
   const handleOpenListingTokenModal = (): void => {
     openListingModal();
   };
 
   const featuresList = () => {
     if (tokenData?.attributes && tokenData.attributes?.length > 0) {
-      const list = tokenData.attributes.map(attr => {
+      return tokenData.attributes.map(attr => {
         return {
           id: `attr-${v4()}`,
           info: attr.trait_type,
@@ -90,7 +112,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           link: '',
         };
       });
-      return list;
     }
     return null;
   };
@@ -122,11 +143,16 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     fetchTokenData();
   }, [tokenID]);
 
+  useEffect(() => {
+    handleFetchMakeOffers();
+  }, [tokenData]);
+
   return (
     <>
       <Container>
         <div className={s.wrapper} style={{ marginBottom: '100px' }}>
           <div className={s.itemInfo}>
+            <Loading isLoaded={!!tokenData} className={s.loading_token} />
             <Heading as="h4" fontWeight="bold">
               {tokenData?.project?.name} #
               {formatTokenId(tokenData?.tokenID || '')}
@@ -187,36 +213,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   content={<Stats data={featuresList()} />}
                 ></Accordion>
               )}
-              <Accordion
-                header={'Owner'}
-                content={
-                  <Text
-                    size="18"
-                    fontWeight="medium"
-                    className={s.walletAddress}
-                  >
-                    {tokenData?.owner?.displayName ||
-                      formatAddress(
-                        tokenData?.ownerAddr ||
-                          tokenData?.owner?.walletAddress ||
-                          ''
-                      )}
-                  </Text>
-                }
-              ></Accordion>
-              <Accordion
-                header={'Creator'}
-                content={
-                  <Text
-                    size="18"
-                    fontWeight="medium"
-                    className={s.walletAddress}
-                  >
-                    {tokenData?.creator?.displayName ||
-                      formatAddress(tokenData?.creator?.walletAddress || '')}
-                  </Text>
-                }
-              ></Accordion>
               {mintedDate && (
                 <Accordion
                   header={'Minted on'}
@@ -262,14 +258,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   </Text>
                 }
               ></Accordion>
-              <Accordion
-                header={'Minted on'}
-                content={
-                  <Text size="18" fontWeight="semibold">
-                    {mintedDate}
-                  </Text>
-                }
-              ></Accordion>
 
               <Accordion
                 header={'Token Info'}
@@ -286,6 +274,17 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
         {/* <div className={s.thumbnailWrapper}>
           <ThumbnailPreview data={tokenData} previewToken />
         </div> */}
+        <div></div>
+        <div style={{ display: 'none' }}>
+          {makeOffers &&
+            makeOffers.result &&
+            makeOffers.result.length > 0 &&
+            makeOffers.result.map((item, i) => (
+              <div key={`item_listing_token_${i}`}>
+                {item.offeringID}, {item.token ? item.token.image : ''}
+              </div>
+            ))}
+        </div>
         <div></div>
         {tokenData?.project.genNFTAddr && (
           <MoreItemsSection genNFTAddr={tokenData.project.genNFTAddr} />
