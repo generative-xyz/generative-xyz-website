@@ -147,10 +147,13 @@ const ProjectIntroSection = ({ project }: Props) => {
   }, [projectDetail]);
 
   const renderLeftContent = () => {
-    if (!project)
+    if (!project && !marketplaceStats)
       return (
         <div className={s.info}>
-          <Loading isLoaded={!!project} className={s.loading_project} />
+          <Loading
+            isLoaded={!!project && !!marketplaceStats}
+            className={s.loading_project}
+          />
         </div>
       );
     if (isProjectDetailPage) {
@@ -186,10 +189,8 @@ const ProjectIntroSection = ({ project }: Props) => {
           ) : (
             <></>
           )}
-          <div>
-            {/*TODO marketplaceStats*/}
-            {marketplaceStats?.floorPrice}
-          </div>
+          <div>{/*TODO marketplaceStats*/}</div>
+
           <div className={s.stats}>
             <div className={s.stats_item}>
               <Text size="12" fontWeight="bold">
@@ -197,6 +198,34 @@ const ProjectIntroSection = ({ project }: Props) => {
               </Text>
               <Heading as="h4" fontWeight="bold">
                 {project?.mintingInfo?.index}
+              </Heading>
+            </div>
+            <div className={s.stats_item}>
+              <Text size="12" fontWeight="bold">
+                Total Volume
+              </Text>
+              <Heading as="h4" fontWeight="bold">
+                {marketplaceStats?.stats.totalTradingVolumn}
+              </Heading>
+            </div>
+            <div className={s.stats_item}>
+              <Text size="12" fontWeight="bold">
+                Floor price
+              </Text>
+              <Heading as="h4" fontWeight="bold">
+                Ξ{' '}
+                {Web3.utils.fromWei(
+                  marketplaceStats?.stats?.floorPrice || '',
+                  'ether'
+                )}
+              </Heading>
+            </div>
+            <div className={s.stats_item}>
+              <Text size="12" fontWeight="bold">
+                Percent Listed
+              </Text>
+              <Heading as="h4" fontWeight="bold">
+                {marketplaceStats?.stats.listedPercent}%
               </Heading>
             </div>
 
