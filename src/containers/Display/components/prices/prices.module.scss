@@ -96,7 +96,7 @@
       }
 
       &.Home_specTitle_large {
-        @include max-tablet {
+        @include mobile{
           padding-top: rem(100px) !important;
         }
       }

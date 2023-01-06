@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useRef, useState } from 'react';
 import s from './styles.module.scss';
+import Skeleton from '@components/Skeleton';
 
 type Props = {
   data?: any;
@@ -79,6 +80,7 @@ const ThumbnailPreview = (props: Props) => {
     <div className={s.ThumbnailPreview}>
       <div className={s.wrapper}>
         <div className={s.sandboxWrapper}>
+          <Skeleton fill isLoaded={!!data} />
           <div className={s.sandboxContent}>
             <ClientOnly>
               <SandboxPreview
@@ -113,9 +115,9 @@ const ThumbnailPreview = (props: Props) => {
                 >
                   <Image
                     alt="play icon"
-                    width={14}
-                    height={14}
-                    src={`${CDN_URL}/icons/ic-shuffle-24x24.svg`}
+                    width={16}
+                    height={16}
+                    src={`${CDN_URL}/icons/ic-variation.svg`}
                   ></Image>
                 </Button>
               )}

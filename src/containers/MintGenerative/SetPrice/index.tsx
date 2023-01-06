@@ -74,19 +74,19 @@ const SetPrice = () => {
     });
 
     if (!values.maxSupply.toString()) {
-      errors.maxSupply = 'Number of editions is required';
+      errors.maxSupply = 'Number of editions is required.';
     } else if (values.maxSupply <= 0) {
       errors.maxSupply = 'Invalid number. Must be greater than 0.';
     }
 
     if (!values.mintPrice.toString()) {
-      errors.mintPrice = 'Price is required';
+      errors.mintPrice = 'Price is required.';
     } else if (values.mintPrice < 0) {
       errors.mintPrice = 'Invalid number. Must be equal or greater than 0.';
     }
 
     if (!values.royalty.toString()) {
-      errors.royalty = 'Royalty is required';
+      errors.royalty = 'Royalty is required.';
     } else if (values.royalty < 10 || values.royalty > 25) {
       errors.royalty = 'Invalid number. Must be between 10 and 25.';
     }
@@ -231,7 +231,7 @@ const SetPrice = () => {
 
   return (
     <Formik
-      key="setPrice"
+      key="setPriceForm"
       initialValues={{
         maxSupply: formValues.maxSupply ?? 0,
         mintPrice: parseFloat(formValues.mintPrice ?? '0'),

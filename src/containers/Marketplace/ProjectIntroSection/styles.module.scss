@@ -116,3 +116,9 @@
   margin-top: rem(30px);
   margin-bottom: rem(14px);
 }
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: rem(5px);
+}
