@@ -1,14 +1,14 @@
 import React from 'react';
 import CollectionItem from '@components/Collection/Item';
-import { IProjectItem } from '@interfaces/api/project';
 import { Empty } from '@components/Collection/Empty';
 import { Project } from '@interfaces/project';
+import { Token } from '@interfaces/token';
 
 const CollectionList = ({
   listData,
   projectInfo,
 }: {
-  listData: IProjectItem[];
+  listData: Token[];
   projectInfo: Project | null;
 }) => {
   return (

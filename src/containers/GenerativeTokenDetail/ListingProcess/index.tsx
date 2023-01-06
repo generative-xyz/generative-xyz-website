@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import s from './styles.module.scss';
 import Image from 'next/image';
 import { GenerativeTokenDetailContext } from '@contexts/generative-token-detail-context';
@@ -7,8 +7,12 @@ import Button from '@components/ButtonIcon';
 import { CDN_URL } from '@constants/config';
 
 const ListingProcess: React.FC = (): React.ReactElement => {
-  const { tokenData, listingPrice } = useContext(GenerativeTokenDetailContext);
-  const [errorMessage, _] = useState<string | null>(null);
+  const { tokenData, listingPrice, handleListingToken, errorMessage } =
+    useContext(GenerativeTokenDetailContext);
+
+  const handleRetry = async (): Promise<void> => {
+    await handleListingToken(listingPrice.toString());
+  };
 
   if (!tokenData) {
     return <></>;
@@ -53,29 +57,31 @@ const ListingProcess: React.FC = (): React.ReactElement => {
           only need to approve each collection once.
         </p>
       </div>
-      <div className={s.actionWrapper}>
-        <Button className={s.tryAgainBtn}>Try again</Button>
-      </div>
-      <div className={s.errorWrapper}>
-        <div className={s.errorContainer}>
-          <div className={s.iconWrapper}>
-            <Image
-              src={`${CDN_URL}/icons/ic-triangle-exclamation-24x24.svg`}
-              width={24}
-              height={24}
-              alt="ic-triangle-exclamation"
-            />
+      {errorMessage && (
+        <>
+          <div className={s.actionWrapper}>
+            <Button onClick={handleRetry} className={s.tryAgainBtn}>
+              Try again
+            </Button>
           </div>
-          <div className={s.errorInfoWrapper}>
-            <h3 className={s.errorTitle}>Error</h3>
-            <p className={s.errorMessage}>
-              {errorMessage
-                ? errorMessage
-                : 'Unable to create NFT. Please check your input and try again.'}
-            </p>
+          <div className={s.errorWrapper}>
+            <div className={s.errorContainer}>
+              <div className={s.iconWrapper}>
+                <Image
+                  src={`${CDN_URL}/icons/ic-triangle-exclamation-24x24.svg`}
+                  width={24}
+                  height={24}
+                  alt="ic-triangle-exclamation"
+                />
+              </div>
+              <div className={s.errorInfoWrapper}>
+                <h3 className={s.errorTitle}>Error</h3>
+                <p className={s.errorMessage}>{errorMessage}</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };

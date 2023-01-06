@@ -26,8 +26,8 @@ export interface IGenerativeTokenDetailContext {
   openListingModal: () => void;
   hideListingModal: () => void;
   handleListingToken: (_: string) => Promise<void>;
-  isListing: boolean;
-  setIsListing: Dispatch<SetStateAction<boolean>>;
+  errorMessage: string | null;
+  setErrorMessage: Dispatch<SetStateAction<string | null>>;
   listingStep: ListingStep;
   setListingStep: Dispatch<SetStateAction<ListingStep>>;
   listingPrice: number;
@@ -47,16 +47,16 @@ const initialValue: IGenerativeTokenDetailContext = {
     return;
   },
   handleListingToken: _ => new Promise(r => r()),
-  isListing: false,
-  setIsListing: _ => {
-    return;
-  },
   listingStep: ListingStep.InputInfo,
   setListingStep: _ => {
     return;
   },
   listingPrice: 0,
   setListingPrice: _ => {
+    return;
+  },
+  errorMessage: null,
+  setErrorMessage: _ => {
     return;
   },
 };
@@ -69,9 +69,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
 }: PropsWithChildren): React.ReactElement => {
   const [tokenData, setTokenData] = useState<Token | null>(null);
   const [showListingModal, setShowListingModal] = useState(false);
-  const [isListing, setIsListing] = useState(false);
   const [listingStep, setListingStep] = useState(ListingStep.InputInfo);
   const [listingPrice, setListingPrice] = useState(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { call: listToken } = useContractOperation(ListingTokenOperation, true);
   const { call: checkTokenIsApproved } = useContractOperation(
     IsApprrovedForAllOperation,
@@ -89,46 +89,54 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
 
   const hideListingModal = () => {
     setShowListingModal(false);
+    setListingStep(ListingStep.InputInfo);
     document.body.style.overflow = 'auto';
   };
 
   const handleListingToken = async (price: string): Promise<void> => {
-    try {
-      if (!tokenData) {
-        return;
-      }
+    setErrorMessage(null);
 
-      setIsListing(true);
-      // Check if token's already been approved
-      const isTokenApproved = await checkTokenIsApproved({
+    if (!tokenData) {
+      return;
+    }
+
+    // Check if token's already been approved
+    const isTokenApproved = await checkTokenIsApproved({
+      marketplaceAddress: GENERATIVE_MARKETPLACE_CONTRACT,
+      chainID: NETWORK_CHAIN_ID,
+      collectionAddress: tokenData.genNFTAddr,
+    });
+    if (isTokenApproved === null) {
+      setErrorMessage('Denied permission.');
+      log('user denied permission', LogLevel.Error, LOG_PREFIX);
+      return;
+    }
+    if (!isTokenApproved) {
+      const status = await setApprovalForAll({
         marketplaceAddress: GENERATIVE_MARKETPLACE_CONTRACT,
         chainID: NETWORK_CHAIN_ID,
+        collectionAddress: tokenData.genNFTAddr,
       });
-      if (isTokenApproved === null) {
+      if (!status) {
+        setErrorMessage('Denied permission.');
         log('user denied permission', LogLevel.Error, LOG_PREFIX);
         return;
       }
-      if (!isTokenApproved) {
-        const status = await setApprovalForAll({
-          marketplaceAddress: GENERATIVE_MARKETPLACE_CONTRACT,
-          chainID: NETWORK_CHAIN_ID,
-        });
-        if (!status) {
-          log('user denied permission', LogLevel.Error, LOG_PREFIX);
-          return;
-        }
-      }
-      await listToken({
-        collectionAddress: tokenData.genNFTAddr,
-        tokenID: tokenData.name,
-        durationTime: 0,
-        price: price,
-        chainID: NETWORK_CHAIN_ID,
-      });
-    } catch (err: unknown) {
-      log(err as Error, LogLevel.Error, LOG_PREFIX);
-    } finally {
-      setIsListing(false);
+    }
+
+    const tx = await listToken({
+      collectionAddress: tokenData.genNFTAddr,
+      tokenID: tokenData.tokenID,
+      durationTime: 0,
+      price: price,
+      chainID: NETWORK_CHAIN_ID,
+    });
+    if (!tx) {
+      setErrorMessage('Oops. Something went wrong. Please try again later.');
+      log('user denied permission', LogLevel.Error, LOG_PREFIX);
+      return;
+    } else {
+      setListingStep(ListingStep.Success);
     }
   };
 
@@ -137,8 +145,6 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       tokenData,
       setTokenData,
       showListingModal,
-      isListing,
-      setIsListing,
       handleListingToken,
       listingStep,
       setListingStep,
@@ -146,13 +152,13 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       setListingPrice,
       openListingModal,
       hideListingModal,
+      errorMessage,
+      setErrorMessage,
     };
   }, [
     tokenData,
     setTokenData,
     showListingModal,
-    isListing,
-    setIsListing,
     handleListingToken,
     listingStep,
     setListingStep,
@@ -160,6 +166,8 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     setListingPrice,
     openListingModal,
     hideListingModal,
+    errorMessage,
+    setErrorMessage,
   ]);
 
   return (

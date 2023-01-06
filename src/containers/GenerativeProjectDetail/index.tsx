@@ -3,7 +3,6 @@ import ClientOnly from '@components/Utils/ClientOnly';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import ProjectIntroSection from '@containers/Marketplace/ProjectIntroSection';
 import { LogLevel } from '@enums/log-level';
-import { IProjectItem } from '@interfaces/api/project';
 import { setProjectCurrent } from '@redux/project/action';
 import { getProjectDetail, getProjectItems } from '@services/project';
 import { base64ToUtf8 } from '@utils/format';
@@ -17,6 +16,7 @@ import TokenTopFilter from './TokenTopFilter';
 import styles from './styles.module.scss';
 import { Loading } from '@components/Loading';
 import { Project } from '@interfaces/project';
+import { Token } from '@interfaces/token';
 
 const LOG_PREFIX = 'GenerativeProjectDetail';
 
@@ -27,7 +27,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const { projectID } = router.query as { projectID: string };
   const [projectInfo, setProjectInfo] = useState<Project | null>(null);
 
-  const [listItems, setListItems] = useState<IProjectItem[]>([]);
+  const [listItems, setListItems] = useState<Token[]>([]);
 
   const fetchProjectDetail = async (): Promise<void> => {
     if (projectID) {

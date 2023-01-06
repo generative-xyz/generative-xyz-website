@@ -2,7 +2,6 @@ import { CreatorInfo } from '@components/CreatorInfo';
 import Heading from '@components/Heading';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import { ROUTE_PATH } from '@constants/route-path';
-import { IProjectItem } from '@interfaces/api/project';
 import { User } from '@interfaces/user';
 // import { projectCurrentSelector } from '@redux/project/selector';
 import { useRouter } from 'next/router';
@@ -15,9 +14,10 @@ import { getListing, getMakeOffers } from '@services/marketplace';
 import Web3 from 'web3';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
+import { Token } from '@interfaces/token';
 import { IMakeOffers } from '@interfaces/api/marketplace';
 
-const CollectionItem = ({ data }: { data: IProjectItem }) => {
+const CollectionItem = ({ data }: { data: Token }) => {
   const router = useRouter();
   // const projectCurrent = useSelector(projectCurrentSelector);
 
