@@ -36,6 +36,11 @@ export interface IMakeOffers extends IPagingResponse {
 }
 
 export interface IMarketplaceStatsResponse {
-  floorPrice: string;
-  volume: string;
+  stats: {
+    bestMakeOfferPrice: string;
+    floorPrice: string;
+    listedPercent: number;
+    totalTradingVolumn: string;
+    uniqueOwnerCount: number;
+  };
 }
