@@ -1,4 +1,4 @@
-import { Token } from '@interfaces/token';
+import { Token, TokenOffer } from '@interfaces/token';
 import React, {
   createContext,
   Dispatch,
@@ -10,12 +10,14 @@ import React, {
 import { GENERATIVE_MARKETPLACE_CONTRACT } from '@constants/contract-address';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import useContractOperation from '@hooks/useContractOperation';
-import ListingTokenOperation from '@services/contract-operations/generative-marketplace/listing-token';
+import ListingToSaleTokenOperation from '@services/contract-operations/generative-marketplace/list-to-sale-token';
 import IsApprrovedForAllOperation from '@services/contract-operations/generative-nft/is-approved-for-all';
 import SetApprrovalForAllOperation from '@services/contract-operations/generative-nft/set-approval-for-all';
 import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
 import { ListingStep } from '@enums/listing-generative';
+import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
+import { toast } from 'react-hot-toast';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
 
@@ -34,6 +36,7 @@ export interface IGenerativeTokenDetailContext {
   setListingPrice: Dispatch<SetStateAction<number>>;
   txHash: string | null;
   setTxHash: Dispatch<SetStateAction<string | null>>;
+  handlePurchaseToken: (_: TokenOffer) => Promise<void>;
 }
 
 const initialValue: IGenerativeTokenDetailContext = {
@@ -65,6 +68,7 @@ const initialValue: IGenerativeTokenDetailContext = {
   setTxHash: _ => {
     return;
   },
+  handlePurchaseToken: _ => new Promise(r => r()),
 };
 
 export const GenerativeTokenDetailContext =
@@ -79,13 +83,20 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   const [listingPrice, setListingPrice] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
-  const { call: listToken } = useContractOperation(ListingTokenOperation, true);
+  const { call: listToken } = useContractOperation(
+    ListingToSaleTokenOperation,
+    true
+  );
   const { call: checkTokenIsApproved } = useContractOperation(
     IsApprrovedForAllOperation,
     false
   );
   const { call: setApprovalForAll } = useContractOperation(
     SetApprrovalForAllOperation,
+    true
+  );
+  const { call: purchaseToken } = useContractOperation(
+    PurchaseTokenOperation,
     true
   );
 
@@ -119,8 +130,8 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       collectionAddress: tokenData.genNFTAddr,
     });
     if (isTokenApproved === null) {
-      setErrorMessage('Denied permission.');
-      log('user denied permission', LogLevel.Error, LOG_PREFIX);
+      setErrorMessage('Transaction rejected.');
+      log('listing token transaction error.', LogLevel.Error, LOG_PREFIX);
       return;
     }
     if (!isTokenApproved) {
@@ -130,8 +141,8 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
         collectionAddress: tokenData.genNFTAddr,
       });
       if (!status) {
-        setErrorMessage('Denied permission.');
-        log('user denied permission', LogLevel.Error, LOG_PREFIX);
+        setErrorMessage('Transaction rejected.');
+        log('listing token transaction error.', LogLevel.Error, LOG_PREFIX);
         return;
       }
     }
@@ -143,13 +154,32 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       price: price,
       chainID: NETWORK_CHAIN_ID,
     });
+
     if (!tx) {
       setErrorMessage('Oops. Something went wrong. Please try again later.');
-      log('user denied permission', LogLevel.Error, LOG_PREFIX);
+      log('listing token transaction error.', LogLevel.Error, LOG_PREFIX);
       return;
     } else {
       setListingStep(ListingStep.Success);
       setTxHash(tx.transactionHash);
+    }
+  };
+
+  const handlePurchaseToken = async (offer: TokenOffer): Promise<void> => {
+    if (!offer.offeringID || !offer.price) {
+      return;
+    }
+
+    const tx = await purchaseToken({
+      offerId: offer.offeringID,
+      price: offer.price,
+      chainID: NETWORK_CHAIN_ID,
+    });
+    if (!tx) {
+      toast.error('Oops. Something went wrong. Please try again later.');
+      log('purchase token transaction error.', LogLevel.Error, LOG_PREFIX);
+    } else {
+      toast.success('You has bought this art successfully');
     }
   };
 
@@ -169,6 +199,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       setErrorMessage,
       txHash,
       setTxHash,
+      handlePurchaseToken,
     };
   }, [
     tokenData,
@@ -185,6 +216,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     setErrorMessage,
     txHash,
     setTxHash,
+    handlePurchaseToken,
   ]);
 
   return (

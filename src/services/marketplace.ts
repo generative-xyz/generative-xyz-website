@@ -2,8 +2,8 @@ import { LogLevel } from '@enums/log-level';
 import { get } from '@services/http-client';
 import log from '@utils/logger';
 import {
-  IListingTokens,
-  IMakeOffers,
+  IListingTokensResponse,
+  ITokenOfferListResponse,
   IMarketplaceStatsResponse,
 } from '@interfaces/api/marketplace';
 
@@ -19,9 +19,9 @@ export const getListing = async ({
   genNFTAddr: string;
   tokenId: string;
   closed: boolean;
-}): Promise<IListingTokens> => {
+}): Promise<IListingTokensResponse> => {
   try {
-    return await get<IListingTokens>(
+    return await get<IListingTokensResponse>(
       `${API_PATH}/listing/${genNFTAddr}/token/${tokenId}?closed=${closed}`
     );
   } catch (err: unknown) {
@@ -38,9 +38,9 @@ export const getMakeOffers = async ({
   genNFTAddr: string;
   tokenId: string;
   closed: boolean;
-}): Promise<IMakeOffers> => {
+}): Promise<ITokenOfferListResponse> => {
   try {
-    return await get<IMakeOffers>(
+    return await get<ITokenOfferListResponse>(
       `${API_PATH}/offers/${genNFTAddr}/token/${tokenId}?closed=${closed}`
     );
   } catch (err: unknown) {
@@ -55,9 +55,9 @@ export const getListingTokensByWallet = async ({
 }: {
   walletAddress: string;
   closed: boolean;
-}): Promise<IListingTokens> => {
+}): Promise<IListingTokensResponse> => {
   try {
-    return await get<IListingTokens>(
+    return await get<IListingTokensResponse>(
       `${API_PATH}/wallet/${walletAddress}/listing?closed=${closed}`
     );
   } catch (err: unknown) {
@@ -72,9 +72,9 @@ export const getMakeOffersByWallet = async ({
 }: {
   walletAddress: string;
   closed: boolean;
-}): Promise<IMakeOffers> => {
+}): Promise<ITokenOfferListResponse> => {
   try {
-    return await get<IMakeOffers>(
+    return await get<ITokenOfferListResponse>(
       `${API_PATH}/wallet/${walletAddress}/offer?closed=${closed}`
     );
   } catch (err: unknown) {

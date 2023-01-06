@@ -12,10 +12,10 @@ import {
   getListingTokensByWallet,
   getMakeOffersByWallet,
 } from '@services/marketplace';
-import { IListingTokens, IMakeOffers } from '@interfaces/api/marketplace';
 import { getProfileNFTs, getProfileProjects } from '@services/profile';
 import { IGetProjectItemsResponse } from '@interfaces/api/project';
 import { IGetProfileNFTsResponse } from '@interfaces/api/token-uri';
+import { TokenOffer } from '@interfaces/token';
 
 const LOG_PREFIX = 'Profile';
 
@@ -26,10 +26,10 @@ const Profile: React.FC = (): React.ReactElement => {
   const [collections, setCollections] =
     useState<IGetProjectItemsResponse | null>(null);
   const [tokens, setTokens] = useState<IGetProfileNFTsResponse | null>(null);
-  const [listingTokens, setListingTokens] = useState<IListingTokens | null>(
+  const [listingOffers, setListingOffers] = useState<Array<TokenOffer> | null>(
     null
   );
-  const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
+  const [tokenOffer, setTokenOffer] = useState<Array<TokenOffer> | null>(null);
   const handleDisconnectWallet = async (): Promise<void> => {
     try {
       await walletCtx.disconnect();
@@ -75,13 +75,12 @@ const Profile: React.FC = (): React.ReactElement => {
   const handleFetchListingTokens = async () => {
     try {
       if (user.walletAddress) {
-        const listingTokens = await getListingTokensByWallet({
+        const { result } = await getListingTokensByWallet({
           walletAddress: user.walletAddress,
           closed: false,
         });
-        if (listingTokens && listingTokens.result) {
-          setListingTokens(listingTokens);
-          // console.log(listingTokens.result);
+        if (result) {
+          setListingOffers(result);
         }
       }
     } catch (ex) {
@@ -93,18 +92,16 @@ const Profile: React.FC = (): React.ReactElement => {
   const handleFetchMakeOffers = async () => {
     try {
       if (user.walletAddress) {
-        const makeOffers = await getMakeOffersByWallet({
+        const { result } = await getMakeOffersByWallet({
           walletAddress: user.walletAddress,
           closed: false,
         });
-        if (makeOffers && makeOffers.result) {
-          setMakeOffers(makeOffers);
-          // console.log(listingTokens.result);
+        if (result) {
+          setTokenOffer(result);
         }
       }
     } catch (ex) {
       log('can not fetch listing tokens', LogLevel.Error, '');
-      // throw Error('failed to fetch item detail');
     }
   };
 
@@ -166,10 +163,9 @@ const Profile: React.FC = (): React.ReactElement => {
         </div>
         <div>
           Listing
-          {listingTokens &&
-            listingTokens.result &&
-            listingTokens.result.length > 0 &&
-            listingTokens.result.map((item, i) => (
+          {listingOffers &&
+            listingOffers.length > 0 &&
+            listingOffers.map((item, i) => (
               <div key={`item_listing_token_${i}`}>
                 {item.offeringID}, {item.token ? item.token.image : ''}
               </div>
@@ -177,10 +173,9 @@ const Profile: React.FC = (): React.ReactElement => {
         </div>
         <div>
           Offers
-          {makeOffers &&
-            makeOffers.result &&
-            makeOffers.result.length > 0 &&
-            makeOffers.result.map((item, i) => (
+          {tokenOffer &&
+            tokenOffer.length > 0 &&
+            tokenOffer.map((item, i) => (
               <div key={`make_offer_${i}`}>
                 {item.offeringID}, {item.token ? item.token.image : ''}
               </div>

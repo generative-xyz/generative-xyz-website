@@ -3,14 +3,14 @@ import { Contract } from 'web3-eth-contract';
 import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/generative-marketplace.json';
-import { IListingTokenParams } from '@interfaces/contract-operations/listing-token';
+import { IListingTokenParams } from '@interfaces/contract-operations/list-to-sale-token';
 import {
   GENERATIVE_MARKETPLACE_CONTRACT,
   ROOT_ADDRESS,
 } from '@constants/contract-address';
 import Web3 from 'web3';
 
-class ListingTokenOperation extends ContractOperation<
+class ListingToSaleTokenOperation extends ContractOperation<
   IListingTokenParams,
   TransactionReceipt
 > {
@@ -71,4 +71,4 @@ class ListingTokenOperation extends ContractOperation<
   }
 }
 
-export default ListingTokenOperation;
+export default ListingToSaleTokenOperation;

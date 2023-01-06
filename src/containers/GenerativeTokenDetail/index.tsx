@@ -25,32 +25,22 @@ import { v4 } from 'uuid';
 import MoreItemsSection from './MoreItemsSection';
 import ListingTokenModal from './ListingTokenModal';
 import s from './styles.module.scss';
-import { IMakeOffers } from '@interfaces/api/marketplace';
 import { getMakeOffers } from '@services/marketplace';
 import { Loading } from '@components/Loading';
+import { TokenOffer } from '@interfaces/token';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
-  const { tokenData, setTokenData, openListingModal } = useContext(
-    GenerativeTokenDetailContext
-  );
+  const [tokenOffers, setTokenOffers] = useState<Array<TokenOffer>>([]);
+  const { tokenData, setTokenData, openListingModal, handlePurchaseToken } =
+    useContext(GenerativeTokenDetailContext);
   const user = useSelector(getUserSelector);
-
-  const checkOwnership = useCallback(
-    (address: string) => {
-      if (!address) return false;
-      return address === user?.walletAddress;
-    },
-    [user.walletAddress]
-  );
-
   const { tokenID } = router.query as {
     projectID: string;
     tokenID: string;
   };
-
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
   const tokenInfos = [
@@ -80,22 +70,28 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     },
   ];
 
-  const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
-  const handleFetchMakeOffers = async () => {
+  const checkOwnership = useCallback(
+    (address: string) => {
+      if (!address) return false;
+      return address === user?.walletAddress;
+    },
+    [user.walletAddress]
+  );
+
+  const fetchTokenOffers = async () => {
     try {
       if (tokenData && tokenData.genNFTAddr && tokenID) {
-        const makeOffers = await getMakeOffers({
-          genNFTAddr: tokenData?.genNFTAddr ? tokenData?.genNFTAddr : '',
+        const { result } = await getMakeOffers({
+          genNFTAddr: tokenData.genNFTAddr,
           tokenId: tokenID,
           closed: false,
         });
-        if (makeOffers && makeOffers.result[0]) {
-          setMakeOffers(makeOffers);
+        if (result) {
+          setTokenOffers(result);
         }
       }
     } catch (e) {
-      log('can not fetch price', LogLevel.Error, '');
-      // throw Error('failed to fetch item detail');
+      log('can not fetch offers', LogLevel.Error, LOG_PREFIX);
     }
   };
   const handleOpenListingTokenModal = (): void => {
@@ -130,13 +126,15 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
       }
     } catch (err: unknown) {
       log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
-      throw Error('failed to fetch item detail');
     }
   };
 
   const handleLinkProfile = () => {
-    // TODO: update to corect profile when profile page finish
     router.push(`${ROUTE_PATH.PROFILE}`);
+  };
+
+  const handleBuyToken = () => {
+    handlePurchaseToken(tokenOffers[0]);
   };
 
   useEffect(() => {
@@ -144,7 +142,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   }, [tokenID]);
 
   useEffect(() => {
-    handleFetchMakeOffers();
+    fetchTokenOffers();
   }, [tokenData]);
 
   return (
@@ -195,7 +193,12 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               <ButtonIcon disabled={!tokenData} variants="outline">
                 Transfer
               </ButtonIcon>
-              <ButtonIcon disabled={!tokenData}>Buy</ButtonIcon>
+              <ButtonIcon
+                disabled={!tokenOffers.length}
+                onClick={handleBuyToken}
+              >
+                Buy
+              </ButtonIcon>
               <ButtonIcon disabled={!tokenData} variants="outline">
                 Make offer
               </ButtonIcon>
@@ -271,15 +274,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <div className="h-divider"></div>
-        {/* <div className={s.thumbnailWrapper}>
-          <ThumbnailPreview data={tokenData} previewToken />
-        </div> */}
         <div></div>
         <div style={{ display: 'none' }}>
-          {makeOffers &&
-            makeOffers.result &&
-            makeOffers.result.length > 0 &&
-            makeOffers.result.map((item, i) => (
+          {tokenOffers &&
+            tokenOffers.length > 0 &&
+            tokenOffers.map((item, i) => (
               <div key={`item_listing_token_${i}`}>
                 {item.offeringID}, {item.token ? item.token.image : ''}
               </div>
