@@ -27,6 +27,7 @@ import ListingTokenModal from './ListingTokenModal';
 import s from './styles.module.scss';
 import { IMakeOffers } from '@interfaces/api/marketplace';
 import { getMakeOffers } from '@services/marketplace';
+import { Loading } from '@components/Loading';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -49,6 +50,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     projectID: string;
     tokenID: string;
   };
+
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
   const tokenInfos = [
@@ -139,7 +141,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   useEffect(() => {
     fetchTokenData();
-  }, []);
+  }, [tokenID]);
 
   useEffect(() => {
     handleFetchMakeOffers();
@@ -150,6 +152,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
       <Container>
         <div className={s.wrapper} style={{ marginBottom: '100px' }}>
           <div className={s.itemInfo}>
+            <Loading isLoaded={!!tokenData} className={s.loading_token} />
             <Heading as="h4" fontWeight="bold">
               {tokenData?.project?.name} #
               {formatTokenId(tokenData?.tokenID || '')}

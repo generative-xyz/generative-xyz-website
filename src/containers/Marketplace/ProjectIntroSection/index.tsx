@@ -150,7 +150,7 @@ const ProjectIntroSection = ({ project }: Props) => {
     if (!project)
       return (
         <div className={s.info}>
-          <Loading isLoaded={!!project} className={'bg-white'} />
+          <Loading isLoaded={!!project} className={s.loading_project} />
         </div>
       );
     if (isProjectDetailPage) {
@@ -334,7 +334,6 @@ const ProjectIntroSection = ({ project }: Props) => {
                 </ButtonIcon>
               </>
             )}
-            <Skeleton width={200} height={26} isLoaded={!!project?.tokenID} />
             {project?.tokenID && (
               <Link
                 className={s.explore_btn}
