@@ -1,6 +1,7 @@
 import Accordion from '@components/Accordion';
 import ButtonIcon from '@components/ButtonIcon';
 import Heading from '@components/Heading';
+import { Loading } from '@components/Loading';
 import Stats from '@components/Stats';
 import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
@@ -22,11 +23,10 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
-import MoreItemsSection from './MoreItemsSection';
 import ListingTokenModal from './ListingTokenModal';
+import MoreItemsSection from './MoreItemsSection';
+import TokenActivities from './TokenActivities';
 import s from './styles.module.scss';
-import { getMakeOffers } from '@services/marketplace';
-import { Loading } from '@components/Loading';
 import { TokenOffer } from '@interfaces/token';
 
 const LOG_PREFIX = 'GenerativeTokenDetail';
@@ -78,22 +78,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     [user.walletAddress]
   );
 
-  const fetchTokenOffers = async () => {
-    try {
-      if (tokenData && tokenData.genNFTAddr && tokenID) {
-        const { result } = await getMakeOffers({
-          genNFTAddr: tokenData.genNFTAddr,
-          tokenId: tokenID,
-          closed: false,
-        });
-        if (result) {
-          setTokenOffers(result);
-        }
-      }
-    } catch (e) {
-      log('can not fetch offers', LogLevel.Error, LOG_PREFIX);
-    }
-  };
   const handleOpenListingTokenModal = (): void => {
     openListingModal();
   };
@@ -140,10 +124,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   useEffect(() => {
     fetchTokenData();
   }, [tokenID]);
-
-  useEffect(() => {
-    fetchTokenOffers();
-  }, [tokenData]);
 
   return (
     <>
@@ -274,17 +254,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <div className="h-divider"></div>
-        <div></div>
-        <div style={{ display: 'none' }}>
-          {tokenOffers &&
-            tokenOffers.length > 0 &&
-            tokenOffers.map((item, i) => (
-              <div key={`item_listing_token_${i}`}>
-                {item.offeringID}, {item.token ? item.token.image : ''}
-              </div>
-            ))}
-        </div>
-        <div></div>
+
+        <TokenActivities></TokenActivities>
         {tokenData?.project.genNFTAddr && (
           <MoreItemsSection genNFTAddr={tokenData.project.genNFTAddr} />
         )}
