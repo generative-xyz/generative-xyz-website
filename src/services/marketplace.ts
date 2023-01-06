@@ -71,7 +71,7 @@ export const getMakeOffersByWallet = async ({
 }): Promise<IMakeOffers> => {
   try {
     return await get<IMakeOffers>(
-      `${API_PATH}/wallet/${walletAddress}/makeoffer?closed=${closed}`
+      `${API_PATH}/wallet/${walletAddress}/offer?closed=${closed}`
     );
   } catch (err: unknown) {
     log('failed to get listing token', LogLevel.Error, LOG_PREFIX);
