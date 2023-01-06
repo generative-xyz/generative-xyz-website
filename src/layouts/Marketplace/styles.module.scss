@@ -37,6 +37,9 @@ header {
   padding-top: rem(60px);
   padding-bottom: rem(60px);
 
+  position: sticky;
+  top: 100vh;
+
   @include min-tablet{
     min-height: rem(198);
     padding: 0;

@@ -1,12 +1,12 @@
-import Link from '@components/Link';
-import React from 'react';
+import { NextPage } from 'next';
+import MarketplaceLayout from '@layouts/Marketplace';
+import { Page404 } from '@containers/404';
 
-const ErrorPage = () => {
+const ErrorPage: NextPage = () => {
   return (
-    <>
-      <h1>404 - Page Not Found</h1>
-      <Link href="/">Go back home</Link>
-    </>
+    <MarketplaceLayout>
+      <Page404 />
+    </MarketplaceLayout>
   );
 };
 

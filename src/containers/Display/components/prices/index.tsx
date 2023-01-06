@@ -90,16 +90,16 @@ export const Prices = (): JSX.Element => {
                       Aspect ratio 1:1 (H:V)
                     </div>
                     <div className={s.Home_specContent}>
-                      Contrast ratio: 3000:1
+                      Brightness 600 nits
                     </div>
                     <div className={s.Home_specContent}>
-                      Color depth: a-Si TFT-LCD 16.7M color
-                    </div>
-                    <div className={s.Home_specContent}>
-                      Brightness: 600 nits
+                      Contrast ratio 3000:1
                     </div>
                     <div className={s.Home_specContent}>
                       Refresh rates up to 60Hz
+                    </div>
+                    <div className={s.Home_specContent}>
+                      Color depth a-Si TFT-LCD 16.7M color
                     </div>
                   </td>
                   <td>
@@ -156,6 +156,9 @@ export const Prices = (): JSX.Element => {
                       )}
                     >
                       43 inches (diagonal) 4K LED display
+                    </div>
+                    <div className={s.Home_specContent}>
+                      Display Resolution: 4K (3840x2160 pixels)
                     </div>
                     <div className={s.Home_specContent}>Aspect Ratio 16:9</div>
                     <div className={s.Home_specContent}>

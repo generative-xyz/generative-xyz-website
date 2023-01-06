@@ -42,6 +42,11 @@ body {
   font-family: "Bandeins Strange Variable", sans-serif;
   font-smoothing: antialiased !important;
   -webkit-font-smoothing: antialiased !important;
+  min-height: 100vh;
+}
+
+main{
+  height: 100%;
 }
 
 input,
