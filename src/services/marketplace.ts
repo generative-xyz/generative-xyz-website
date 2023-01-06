@@ -84,13 +84,13 @@ export const getMakeOffersByWallet = async ({
 };
 
 export const getMarketplaceStats = async ({
-  projectId,
+  collectionAddr,
 }: {
-  projectId: number;
+  collectionAddr: string;
 }): Promise<IMarketplaceStatsResponse | null> => {
   try {
     return await get<IMarketplaceStatsResponse>(
-      `${API_PATH}/stats/${projectId}`
+      `${API_PATH}/stats/${collectionAddr}`
     );
   } catch (err: unknown) {
     log('failed to get project stats', LogLevel.Error, LOG_PREFIX);

@@ -64,9 +64,9 @@ const ProjectIntroSection = ({ project }: Props) => {
 
   const handleFetchMarketplaceStats = async () => {
     try {
-      if (projectDetail && project?.tokenID && project?.tokenID != '') {
+      if (projectDetail && project?.genNFTAddr) {
         const stats = await getMarketplaceStats({
-          projectId: parseInt(project?.tokenID),
+          collectionAddr: project?.genNFTAddr,
         });
         setMarketplaceStats(stats);
       }
