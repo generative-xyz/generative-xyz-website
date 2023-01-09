@@ -21,8 +21,12 @@ import MintGenerativeNFTOperation from '@services/contract-operations/generative
 import { getMarketplaceStats } from '@services/marketplace';
 import { WalletManager } from '@services/wallet';
 import { isTestnet } from '@utils/chain';
+<<<<<<< HEAD
 import { convertToETH } from '@utils/currency';
 import { base64ToUtf8, formatAddress } from '@utils/format';
+=======
+import { base64ToUtf8, formatAddress, formatCurrency } from '@utils/format';
+>>>>>>> c44b3c3 (fix: fix price and thumbnail size)
 import log from '@utils/logger';
 import BN from 'bn.js';
 import dayjs from 'dayjs';
@@ -206,7 +210,19 @@ const ProjectIntroSection = ({ project }: Props) => {
                 Total Volume
               </Text>
               <Heading as="h4" fontWeight="bold">
+<<<<<<< HEAD
                 {convertToETH(marketplaceStats?.totalTradingVolumn || '')}
+=======
+                Ξ{' '}
+                {formatCurrency(
+                  Number(
+                    Web3.utils.fromWei(
+                      marketplaceStats?.stats?.totalTradingVolumn || '',
+                      'ether'
+                    )
+                  )
+                )}
+>>>>>>> c44b3c3 (fix: fix price and thumbnail size)
               </Heading>
             </div>
             <div className={s.stats_item}>
@@ -214,7 +230,19 @@ const ProjectIntroSection = ({ project }: Props) => {
                 Floor price
               </Text>
               <Heading as="h4" fontWeight="bold">
+<<<<<<< HEAD
                 {convertToETH(marketplaceStats?.floorPrice || '')}
+=======
+                Ξ{' '}
+                {formatCurrency(
+                  Number(
+                    Web3.utils.fromWei(
+                      marketplaceStats?.stats?.floorPrice || '',
+                      'ether'
+                    )
+                  )
+                )}
+>>>>>>> c44b3c3 (fix: fix price and thumbnail size)
               </Heading>
             </div>
             <div className={s.stats_item}>
