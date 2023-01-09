@@ -17,12 +17,19 @@ import { useContext } from 'react';
 import { ProfileContext } from '@contexts/profile-context';
 
 export const UserInfo = (): JSX.Element => {
-  const { user } = useContext(ProfileContext);
+  const { currentUser } = useContext(ProfileContext);
 
   return (
     <div className={s.userInfo}>
-      <div className={cn(s.userInfo_cover, user?.bgCover ? s.isBg : s.empty)}>
-        {user?.bgCover && <img src={user.bgCover} alt="user-cover" />}
+      <div
+        className={cn(
+          s.userInfo_cover,
+          currentUser?.bgCover ? s.isBg : s.empty
+        )}
+      >
+        {currentUser?.bgCover && (
+          <img src={currentUser.bgCover} alt="user-cover" />
+        )}
       </div>
       <Container>
         <Row>
@@ -31,25 +38,25 @@ export const UserInfo = (): JSX.Element => {
               <div className={s.userInfo_content_avatar}>
                 <Image
                   src={
-                    user?.avatar
-                      ? user.avatar
+                    currentUser?.avatar
+                      ? currentUser.avatar
                       : `${CDN_URL}/icons/logo-marketplace.svg`
                   }
-                  alt={user?.displayName || ''}
+                  alt={currentUser?.displayName || ''}
                   width={100}
                   height={100}
                 />
               </div>
               <div className={s.userInfo_content_wallet}>
                 <Text size={'18'} color={'black-06'} fontWeight={'semibold'}>
-                  {user?.walletAddress}
+                  {currentUser?.walletAddress}
                 </Text>
               </div>
               <div className={s.userInfo_content_display}>
                 <div className={s.userName}>
                   <Heading as={'h4'} fontWeight={'semibold'}>
-                    {user?.displayName ||
-                      formatAddress(user?.walletAddress || '')}
+                    {currentUser?.displayName ||
+                      formatAddress(currentUser?.walletAddress || '')}
                   </Heading>
                 </div>
                 <div className={s.editProfile}>
@@ -74,7 +81,7 @@ export const UserInfo = (): JSX.Element => {
           <Col xs={4}>
             <div className={s.userInfo_socials}>
               <ul className={s.userInfo_socials_list}>
-                {user?.profileSocial?.web && (
+                {currentUser?.profileSocial?.web && (
                   <li className={s.userInfo_socials_item}>
                     <a href={user.profileSocial.web || '#'}>
                       <SvgInset svgUrl={SOCIAL_ICONS.web} />
@@ -82,7 +89,7 @@ export const UserInfo = (): JSX.Element => {
                   </li>
                 )}
 
-                {user?.profileSocial?.etherScan && (
+                {currentUser?.profileSocial?.etherScan && (
                   <li className={s.userInfo_socials_item}>
                     <a href={user.profileSocial.etherScan || '#'}>
                       <SvgInset svgUrl={SOCIAL_ICONS.etherScan} />
@@ -90,7 +97,7 @@ export const UserInfo = (): JSX.Element => {
                   </li>
                 )}
 
-                {user?.profileSocial?.discord && (
+                {currentUser?.profileSocial?.discord && (
                   <li className={s.userInfo_socials_item}>
                     <a href={user.profileSocial.discord}>
                       <SvgInset svgUrl={SOCIAL_ICONS.discrod} />
@@ -98,7 +105,7 @@ export const UserInfo = (): JSX.Element => {
                   </li>
                 )}
 
-                {user?.profileSocial?.twitter && (
+                {currentUser?.profileSocial?.twitter && (
                   <li className={s.userInfo_socials_item}>
                     <a href={user.profileSocial.twitter}>
                       <SvgInset svgUrl={SOCIAL_ICONS.twitter} />
