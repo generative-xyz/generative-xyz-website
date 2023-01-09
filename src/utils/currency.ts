@@ -18,6 +18,4 @@ export const calculateFloorDifference = (
   } else {
     return `${Math.abs(diff) * 100}% above`;
   }
-
-  return '';
 };
