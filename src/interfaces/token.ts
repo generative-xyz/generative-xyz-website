@@ -14,7 +14,6 @@ export type Token = {
   attributes: Array<TokenAttribute>;
   genNFTAddr: string;
   owner: User;
-  ownerAddress: string;
   project: Project;
   mintedTime: string;
   creatorProfile?: User;

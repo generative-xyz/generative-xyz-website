@@ -4,10 +4,14 @@ import React, {
   Dispatch,
   PropsWithChildren,
   SetStateAction,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
-import { GENERATIVE_MARKETPLACE_CONTRACT } from '@constants/contract-address';
+import {
+  GENERATIVE_MARKETPLACE_CONTRACT,
+  GENERATIVE_PROJECT_CONTRACT,
+} from '@constants/contract-address';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import useContractOperation from '@hooks/useContractOperation';
 import ListingToSaleTokenOperation from '@services/contract-operations/generative-marketplace/list-to-sale-token';
@@ -18,6 +22,11 @@ import log from '@utils/logger';
 import { ListingStep } from '@enums/listing-generative';
 import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/router';
+import { getTokenUri } from '@services/token-uri';
+import { getMakeOffers } from '@services/marketplace';
+import { getUserSelector } from '@redux/user/selector';
+import { useSelector } from 'react-redux';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
 
@@ -37,6 +46,10 @@ export interface IGenerativeTokenDetailContext {
   txHash: string | null;
   setTxHash: Dispatch<SetStateAction<string | null>>;
   handlePurchaseToken: (_: TokenOffer) => Promise<void>;
+  tokenID: string;
+  tokenOffers: Array<TokenOffer>;
+  isTokenOwner: boolean;
+  isTokenListing: boolean;
 }
 
 const initialValue: IGenerativeTokenDetailContext = {
@@ -69,6 +82,10 @@ const initialValue: IGenerativeTokenDetailContext = {
     return;
   },
   handlePurchaseToken: _ => new Promise(r => r()),
+  tokenID: '',
+  tokenOffers: [],
+  isTokenOwner: false,
+  isTokenListing: false,
 };
 
 export const GenerativeTokenDetailContext =
@@ -78,11 +95,13 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   children,
 }: PropsWithChildren): React.ReactElement => {
   const [tokenData, setTokenData] = useState<Token | null>(null);
+  const [tokenOffers, setTokenOffers] = useState<Array<TokenOffer>>([]);
   const [showListingModal, setShowListingModal] = useState(false);
-  const [listingStep, setListingStep] = useState(ListingStep.Success);
+  const [listingStep, setListingStep] = useState(ListingStep.InputInfo);
   const [listingPrice, setListingPrice] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
+  const user = useSelector(getUserSelector);
   const { call: listToken } = useContractOperation(
     ListingToSaleTokenOperation,
     true
@@ -99,6 +118,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     PurchaseTokenOperation,
     true
   );
+  const router = useRouter();
+  const { tokenID } = router.query as {
+    tokenID: string;
+  };
 
   const openListingModal = () => {
     setShowListingModal(true);
@@ -183,6 +206,57 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     }
   };
 
+  const fetchTokenData = async (): Promise<void> => {
+    try {
+      if (tokenID) {
+        const res = await getTokenUri({
+          contractAddress: GENERATIVE_PROJECT_CONTRACT,
+          tokenID,
+        });
+        setTokenData(res);
+      }
+    } catch (err: unknown) {
+      log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
+    }
+  };
+
+  const fetchTokenOffers = async () => {
+    try {
+      if (tokenData && tokenData.genNFTAddr && tokenID) {
+        const { result } = await getMakeOffers({
+          genNFTAddr: tokenData.genNFTAddr,
+          tokenId: tokenID,
+          closed: false,
+        });
+        if (result) {
+          setTokenOffers(result);
+        }
+      }
+    } catch (e) {
+      log('can not fetch offers', LogLevel.Error, LOG_PREFIX);
+    }
+  };
+
+  const isTokenOwner = useMemo(() => {
+    if (!user.walletAddress || !tokenData?.ownerAddr) return false;
+    return user.walletAddress === tokenData?.ownerAddr;
+  }, [tokenData, user]);
+
+  const isTokenListing = useMemo(() => {
+    if (!user.walletAddress || !tokenOffers.length) return false;
+    return tokenOffers.some(
+      (offer: TokenOffer) => offer.seller === user.walletAddress
+    );
+  }, [user, tokenOffers]);
+
+  useEffect(() => {
+    fetchTokenData();
+  }, [tokenID]);
+
+  useEffect(() => {
+    fetchTokenOffers();
+  }, [tokenData]);
+
   const contextValues = useMemo((): IGenerativeTokenDetailContext => {
     return {
       tokenData,
@@ -200,6 +274,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       txHash,
       setTxHash,
       handlePurchaseToken,
+      tokenID,
+      tokenOffers,
+      isTokenOwner,
+      isTokenListing,
     };
   }, [
     tokenData,
@@ -217,6 +295,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     txHash,
     setTxHash,
     handlePurchaseToken,
+    tokenID,
+    tokenOffers,
+    isTokenOwner,
+    isTokenListing,
   ]);
 
   return (

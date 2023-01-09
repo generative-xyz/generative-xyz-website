@@ -89,7 +89,6 @@ const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
             options={SORT_OPTIONS}
             className={s.selectInput}
             classNamePrefix="select"
-            // onChange={}
           />
         </div>
       </Stack>

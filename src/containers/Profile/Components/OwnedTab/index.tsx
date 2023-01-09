@@ -29,7 +29,7 @@ export const OwnedTab = ({ tokens }: IProp): JSX.Element => {
           <Loading isLoaded={Boolean(tokens && tokens?.length)} />
           {Boolean(tokens && tokens?.length) && (
             <div className={s.tokenList}>
-              <CollectionList listData={tokens} />
+              <CollectionList listData={tokens} projectInfo={null} />
             </div>
           )}
         </div>

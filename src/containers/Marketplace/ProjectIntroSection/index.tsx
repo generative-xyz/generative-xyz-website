@@ -37,7 +37,7 @@ import { getMarketplaceStats } from '@services/marketplace';
 const LOG_PREFIX = 'ProjectIntroSection';
 
 type Props = {
-  project?: IGetProjectDetailResponse;
+  project: IGetProjectDetailResponse | null;
 };
 
 const ProjectIntroSection = ({ project }: Props) => {
