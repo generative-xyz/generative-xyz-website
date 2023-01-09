@@ -128,7 +128,7 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
 
         setId(id);
       }
-    }, [rawHtml]);
+    }, [rawHtml, workerIns]);
 
     useEffect(() => {
       if (iframeRef.current && id !== '0' && showIframe === true) {

@@ -37,10 +37,6 @@ self.addEventListener("fetch", async (event) => {
   }
 })
 
-self.addEventListener("install", (event) => {
-  self.skipWaiting();
-})
-
 self.addEventListener("message", async (event) => {
   if (event?.data?.type === "REGISTER_REFERRER") {
     referrers[event.data.data.id] = event.data.data.referrer
@@ -67,6 +63,9 @@ self.addEventListener("message", async (event) => {
       })
     }
   }
+
+  console.log(cache)
+  console.log(event.data.data);
 
   if (event?.data?.type === "GET_RAW_HTML") {
     const id = event.data.data
