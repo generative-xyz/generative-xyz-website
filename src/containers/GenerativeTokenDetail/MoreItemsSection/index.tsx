@@ -96,7 +96,7 @@ const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
         <Loading isLoaded={isLoaded} />
         {isLoaded && (
           <>
-            <CollectionList listData={listItems} />
+            <CollectionList listData={listItems} projectInfo={null} />
             <div className={s.view_collection}>
               <ButtonIcon
                 sizes="large"
