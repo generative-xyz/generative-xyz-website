@@ -27,7 +27,7 @@
   }
 
   &:is(h6) {
-    font-size: rem(20px);
     line-height: (30/20);
+    @include calcFontAuto(18px, 20px)
   }
 }
