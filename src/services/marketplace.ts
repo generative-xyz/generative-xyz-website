@@ -5,6 +5,7 @@ import {
   IListingTokensResponse,
   ITokenOfferListResponse,
   IMarketplaceStatsResponse,
+  IMakeOffersParams,
 } from '@interfaces/api/marketplace';
 
 const LOG_PREFIX = 'MarketplaceService';
@@ -34,11 +35,7 @@ export const getMakeOffers = async ({
   genNFTAddr,
   tokenId,
   closed = false,
-}: {
-  genNFTAddr: string;
-  tokenId: string;
-  closed: boolean;
-}): Promise<ITokenOfferListResponse> => {
+}: IMakeOffersParams): Promise<ITokenOfferListResponse> => {
   try {
     return await get<ITokenOfferListResponse>(
       `${API_PATH}/offers/${genNFTAddr}/token/${tokenId}?closed=${closed}`

@@ -1,21 +1,23 @@
-import React, { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { default as BSTable } from 'react-bootstrap/Table';
-import s from './styles.module.scss';
 import { v4 } from 'uuid';
+import s from './styles.module.scss';
 
 type TColumn = {
   id: string;
   config?: any;
-  render: ReactNode[];
+  render: {
+    [x: string]: ReactNode;
+  };
 };
 
 type Props = {
-  data: TColumn[];
+  data?: TColumn[];
   tableHead: ReactNode[];
 };
 
 const Table = ({ tableHead = [], data }: Props) => {
-  // if (!data || data?.length === 0) return null;
+  const [tableData, setTableData] = useState<TColumn[]>();
 
   const TableHeads = () => {
     return (
@@ -35,8 +37,8 @@ const Table = ({ tableHead = [], data }: Props) => {
   const TableData = ({ rowData }: { rowData: TColumn }) => {
     return (
       <tr {...rowData.config} className={s.tableData}>
-        {rowData.render?.length > 0 &&
-          rowData.render.map(value => (
+        {rowData.render &&
+          Object.values(rowData.render).map(value => (
             <td key={`tdata-${v4()}`} className={s.tableData_item}>
               {value}
             </td>
@@ -48,11 +50,20 @@ const Table = ({ tableHead = [], data }: Props) => {
   const TableBody = () => {
     return (
       <tbody>
-        {data?.length > 0 &&
-          data.map(row => <TableData rowData={row} key={`trowData-${v4()}`} />)}
+        {tableData &&
+          tableData?.length > 0 &&
+          tableData.map(row => (
+            <TableData rowData={row} key={`trowData-${v4()}`} />
+          ))}
       </tbody>
     );
   };
+
+  useEffect(() => {
+    if (data) setTableData(data);
+  }, [data]);
+
+  if (!data || data?.length === 0) return null;
 
   return (
     <BSTable bordered className={s.table}>
