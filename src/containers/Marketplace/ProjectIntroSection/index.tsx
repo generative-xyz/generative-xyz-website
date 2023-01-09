@@ -14,7 +14,7 @@ import { getUserSelector } from '@redux/user/selector';
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { WalletManager } from '@services/wallet';
 import { isTestnet } from '@utils/chain';
-import { base64ToUtf8, formatAddress } from '@utils/format';
+import { base64ToUtf8, formatAddress, formatCurrency } from '@utils/format';
 import log from '@utils/logger';
 import BN from 'bn.js';
 import _get from 'lodash/get';
@@ -205,7 +205,15 @@ const ProjectIntroSection = ({ project }: Props) => {
                 Total Volume
               </Text>
               <Heading as="h4" fontWeight="bold">
-                {marketplaceStats?.stats.totalTradingVolumn}
+                Ξ{' '}
+                {formatCurrency(
+                  Number(
+                    Web3.utils.fromWei(
+                      marketplaceStats?.stats?.totalTradingVolumn || '',
+                      'ether'
+                    )
+                  )
+                )}
               </Heading>
             </div>
             <div className={s.stats_item}>
@@ -214,9 +222,13 @@ const ProjectIntroSection = ({ project }: Props) => {
               </Text>
               <Heading as="h4" fontWeight="bold">
                 Ξ{' '}
-                {Web3.utils.fromWei(
-                  marketplaceStats?.stats?.floorPrice || '',
-                  'ether'
+                {formatCurrency(
+                  Number(
+                    Web3.utils.fromWei(
+                      marketplaceStats?.stats?.floorPrice || '',
+                      'ether'
+                    )
+                  )
                 )}
               </Heading>
             </div>

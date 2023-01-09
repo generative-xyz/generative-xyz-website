@@ -48,3 +48,18 @@
   bottom: rem(32px);
   right: rem(32px);
 }
+
+.thumbnail_image {
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 100%;
+
+  > img {
+    width: fit-content !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+  }
+}

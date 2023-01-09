@@ -97,11 +97,13 @@ const ThumbnailPreview = (props: Props) => {
               </div>
               {displayMode === PreviewDisplayMode.Thumbnail &&
                 thumbnailPreviewUrl && (
-                  <Image
-                    fill
-                    src={convertIpfsToHttp(thumbnailPreviewUrl)}
-                    alt="thumbnail"
-                  ></Image>
+                  <div className={s.thumbnail_image}>
+                    <Image
+                      fill
+                      src={convertIpfsToHttp(thumbnailPreviewUrl)}
+                      alt="thumbnail"
+                    ></Image>
+                  </div>
                 )}
             </>
           )}
