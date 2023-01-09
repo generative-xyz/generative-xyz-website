@@ -24,7 +24,7 @@ export interface IGetGenerativeTokenAttributesResponse {
   attributes: Array<TokenAttribute>;
 }
 
-export interface IGetProfileNFTsResponse {
+export interface IGetProfileTokensResponse {
   result: Array<Token>;
   total: number;
 }

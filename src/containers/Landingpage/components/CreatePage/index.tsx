@@ -103,12 +103,9 @@ export const CreatePageSection = (): JSX.Element => {
                 as="p"
                 animOption={{ screen: 0.4, offset: 0, type: 'paragraph' }}
               >
-                World-renowned artists. A hand-crafted experience for
-                discovering art you love.{' '}
-                <strong className={'text-purple-a'}>
-                  100% verified collections
-                </strong>
-                . And industry-leading 1% fees when {`you're`} ready to buy.
+                A tailored experience for learning about and appreciating
+                generative art. Authentic collections by pioneering artists with
+                platform fees as low as 1%.
               </Text>
               <AnimFade screen={0.5}>
                 <ButtonIcon

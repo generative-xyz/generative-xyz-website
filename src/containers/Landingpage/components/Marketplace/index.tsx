@@ -99,7 +99,7 @@ export const MarketplaceSection = (): JSX.Element => {
                 size={'d3'}
                 animOption={{ screen: 0, offset: 0, type: 'heading' }}
               >
-                Discover & buy Gen.art.
+                Community owned & operated.
               </Text>
               <Text
                 size="20"
@@ -109,9 +109,12 @@ export const MarketplaceSection = (): JSX.Element => {
                 as="p"
                 animOption={{ screen: 0, offset: 0, type: 'paragraph' }}
               >
-                World-renowned artists. A hand-crafted experience for
-                discovering art you love. 100% verified collections. And
-                industry-leading 1% fees when {`you're`} ready to buy.
+                A permissionless platform where anyone can create and monetize
+                generative artworks. 100% of the platform fees are securely
+                transferred to the Generative DAO treasury controlled by the
+                community through governance. Artists and collectors can co-own
+                the platform and work together to build upon and shape its
+                direction.
               </Text>
               <AnimFade offset={0.25}>
                 <ButtonIcon

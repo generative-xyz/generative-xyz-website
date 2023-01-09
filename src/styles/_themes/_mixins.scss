@@ -296,6 +296,12 @@
   }
 }
 
+@mixin min-pc-superWide {
+  @media screen and (min-width: #{$screen-xxxxl}) {
+    @content;
+  }
+}
+
 @function vh($px, $base: 1080px) {
   @return ($px / $base) * 100vh;
 }
@@ -330,7 +336,7 @@
     font-size: calc-auto(1200px, 1920px, $min-font-size, $max-font-size);
   }
 
-  @include min-pc-wide {
+  @include min-pc-superWide {
     font-size: rem($max-font-size);
   }
 }

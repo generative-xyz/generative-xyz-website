@@ -8,6 +8,9 @@
   --bs-nav-tabs-link-active-border-color: transparent transparent transparent;
   border-bottom: 1px solid $black-10;
 
+  --bs-nav-link-color: #{rgba(#000, .4)};
+  --bs-nav-link-hover-color: #{$primary-brand};
+
   :global(.active) {
     &:after {
       width: 100%;
