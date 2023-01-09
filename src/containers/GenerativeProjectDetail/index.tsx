@@ -47,11 +47,20 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const fetchProjectItems = async (): Promise<void> => {
     if (projectInfo?.genNFTAddr) {
       try {
-        const res = await getProjectItems({
-          contractAddress: projectInfo.genNFTAddr,
-          limit: 100,
-          page: 1,
-        });
+        const res = await getProjectItems(
+          {
+            contractAddress: projectInfo.genNFTAddr,
+          },
+          {
+            limit: 20,
+            page: 1,
+            // sort: 'price-asc',
+            // name: '11',
+            // attributes: [''],
+            // minPrice: '200000000',
+            // maxPrice: '3000000',
+          }
+        );
         setListItems(res.result);
         setIsLoaded(true);
       } catch (_: unknown) {
