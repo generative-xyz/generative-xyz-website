@@ -5,3 +5,9 @@ export interface MarketplaceStats {
   totalTradingVolumn: string;
   uniqueOwnerCount: number;
 }
+
+export interface IMakeOffers {
+  genNFTAddr: string;
+  tokenId: string;
+  closed: boolean;
+}
