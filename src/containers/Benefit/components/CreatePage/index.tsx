@@ -133,7 +133,7 @@ export const CreatePageSection = (): JSX.Element => {
               <AnimFade screen={0.9}>
                 <ButtonIcon
                   onClick={onClick}
-                  sizes={'medium'}
+                  sizes={'large'}
                   variants={'secondary'}
                   endIcon={
                     <SvgInset

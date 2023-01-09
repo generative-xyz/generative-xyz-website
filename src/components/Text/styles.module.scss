@@ -30,6 +30,11 @@
       }
     }
 
+    &-20 {
+      line-height: (30/20);
+      @include calcFontAuto(18px, 20px);
+    }
+
     &-18 {
       line-height: (28/18);
       @include calcFontAuto(15px, 18px);

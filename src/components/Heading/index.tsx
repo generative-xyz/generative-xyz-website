@@ -103,7 +103,14 @@ const Heading = ({
         case 'heading':
           comp.current?.classList.remove(`is-handle`);
           refDom.current?.texts && refDom.current.texts?.revert();
-          refDom.current.resizeObserver?.unobserve(comp.current as HTMLElement);
+          if (
+            refDom.current.resizeObserver &&
+            refDom.current.resizeObserver?.unobserve
+          ) {
+            refDom.current.resizeObserver?.unobserve(
+              comp.current as HTMLElement
+            );
+          }
           break;
         case 'random':
           if (comp.current)

@@ -84,7 +84,7 @@ export const MarketplaceSection = (): JSX.Element => {
             <div className={s.marketplace_content}>
               <Heading
                 as={'h5'}
-                color={'blue-c'}
+                color={'purple-a'}
                 className={'spacing__small'}
                 fontWeight={'semibold'}
                 animOption={{ screen: 0, offset: 0, type: 'random' }}
@@ -102,7 +102,7 @@ export const MarketplaceSection = (): JSX.Element => {
                 Discover & buy Gen.art.
               </Text>
               <Text
-                size="24"
+                size="20"
                 color={'white-80'}
                 className={'spacing__large'}
                 fontWeight="regular"
@@ -116,7 +116,7 @@ export const MarketplaceSection = (): JSX.Element => {
               <AnimFade offset={0.25}>
                 <ButtonIcon
                   onClick={onClick}
-                  sizes={'medium'}
+                  sizes={'large'}
                   variants={'secondary'}
                   endIcon={
                     <SvgInset

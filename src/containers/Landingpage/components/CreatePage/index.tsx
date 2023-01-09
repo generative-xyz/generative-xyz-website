@@ -78,7 +78,7 @@ export const CreatePageSection = (): JSX.Element => {
             <div className={s.createPage_content}>
               <Heading
                 as={'h5'}
-                color={'blue-c'}
+                color={'purple-a'}
                 className={'spacing__small'}
                 fontWeight={'semibold'}
                 animOption={{ screen: 0, offset: 0, type: 'random' }}
@@ -96,7 +96,7 @@ export const CreatePageSection = (): JSX.Element => {
                 Where imagination comes to life.
               </Text>
               <Text
-                size="24"
+                size="20"
                 color={'white-80'}
                 className={'spacing__large'}
                 fontWeight="regular"
@@ -105,7 +105,7 @@ export const CreatePageSection = (): JSX.Element => {
               >
                 World-renowned artists. A hand-crafted experience for
                 discovering art you love.{' '}
-                <strong className={'text-blue-c'}>
+                <strong className={'text-purple-a'}>
                   100% verified collections
                 </strong>
                 . And industry-leading 1% fees when {`you're`} ready to buy.
@@ -113,7 +113,7 @@ export const CreatePageSection = (): JSX.Element => {
               <AnimFade screen={0.5}>
                 <ButtonIcon
                   onClick={onClick}
-                  sizes={'medium'}
+                  sizes={'large'}
                   variants={'secondary'}
                   endIcon={
                     <SvgInset
