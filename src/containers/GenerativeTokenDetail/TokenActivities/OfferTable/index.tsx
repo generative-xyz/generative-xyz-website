@@ -52,7 +52,12 @@ const OfferTable = () => {
     };
   });
 
-  return <Table tableHead={TABLE_OFFERS_HEADING} data={offerDatas}></Table>;
+  return (
+    <Table
+      tableHead={TABLE_OFFERS_HEADING}
+      data={offerDatas || undefined}
+    ></Table>
+  );
 };
 
 export default OfferTable;

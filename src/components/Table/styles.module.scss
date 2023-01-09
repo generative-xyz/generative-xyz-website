@@ -1,4 +1,9 @@
+.wrapper {
+}
+
 .table {
+  position: relative;
+
   .tableHead {
     border-bottom: 1px solid $black-10;
 
@@ -23,5 +28,8 @@
       line-height: rem(28px);
       font-weight: 600;
     }
+  }
+
+  .tableLoading {
   }
 }
