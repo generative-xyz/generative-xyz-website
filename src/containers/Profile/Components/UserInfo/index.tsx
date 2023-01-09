@@ -83,7 +83,7 @@ export const UserInfo = (): JSX.Element => {
               <ul className={s.userInfo_socials_list}>
                 {currentUser?.profileSocial?.web && (
                   <li className={s.userInfo_socials_item}>
-                    <a href={user.profileSocial.web || '#'}>
+                    <a href={currentUser.profileSocial.web || '#'}>
                       <SvgInset svgUrl={SOCIAL_ICONS.web} />
                     </a>
                   </li>
@@ -91,7 +91,7 @@ export const UserInfo = (): JSX.Element => {
 
                 {currentUser?.profileSocial?.etherScan && (
                   <li className={s.userInfo_socials_item}>
-                    <a href={user.profileSocial.etherScan || '#'}>
+                    <a href={currentUser.profileSocial.etherScan || '#'}>
                       <SvgInset svgUrl={SOCIAL_ICONS.etherScan} />
                     </a>
                   </li>
@@ -99,7 +99,7 @@ export const UserInfo = (): JSX.Element => {
 
                 {currentUser?.profileSocial?.discord && (
                   <li className={s.userInfo_socials_item}>
-                    <a href={user.profileSocial.discord}>
+                    <a href={currentUser.profileSocial.discord}>
                       <SvgInset svgUrl={SOCIAL_ICONS.discrod} />
                     </a>
                   </li>
@@ -107,7 +107,7 @@ export const UserInfo = (): JSX.Element => {
 
                 {currentUser?.profileSocial?.twitter && (
                   <li className={s.userInfo_socials_item}>
-                    <a href={user.profileSocial.twitter}>
+                    <a href={currentUser.profileSocial.twitter}>
                       <SvgInset svgUrl={SOCIAL_ICONS.twitter} />
                     </a>
                   </li>
