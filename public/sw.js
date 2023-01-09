@@ -64,9 +64,6 @@ self.addEventListener("message", async (event) => {
     }
   }
 
-  console.log(cache)
-  console.log(event.data.data);
-
   if (event?.data?.type === "GET_RAW_HTML") {
     const id = event.data.data
 

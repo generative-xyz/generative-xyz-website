@@ -21,6 +21,7 @@ import ListingTokenModal from './ListingTokenModal';
 import MoreItemsSection from './MoreItemsSection';
 import TokenActivities from './TokenActivities';
 import s from './styles.module.scss';
+import MakeOfferModal from './MakeOfferModal';
 
 // const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -31,6 +32,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     tokenOffers,
     tokenID,
     openListingModal,
+    openMakeOfferModal,
     handlePurchaseToken,
     isTokenOwner,
     isTokenListing,
@@ -67,6 +69,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   const handleOpenListingTokenModal = (): void => {
     openListingModal();
+  };
+
+  const handleOpenMakeOfferModal = (): void => {
+    openMakeOfferModal();
   };
 
   const featuresList = () => {
@@ -159,7 +165,11 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 </>
               )}
               {!isTokenOwner && (
-                <ButtonIcon disabled={!tokenData} variants="outline">
+                <ButtonIcon
+                  onClick={handleOpenMakeOfferModal}
+                  disabled={!tokenData}
+                  variants="outline"
+                >
                   Make offer
                 </ButtonIcon>
               )}
@@ -241,6 +251,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
         )}
       </Container>
       <ListingTokenModal />
+      <MakeOfferModal />
     </>
   );
 };

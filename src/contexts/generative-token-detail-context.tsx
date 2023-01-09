@@ -11,6 +11,7 @@ import React, {
 import {
   GENERATIVE_MARKETPLACE_CONTRACT,
   GENERATIVE_PROJECT_CONTRACT,
+  WETH_ADDRESS,
 } from '@constants/contract-address';
 import { NETWORK_CHAIN_ID } from '@constants/config';
 import useContractOperation from '@hooks/useContractOperation';
@@ -27,6 +28,8 @@ import { getTokenUri } from '@services/token-uri';
 import { getMakeOffers } from '@services/marketplace';
 import { getUserSelector } from '@redux/user/selector';
 import { useSelector } from 'react-redux';
+import MakeTokenOfferOperation from '@services/contract-operations/generative-marketplace/make-token-offer';
+import IncreaseAllowanceOperation from '@services/contract-operations/erc20/increase-allowance';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
 
@@ -50,6 +53,10 @@ export interface IGenerativeTokenDetailContext {
   tokenOffers: Array<TokenOffer>;
   isTokenOwner: boolean;
   isTokenListing: boolean;
+  showMakeOfferModal: boolean;
+  openMakeOfferModal: () => void;
+  hideMakeOffergModal: () => void;
+  handleMakeTokenOffer: (_p: string, _d: number) => Promise<void>;
 }
 
 const initialValue: IGenerativeTokenDetailContext = {
@@ -86,6 +93,14 @@ const initialValue: IGenerativeTokenDetailContext = {
   tokenOffers: [],
   isTokenOwner: false,
   isTokenListing: false,
+  showMakeOfferModal: false,
+  openMakeOfferModal: () => {
+    return;
+  },
+  hideMakeOffergModal: () => {
+    return;
+  },
+  handleMakeTokenOffer: (_p: string, _d: number) => new Promise(r => r()),
 };
 
 export const GenerativeTokenDetailContext =
@@ -97,6 +112,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   const [tokenData, setTokenData] = useState<Token | null>(null);
   const [tokenOffers, setTokenOffers] = useState<Array<TokenOffer>>([]);
   const [showListingModal, setShowListingModal] = useState(false);
+  const [showMakeOfferModal, setShowMakeOfferModal] = useState(false);
   const [listingStep, setListingStep] = useState(ListingStep.InputInfo);
   const [listingPrice, setListingPrice] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -118,6 +134,14 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     PurchaseTokenOperation,
     true
   );
+  const { call: makeTokenOffer } = useContractOperation(
+    MakeTokenOfferOperation,
+    true
+  );
+  const { call: increaseAllowance } = useContractOperation(
+    IncreaseAllowanceOperation,
+    true
+  );
   const router = useRouter();
   const { tokenID } = router.query as {
     tokenID: string;
@@ -134,6 +158,20 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     setListingStep(ListingStep.InputInfo);
     setTxHash(null);
     setListingPrice(0);
+
+    // Recover scroll behavior
+    document.body.style.overflow = 'auto';
+  };
+
+  const openMakeOfferModal = () => {
+    setShowMakeOfferModal(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const hideMakeOffergModal = () => {
+    // Reset state
+    setShowMakeOfferModal(false);
+    setTxHash(null);
 
     // Recover scroll behavior
     document.body.style.overflow = 'auto';
@@ -203,6 +241,33 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       log('purchase token transaction error.', LogLevel.Error, LOG_PREFIX);
     } else {
       toast.success('You has bought this art successfully');
+    }
+  };
+
+  const handleMakeTokenOffer = async (price: string, durationTime: number) => {
+    if (!tokenData) {
+      return;
+    }
+
+    await increaseAllowance({
+      contractAddress: WETH_ADDRESS,
+      chainID: NETWORK_CHAIN_ID,
+      consumerAddress: GENERATIVE_MARKETPLACE_CONTRACT,
+      amount: price,
+    });
+
+    const tx = await makeTokenOffer({
+      collectionAddress: tokenData.genNFTAddr,
+      tokenID: tokenData.tokenID,
+      durationTime: durationTime,
+      price: price,
+      erc20Token: WETH_ADDRESS,
+      chainID: NETWORK_CHAIN_ID,
+    });
+
+    if (!tx) {
+      log('Make token offer transaction error.', LogLevel.Error, LOG_PREFIX);
+      throw Error('Oops. Something went wrong. Please try again');
     }
   };
 
@@ -278,6 +343,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       tokenOffers,
       isTokenOwner,
       isTokenListing,
+      showMakeOfferModal,
+      openMakeOfferModal,
+      hideMakeOffergModal,
+      handleMakeTokenOffer,
     };
   }, [
     tokenData,
@@ -299,6 +368,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     tokenOffers,
     isTokenOwner,
     isTokenListing,
+    showMakeOfferModal,
+    openMakeOfferModal,
+    hideMakeOffergModal,
+    handleMakeTokenOffer,
   ]);
 
   return (

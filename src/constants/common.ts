@@ -37,3 +37,5 @@ export const SOCIALS = {
 export const PAGE_LOADED = 'PAGE_LOADED';
 export const PAGE_LOADING = 'PAGE_LOADING';
 export const PAGE_ENTER = 'PAGE_ENTER';
+
+export const METAMASK_DOWNLOAD_PAGE = 'https://metamask.io/download/';
