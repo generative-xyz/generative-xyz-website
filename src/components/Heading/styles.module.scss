@@ -25,4 +25,9 @@
     font-size: rem(24px);
     line-height: rem(34px);
   }
+
+  &:is(h6) {
+    font-size: rem(20px);
+    line-height: (30/20);
+  }
 }

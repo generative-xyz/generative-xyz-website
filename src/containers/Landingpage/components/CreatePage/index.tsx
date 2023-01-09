@@ -88,7 +88,7 @@ export const CreatePageSection = (): JSX.Element => {
               <Text
                 as={'h2'}
                 color={'white'}
-                fontWeight={'medium'}
+                fontWeight={'semibold'}
                 className={'spacing__small'}
                 size={'d3'}
                 animOption={{ screen: 0.2, offset: 0, type: 'heading' }}

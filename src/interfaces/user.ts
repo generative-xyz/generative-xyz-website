@@ -8,4 +8,5 @@ export type User = {
   id: string;
   createdAt: string;
   profileSocial?: ProjectSocial;
+  bgCover?: string;
 };

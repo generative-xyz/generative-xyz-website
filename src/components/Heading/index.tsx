@@ -20,8 +20,8 @@ import {
 } from '@helpers/anim.helpers';
 
 type THeading = {
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
-  fontWeight?: 'bold' | 'semibold' | 'medium' | 'normal' | 'light';
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  fontWeight?: 'bold' | 'semibold' | 'medium' | 'normal' | 'light' | 'regular';
   style?: CSSProperties;
   className?: string;
   color?: string;

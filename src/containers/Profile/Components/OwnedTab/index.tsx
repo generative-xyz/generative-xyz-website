@@ -1,15 +1,45 @@
 import s from './Owned.module.scss';
 import { Loading } from '@components/Loading';
 import CollectionList from '@components/Collection/List';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TokenTopFilter from '@containers/GenerativeProjectDetail/TokenTopFilter';
-import { Token } from '@interfaces/token';
+import { IGetProfileNFTsResponse } from '@interfaces/api/token-uri';
+import { useAppSelector } from '@redux';
+import { getUserSelector } from '@redux/user/selector';
+import { getProfileNFTs } from '@services/profile';
+import log from '@utils/logger';
+import { LogLevel } from '@enums/log-level';
 
-interface IProp {
-  tokens?: Token[];
-}
+export const OwnedTab = (): JSX.Element => {
+  const [tokens, setTokens] = useState<IGetProfileNFTsResponse | null>(null);
+  const [totalTokens, setTotalTokens] = useState<number>(0);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-export const OwnedTab = ({ tokens }: IProp): JSX.Element => {
+  const user = useAppSelector(getUserSelector);
+
+  const handleFetchTokens = async () => {
+    try {
+      if (user.walletAddress) {
+        const tokens = await getProfileNFTs({
+          walletAddress: user.walletAddress,
+        });
+        if (tokens && tokens.result && tokens.result.length > 0) {
+          setTokens(tokens);
+          setTotalTokens(tokens.total || 0);
+        }
+        setIsLoaded(true);
+      }
+    } catch (ex) {
+      log('can not fetch tokens', LogLevel.Error, '');
+      // throw Error('failed to fetch item detail');
+      setIsLoaded(true);
+    }
+  };
+
+  useEffect(() => {
+    handleFetchTokens();
+  }, [user.walletAddress]);
+
   return (
     <>
       <div className={s.tabContent}>
@@ -26,10 +56,11 @@ export const OwnedTab = ({ tokens }: IProp): JSX.Element => {
           />
         </div>
         <div className={s.tokenListWrapper}>
-          <Loading isLoaded={Boolean(tokens && tokens?.length)} />
-          {Boolean(tokens && tokens?.length) && (
+          <Loading isLoaded={isLoaded} />
+          {isLoaded && (
             <div className={s.tokenList}>
-              <CollectionList listData={tokens} />
+              <CollectionList listData={tokens?.result} />
+              <div className={s.trigger} />
             </div>
           )}
         </div>

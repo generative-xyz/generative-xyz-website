@@ -5,6 +5,7 @@ export type ProjectSocial = {
   twitter: string;
   discord: string;
   medium: string;
+  etherScan?: string;
   instagram: string;
 };
 

@@ -310,8 +310,8 @@
 
 @function calc-auto($min-vw, $max-vw, $min-font-size, $max-font-size) {
   @return calc(
-    #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
-    calc((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
+          #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
+          calc((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
   );
 }
 
@@ -321,4 +321,16 @@
 
 @function strip-unit($value) {
   @return $value/($value * 0 + 1);
+}
+
+@mixin calcFontAuto($min-font-size, $max-font-size) {
+  font-size: rem($max-font-size);
+
+  @include min-pc {
+    font-size: calc-auto(1200px, 1920px, $min-font-size, $max-font-size);
+  }
+
+  @include min-pc-wide {
+    font-size: rem($max-font-size);
+  }
 }

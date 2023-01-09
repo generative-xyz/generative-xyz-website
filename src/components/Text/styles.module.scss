@@ -44,18 +44,8 @@
     }
 
     &-16 {
-
       line-height: (26/16);
-      font-size: rem(16px);
-
-      @include min-pc {
-        font-size: calc-auto(1200px, 1920px, 14px, 16px);
-      }
-
-      @include min-pc-wide {
-        font-size: rem(16px);
-      }
-
+      @include calcFontAuto(13px, 16px);
     }
 
     &-14 {

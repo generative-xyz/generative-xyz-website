@@ -95,7 +95,7 @@ export const MarketplaceSection = (): JSX.Element => {
                 as={'h2'}
                 color={'white'}
                 className={'spacing__small'}
-                fontWeight={'medium'}
+                fontWeight={'semibold'}
                 size={'d3'}
                 animOption={{ screen: 0, offset: 0, type: 'heading' }}
               >

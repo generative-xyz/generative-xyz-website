@@ -188,7 +188,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
   const onWinScrolling = () => {
     if (refData.current.lock) return;
     const scrollTop = getScrollTop();
-    if (scrollTop - refData.current.scrollCurrent > 0) {
+    if (scrollTop - refData.current.scrollCurrent > 0 && scrollTop > 100) {
       if (!refData.current.isHide) {
         hideMenu();
       }
@@ -229,7 +229,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
   }, [disabledMenu]);
 
   return (
-    <header className={`${styles.header} ${styles[theme]}`}>
+    <header ref={refHeader} className={`${styles.header} ${styles[theme]}`}>
       <Container>
         <div className={styles.headerWrapper}>
           <div className="d-flex align-items-center justify-content-between w-100">

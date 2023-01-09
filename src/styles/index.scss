@@ -49,8 +49,9 @@ body {
   min-height: 100vh;
 }
 
-main{
+main {
   height: 100%;
+  @include calcFontAuto(13px, 16px);
 }
 
 input,

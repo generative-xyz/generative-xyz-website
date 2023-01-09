@@ -23,7 +23,7 @@ export const LOGO_URL =
   'https://cdn.autonomous.ai/static/upload/images/common/upload/20221221/logo6cbc3e712f.svg';
 
 export const LOGO_MARKETPLACE_URL = `${CDN_URL}/icons/logo-marketplace.svg`;
-export const LOGO_GENERATIVE = `https://cdn.generative.xyz/pages/home/logo.jpg`;
+export const LOGO_GENERATIVE = `${CDN_URL}/pages/home/logo.jpg`;
 
 export const CLOUDFRONT_SERVER_NAME = `https://cdn.autonomous.ai/`;
 export const DEFAULT_ART_THUMBNAIL = `${CDN_URL}/images/default-thumbnail.svg`;

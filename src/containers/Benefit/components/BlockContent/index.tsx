@@ -16,7 +16,7 @@ export const BlockContent = ({
 }: IProps): JSX.Element => {
   return (
     <div className={`${s.blockContent} ${className}`}>
-      <Heading as="h5" color={'white'} fontWeight={'medium'}>
+      <Heading as="h6" color={'white'} fontWeight={'semibold'}>
         {heading}
       </Heading>
       <Text as="p" color={'white-60'} size="18" fontWeight={'medium'}>
