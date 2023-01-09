@@ -58,11 +58,15 @@ const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
   const fetchProjectItems = async (): Promise<void> => {
     if (genNFTAddr) {
       try {
-        const res = await getProjectItems({
-          contractAddress: genNFTAddr,
-          limit: 4,
-          page: 1,
-        });
+        const res = await getProjectItems(
+          {
+            contractAddress: genNFTAddr,
+          },
+          {
+            limit: 4,
+            page: 1,
+          }
+        );
         setIsLoaded(true);
         setListItems(res.result);
       } catch (_: unknown) {

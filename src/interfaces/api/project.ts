@@ -8,8 +8,15 @@ export interface IGetProjectDetailParams {
 
 export type IGetProjectDetailResponse = Project;
 
-export interface IGetProjectItemsParams extends IPagingParams {
+export interface IGetProjectItemsParams {
   contractAddress: string;
+}
+export interface IGetProjectItemsQuery extends IPagingParams {
+  name?: string;
+  sort?: string;
+  attributes?: string[];
+  minPrice?: string;
+  maxPrice?: string;
 }
 
 export interface IGetProjectItemsResponse extends IPagingResponse {

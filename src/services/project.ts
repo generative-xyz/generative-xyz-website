@@ -5,6 +5,7 @@ import {
   IGetProjectDetailParams,
   IGetProjectDetailResponse,
   IGetProjectItemsParams,
+  IGetProjectItemsQuery,
   IGetProjectItemsResponse,
   IGetProjectListParams,
   IGetProjectListResponse,
@@ -43,10 +44,11 @@ export const getRandomProject =
   };
 
 export const getProjectItems = async (
-  params: IGetProjectItemsParams
+  params: IGetProjectItemsParams,
+  query: IGetProjectItemsQuery
 ): Promise<IGetProjectItemsResponse> => {
   try {
-    const qs = '?' + querystring.stringify(params);
+    const qs = '?' + querystring.stringify(query);
     const res = await get<IGetProjectItemsResponse>(
       `${API_PATH}/${params.contractAddress}/tokens${qs}`
     );

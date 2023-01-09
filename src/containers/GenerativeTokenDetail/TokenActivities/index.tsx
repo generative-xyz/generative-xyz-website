@@ -1,3 +1,4 @@
+import Table from '@components/Table';
 import { GenerativeTokenDetailContext } from '@contexts/generative-token-detail-context';
 import { LogLevel } from '@enums/log-level';
 import { getMakeOffers } from '@services/marketplace';
@@ -8,6 +9,8 @@ import { Tab, Tabs } from 'react-bootstrap';
 import s from './styles.module.scss';
 
 const LOG_PREFIX = 'TokenActivities';
+
+const TABLE_OFFERS_HEADING = ['Event', 'Price', 'From', 'To', 'Date'];
 
 const TokenActivities = () => {
   const router = useRouter();
@@ -46,7 +49,7 @@ const TokenActivities = () => {
       <Tabs className={s.tabs} defaultActiveKey="offers">
         <Tab tabClassName={s.tab} eventKey="offers" title="Offers">
           <div className={s.activities_table}>
-            {/* <Table data={}></Table> */}
+            <Table tableHead={TABLE_OFFERS_HEADING} data={[]}></Table>
           </div>
         </Tab>
       </Tabs>

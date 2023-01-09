@@ -15,6 +15,8 @@ type Props = {
 };
 
 const Table = ({ tableHead = [], data }: Props) => {
+  // if (!data || data?.length === 0) return null;
+
   const TableHeads = () => {
     return (
       <thead className={s.tableHead}>

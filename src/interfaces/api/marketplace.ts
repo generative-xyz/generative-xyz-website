@@ -1,3 +1,4 @@
+import { MarketplaceStats } from '@interfaces/marketplace';
 import { IPagingResponse } from '@interfaces/paging';
 import { TokenOffer } from '@interfaces/token';
 
@@ -10,11 +11,5 @@ export interface ITokenOfferListResponse extends IPagingResponse {
 }
 
 export interface IMarketplaceStatsResponse {
-  stats: {
-    bestMakeOfferPrice: string;
-    floorPrice: string;
-    listedPercent: number;
-    totalTradingVolumn: string;
-    uniqueOwnerCount: number;
-  };
+  stats: MarketplaceStats;
 }
