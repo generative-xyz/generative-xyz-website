@@ -5,6 +5,7 @@ import {
   IGetProjectDetailParams,
   IGetProjectDetailResponse,
   IGetProjectItemsParams,
+  IGetProjectItemsQuery,
   IGetProjectItemsResponse,
   IGetProjectListParams,
   IGetProjectListResponse,
@@ -31,11 +32,23 @@ export const getProjectDetail = async (
   }
 };
 
+export const getRandomProject =
+  async (): Promise<IGetProjectDetailResponse> => {
+    try {
+      const res = await get<IGetProjectDetailResponse>(`${API_PATH}/random`);
+      return res;
+    } catch (err: unknown) {
+      log('failed to get project detail', LogLevel.Error, LOG_PREFIX);
+      throw Error('Failed to get project detail');
+    }
+  };
+
 export const getProjectItems = async (
-  params: IGetProjectItemsParams
+  params: IGetProjectItemsParams,
+  query: IGetProjectItemsQuery
 ): Promise<IGetProjectItemsResponse> => {
   try {
-    const qs = '?' + querystring.stringify(params);
+    const qs = '?' + querystring.stringify(query);
     const res = await get<IGetProjectItemsResponse>(
       `${API_PATH}/${params.contractAddress}/tokens${qs}`
     );

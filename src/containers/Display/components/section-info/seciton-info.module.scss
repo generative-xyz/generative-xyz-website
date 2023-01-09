@@ -1,0 +1,47 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.sectionInfo {
+  padding-top: var(--spacing-supper);
+  padding-bottom: var(--spacing-medium);
+
+  @include min-pc {
+    padding-bottom: var(--spacing-supper);
+  }
+
+  .sectionInfo_content {
+    @include min-pc {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: calc-auto(1200px, 1920px, 520px, 816px);
+    }
+  }
+
+  &_sub {
+    margin-bottom: rem(4px);
+  }
+
+  &__white {
+    color: $white;
+
+    .sectionInfo_content {
+      color: rgba($white, 0.8);
+    }
+  }
+
+  &__dark {
+    color: $neutral-08;
+
+    .sectionInfo_content {
+      color: $neutral-06;
+    }
+  }
+
+  &__center {
+    .sectionInfo_inner {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+  }
+}

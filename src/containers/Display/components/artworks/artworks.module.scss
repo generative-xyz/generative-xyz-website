@@ -1,0 +1,85 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.artWork {
+  overflow: hidden;
+  background: $neutral-08;
+
+  &_show {
+    margin-bottom: rem(20px);
+
+    @include tablet {
+      padding-left: rem(32px);
+      padding-right: rem(32px);
+      margin-bottom: rem(68px);
+    }
+
+    @include min-pc {
+      padding-left: 0;
+      padding-right: 0;
+      margin-bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+
+      &_inner {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: $neutral-08;
+      }
+    }
+  }
+
+  &_fame {
+    img,
+    video {
+      object-fit: contain;
+      height: 100%;
+      width: 100%;
+      aspect-ratio: 16/9;
+    }
+
+    &__small {
+      @include max-tablet {
+        display: none;
+      }
+    }
+
+    @include min-pc {
+      &__big {
+        width: 100vh;
+        aspect-ratio: 1/1;
+        position: relative;
+        z-index: 2;
+        will-change: transform;
+        img, video{
+          object-fit: contain;
+          height: 100%;
+          width: 100%;
+          aspect-ratio: 1/1;
+        }
+      }
+
+      &__small {
+        top: 50%;
+        position: absolute;
+        width: rem(620px);
+        transform: translateY(-50%);
+        will-change: transform;
+      }
+
+      &__left {
+        left: rem(-320px);
+      }
+
+      &__right {
+        right: rem(-320px);
+      }
+    }
+  }
+}

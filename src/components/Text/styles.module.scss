@@ -1,0 +1,97 @@
+.text {
+  &.size {
+    &-d1 {
+      font-size: rem(128px);
+      line-height: rem(138px);
+    }
+
+    &-d2 {
+      font-size: rem(96px);
+      line-height: rem(106px);
+    }
+
+    &-d3 {
+      font-size: rem(40px);
+      line-height: rem(50px);
+
+      @include min-tablet {
+        font-size: rem(72px);
+        line-height: rem(82px);
+      }
+    }
+
+    &-24 {
+      font-size: rem(18px);
+      line-height: rem(28px);
+
+      @include min-tablet {
+        font-size: rem(24px);
+        line-height: rem(34px);
+      }
+    }
+
+    &-18 {
+      font-size: rem(18px);
+      line-height: (28/18);
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 16px, 18px);
+      }
+
+      @include min-pc-wide {
+        font-size: rem(18px);
+      }
+    }
+
+    &-16 {
+
+      line-height: (26/16);
+      font-size: rem(16px);
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 14px, 16px);
+      }
+
+      @include min-pc-wide {
+        font-size: rem(16px);
+      }
+
+    }
+
+    &-14 {
+
+      line-height: (24/14);
+      font-size: rem(14px);
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 12px, 14px);
+      }
+
+      @include min-pc-wide {
+        font-size: rem(14px);
+      }
+
+    }
+
+    &-12 {
+      line-height: (20/12);
+      font-size: 12px;
+      @include min-pc-wide {
+        font-size: rem(12px);
+      }
+    }
+  }
+
+  &.size-d1,
+  &.size-d2,
+  &.size-d3 {
+    letter-spacing: -0.02em;
+  }
+
+  &.size-18,
+  &.size-16,
+  &.size-14,
+  &.size-12 {
+    letter-spacing: -0.01em;
+  }
+}

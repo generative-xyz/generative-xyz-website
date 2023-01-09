@@ -1,5 +1,6 @@
 html.is-landing {
   font-size: 10px;
+
   @include min-pc {
     font-size: vw(10px);
   }
@@ -37,7 +38,6 @@ html.is-landing {
   &__large {
     font-weight: 700;
     line-height: 120%;
-
     font-size: rem(48px);
     margin-bottom: rem(20px);
 
@@ -51,7 +51,6 @@ html.is-landing {
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
-
     font-size: rem(48px);
 
     @include tablet {
@@ -68,24 +67,23 @@ html.is-landing {
   &__label {
     font-family: $font-paragraph !important;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: (24/14);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 14px;
 
     @include min-pc {
-      font-size: calc-auto(1200px, 1920px, 12px, 14px);
+      font-size: calc-auto(1200px, 1920px, 14px, 16px);
     }
   }
 
   &__body {
     font-family: $font-paragraph !important;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 140%;
     color: $neutral-06;
-
     font-size: rem(14px);
 
     @include tablet {
@@ -100,7 +98,7 @@ html.is-landing {
   &__large {
     font-family: $font-paragraph !important;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 140%;
     letter-spacing: -0.01em;
     font-size: rem(20px);
@@ -113,26 +111,27 @@ html.is-landing {
   &__medium {
     font-family: $font-paragraph !important;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 140%;
     color: $neutral-06;
+    font-size: rem(16);
 
     @include min-pc {
-      font-size: calc-auto(1200px, 1920px, 13px, 16px);
+      font-size: calc-auto(1200px, 1920px, 16px, 20px);
     }
   }
 
   &__small {
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 24/12;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: $neutral-06;
-    font-size: rem(12px);
+    font-size: rem(14px);
 
     @include min-pc {
-      font-size: calc-auto(1200px, 1920px, 10px, 12px);
+      font-size: calc-auto(1200px, 1920px, 12px, 14px);
     }
   }
 }

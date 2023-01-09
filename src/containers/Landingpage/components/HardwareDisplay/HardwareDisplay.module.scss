@@ -1,0 +1,63 @@
+.hardwareDisplay {
+  background: #333333;
+
+  padding-top: 0;
+  padding-bottom: rem(80px);
+
+  @include min-tablet {
+    padding-top: rem(165px);
+    padding-bottom: rem(190px);
+  }
+
+  &_content {
+
+    padding-top: rem(32px);
+
+    @include tablet {
+      padding-top: rem(70px);
+    }
+
+    @include min-pc {
+      padding-top: 0;
+    }
+
+    button {
+      width: 100%;
+      justify-content: center;
+      @include min-tablet {
+        width: auto;
+        justify-content: left;
+      }
+
+      svg path {
+        stroke: $primary-brand;
+      }
+    }
+  }
+
+  &_fame {
+    margin-top: rem(-40px);
+    @include min-tablet {
+      margin-top: rem(-250px);
+    }
+
+    img {
+      object-fit: contain;
+      aspect-ratio: 1/1;
+      margin: auto;
+
+      width: vw(280px, 375px);
+      height: vw(280px, 375px);
+
+      @include tablet {
+        width: vw(480px, 768px);
+        height: vw(480px, 768px);
+      }
+
+      @include min-pc {
+        width: rem(706);
+        height: rem(706);
+      }
+    }
+  }
+}

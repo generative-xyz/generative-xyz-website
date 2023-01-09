@@ -1,0 +1,28 @@
+.heading {
+  letter-spacing: -0.02em;
+
+  &:is(h1) {
+    font-size: rem(56px);
+    line-height: rem(66px);
+  }
+
+  &:is(h2) {
+    font-size: rem(48px);
+    line-height: rem(58px);
+  }
+
+  &:is(h3) {
+    font-size: rem(40px);
+    line-height: rem(50px);
+  }
+
+  &:is(h4) {
+    font-size: rem(34px);
+    line-height: rem(44px);
+  }
+
+  &:is(h5) {
+    font-size: rem(24px);
+    line-height: rem(34px);
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "extends": "stylelint-config-standard",
+  "formatter": "stylelint-checkstyle-formatter",
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "import-notation": "string",
+    "at-rule-no-unknown": null,
+    "function-no-unknown": null,
+    "property-no-unknown": null,
+    "no-descending-specificity": null,
+    "selector-pseudo-class-no-unknown": null,
+    "selector-pseudo-element-no-unknown": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "selector-class-pattern": [
+      ".*",
+      {
+        "resolveNestedSelectors": true
+      }
+    ],
+    "value-keyword-case": [
+      "lower",
+      {
+        "ignoreKeywords": "[/ease(?:[A-Z][a-z]+){2,}/]"
+      }
+    ]
+  }
+}

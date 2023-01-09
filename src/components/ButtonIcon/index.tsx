@@ -1,9 +1,10 @@
 import cs from 'classnames';
 import React, { PropsWithChildren, ReactNode } from 'react';
 import styles from './styles.module.scss';
+
 type ButtonType = 'button' | 'submit' | 'reset' | undefined;
-type ButtonVariantsType = 'default' | 'secondary' | 'outline' | 'ghost';
-type ButtonSizesType = 'large' | 'medium' | 'small' | 'xsmall';
+type ButtonVariantsType = 'primary' | 'secondary' | 'outline' | 'ghost';
+type ButtonSizesType = 'large' | 'medium' | 'mid' | 'small' | 'xsmall';
 
 interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   className?: string;
@@ -24,7 +25,7 @@ const ButtonIcon = React.forwardRef<
       children,
       className,
       type = 'button',
-      variants = 'default',
+      variants = 'primary',
       sizes = 'medium',
       startIcon,
       endIcon,
@@ -40,8 +41,8 @@ const ButtonIcon = React.forwardRef<
           styles.button,
           styles[`${variants}`],
           styles[`${sizes}`],
-          className,
-          iconOnly && styles.iconOnly
+          iconOnly && styles.iconOnly,
+          className
         )}
         ref={ref}
         {...delegatedProps}

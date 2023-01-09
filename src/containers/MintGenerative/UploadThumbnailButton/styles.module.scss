@@ -1,0 +1,16 @@
+.uploadThumbnailBtn {
+  display: flex;
+  gap: 6px !important;
+  align-items: center;
+  padding: 5px 10px !important;
+  border-radius: 6px;
+  background-color: $black-5;
+
+  .fileName {
+    text-transform: uppercase;
+    color: $black-100;
+    font-weight: 800;
+    font-size: 12px;
+    line-height: 20px;
+  }
+}

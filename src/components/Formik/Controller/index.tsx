@@ -1,4 +1,4 @@
-import React, { HTMLInputTypeAttribute } from 'react';
+import React, { HTMLInputTypeAttribute, ReactNode } from 'react';
 import Input from '@components/Formik/Input';
 import TextArea from '@components/Formik/TextArea';
 import Select from '@components/Formik/Select';
@@ -15,6 +15,8 @@ export type FormikControllerProps = {
     value: string;
     key: string;
   }[];
+  startIcon?: ReactNode;
+  endIcon?: ReactNode;
 };
 
 function FormikController(props: FormikControllerProps) {

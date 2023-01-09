@@ -1,0 +1,19 @@
+.shareBtn {
+  border: 1px solid $black-20 !important;
+  width: 34px;
+  height: 34px;
+  border-radius: 2px;
+  padding: 0 !important;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: $black-100 !important;
+    border: 1px solid transparent !important;
+
+    :global(svg path) {
+      stroke: $white-100;
+    }
+  }
+}

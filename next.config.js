@@ -34,7 +34,16 @@ module.exports = withBundleAnalyzer({
         ],
       },
       {
-        source: '/sandbox/sw.js',
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'service-worker-allowed',
+            value: '/',
+          },
+        ],
+      },
+      {
+        source: '/caching.sw.js',
         headers: [
           {
             key: 'service-worker-allowed',
@@ -75,6 +84,9 @@ module.exports = withBundleAnalyzer({
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    prependData: `@import "@styles/_variables.scss";`,
+    prependData: `@import "@styles/_variables.scss";
+      @import "@styles/_themes/_mixins.scss";
+      @import "@styles/_themes/_variables.scss";
+    `,
   },
 });

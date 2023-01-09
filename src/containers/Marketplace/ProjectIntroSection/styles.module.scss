@@ -1,0 +1,135 @@
+@import 'src/styles/_themes/mixins';
+
+.wrapper {
+  display: grid;
+  grid-template-columns: rem(420px) 1px 1fr;
+  color: $black-100;
+  gap: rem(60px);
+  padding-top: rem(60px);
+}
+
+.info {
+  position: relative;
+}
+
+.usersInfo {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  column-gap: rem(50px);
+
+  &_item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > div:first-of-type {
+      min-height: rem(34px);
+    }
+  }
+
+  &_mainText {
+    text-transform: uppercase;
+    color: $black-60;
+  }
+
+  &_subText {
+    transform: translateY(-7px);
+  }
+}
+
+.progressBar {
+  margin-bottom: rem(24px);
+}
+
+.CTA {
+  display: flex;
+  margin-bottom: rem(30px);
+  column-gap: rem(24px);
+  flex-wrap: wrap;
+
+  .explore_btn {
+    flex: 1;
+    white-space: nowrap;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    font-size: rem(16px);
+    line-height: rem(26px);
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: $black-100;
+    margin-top: rem(24px);
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.usersInfo {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  column-gap: rem(50px);
+
+  &_item {
+    display: flex;
+    flex-direction: column;
+    gap: rem(10px);
+
+    > div:first-of-type {
+      min-height: rem(34px);
+    }
+  }
+
+  &_mainText {
+    text-transform: uppercase;
+    color: $black-60;
+  }
+
+  &_subText {
+    transform: translateY(-7px);
+  }
+}
+
+.progressBar {
+  margin-bottom: rem(28px);
+}
+
+.accordion_list {
+  display: flex;
+  flex-direction: column;
+  gap: rem(32px);
+  margin-bottom: rem(30px);
+}
+
+.stats {
+  display: flex;
+  gap: rem(32px);
+  margin-bottom: rem(38px);
+  flex-wrap: wrap;
+
+  &_item {
+    > p:first-of-type {
+      color: $black-60;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.license {
+  margin-top: rem(30px);
+  margin-bottom: rem(14px);
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: rem(5px);
+}
+
+.loading_project {
+  background-color: $white;
+  max-height: rem(550px);
+}

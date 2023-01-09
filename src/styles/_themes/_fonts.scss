@@ -1,48 +1,68 @@
-@import "https://rsms.me/inter/inter.css";
 
 @font-face {
-  font-family: Helvetica;
+  font-family: "Bandeins Strange Variable";
+  src: url("/fonts/BandeinsStrange-Light.eot");
   src:
-    local("Helvetica"),
-    url("/fonts/Helvetica.woff2") format("woff2"),
-    url("/fonts/Helvetica.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Helvetica;
-  src:
-    local("Helvetica Light"),
-    local("Helvetica-Light"),
-    url("/fonts/Helvetica-Light.woff2") format("woff2"),
-    url("/fonts/Helvetica-Light.woff") format("woff");
+          local("/fonts/Bandeins Strange Variable"),
+          local("BandeinsStrangeVariable"),
+          url("/fonts/BandeinsStrange-Light.woff2") format("woff2"),
+          url("/fonts/BandeinsStrange-Light.woff") format("woff");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Helvetica;
+  font-family: "Bandeins Strange Variable";
+  src: url("/fonts/BandeinsStrange-Regular.eot");
   src:
-    local("Helvetica‭ ‬עבה"),
-    local("Helvetica-Bold"),
-    url("/fonts/Helvetica-Bold.woff2") format("woff2"),
-    url("/fonts/Helvetica-Bold.woff") format("woff");
+          local("/fonts/Bandeins Strange Variable"),
+          local("BandeinsStrangeVariable"),
+          url("/fonts/BandeinsStrange-Regular.woff2") format("woff2"),
+          url("/fonts/BandeinsStrange-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: "Bandeins Strange Variable";
+  src: url("/fonts/BandeinsStrange-Medium.eot");
+  src:
+          local("/fonts/Bandeins Strange Variable"),
+          local("BandeinsStrangeVariable"),
+          url("/fonts/BandeinsStrange-Medium.woff2") format("woff2"),
+          url("/fonts/BandeinsStrange-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
+
 @font-face {
-  font-family: Vanitas;
+  font-family: "Bandeins Strange Variable";
+  src: url("/fonts/BandeinsStrange-SemiBold.eot");
   src:
-    local("Vanitas Regular"),
-    local("Vanitas-Bold"),
-    url("/fonts/Vanitas-Bold.woff2") format("woff2"),
-    url("/fonts/Vanitas-Bold.woff") format("woff");
+          local("/fonts/Bandeins Strange Variable"),
+          local("BandeinsStrangeVariable"),
+          url("/fonts/BandeinsStrange-SemiBold.woff2") format("woff2"),
+          url("/fonts/BandeinsStrange-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bandeins Strange Variable";
+  src: url("/fonts/BandeinsStrange-Bold.eot");
+  src:
+          local("/fonts/Bandeins Strange Variable"),
+          local("BandeinsStrangeVariable"),
+          url("/fonts/BandeinsStrange-Bold.woff2") format("woff2"),
+          url("/fonts/BandeinsStrange-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
+

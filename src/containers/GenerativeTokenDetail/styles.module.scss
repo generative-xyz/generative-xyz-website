@@ -1,45 +1,103 @@
 .wrapper {
-  display: flex;
-  gap: 24px;
-  margin-bottom: 40px;
-}
-
-.leftWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 50%;
-
-  > div {
-    padding: 32px;
-    border-radius: 16px;
-    border: 1px solid var(--dark-grey);
-  }
-}
-
-.rightWrapper {
-  flex: 1;
+  display: grid;
+  grid-template-columns: rem(420px) 1px 1fr;
+  color: $black-100;
+  margin-top: rem(72);
 }
 
 .itemInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.thumbnail {
+  overflow-y: scroll;
+  padding-right: rem(60px);
+  max-height: rem(610px);
   position: relative;
-  aspect-ratio: 4 / 3;
-  height: fit-content;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    position: absolute;
+    left: 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.1);
+  }
 }
 
-.tokenInfo {
+.thumbnailWrapper {
+  margin-left: rem(60px);
+  max-width: rem(1283px);
+}
+
+.collectionName {
+  color: $black-60;
+  margin-bottom: rem(16px);
+}
+
+.usersInfo {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 50px;
+
+  &_item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > div:first-of-type {
+      min-height: 34px;
+    }
+  }
+
+  &_mainText {
+    text-transform: uppercase;
+    color: $black-60;
+  }
+
+  &_subText {
+    color: $black-60;
+    transform: translateY(-7px);
+  }
+}
+
+.prices {
+  display: flex;
+  align-items: center;
+  gap: rem(32px);
+  margin-top: rem(10px);
+  margin-bottom: rem(24px);
+
+  p {
+    text-transform: uppercase;
+    color: $black-60;
+  }
+}
+
+.CTA_btn {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: rem(10px);
+  margin-bottom: rem(32px);
+
+  button {
+    width: calc(50% - 5px);
+    justify-content: center;
+  }
+}
+
+.accordions {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: rem(32px);
 }
 
-.actionButtons {
-  justify-content: center;
-  margin-top: 15px;
+.walletAddress {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.loading_token {
+  background-color: $white;
 }

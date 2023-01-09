@@ -6,9 +6,9 @@ export const webpSupported = async () => {
   return await supportsWebP;
 };
 
-export const registerLoading = () => {
+export const registerLoading = (number = 1) => {
   let rCount = store.getState()?.general.animationRegister;
-  rCount += 1;
+  rCount += number;
   store.dispatch(setAnimationRegister(rCount));
 };
 

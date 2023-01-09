@@ -1,11 +1,11 @@
-@import 'src/styles/_themes/variables.scss';
-@import 'src/styles/_themes/mixins.scss';
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
 
 .Button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 26px;
   text-align: center;
@@ -15,6 +15,10 @@
   span {
     font-size: 14px;
     line-height: 26px;
+
+    @include min-pc {
+      font-size: calc-auto(1200px, 1920px, 14px, 16px);
+    }
   }
 
   padding: {
@@ -24,6 +28,7 @@
 
   &__xl {
     min-height: 56px;
+
     @include min-pc {
       min-height: calc-auto(1200px, 1920px, 48px, 56px);
     }
@@ -35,10 +40,11 @@
 
   &__md {
     min-height: 40px;
-    font-size: 12px;
     line-height: 24px;
+    font-size: 14px;
 
     @include min-pc {
+      font-size: calc-auto(1200px, 1920px, 12px, 14px);
       min-height: calc-auto(1200px, 1920px, 32px, 40px);
     }
 
@@ -134,7 +140,7 @@
 
   &__ctaAnim {
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;
@@ -145,6 +151,7 @@
     box-shadow: none;
     clip-path: inset(0);
     position: relative;
+    background: $neutral-08;
     transition: color 0.6s $easeOutCubic;
 
     :global(.text) {
@@ -154,13 +161,12 @@
 
     &::after,
     &::before {
-      content: '';
+      content: "";
       display: block;
-      width: 100%;
+      width: 101%;
       height: 102%;
       transition: transform 0.6s $easeOutCubic;
       position: absolute;
-      will-change: transform;
       top: 0;
       left: 0;
     }
@@ -191,6 +197,7 @@
 
     &__black {
       color: white;
+      background: $white;
 
       &::after {
         background-color: $white;
@@ -210,7 +217,7 @@
 
   &__ctaBorder {
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;
@@ -239,7 +246,7 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       width: 100%;
       height: 101%;
@@ -282,26 +289,25 @@
         }
       }
     }
-
   }
 
   &__ctaNone {
     position: relative;
     font-family: $font-paragraph;
-    font-weight: 400;
+    font-weight: 500;
     font-size: rem(14px);
     line-height: rem(24px);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: $white;
     border-radius: 0;
-    padding: 0 0;
+    padding: 0;
     box-shadow: none;
     gap: 10px;
     background: transparent;
 
-    &:after {
-      content: '';
+    &::after {
+      content: "";
       display: block;
       border-bottom: 1px solid $white;
       bottom: 0;
@@ -314,7 +320,7 @@
     }
 
     &:hover {
-      &:after {
+      &::after {
         width: 100%;
         opacity: 1;
       }

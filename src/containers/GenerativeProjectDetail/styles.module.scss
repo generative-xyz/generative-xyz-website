@@ -8,8 +8,8 @@
 }
 
 .thumbnail {
-  aspect-ratio: 1 / 1;
-  width: 330px;
+  aspect-ratio: 4 / 3;
+  width: 40%;
   position: relative;
 }
 
@@ -33,7 +33,7 @@
     position: relative;
 
     .progressBar {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       height: 100%;
@@ -52,4 +52,40 @@
 
 .submitBtn {
   margin-top: 24px;
+}
+
+.desc {
+  margin-block: 16px;
+}
+
+.tabs {
+  border-bottom: 1px solid $black-20;
+}
+
+.tab {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  border: none !important;
+  letter-spacing: -0.01em;
+  color: $black-100 !important;
+  padding: 10px 0 !important;
+
+  &:global(.active) {
+    border-bottom: 2px solid $black-100 !important;
+  }
+}
+
+.filterWrapper {
+  margin-top: 32px;
+}
+
+.tokenListWrapper {
+  position: relative;
+  min-height: rem(400px);
+}
+
+.tokenList {
+  padding-top: 48px;
+  padding-bottom: 90px;
 }

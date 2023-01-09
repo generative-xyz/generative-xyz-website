@@ -52,7 +52,7 @@ export const Frames = ({
     images: [],
     lastFrame: 1,
     progress: 0,
-    framesFirstLoad: 50,
+    framesFirstLoad: 25,
     ctx: null,
   });
 
@@ -72,13 +72,15 @@ export const Frames = ({
   };
 
   const drawFrame = (image: HTMLImageElement) => {
-    refDom.current.ctx?.clearRect(
-      0,
-      0,
-      refDom.current.canvas?.width || window.innerWidth,
-      refDom.current.canvas?.height || window.innerHeight
-    );
-    refDom.current.ctx?.drawImage(image, 0, 0);
+    if (image.complete && image.naturalHeight !== 0) {
+      refDom.current.ctx?.clearRect(
+        0,
+        0,
+        refDom.current.canvas?.width || window.innerWidth,
+        refDom.current.canvas?.height || window.innerHeight
+      );
+      refDom.current.ctx?.drawImage(image, 0, 0);
+    }
   };
 
   const loadFrame = async (frame: number, onLoaded?: () => void | null) => {

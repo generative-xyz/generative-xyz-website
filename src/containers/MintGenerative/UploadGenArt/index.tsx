@@ -1,29 +1,38 @@
 import s from './styles.module.scss';
-import Button from '@components/Button';
-import Checkbox from '@components/Checkbox';
+import Button from '@components/ButtonIcon';
 import DropFile from '@containers/MintGenerative/DropFile';
 import Link from '@components/Link';
 import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { LogLevel } from '@enums/log-level';
-import { ISandboxRef } from '@interfaces/sandbox';
-import { generateHash } from '@utils/generate-data';
 import log from '@utils/logger';
 import { processSandboxZipFile, readSandboxFileContent } from '@utils/sandbox';
 import { prettyPrintBytes } from '@utils/units';
-import { useRouter } from 'next/router';
-import { ReactElement, useContext, useMemo, useRef, useState } from 'react';
+import { ReactElement, useContext, useMemo, useState } from 'react';
 import { EXTERNAL_LINK } from '@constants/external-link';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
+import Image from 'next/image';
+import Checkbox from '@components/Checkbox';
+import { useRouter } from 'next/router';
+import { MintGenerativeStep } from '@enums/mint-generative';
+import { SandboxFileError } from '@enums/sandbox';
 
 const LOG_PREFIX = 'UploadGenArt';
 
 const UploadGenArt: React.FC = (): ReactElement => {
-  const { filesSandbox, setFilesSandbox, zipFile, setZipFile, hash, setHash } =
-    useContext(MintGenerativeContext);
   const router = useRouter();
-  const [isConfirm, setIsConfirm] = useState(false);
-  const sandboxRef = useRef<ISandboxRef>(null);
+  const [isProjectWork, setIsProjectWork] = useState(false);
+  const {
+    filesSandbox,
+    setFilesSandbox,
+    zipFile,
+    setZipFile,
+    setShowErrorAlert,
+  } = useContext(MintGenerativeContext);
+
+  const handleChangeIsProjectWork = (): void => {
+    setIsProjectWork(!isProjectWork);
+  };
 
   const processFile = async (file: File) => {
     try {
@@ -32,6 +41,21 @@ const UploadGenArt: React.FC = (): ReactElement => {
       setFilesSandbox(files);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
+      let errorMessage =
+        'There is a problem with your zip file. Please check and try again. ';
+      if ((err as Error).message === SandboxFileError.NO_INDEX_HTML) {
+        errorMessage += 'index.html is not found.';
+      }
+      if (
+        (err as Error).message === SandboxFileError.NO_SNIPPET_CONTRACT ||
+        (err as Error).message === SandboxFileError.NO_SNIPPET_RANDOM
+      ) {
+        errorMessage += 'Snippet code is not found.';
+      }
+      if ((err as Error).message === SandboxFileError.WRONG_FORMAT) {
+        errorMessage += 'Invalid file format.';
+      }
+      setShowErrorAlert({ open: true, message: errorMessage });
     }
   };
 
@@ -45,16 +69,17 @@ const UploadGenArt: React.FC = (): ReactElement => {
     }
   };
 
+  const handleGoToNextStep = (): void => {
+    router.push(
+      `/mint-generative/${MintGenerativeStep.PROJECT_DETAIL}`,
+      undefined,
+      { shallow: true }
+    );
+  };
+
   const handleReupload = (): void => {
     setZipFile(null);
     setFilesSandbox(null);
-  };
-
-  const handleGenerateHash = () => {
-    setHash(generateHash());
-    if (sandboxRef.current && filesSandbox) {
-      sandboxRef.current.reloadIframe();
-    }
   };
 
   const fileList = useMemo<string[] | null>(
@@ -64,40 +89,71 @@ const UploadGenArt: React.FC = (): ReactElement => {
 
   const renderUploadSuccess = () => {
     return (
-      <div>
-        <div className={s.uploadStatus}>Upload success</div>
-        <div className={s.uploadFiles}>
-          <div className="">
-            {zipFile?.name} ({prettyPrintBytes(zipFile?.size || 0)})
+      <>
+        <div className={s.uploadSuccessWrapper}>
+          <div className={s.uploadFiles}>
+            <div className={s.zipFileInfo}>
+              <Image
+                className={s.folderIcon}
+                alt="folder icon"
+                width={28}
+                height={28}
+                src={`${CDN_URL}/icons/ic-folder-code-28x28.svg`}
+              ></Image>
+              <span className={s.zipFileName}>
+                {zipFile?.name} ({prettyPrintBytes(zipFile?.size || 0)})
+              </span>
+            </div>
+            <ul className={s.zipFileList}>
+              {fileList?.map((fileName: string) => (
+                <li key={fileName} className={s.fileItem}>
+                  <Image
+                    className={s.codeIcon}
+                    alt="folder icon"
+                    width={18}
+                    height={18}
+                    src={`${CDN_URL}/icons/ic-code-18x18.svg`}
+                  ></Image>
+                  <span className={s.fileName}>{fileName}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul>
-            {fileList?.map((fileName: string) => (
-              <li key={fileName}>{fileName}</li>
-            ))}
-          </ul>
-          <Button onClick={handleReupload}>Update zip file</Button>
-        </div>
-        <div className="mb-4">
-          <div>
-            <p>hash: {hash}</p>
+          <div className={s.actionWrapper}>
+            <Button sizes="small" variants="outline" onClick={handleReupload}>
+              Update zip file
+            </Button>
           </div>
-          <Button onClick={handleGenerateHash}>Generate new hash</Button>
         </div>
-        <div className={s.checkboxes}>
-          <Checkbox
-            id="confirm"
-            label="My Generative Token works properly"
-            onClick={() => setIsConfirm(!isConfirm)}
-          />
+        <div className={s.stepFooterWrapper}>
+          <footer className={s.stepFooter}>
+            <div className={s.container}>
+              <div className={s.checkboxWrapper}>
+                <Checkbox
+                  checked={isProjectWork}
+                  onClick={handleChangeIsProjectWork}
+                  className={s.checkbox}
+                  id="workProperly"
+                  label="My Generative Token works properly."
+                />
+              </div>
+              <div className={s.actionWrapper}>
+                <Button
+                  disabled={!isProjectWork || !filesSandbox}
+                  onClick={handleGoToNextStep}
+                  className={s.nextBtn}
+                  sizes="small"
+                >
+                  <SvgInset
+                    size={18}
+                    svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
+                  />
+                </Button>
+              </div>
+            </div>
+          </footer>
         </div>
-        <Button
-          className="wFull"
-          disabled={!isConfirm}
-          onClick={() => router.push('/mint-generative/product-detail')}
-        >
-          Next Step
-        </Button>
-      </div>
+      </>
     );
   };
 

@@ -5,11 +5,10 @@ import InputQuantity from '@components/InputQuantity';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
 import Countries from '@constants/country-list.json';
-import { FRAME_OPTIONS } from '@constants/frame';
 import StateOfUS from '@constants/state-of-us.json';
 import { WalletContext } from '@contexts/wallet-context';
-import { setCheckoutProductId } from '@redux/general/action';
-import { checkoutProductId } from '@redux/general/selector';
+import { setCheckoutProduct } from '@redux/general/action';
+import { checkoutProduct as checkoutProductSelector } from '@redux/general/selector';
 import { useAppDispatch } from '@redux/index';
 import { makeOrder } from '@services/api/order';
 import cn from 'classnames';
@@ -35,26 +34,22 @@ interface ICart extends IFrame {
 
 const CheckoutModal: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const checkoutProduct = useSelector(checkoutProductId);
-  const isShow = !!checkoutProduct;
-  const onHideModal = () => dispatch(setCheckoutProductId(''));
+  const checkoutProduct = useSelector(checkoutProductSelector);
+  const isShow = !!checkoutProduct.id;
+  const onHideModal = () => dispatch(setCheckoutProduct({} as any));
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [cart, setCart] = useState<ICart>({
     id: '',
     name: '',
     price: 0,
+    eth_price: 0,
     image: '',
     image_left: '',
     qty: 1,
   });
   const walletCtx = useContext(WalletContext);
   const [orderSuccess, setOrderSuccess] = useState(false);
-
-  const itemInCart = useMemo(
-    () => FRAME_OPTIONS.find(item => item.id === checkoutProduct) || cart,
-    [checkoutProduct]
-  );
 
   const [shippingInfo, setShippingInfo] = useState<IPropState>({
     name: '',
@@ -83,7 +78,8 @@ const CheckoutModal: React.FC = (): JSX.Element => {
   };
 
   const totalPrice = useMemo(
-    () => Math.round((cart.price || 0) * cart.qty * 10e9) / 10e9,
+    () =>
+      Math.round((cart.eth_price || cart.price || 0) * cart.qty * 10e9) / 10e9,
     [cart]
   );
 
@@ -104,13 +100,31 @@ const CheckoutModal: React.FC = (): JSX.Element => {
         // router.push(`/order/${order.order_id}`);
       } catch (_: unknown) {
         setError('Something went wrong. Please try again later.');
+      } finally {
+        setIsLoading(false);
       }
     }
 
     setIsLoading(false);
   };
 
+  const validateForm = (): boolean => {
+    setError('');
+    const validRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+    if (!validRegex.test(shippingInfo.email)) {
+      setError('Invalid email');
+      return false;
+    }
+
+    return true;
+  };
+
   const placeOrder = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       setIsLoading(true);
 
@@ -123,8 +137,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
 
       await processOrder(newOrder);
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
       setIsLoading(false);
     }
   };
@@ -140,8 +152,8 @@ const CheckoutModal: React.FC = (): JSX.Element => {
     shippingInfo.country;
 
   useEffect(() => {
-    setCart({ ...itemInCart, qty: 1 });
-  }, [itemInCart]);
+    setCart({ ...checkoutProduct, qty: 1 });
+  }, [checkoutProduct]);
 
   if (orderSuccess) {
     return (
@@ -151,7 +163,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <SvgInset
               size={68}
               svgUrl={`${CDN_URL}/icons/ic-order-success.svg`}
-            ></SvgInset>
+            />
           </div>
           <div className={s.OrderSuccessModal_title}>
             Your order was successful!
@@ -160,7 +172,6 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             Please check{' '}
             <span className={s.OrderSuccessModal_email}>
               {shippingInfo.email}
-              test@xyz.com
             </span>{' '}
             for detailed order information.
           </div>
@@ -191,7 +202,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                     {cart?.name}
                   </div>
                   <div className={s.CheckoutModal_optionItemPrice}>
-                    {`${cart?.price} ETH`}
+                    {`${cart?.eth_price || cart?.price} ETH`}
                   </div>
                 </div>
                 <InputQuantity
@@ -214,8 +225,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               values={selectedCountry ? [selectedCountry] : []}
               options={Countries}
               labelField="value"
-              valueField="key"
-              searchable={false}
+              valueField="value"
               multi={false}
               onChange={value => {
                 setShippingInfo({
@@ -231,6 +241,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               placeholder="Full name"
               className={s.CheckoutModal_input}
               value={shippingInfo.name}
+              clearable={false}
               onChange={value =>
                 setShippingInfo({
                   ...shippingInfo,
@@ -242,6 +253,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <Input
               placeholder="Email"
               type="email"
+              clearable={false}
               className={s.CheckoutModal_input}
               value={shippingInfo.email}
               onChange={value =>
@@ -253,6 +265,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               required
             />
             <Input
+              clearable={false}
               placeholder="Street address"
               className={s.CheckoutModal_input}
               value={shippingInfo.address}
@@ -267,6 +280,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <Input
               placeholder="Apartment, suite, etc"
               className={s.CheckoutModal_input}
+              clearable={false}
               value={shippingInfo.address2}
               onChange={value =>
                 setShippingInfo({
@@ -278,6 +292,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
             <div className={s.CheckoutModal_regionGroup}>
               <Input
                 placeholder="City"
+                clearable={false}
                 value={shippingInfo.city}
                 onChange={value =>
                   setShippingInfo({
@@ -292,7 +307,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                   values={selectedState ? [selectedState] : []}
                   options={StateOfUS}
                   labelField="value"
-                  valueField="key"
+                  valueField="value"
                   placeholder="State"
                   onChange={value =>
                     setShippingInfo({
@@ -306,6 +321,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
                 <Input
                   placeholder="State"
                   value={shippingInfo.state}
+                  clearable={false}
                   onChange={value =>
                     setShippingInfo({
                       ...shippingInfo,
@@ -318,6 +334,7 @@ const CheckoutModal: React.FC = (): JSX.Element => {
               <Input
                 placeholder="Zip code"
                 value={shippingInfo.zip}
+                clearable={false}
                 onChange={value =>
                   setShippingInfo({
                     ...shippingInfo,

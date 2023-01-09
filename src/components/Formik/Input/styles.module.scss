@@ -1,0 +1,64 @@
+@import "src/styles/_themes/mixins";
+
+.wrapper {
+  label {
+    text-transform: uppercase;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .input {
+    display: flex;
+    padding: 11px 16px;
+    align-items: center;
+    gap: 11px;
+    border-radius: 8px;
+
+    input,
+    textarea {
+      flex: 1;
+      background-color: transparent;
+      color: $black-100;
+
+      &::placeholder {
+        color: $black-40;
+        font-weight: 500;
+        opacity: 1;
+      }
+    }
+
+    &:has(textarea) {
+      min-width: rem(436);
+
+      textarea {
+        min-height: rem(126);
+        resize: none;
+        outline: none;
+      }
+    }
+  }
+
+  &.filled {
+    .input {
+      background-color: #f8f8f8;
+    }
+  }
+
+  &.default {
+    color: $black-40;
+  }
+
+  &.error {
+    color: $secondary-red;
+
+    .input {
+      background-color: rgb(255 71 71 / 10%);
+
+      input {
+        color: inherit;
+      }
+    }
+  }
+}

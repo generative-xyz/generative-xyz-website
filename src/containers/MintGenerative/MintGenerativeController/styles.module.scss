@@ -1,11 +1,18 @@
 .mintGenerative {
   padding-top: 60px;
-  padding-bottom: 112px;
-  max-width: 1016px;
-  margin: 0 auto;
+  padding-bottom: 152px;
+
+  &__success {
+    background-position: center;
+    background-size: 100%;
+  }
 
   .stepHeaderWrapper {
     margin-bottom: 50px;
+
+    &__hide {
+      visibility: hidden;
+    }
   }
 
   .previewWrapper {

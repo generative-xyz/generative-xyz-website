@@ -1,0 +1,95 @@
+.marketplace {
+  background: #0F0F11;
+  padding: {
+    top: rem(80px);
+    bottom: rem(80px);
+  }
+  @include min-tablet{
+    padding: {
+      top: 0;
+      bottom: rem(145px);
+    }
+  }
+
+  &_card {
+    position: relative;
+
+    .layer {
+
+      img {
+        object-fit: contain;
+      }
+
+      &__1 {
+        img {
+          @include min-tablet {
+            width: rem(780px);
+            height: rem(846px);
+          }
+
+          &:not(:nth-child(2)) {
+
+            display: none;
+            @include min-tablet {
+              display: block;
+            }
+
+          }
+
+          &:nth-child(2) {
+
+            display: block;
+            width: 100%;
+            height: auto;
+
+            @include min-tablet {
+              display: none;
+            }
+          }
+
+        }
+      }
+
+      &__2, &__3 {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        display: none;
+        @include min-tablet {
+          display: block;
+        }
+
+        img {
+          width: rem(570px);
+          height: rem(508px);
+        }
+      }
+
+      &__2 {
+        right: rem(80px);
+        top: rem(80px);
+      }
+    }
+  }
+
+  &_content {
+
+    padding-top: rem(32px);
+    @include min-tablet{
+      padding-top: 0;
+    }
+    button {
+      width: 100%;
+      justify-content: center;
+      @include min-tablet {
+        width: auto;
+        justify-content: left;
+      }
+
+      svg path {
+        stroke: $primary-brand;
+      }
+    }
+  }
+}

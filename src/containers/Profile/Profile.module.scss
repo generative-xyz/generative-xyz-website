@@ -1,0 +1,46 @@
+.tabs {
+  --bs-nav-tabs-border-width: 0;
+  --bs-nav-tabs-border-color: transparent;
+  --bs-nav-tabs-border-radius: transparent;
+  --bs-nav-tabs-link-hover-border-color: transparent transparent transparent;
+  --bs-nav-tabs-link-active-color: $primary-brand;
+  --bs-nav-tabs-link-active-bg: transparent;
+  --bs-nav-tabs-link-active-border-color: transparent transparent transparent;
+  border-bottom: 1px solid $black-10;
+
+  :global(.active) {
+    &:after {
+      width: 100%;
+    }
+  }
+}
+
+.tab {
+
+  font-style: normal;
+  font-weight: 700;
+
+  font-size: rem(18px);
+  line-height: (28/18);
+
+  @include min-pc {
+    font-size: calc-auto(1200px, 1920px, 16px, 18px);
+  }
+
+  @include min-pc-wide {
+    font-size: rem(18px);
+  }
+
+  position: relative;
+
+  &:after {
+    content: '';
+    display: block;
+    border-bottom: 2px solid $primary-brand;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    transform: translateX(-50%);
+  }
+}

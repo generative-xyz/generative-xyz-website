@@ -6,8 +6,8 @@ export const isOpenWalletSettingSelector = (state: RootState): boolean =>
 export const isOpenCheckoutPopupSelector = (state: RootState): boolean =>
   state.general.isOpenCheckoutPopup;
 
-export const checkoutProductId = (state: RootState): string =>
-  state.general.checkoutProductId;
+export const checkoutProduct = (state: RootState): any =>
+  state.general.checkoutProduct;
 
 export const animationRegister = (state: RootState): number =>
   state.general.animationRegister;
@@ -17,3 +17,6 @@ export const pageLoadStatus = (state: RootState): string =>
 
 export const disabledMenuSelector = (state: RootState): boolean =>
   state.general.disabledMenu;
+
+export const isScrollingSelector = (state: RootState): boolean =>
+  state.general.isScrolling;

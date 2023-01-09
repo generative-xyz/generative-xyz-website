@@ -1,0 +1,23 @@
+.error404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - #{rem(260px)});
+
+  &_heading{
+    margin-bottom: rem(16px);
+  }
+
+  &_inner {
+    width: rem(720px);
+    text-align: center;
+  }
+
+  &_ctas {
+    display: flex;
+    gap: rem(10px);
+    align-items: center;
+    justify-content: center;
+    margin-top: rem(24px);
+  }
+}

@@ -1,0 +1,28 @@
+.wrapper {
+  margin-bottom: rem(92px);
+}
+
+.tabs {
+  border-bottom: 1px solid $black-20;
+  margin-bottom: rem(32px);
+  display: flex;
+  gap: rem(48px);
+}
+
+.tab {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  border: none !important;
+  letter-spacing: -0.01em;
+  color: $black-40;
+  padding: 10px 0 !important;
+
+  &:hover {
+    color: $black-100;
+  }
+
+  &:global(.active) {
+    border-bottom: 2px solid $black-100 !important;
+  }
+}

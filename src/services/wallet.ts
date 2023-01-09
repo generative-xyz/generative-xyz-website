@@ -20,6 +20,7 @@ import {
   WalletOperationReturn,
 } from '@interfaces/wallet';
 import { WalletError, WalletErrorCode } from '@enums/wallet-error';
+import BN from 'bn.js';
 
 const LOG_PREFIX = 'WalletManager';
 
@@ -134,6 +135,32 @@ export class WalletManager {
     }
   }
 
+  async balanceOf(
+    walletAddress: string
+  ): Promise<WalletOperationReturn<string | null>> {
+    const balance = await this.getWeb3Provider().eth.getBalance(walletAddress);
+    return {
+      isError: false,
+      isSuccess: true,
+      message: '',
+      data: balance,
+    };
+  }
+
+  async checkInsufficient(
+    walletAddress: string,
+    erc20: string,
+    fee: string
+  ): Promise<boolean> {
+    const balance = await this.balanceOf(walletAddress);
+    if (balance.data) {
+      if (new BN(balance.data).cmp(new BN(fee)) == -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   async signMessage(
     message: string,
     walletAddress: string
@@ -180,10 +207,11 @@ export class WalletManager {
         });
       } catch (err: unknown) {
         log(err as Error, LogLevel.Error, LOG_PREFIX);
-        this.requestAddChain(chainID);
 
         if ((err as ProviderRpcError).code !== WalletErrorCode.USER_REJECTED) {
           this.requestAddChain(chainID);
+        } else {
+          throw err;
         }
       }
 

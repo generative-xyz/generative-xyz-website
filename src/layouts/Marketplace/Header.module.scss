@@ -1,24 +1,146 @@
+@import 'src/styles/_themes/mixins';
+
 .header {
+  &.dark {
+    background: $primary-brand;
+
+    :global(.divider) {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .headerWrapper {
+      .username {
+        color: $white-100;
+      }
+
+      .price {
+        color: $white-80;
+      }
+
+      .caret_icon {
+        filter: brightness(0) invert(1);
+      }
+
+      .dropdown {
+        :global(.dropdown-item) {
+          background-color: $black-100;
+          color: $white-40;
+
+          &:hover {
+            background-color: #000;
+            color: $white-100;
+          }
+        }
+      }
+    }
+  }
+
+  &_logo {
+    border-radius: 4px;
+    width: 42px;
+    height: 42px;
+    @include min-tablet {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
   .headerWrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: rem(8px) 0;
+
 
     a {
       text-decoration: none;
-      color: var(--text-primary);
     }
 
     .navBar {
-      display: flex;
-      gap: 24px;
-      margin-left: 24px;
+
       margin-bottom: 0;
       padding: 0;
-    }
-  }
+      text-transform: uppercase;
+      display: none;
+      flex-wrap: wrap;
+      font-weight: 600;
+      color: $black-40;
 
-  .userAddress {
-    margin-bottom: 0;
+      @include min-tablet {
+        display: flex;
+        gap: rem(24px);
+        font-size: rem(16px);
+        line-height: rem(26px);
+        margin-left: rem(60px);
+      }
+
+      li {
+        @include mobile {
+          flex: 0 0 100%;
+          width: 100%;
+        }
+      }
+
+      a {
+        @include mobile {
+          text-align: center;
+          display: block;
+        }
+      }
+
+      .active,
+      a:hover {
+        transition: all 0.3s;
+        color: $black-100;
+      }
+
+      &.dark {
+        color: rgba($white, 0.4);
+
+        .active,
+        a:hover {
+          transition: all 0.3s;
+          color: $white;
+        }
+      }
+    }
+
+    .username {
+      display: none;
+      @include min-tablet {
+        display: flex;
+      }
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+
+      p {
+        @include text-ellipsis;
+        max-width: 150px;
+        line-height: 24px;
+      }
+    }
+
+    .price {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: $black-60;
+    }
+
+    .dropdown {
+      border-radius: 8px;
+      border: 2px solid $black-10;
+      overflow: hidden;
+      width: rem(188);
+      box-shadow: 8px 7px 24px 0 #00000026;
+      position: absolute;
+      right: 0;
+      transform: translateY(11px);
+      transition: all 0.2s;
+      z-index: 10;
+    }
   }
 }

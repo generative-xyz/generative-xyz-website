@@ -1,0 +1,21 @@
+@keyframes loading {
+  to {
+    background-position-x: -20%;
+  }
+}
+
+.skeleton {
+  border-radius: 6px;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0%) 40%,
+      rgb(255 255 255 / 50%) 50%,
+      rgb(255 255 255 / 0%) 60%
+    )
+    $black-5;
+  background-size: 200% 100%;
+  background-position-x: 180%;
+  background-color: $black-5;
+  animation: 2s loading ease-in-out infinite;
+}

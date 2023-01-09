@@ -1,0 +1,200 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.benchmark {
+  &:not(:last-child) {
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
+  }
+
+  padding-bottom: rem(24px);
+  margin-bottom: rem(24px);
+
+  @include min-pc {
+    padding-bottom: calc-auto(1200px, 1920px, 30px, 48px);
+    margin-bottom: calc-auto(1200px, 1920px, 30px, 48px);
+  }
+
+  &_header {
+    display: flex;
+    margin-bottom: rem(16px);
+    align-items: center;
+
+    @include tablet {
+      margin-bottom: rem(20px);
+    }
+
+    @include min-pc {
+      margin-bottom: rem(20px);
+    }
+  }
+
+  &_heading {
+    color: #fff;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%;
+    display: flex;
+    font-size: rem(16px);
+
+    @include tablet {
+      font-size: rem(24px);
+    }
+
+    @include min-pc {
+      font-size: calc-auto(1200px, 1920px, 16px, 24px);
+    }
+
+    &_tool {
+      display: flex;
+      gap: rem(6px);
+      align-items: center;
+      margin-left: rem(12px);
+      padding-left: rem(12px);
+      color: $white;
+      font-weight: 700;
+      position: relative;
+
+      &::before {
+        content: "";
+        border-left: 1px solid rgba($white, 0.2);
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0.1em;
+        height: 16px;
+
+        @include min-pc {
+          height: calc-auto(1200px, 1920px, 14px, 20px);
+        }
+      }
+
+      font-size: rem(14);
+
+      @include tablet {
+        font-size: rem(20px);
+      }
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 14px, 20px);
+      }
+
+      img {
+        aspect-ratio: 1/1;
+        transform: translateY(-0.1em);
+
+        @include min-pc {
+          height: auto;
+          width: calc-auto(1200px, 1920px, 20px, 24px);
+        }
+      }
+    }
+  }
+
+  &_target {
+    margin-bottom: rem(12px);
+
+    &_title {
+      font-family: $font-paragraph;
+      font-weight: 700;
+      line-height: 140%;
+      color: #fff;
+      font-size: rem(12px);
+
+      @include tablet {
+        font-size: rem(16px);
+      }
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 12px, 16px);
+      }
+
+      &__target1 {
+        margin-top: rem(-4px);
+
+        @include tablet {
+          margin-top: rem(-10px);
+        }
+
+        @include min-pc {
+          margin-top: rem(-12px);
+        }
+      }
+    }
+  }
+
+  &_val {
+    display: flex;
+    align-items: center;
+    gap: rem(24px);
+
+    &_border {
+      flex: 1;
+
+      &__target2 {
+        flex: 0 0 auto;
+
+        .benchmark_val_border_span {
+          width: 100%;
+          background: rgb(255 255 255 / 80%);
+          border-radius: 100px;
+          transform: rotate(180deg);
+        }
+      }
+
+      &_span {
+        display: block;
+        height: 8px;
+        width: 0;
+
+        &__yellow {
+          background: linear-gradient(90deg, #e65c00 0%, #f9d423 100%);
+          border-radius: 100px;
+          transform: rotate(180deg);
+        }
+
+        &__blue {
+          background: linear-gradient(90deg, #5433ff 0%, #20bdff 50%, #a5fecb 100%);
+          border-radius: 100px;
+          transform: rotate(180deg);
+        }
+
+        &__depBlue {
+          background: linear-gradient(90deg, #da22ff 0%, #9733ee 100%);
+          border-radius: 100px;
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    &_value {
+      flex: 0 0 auto;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 140%;
+      color: #fff;
+      font-family: $font-paragraph;
+      font-size: rem(20px);
+
+      @include tablet {
+        font-size: rem(40px);
+      }
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 26px, 40px);
+      }
+
+      &__target2 {
+        color: rgb(255 255 255 / 80%);
+        font-size: rem(14px);
+
+        @include tablet {
+          font-size: rem(28px);
+        }
+
+        @include min-pc {
+          font-size: calc-auto(1200px, 1920px, 20px, 28px);
+        }
+      }
+    }
+  }
+}

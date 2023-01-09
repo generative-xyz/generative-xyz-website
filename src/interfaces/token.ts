@@ -1,5 +1,5 @@
 import { User } from '@interfaces/user';
-import { IProjectDetail } from '@interfaces/api/project';
+import { Project } from './project';
 
 export type TokenAttribute = {
   trait_type: string;
@@ -14,7 +14,23 @@ export type Token = {
   attributes: Array<TokenAttribute>;
   genNFTAddr: string;
   owner: User;
-  ownerAddress: string;
-  project: IProjectDetail;
+  project: Project;
   mintedTime: string;
+  creatorProfile?: User;
+  ownerAddr: string;
+  creator: User;
+  tokenID: string;
+};
+
+export type TokenOffer = {
+  offeringID: string;
+  price: string;
+  seller?: string;
+  closed: boolean;
+  collectionContract: string;
+  erc20Token: string;
+  finished: boolean;
+  durationTime: number;
+  token?: Token;
+  buyer?: string;
 };

@@ -1,0 +1,111 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.monitor {
+  color: $neutral-08;
+
+  &_video {
+    display: block;
+    aspect-ratio: 16/9;
+    width: 100%;
+
+    @include min-pc {
+      display: none;
+    }
+  }
+
+  &_inner {
+    display: flex;
+
+    p {
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+  }
+
+  &_info {
+    &_label {
+      margin-bottom: rem(4px);
+    }
+
+    &_heading {
+      margin-bottom: rem(24px);
+    }
+  }
+
+  &_detail {
+
+    margin-top: rem(35px);
+    margin-bottom: rem(32px);
+
+    @include min-pc {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    &_item_desc {
+
+      font-size: rem(16px);
+
+      @include tablet {
+        font-size: rem(20px);
+      }
+
+      @include min-pc {
+        font-size: calc-auto(1200px, 1920px, 14px, 20px);
+      }
+    }
+
+    &_item_icon {
+      transform: translateY(0.2em);
+      display: block;
+
+      img, svg {
+
+        display: block;
+
+        width: rem(24);
+        height: rem(24);
+
+        @include tablet {
+          width: rem(32);
+          height: rem(32);
+        }
+
+        @include min-pc {
+          width: calc-auto(1200px, 1920px, 20px, 32px);
+          height: calc-auto(1200px, 1920px, 20px, 32px);
+        }
+      }
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: rem(16px);
+
+      @include min-pc {
+        gap: var(--spacing-sx);
+      }
+
+      li {
+
+        @include min-pc {
+          flex: 0 0 calc(50% - var(--spacing-sx));
+          width: calc(50% - var(--spacing-sx));
+        }
+
+        display: flex;
+        gap: rem(16px);
+        align-items: center;
+
+        :global(.desc__body){
+          @include max-tablet{
+            font-size: rem(20px);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,135 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.hardWare {
+  overflow: hidden;
+
+  &_info {
+    color: $neutral-08;
+
+    &_sectionInfo_content {
+      color: $neutral-06;
+    }
+  }
+
+  &_content {
+    background: $neutral-02;
+    transition: background-color 0.4s $easeOutCubic;
+
+    &_detail {
+      padding-top: rem(40px);
+
+      @include tablet {
+        padding-top: rem(68px);
+      }
+
+      @include min-pc {
+        position: relative;
+        z-index: 2;
+        height: 100vh;
+        padding-top: var(--spacing-medium);
+
+        &::before {
+          content: "";
+          display: block;
+          width: 100%;
+          height: vh(350px);
+          background-image: linear-gradient($neutral-02, rgba($neutral-02, 0));
+          transition: background-image 0.4s $easeOutCubic;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 2;
+        }
+
+        &_inner {
+          margin-bottom: var(--spacing-small);
+          position: relative;
+          z-index: 3;
+        }
+      }
+
+      &_display {
+        @include min-pc {
+          opacity: 0;
+        }
+      }
+
+      &_cpu {
+        margin-top: rem(80px);
+
+        @include min-pc {
+          margin-top: 0;
+          padding-bottom: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          opacity: 0;
+        }
+      }
+    }
+
+    &_frames {
+      display: none;
+
+      @include min-pc {
+        display: block;
+      }
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &.is-white {
+    .hardWare {
+      &_content {
+        background: $neutral-08;
+
+        &_detail {
+          &::before {
+            background-image: linear-gradient($neutral-08, rgba($neutral-08, 0));
+          }
+
+          :global(.heading__medium),
+          :global(.desc__small) {
+            color: $white;
+          }
+
+          :global(.desc__medium),
+          :global(.text__black) {
+            color: rgb(255 255 255 / 80%) !important;
+          }
+
+          path {
+            stroke: white;
+          }
+        }
+      }
+    }
+  }
+
+  &_benchmark {
+    padding-top: var(--spacing-supper);
+    padding-bottom: var(--spacing-medium);
+    background-color: $neutral-08;
+
+    &_header {
+      text-align: center;
+      margin-bottom: var(--spacing-small);
+
+      h3 {
+        color: $white;
+        margin-bottom: rem(24px);
+      }
+
+      p {
+        color: rgb(255 255 255 / 80%);
+      }
+    }
+  }
+}

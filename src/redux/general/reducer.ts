@@ -5,17 +5,19 @@ import {
   setIsOpenCheckoutPopup,
   setIsOpenWalletSetting,
   setPageLoadStatus,
-  setCheckoutProductId,
+  setCheckoutProduct,
+  setIsScrolling,
 } from './action';
 import { PAGE_LOADING } from '@constants/common';
 
 const initialState = {
   isOpenWalletSetting: false,
   isOpenCheckoutPopup: false,
-  checkoutProductId: '',
+  checkoutProduct: {},
   animationRegister: 0,
   pageLoadStatus: PAGE_LOADING,
   disabledMenu: false,
+  isScrolling: false,
 };
 
 const general = createReducer(initialState, builder => {
@@ -26,8 +28,8 @@ const general = createReducer(initialState, builder => {
     .addCase(setIsOpenCheckoutPopup, (state, action) => {
       state.isOpenCheckoutPopup = action.payload;
     })
-    .addCase(setCheckoutProductId, (state, action) => {
-      state.checkoutProductId = action.payload;
+    .addCase(setCheckoutProduct, (state, action) => {
+      state.checkoutProduct = action.payload;
     })
     .addCase(setAnimationRegister, (state, action) => {
       state.animationRegister = action.payload;
@@ -37,6 +39,9 @@ const general = createReducer(initialState, builder => {
     })
     .addCase(setDisabledMenu, (state, action) => {
       state.disabledMenu = action.payload;
+    })
+    .addCase(setIsScrolling, (state, action) => {
+      state.isScrolling = action.payload;
     });
 });
 

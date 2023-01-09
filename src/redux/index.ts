@@ -5,10 +5,12 @@ import { combineReducers } from 'redux';
 // Slices
 import userReducer from '@redux/user/reducer';
 import generalReducer from '@redux/general/reducer';
+import projectReducer from '@redux/project/reducer';
 
 const reducer = combineReducers({
   user: userReducer,
   general: generalReducer,
+  project: projectReducer,
 });
 
 const store = configureStore({

@@ -1,0 +1,10 @@
+@import "src/styles/_themes/mixins";
+
+
+.footer {
+  &_content_logo{
+    img{
+      border-radius: 4px;
+    }
+  }
+}

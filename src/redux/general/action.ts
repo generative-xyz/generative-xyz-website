@@ -8,8 +8,8 @@ export const setIsOpenCheckoutPopup = createAction<boolean>(
   'general/setIsOpenCheckoutPopup'
 );
 
-export const setCheckoutProductId = createAction<string>(
-  'general/setCheckoutProductId'
+export const setCheckoutProduct = createAction<IFrame>(
+  'general/setCheckoutProduct'
 );
 
 export const setAnimationRegister = createAction<number>(
@@ -21,3 +21,5 @@ export const setPageLoadStatus = createAction<string>(
 );
 
 export const setDisabledMenu = createAction<boolean>('general/setDisabledMenu');
+
+export const setIsScrolling = createAction<boolean>('general/setIsScrolling');

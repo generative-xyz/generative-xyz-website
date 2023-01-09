@@ -1,0 +1,28 @@
+.empty {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  padding-top: rem(150px);
+  padding-bottom: rem(150px);
+
+  &_inner {
+    width: rem(325px);
+  }
+
+  &_thumb {
+    display: flex;
+    justify-content: center;
+  }
+
+  &_desc{
+    margin-top: rem(32px);
+    margin-bottom: rem(32px);
+    font-style: normal;
+    font-weight: 600;
+    font-size: rem(24px);
+    line-height: rem(34px);
+    color: $black-40;
+
+  }
+}

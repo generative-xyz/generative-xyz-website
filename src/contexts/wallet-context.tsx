@@ -15,6 +15,7 @@ import { resetUser, setUser } from '@redux/user/action';
 import { WalletError } from '@enums/wallet-error';
 import { clearAuthStorage, setAccessToken } from '@utils/auth';
 import { getProfile } from '@services/profile';
+import { NETWORK_CHAIN_ID } from '@constants/config';
 
 const LOG_PREFIX = 'WalletContext';
 
@@ -137,6 +138,15 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
       const walletRes = await wallet.connect();
       if (!walletRes.isSuccess || !walletRes.data) {
         throw Error(walletRes.message);
+      }
+
+      try {
+        await checkAndSwitchChain({
+          chainID: NETWORK_CHAIN_ID,
+        });
+      } catch (err: unknown) {
+        log('failed to switch chain', LogLevel.Error, LOG_PREFIX);
+        throw Error(WalletError.FAILED_SWITCH_CHAIN);
       }
 
       const walletAddress = walletRes.data;

@@ -1,6 +1,7 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import Avatar from '@components/Avatar';
+import { convertIpfsToHttp } from '@utils/image';
+import { CSSProperties, ReactNode } from 'react';
 import styles from './styles.module.scss';
-import Image from 'next/image';
 
 type Props = {
   imgSrc: string;
@@ -8,6 +9,8 @@ type Props = {
   width?: number;
   height?: number;
   wrapperStyle?: CSSProperties;
+  onClick?: () => void;
+  theme?: 'light' | 'dark';
 };
 
 const AvatarInfo = ({
@@ -16,15 +19,21 @@ const AvatarInfo = ({
   width = 56,
   height = 56,
   wrapperStyle,
+  onClick,
+  theme = 'light',
 }: Props) => {
   return (
-    <div className="horizontalStack" style={wrapperStyle}>
-      <div className={styles.avatar}>
-        {imgSrc ? (
-          <Image src={imgSrc} alt="user avatar" width={width} height={height} />
-        ) : (
-          <div className={styles.defaultAvatar} style={{ width, height }}></div>
-        )}
+    <div
+      className={`horizontalStack ${styles[theme]}`}
+      style={wrapperStyle}
+      onClick={onClick}
+    >
+      <div className={`${styles.avatar}`}>
+        <Avatar
+          imgSrcs={convertIpfsToHttp(imgSrc)}
+          width={width}
+          height={height}
+        />
       </div>
       {leftContent && <div className={styles.address}>{leftContent}</div>}
     </div>

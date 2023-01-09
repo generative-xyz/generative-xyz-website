@@ -1,71 +1,26 @@
 import { IPagingParams, IPagingResponse } from '@interfaces/paging';
-import { RawTokenAttributes } from '@interfaces/sandbox';
-
+import { Project } from '@interfaces/project';
+import { Token } from '@interfaces/token';
 export interface IGetProjectDetailParams {
   contractAddress: string;
   projectID: string;
 }
 
-export interface IProjectSocial {
-  Web: string;
-  Twitter: string;
-  Discord: string;
-  Medium: string;
-  Instagram: string;
-}
+export type IGetProjectDetailResponse = Project;
 
-export interface IProjectDetail {
-  id: string;
-  maxSupply: number;
-  limit: number;
-  mintPrice: string;
-  mintPriceAddr: string;
-  name: string;
-  creator: string;
-  creatorAddr: string;
-  license: string;
-  desc: string;
-  image: string;
-  scriptType: string[];
-  social: IProjectSocial;
-  scripts: string[];
-  styles: string;
-  completeTime: number;
-  genNFTAddr: string;
-  itemDesc: string;
-  status: boolean;
-  nftTokenURI: string;
-  projectURI: string;
-  royalty?: number;
-  tokenID: string;
-  mintingInfo: {
-    index: number;
-    indexReserve: number;
-  };
-}
-
-export type IGetProjectDetailResponse = IProjectDetail;
-
-export interface IGetProjectItemsParams extends IPagingParams {
+export interface IGetProjectItemsParams {
   contractAddress: string;
 }
-
-export interface IProjectItem {
-  owner: IProjectItemOwner;
-  name: string;
-  description?: string;
-  image: string;
-  animation_url?: string;
-  attributes: RawTokenAttributes;
-}
-
-export interface IProjectItemOwner {
-  name: string;
-  avatar: string;
+export interface IGetProjectItemsQuery extends IPagingParams {
+  name?: string;
+  sort?: string;
+  attributes?: string[];
+  minPrice?: string;
+  maxPrice?: string;
 }
 
 export interface IGetProjectItemsResponse extends IPagingResponse {
-  result: IProjectItem[];
+  result: Token[];
 }
 
 export interface ICreateProjectMetadataPayload {
@@ -82,5 +37,5 @@ export interface IGetProjectListParams extends IPagingParams {
 }
 
 export interface IGetProjectListResponse extends IPagingResponse {
-  result: Array<IProjectDetail>;
+  result: Array<Project>;
 }

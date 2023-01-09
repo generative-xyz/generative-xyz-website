@@ -1,0 +1,24 @@
+.avatarStack {
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  > div {
+    position: absolute;
+    top: 0;
+  }
+
+  > div:nth-child(1) {
+    z-index: 1;
+  }
+
+  > div:nth-child(2) {
+    z-index: 2;
+    transform: translateX(55%);
+  }
+
+  > div:nth-child(3) {
+    transform: translateX(110%);
+    z-index: 10;
+  }
+}

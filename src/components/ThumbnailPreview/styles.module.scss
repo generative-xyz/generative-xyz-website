@@ -1,0 +1,65 @@
+.wrapper {
+  flex: 1;
+  position: relative;
+  margin-left: rem(60px);
+}
+
+.sandboxContainer {
+  width: 100%;
+  height: 100%;
+
+  iframe canvas {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.actionButtons {
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.sandboxWrapper {
+  position: relative;
+  aspect-ratio: 1283 / 722;
+
+  .sandboxContent {
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+}
+
+.actionBtn {
+  border-radius: 50% !important;
+  border-color: $black-10 !important;
+  background-color: #fff !important;
+}
+
+.sandboxControls {
+  display: flex;
+  align-items: center;
+  gap: rem(10px);
+}
+
+.actionWrapper {
+  position: absolute;
+  bottom: rem(32px);
+  right: rem(32px);
+}
+
+.thumbnail_image {
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 100%;
+
+  > img {
+    width: fit-content !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+  }
+}

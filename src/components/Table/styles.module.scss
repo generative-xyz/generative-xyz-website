@@ -1,0 +1,35 @@
+.wrapper {
+}
+
+.table {
+  position: relative;
+
+  .tableHead {
+    border-bottom: 1px solid $black-10;
+
+    &_item {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: rem(24px);
+      color: $black-40;
+    }
+  }
+
+  .tableData {
+    border-bottom: 1px solid $black-10;
+    &:hover {
+      background-color: $primary-light;
+    }
+    &_item {
+      padding-top: rem(20px);
+      padding-bottom: rem(20px);
+      color: $primary-333;
+      font-size: rem(18px);
+      line-height: rem(28px);
+      font-weight: 600;
+    }
+  }
+
+  .tableLoading {
+  }
+}

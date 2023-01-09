@@ -20,14 +20,17 @@ interface IProps {
   rawHtml: string | null;
   hash: string | null;
   onLoaded?: () => void;
+  showIframe?: boolean;
 }
 
 const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
   (props: IProps, ref: ForwardedRef<ISandboxRef>) => {
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const workerReg = useRef<ServiceWorkerRegistration | null>(null);
-    const { sandboxFiles, rawHtml, hash, onLoaded } = props;
+    const { sandboxFiles, rawHtml, hash, onLoaded, showIframe = true } = props;
     const [id, setId] = useState<string>('0');
+    const [workerIns, setWorkerIns] =
+      useState<ServiceWorkerRegistration | null>(null);
 
     const reloadIframe = () => {
       if (iframeRef.current) {
@@ -53,6 +56,7 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
           })
           .then(reg => {
             workerReg.current = reg;
+            setWorkerIns(reg);
           })
           .catch((err: Error) => {
             log(err, LogLevel.Error, LOG_PREFIX);
@@ -91,7 +95,7 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
 
         setId(id);
       }
-    }, [sandboxFiles]);
+    }, [sandboxFiles, workerIns]);
 
     useAsyncEffect(async () => {
       if (rawHtml && workerReg.current) {
@@ -124,23 +128,26 @@ const SandboxPreview = React.forwardRef<ISandboxRef, IProps>(
 
         setId(id);
       }
-    }, [rawHtml]);
+    }, [rawHtml, workerIns]);
 
     useEffect(() => {
-      if (iframeRef.current && id !== '0') {
+      if (iframeRef.current && id !== '0' && showIframe === true) {
         const previewUrl = `${location.origin}/sandbox/preview.html?id=${id}&seed=${hash}`;
         iframeRef.current.src = previewUrl;
       }
-    }, [id, hash]);
+    }, [id, hash, showIframe]);
 
     return (
       <div className={s.sandboxPreview}>
-        <iframe
-          ref={iframeRef}
-          sandbox="allow-scripts allow-same-origin"
-          className={s.iframeContainer}
-          onLoad={onLoaded}
-        />
+        {showIframe && (
+          <iframe
+            ref={iframeRef}
+            sandbox="allow-scripts allow-same-origin"
+            className={s.iframeContainer}
+            onLoad={onLoaded}
+            style={{ overflow: 'hidden' }}
+          />
+        )}
       </div>
     );
   }

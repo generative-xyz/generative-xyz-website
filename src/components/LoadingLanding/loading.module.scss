@@ -1,0 +1,44 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &_inner {
+    text-align: center;
+  }
+
+  img {
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  h5,
+  span {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 24px;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: $neutral-08;
+    display: block;
+  }
+
+  h5 {
+    margin-bottom: 24px;
+  }
+
+  span {
+    font-size: 16px !important;
+  }
+}

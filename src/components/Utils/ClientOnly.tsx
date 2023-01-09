@@ -11,7 +11,16 @@ const ClientOnly: React.FC<PropsWithChildren> = (
     return <></>;
   }
 
-  return <div {...delegatedProps}>{children}</div>;
+  const childrenWithProps = React.Children.map(children, child => {
+    // Checking isValidElement is the safe way and avoids a
+    // typescript error too.
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { ...delegatedProps });
+    }
+    return child;
+  });
+
+  return <>{childrenWithProps}</>;
 };
 
 export default ClientOnly;

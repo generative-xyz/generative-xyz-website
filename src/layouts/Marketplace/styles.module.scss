@@ -1,14 +1,4 @@
-.wrapper {
-  min-height: calc(100vh - 20px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  main {
-    flex: 1;
-    margin-top: 32px;
-  }
-}
+@import 'src/styles/_themes/mixins';
 
 header {
   .headerWrapper {
@@ -32,6 +22,111 @@ header {
       margin-left: 24px;
       margin-bottom: 0;
       padding: 0;
+    }
+  }
+}
+
+.footer {
+
+  border: 1px solid $black-10;
+  background-color: $primary-brand;
+  color: $white-100;
+  display: grid;
+  place-items: center;
+
+  padding-top: rem(60px);
+  padding-bottom: rem(60px);
+
+  &.isFixed{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  &_content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(40px);
+
+    &_logo {
+      flex: 0 0 100%;
+      width: 100%;
+      text-align: center;
+      @include min-tablet {
+        flex: 0 0 auto;
+        width: auto;
+      }
+
+      img {
+        border-radius: 4px;
+        display: inline-block;
+      }
+    }
+  }
+
+  &_bottomSocialItem {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba($white, .4);
+    transition: border-color 0.4s $easeOutCubic;
+
+    svg path {
+      transition: fill 0.4s $easeOutCubic;
+      fill: rgba($white, .4);
+    }
+
+    &:hover {
+      border: 1px solid $white;
+
+      path {
+        fill: $white;
+      }
+    }
+  }
+
+  &_info {
+    position: relative;
+
+
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: center;
+    @include min-tablet {
+      flex: 0 0 auto;
+      width: auto;
+      padding-right: rem(40px);
+      &:after {
+        content: '';
+        position: absolute;
+        display: block;
+        height: rem(60px);
+        border-right: 2px solid rgba($white, .2);
+        right: 0;
+        top: 0;
+      }
+    }
+
+  }
+
+  &_contact{
+    @include mobile{
+      flex: 0 0 100%;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  &_socials {
+    display: flex;
+    margin-top: rem(10px);
+    gap: rem(6px);
+    justify-content: center;
+
+    @include min-tablet{
+      justify-content: flex-end;
     }
   }
 }

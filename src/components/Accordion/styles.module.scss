@@ -3,8 +3,49 @@
     border: none;
   }
 
-  .accordion-button {
-    padding: 0;
+  .accordion_item {
     border: none;
+  }
+
+  .accordion_header {
+    color: $black-60;
+
+    p {
+      text-transform: uppercase;
+    }
+
+    button {
+      padding: 0;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: transparent;
+      box-shadow: none;
+
+      &:focus {
+        box-shadow: none;
+        border-color: rgba(0, 0, 0, 0.125);
+      }
+
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  .accordion_icon {
+    width: rem(28px);
+    height: rem(28px);
+    background-color: $black-5;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+  }
+
+  .accordion_body {
+    padding: 0;
+    padding-top: rem(4px);
+    color: $black-100;
   }
 }

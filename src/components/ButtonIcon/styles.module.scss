@@ -1,12 +1,9 @@
 .button {
   cursor: pointer;
-  font-size: 12px;
-  line-height: 20px;
   letter-spacing: 0.1em;
-  font-weight: 800;
-  border-radius: 8px;
+  font-weight: 600;
+  border-radius: rem(2px);
   transition: all 0.2s;
-  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
 
@@ -14,103 +11,172 @@
     cursor: not-allowed;
   }
 
+  &.iconOnly {
+    justify-content: center;
+  }
+
   .icon * {
     width: 100%;
     height: 100%;
   }
 
+  /* Button font sizes */
+  &.large,
+  &.medium {
+
+    font-size: rem(16px);
+    line-height: (26/16);
+
+    @include min-pc {
+      font-size: calc-auto(1200px, 1920px, 12px, 16px);
+    }
+
+    @include min-pc-wide{
+      font-size: rem(16px);
+    }
+
+  }
+
+  &.small,
+  &.xsmall {
+
+    font-size: rem(14px);
+    line-height: (24/14);
+
+    @include min-pc {
+      font-size: calc-auto(1200px, 1920px, 12px, 14px);
+    }
+
+    @include min-pc-wide{
+      font-size: rem(14px);
+    }
+
+  }
+
   /* Button sizes */
   &.large {
-    padding: 14px 28px;
-    gap: 12px;
+    padding: rem(15px) rem(24px);
+    gap: rem(10px);
 
     &:has(.leftIcon) {
-      padding: 14px 28px 14px 18px;
+      padding-left: rem(20px);
     }
 
     &:has(.rightIcon) {
-      padding: 14px 18px 14px 28px;
+      padding-right: rem(20px);
     }
 
     &.iconOnly {
-      padding: 18px;
+      width: rem(56px);
+      height: rem(56px);
+      padding: 0;
     }
 
     .icon {
-      width: 20px;
-      height: 20px;
+      width: rem(20px);
+      height: rem(20px);
     }
   }
 
   &.medium {
-    padding: 14px 28px;
-    gap: 10px;
+    padding: rem(11px) rem(20px);
+    gap: rem(10px);
 
     &:has(.leftIcon) {
-      padding: 14px 28px 14px 18px;
+      padding-left: rem(16px);
     }
 
     &:has(.rightIcon) {
-      padding: 14px 18px 14px 28px;
+      padding-right: rem(16px);
     }
 
     &.iconOnly {
-      padding: 16px;
+      width: rem(48px);
+      height: rem(48px);
+      padding: 0;
     }
 
     .icon {
-      width: 15px;
-      height: 15px;
+      width: rem(15px);
+      height: rem(15px);
     }
   }
 
   &.small {
-    padding: 7px 16px;
-    gap: 9px;
+    padding: rem(5px) rem(14px);
+    gap: rem(7px);
 
     &:has(.leftIcon) {
-      padding: 7px 18px 7px 12px;
+      padding-left: rem(10px);
     }
 
     &:has(.rightIcon) {
-      padding: 7px 12px 7px 18px;
+      padding-right: rem(10px);
     }
 
     &.iconOnly {
-      padding: 8px;
+      width: rem(34px);
+      height: rem(34px);
+      padding: 0;
     }
 
     .icon {
-      width: 15px;
-      height: 15px;
+      width: rem(15px);
+      height: rem(15px);
+    }
+  }
+
+  &.mid {
+    padding: rem(5px) rem(14px);
+    gap: rem(7px);
+
+    &:has(.leftIcon) {
+      padding-left: rem(10px);
+    }
+
+    &:has(.rightIcon) {
+      padding-right: rem(10px);
+    }
+
+    &.iconOnly {
+      width: rem(40px);
+      height: rem(40px);
+      padding: 0;
+    }
+
+    .icon {
+      width: rem(15px);
+      height: rem(15px);
     }
   }
 
   &.xsmall {
-    padding: 5px 10px;
-    gap: 6px;
+    padding: rem(3px) rem(12px);
+    gap: rem(7px);
 
     &:has(.leftIcon) {
-      padding: 5px 10px 5px 6px;
+      padding-left: rem(8px);
     }
 
     &:has(.rightIcon) {
-      padding: 5px 6px 5px 10px;
+      padding-right: rem(8px);
     }
 
     &.iconOnly {
-      padding: 6px;
+      width: rem(30px);
+      height: rem(30px);
+      padding: 0;
     }
 
     .icon {
-      width: 13px;
-      height: 13px;
+      width: rem(13px);
+      height: rem(13px);
     }
   }
 
   /* Button variants */
 
-  &.default {
+  &.primary {
     background-color: $primary-brand;
     color: $white-100;
 
@@ -129,7 +195,7 @@
     color: $black-100;
 
     &:hover {
-      background-color: $black-10;
+      background-color: $white-100;
     }
 
     &:disabled {
@@ -140,8 +206,13 @@
 
   &.outline {
     background-color: transparent;
-    border: 2px solid $black-100;
+    border: 2px inset $black-100;
     color: $black-100;
+
+    &.medium {
+      padding-top: rem(9px);
+      padding-bottom: rem(9px);
+    }
 
     &:hover {
       border-color: $black-40;

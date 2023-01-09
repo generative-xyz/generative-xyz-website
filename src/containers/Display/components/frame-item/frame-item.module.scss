@@ -1,0 +1,146 @@
+@import "src/styles/_themes/variables";
+@import "src/styles/_themes/mixins";
+
+.frameItem {
+  text-align: center;
+  background-color: $neutral-02;
+  transition: background-color 0.4s $easeOutCubic;
+  cursor: pointer;
+  position: relative;
+  padding: rem(16px);
+
+  @include max-tablet {
+    margin-bottom: rem(16px);
+  }
+
+  @include tablet {
+    padding: rem(20px);
+  }
+
+  @include min-pc {
+    padding: rem(40px);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: transparent;
+
+      .frameItem_ctas {
+        opacity: 1;
+      }
+    }
+  }
+
+  &_img {
+    margin-bottom: rem(24px);
+    position: relative;
+  }
+
+  &_buy {
+    display: flex;
+    margin-top: var(--spacing-supper);
+
+    &_item {
+      background: $neutral-03;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: rem(100px);
+      cursor: pointer;
+      flex: 1;
+
+      :global(.desc__medium) {
+        margin-bottom: 4px;
+      }
+
+      p {
+        text-align: center;
+      }
+
+      * {
+        flex: 0 0 100%;
+      }
+
+      &_price {
+        height: rem(35px);
+      }
+    }
+
+    img {
+      aspect-ratio: 533/347;
+    }
+
+    :global(.image__fit) {
+      width: rem(533px);
+      margin-bottom: rem(20px);
+    }
+  }
+
+  &_ctas {
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: opacity 0.4s $easeOutCubic;
+
+    @include  min-pc{
+      position: absolute;
+      opacity: 0;
+      top: calc(100% - #{rem(25px)});
+    }
+
+    &__in {
+      @include max-tablet {
+        display: none;
+      }
+    }
+
+    &__out {
+      display: none;
+      position: relative;
+
+      @include max-tablet {
+        display: block;
+        opacity: 1;
+      }
+    }
+  }
+
+  &_uls {
+    text-align: center;
+
+    @include max-tablet {
+      margin-top: rem(20px);
+    }
+
+    li {
+      padding-top: rem(4px);
+      padding-bottom: rem(4px);
+    }
+
+    button {
+      width: 100%;
+
+      @include min-pc {
+        padding-left: rem(14px);
+        padding-right: rem(14px);
+        width: 168px;
+      }
+    }
+  }
+
+  :global(.desc__medium) {
+    font-size: 16px;
+    margin-bottom: rem(4px);
+
+    @include min-pc {
+      font-size: calc-auto(1200px, 1920px, 14px, 16px);
+    }
+  }
+
+  :global(.desc__large) {
+    font-weight: 600;
+  }
+}
