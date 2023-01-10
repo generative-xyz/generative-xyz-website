@@ -1,15 +1,13 @@
 import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
-import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/erc20.json';
 import { IApproveTokenAmountParams } from '@interfaces/contract-operations/approve-token-amount';
 import { ErrorMessage } from '@enums/error-message';
-import { MAX_HEX_VALUE } from '@constants/contract-address';
 
-class ApproveTokenAmountOperation extends ContractOperation<
+class GetAllowanceAmountOperation extends ContractOperation<
   IApproveTokenAmountParams,
-  TransactionReceipt
+  number
 > {
   contract: Contract | null = null;
 
@@ -20,22 +18,18 @@ class ApproveTokenAmountOperation extends ContractOperation<
     );
   }
 
-  async call(): Promise<TransactionReceipt> {
+  async call(): Promise<number> {
     if (!this.contract) {
       throw Error('Contract not found');
     }
 
-    const { consumerAddress, contractAddress } = this.params;
+    const { consumerAddress } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
 
     const data = await this.contract.methods
-      .approve(consumerAddress, MAX_HEX_VALUE)
-      .send({
-        from: walletAddress,
-        to: contractAddress,
-        value: '0',
-      });
+      .allowance(walletAddress, consumerAddress)
+      .call();
 
     return data;
   }
@@ -49,4 +43,4 @@ class ApproveTokenAmountOperation extends ContractOperation<
   }
 }
 
-export default ApproveTokenAmountOperation;
+export default GetAllowanceAmountOperation;

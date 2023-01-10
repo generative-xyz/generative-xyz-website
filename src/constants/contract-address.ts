@@ -12,4 +12,7 @@ export const ROOT_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export const WETH_ADDRESS = process.env.NEXT_PUBLIC_WETH_ADDRESS!;
 
+export const MAX_HEX_VALUE =
+  '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+
 /* eslint-enable @typescript-eslint/no-non-null-assertion */

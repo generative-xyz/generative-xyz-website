@@ -97,9 +97,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     router.push(`${ROUTE_PATH.PROFILE}`);
   };
 
-  const handleBuyToken = () => {
+  const handleBuyToken = async (): Promise<void> => {
     setIsBuying(true);
-    handlePurchaseToken(listingOffers[0]);
+    await handlePurchaseToken(listingOffers[0]);
     setIsBuying(false);
   };
 

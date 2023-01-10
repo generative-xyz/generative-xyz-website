@@ -1,24 +1,5 @@
 import { CDN_URL } from './config';
 
-export const MENUS: Array<{ title: string; url: string }> = [
-  // {
-  //   title: 'create',
-  //   url: '#',
-  // },
-  // {
-  //   title: 'algo',
-  //   url: '#',
-  // },
-  // {
-  //   title: 'hardware',
-  //   url: '/hardware',
-  // },
-  // {
-  //   title: 'app',
-  //   url: '#',
-  // },
-];
-
 export const LOGO_URL =
   'https://cdn.autonomous.ai/static/upload/images/common/upload/20221221/logo6cbc3e712f.svg';
 

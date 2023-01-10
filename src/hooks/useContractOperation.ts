@@ -12,6 +12,8 @@ import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { WalletError } from '@enums/wallet-error';
 import { METAMASK_DOWNLOAD_PAGE } from '@constants/common';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@redux/user/selector';
 
 const LOG_PREFIX = 'useContractOperation';
 
@@ -23,6 +25,7 @@ const useContractOperation = <
   requiredConnectWallet: boolean
 ): ContractOperationHookReturn<P, R> => {
   const walletCtx = useContext(WalletContext);
+  const user = useSelector(getUserSelector);
   const [status, setStatus] = useState<ContractOperationStatus>(
     ContractOperationStatus.IDLE
   );
@@ -105,7 +108,7 @@ const useContractOperation = <
       try {
         if (requiredConnectWallet) {
           const walletAddress = await walletCtx.connectedAddress();
-          if (!walletAddress) {
+          if (!walletAddress || !user.walletAddress) {
             await walletCtx.connect();
           }
         }

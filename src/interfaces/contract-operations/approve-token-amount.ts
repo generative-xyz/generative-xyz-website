@@ -4,5 +4,4 @@ export interface IApproveTokenAmountParams
   extends ContractOperationRequiredParams {
   contractAddress: string;
   consumerAddress: string;
-  amount: string;
 }

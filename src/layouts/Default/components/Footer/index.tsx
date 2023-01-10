@@ -16,17 +16,6 @@ const Footer: React.FC = (): JSX.Element => {
               <SvgInset svgUrl={LOGO_URL} />
             </span>
           </Link>
-          {/* <nav className={s.Footer_topMenuContainer}>
-            {MENUS.map((item, i) => (
-              <a
-                href={item.url}
-                key={`${item.url}_${i}`}
-                className={s.Footer_topMenuItem}
-              >
-                {item.title}
-              </a>
-            ))}
-          </nav> */}
         </div>
         <div className={s.Footer_item}>
           <a
