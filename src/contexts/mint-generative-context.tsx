@@ -100,7 +100,9 @@ export const MintGenerativeContextProvider = ({ children }: Props) => {
   const [zipFile, setZipFile] = useState<File | null>(null);
   const sandboxRef = useRef<ISandboxRef | null>(null);
   const [hash, setHash] = useState<string>(generateHash());
-  const [formValues, setFormValues] = useState<Partial<IFormValue>>({});
+  const [formValues, setFormValues] = useState<Partial<IFormValue>>({
+    mintPrice: '0.0001',
+  });
   const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string | null>(
     null
   );

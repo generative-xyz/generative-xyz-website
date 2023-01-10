@@ -4,6 +4,7 @@ import ContractOperation from '@services/contract-operations/contract-operation'
 import ContractABI from '@services/contract-abis/parameter-control.json';
 import { IGetParameterControlParams } from '@interfaces/contract-operations/get-parameter-control';
 import { PARAM_CONTROL_CONTRACT } from '@constants/contract-address';
+import { ErrorMessage } from '@enums/error-message';
 
 class GetParamControlOperation extends ContractOperation<
   IGetParameterControlParams,
@@ -36,7 +37,7 @@ class GetParamControlOperation extends ContractOperation<
   }
 
   error(): string {
-    return 'Oops, banana!';
+    return ErrorMessage.DEFAULT;
   }
 }
 

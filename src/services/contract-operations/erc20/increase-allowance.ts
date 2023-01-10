@@ -5,6 +5,7 @@ import ContractOperation from '@services/contract-operations/contract-operation'
 import ContractABI from '@services/contract-abis/erc20.json';
 import { IIncreaseAllowanceParams } from '@interfaces/contract-operations/increase-allowance';
 import Web3 from 'web3';
+import { ErrorMessage } from '@enums/error-message';
 
 class IncreaseAllowanceOperation extends ContractOperation<
   IIncreaseAllowanceParams,
@@ -44,7 +45,7 @@ class IncreaseAllowanceOperation extends ContractOperation<
   }
 
   error(): string {
-    return 'Oops, banana!';
+    return ErrorMessage.DEFAULT;
   }
 }
 

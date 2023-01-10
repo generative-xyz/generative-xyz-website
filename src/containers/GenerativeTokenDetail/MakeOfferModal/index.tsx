@@ -185,8 +185,8 @@ const MakeOfferModal: React.FC = (): React.ReactElement => {
                             classNamePrefix="select"
                             isClearable={false}
                             isSearchable={false}
-                            onChange={(val: SingleValue<any>) => {
-                              setFieldValue('offerExpiration', val);
+                            onChange={(op: SingleValue<SelectOption>) => {
+                              setFieldValue('offerExpiration', op?.value);
                             }}
                             onBlur={handleBlur}
                           />
