@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from '@components/Button';
 import Dropdown from '@components/Dropdown';
 import Input from '@components/Input';
@@ -7,6 +8,7 @@ import { CDN_URL } from '@constants/config';
 import Countries from '@constants/country-list.json';
 import StateOfUS from '@constants/state-of-us.json';
 import { WalletContext } from '@contexts/wallet-context';
+import { ErrorMessage } from '@enums/error-message';
 import { setCheckoutProduct } from '@redux/general/action';
 import { checkoutProduct as checkoutProductSelector } from '@redux/general/selector';
 import { useAppDispatch } from '@redux/index';
@@ -92,14 +94,14 @@ const CheckoutModal: React.FC = (): JSX.Element => {
           order.total
         );
         if (!txHash) {
-          setError('Something went wrong. Please try again later.');
+          setError(ErrorMessage.DEFAULT);
           return;
         }
         setOrderSuccess(true);
         // onHideModal();
         // router.push(`/order/${order.order_id}`);
       } catch (_: unknown) {
-        setError('Something went wrong. Please try again later.');
+        setError(ErrorMessage.DEFAULT);
       } finally {
         setIsLoading(false);
       }

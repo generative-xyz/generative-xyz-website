@@ -3,12 +3,12 @@ import { Contract } from 'web3-eth-contract';
 import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/erc20.json';
-import { IIncreaseAllowanceParams } from '@interfaces/contract-operations/increase-allowance';
+import { IApproveTokenAmountParams } from '@interfaces/contract-operations/increase-allowance';
 import Web3 from 'web3';
 import { ErrorMessage } from '@enums/error-message';
 
-class IncreaseAllowanceOperation extends ContractOperation<
-  IIncreaseAllowanceParams,
+class ApproveTokenAmountOperation extends ContractOperation<
+  IApproveTokenAmountParams,
   TransactionReceipt
 > {
   contract: Contract | null = null;
@@ -30,7 +30,7 @@ class IncreaseAllowanceOperation extends ContractOperation<
     const walletAddress = await this.walletManager.connectedAddress();
 
     const data = await this.contract.methods
-      .increaseAllowance(consumerAddress, Web3.utils.toWei(amount))
+      .approve(consumerAddress, Web3.utils.toWei(amount))
       .send({
         from: walletAddress,
         to: contractAddress,
@@ -49,4 +49,4 @@ class IncreaseAllowanceOperation extends ContractOperation<
   }
 }
 
-export default IncreaseAllowanceOperation;
+export default ApproveTokenAmountOperation;

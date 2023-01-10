@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ApiFactory, { DEFAULT_RESPONSE } from '../http';
 
 export const getConfigs = async (): Promise<any> => {

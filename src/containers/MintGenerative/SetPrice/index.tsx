@@ -22,6 +22,7 @@ import _get from 'lodash/get';
 import { createProjectMetadata } from '@services/project';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { isTestnet } from '@utils/chain';
+import Web3 from 'web3';
 
 const LOG_PREFIX = 'SetPrice';
 
@@ -129,6 +130,25 @@ const SetPrice = () => {
 
       if (mintFee === null) {
         log('No mint fee', LogLevel.Debug, LOG_PREFIX);
+        return;
+      }
+
+      if (
+        walletCtx.walletBalance <
+        parseFloat(Web3.utils.fromWei(mintFee.toString()))
+      ) {
+        if (isTestnet()) {
+          setShowErrorAlert({
+            open: true,
+            message:
+              'Insufficient funds testnet. Go to profile and get testnet faucet',
+          });
+        } else {
+          setShowErrorAlert({
+            open: true,
+            message: 'Insufficient funds.',
+          });
+        }
         return;
       }
 

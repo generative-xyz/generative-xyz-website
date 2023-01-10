@@ -14,7 +14,6 @@ import s from '@layouts/Default/components/HeaderFixed/Header.module.scss';
 import { useAppSelector } from '@redux';
 import { disabledMenuSelector } from '@redux/general/selector';
 import { getUserSelector } from '@redux/user/selector';
-import { WalletManager } from '@services/wallet';
 import { formatAddress } from '@utils/format';
 import log from '@utils/logger';
 import cs from 'classnames';
@@ -24,7 +23,6 @@ import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import Web3 from 'web3';
 import styles from './Header.module.scss';
 import { getFaucetLink, isTestnet } from '@utils/chain';
 
@@ -62,23 +60,12 @@ interface IProp {
 }
 
 const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
-  const walletCtx = useContext(WalletContext);
+  const { connect, disconnect, walletBalance } = useContext(WalletContext);
   const user = useAppSelector(getUserSelector);
   const router = useRouter();
   const activePath = router.asPath.split('/')[1];
   const [openProfile, setOpenProfile] = useState(false);
-  const [balance, setBalance] = useState('');
-
-  const handleBalance = async (walletAddr: string) => {
-    if (walletAddr && walletAddr.length > 0) {
-      const walletManagerInstance = new WalletManager();
-      const balance = await walletManagerInstance.balanceOf(walletAddr);
-      if (balance.data) {
-        const temp = Web3.utils.fromWei(balance.data.toString(), 'ether');
-        setBalance(parseFloat(temp).toFixed(4));
-      }
-    }
-  };
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const dropdownRef = useRef<HTMLUListElement>(null);
 
@@ -91,7 +78,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
     {
       id: 'disconect-wallet',
       name: 'Disconnect wallet',
-      onClick: () => walletCtx.disconnect(),
+      onClick: () => disconnect(),
     },
     {
       id: 'faucet',
@@ -107,9 +94,12 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
 
   const handleConnectWallet = async (): Promise<void> => {
     try {
-      await walletCtx.connect();
+      setIsConnecting(true);
+      await connect();
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
+    } finally {
+      setIsConnecting(false);
     }
   };
 
@@ -126,7 +116,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
           ></SvgInset>
         </div>
         <div className={styles.price}>
-          {balance}
+          {walletBalance?.toFixed(4)}
           <SvgInset
             svgUrl={`${CDN_URL}/icons/ic-eth-token.svg`}
             className={s.eth_icon}
@@ -157,9 +147,6 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
   };
 
   useOnClickOutside(dropdownRef, () => setOpenProfile(false));
-  useEffect(() => {
-    handleBalance(user.walletAddress);
-  }, [user.walletAddress]);
 
   const refHeader = useRef<HTMLDivElement>(null);
   const refData = useRef({
@@ -274,6 +261,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
             ) : (
               <div className={'d-md-block d-none'}>
                 <ButtonIcon
+                  disabled={isConnecting}
                   sizes="small"
                   variants={theme === 'dark' ? 'secondary' : 'primary'}
                   onClick={handleConnectWallet}

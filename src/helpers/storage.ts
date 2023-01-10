@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import store from 'store2';
 
 export const LOCALSTORAGE_CONFIG = {

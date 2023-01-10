@@ -10,7 +10,7 @@ import useContractOperation from '@hooks/useContractOperation';
 import { MarketplaceStats } from '@interfaces/marketplace';
 import { Token, TokenOffer } from '@interfaces/token';
 import { getUserSelector } from '@redux/user/selector';
-import IncreaseAllowanceOperation from '@services/contract-operations/erc20/increase-allowance';
+import ApproveTokenAmountOperation from '@services/contract-operations/erc20/approve-token-amount';
 import ListingToSaleTokenOperation from '@services/contract-operations/generative-marketplace/list-to-sale-token';
 import MakeTokenOfferOperation from '@services/contract-operations/generative-marketplace/make-token-offer';
 import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
@@ -165,7 +165,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     true
   );
   const { call: increaseAllowance } = useContractOperation(
-    IncreaseAllowanceOperation,
+    ApproveTokenAmountOperation,
     true
   );
   const { call: acceptOffer } = useContractOperation(

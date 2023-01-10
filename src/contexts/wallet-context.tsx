@@ -16,6 +16,7 @@ import { WalletError } from '@enums/wallet-error';
 import { clearAuthStorage, setAccessToken } from '@utils/auth';
 import { getProfile } from '@services/profile';
 import { NETWORK_CHAIN_ID } from '@constants/config';
+import Web3 from 'web3';
 
 const LOG_PREFIX = 'WalletContext';
 
@@ -30,6 +31,8 @@ export interface IWalletContext {
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   transfer: (addr: string, val: string) => Promise<string>;
+  walletBalance: number;
+  refreshWalletBalance: () => Promise<void>;
 }
 
 const initialValue: IWalletContext = {
@@ -40,6 +43,8 @@ const initialValue: IWalletContext = {
   connect: () => new Promise<void>(r => r()),
   disconnect: () => new Promise<void>(r => r()),
   transfer: (_address: string, _val: string) => new Promise<string>(r => r('')),
+  walletBalance: 0,
+  refreshWalletBalance: () => new Promise<void>(r => r()),
 };
 
 export const WalletContext = React.createContext<IWalletContext>(initialValue);
@@ -50,6 +55,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
   const [walletManager, setWalletManager] = useState<WalletManager | null>(
     null
   );
+  const [walletBalance, setWalletBalance] = useState<number>(0);
   const walletManagerRef = useRef<WalletManager | null>(walletManager);
   const dispatch = useAppDispatch();
 
@@ -168,6 +174,31 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     []
   );
 
+  const refreshWalletBalance = async (): Promise<void> => {
+    const wallet = walletManagerRef.current;
+
+    if (!wallet) {
+      throw Error(WalletError.NO_INSTANCE);
+    }
+
+    const walletRes = await wallet.connect();
+    if (!walletRes.isSuccess || !walletRes.data) {
+      throw Error(walletRes.message);
+    }
+    const walletAddress = walletRes.data;
+
+    if (walletAddress) {
+      const balanceRes = await wallet.getBalance(walletAddress);
+      if (balanceRes.data) {
+        const balanceStr = Web3.utils.fromWei(
+          balanceRes.data.toString(),
+          'ether'
+        );
+        setWalletBalance(parseFloat(balanceStr));
+      }
+    }
+  };
+
   useEffect(() => {
     const walletManagerInstance = new WalletManager();
     walletManagerRef.current = walletManagerInstance;
@@ -180,6 +211,12 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     }
   }, [walletManager]);
 
+  useEffect(() => {
+    if (walletManager) {
+      refreshWalletBalance();
+    }
+  }, [walletManager]);
+
   const contextValues = useMemo((): IWalletContext => {
     return {
       checkAndSwitchChain,
@@ -188,6 +225,8 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
       walletManager,
       connectedAddress,
       transfer,
+      walletBalance,
+      refreshWalletBalance,
     };
   }, [
     connect,
@@ -196,6 +235,8 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     walletManager,
     connectedAddress,
     transfer,
+    walletBalance,
+    refreshWalletBalance,
   ]);
 
   return (

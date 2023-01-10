@@ -65,6 +65,9 @@ const useContractOperation = <
         setIsSuccess(true);
         setIsLoading(false);
 
+        // Refresh balance after each operation
+        walletCtx.refreshWalletBalance();
+
         if (res?.message) {
           setSuccessMsg(res.message);
         }
