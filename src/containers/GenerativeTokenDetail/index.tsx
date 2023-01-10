@@ -21,6 +21,7 @@ import ListingTokenModal from './ListingTokenModal';
 import MakeOfferModal from './MakeOfferModal';
 import MoreItemsSection from './MoreItemsSection';
 import TokenActivities from './TokenActivities';
+import CancelListingModal from './CancelListingModal';
 import s from './styles.module.scss';
 
 // const LOG_PREFIX = 'GenerativeTokenDetail';
@@ -262,8 +263,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           <MoreItemsSection genNFTAddr={tokenData.project.genNFTAddr} />
         )}
       </Container>
+
       <ListingTokenModal />
       <MakeOfferModal />
+      <CancelListingModal />
     </>
   );
 };
