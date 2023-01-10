@@ -16,7 +16,11 @@ import MakeTokenOfferOperation from '@services/contract-operations/generative-ma
 import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
 import IsApprrovedForAllOperation from '@services/contract-operations/generative-nft/is-approved-for-all';
 import SetApprrovalForAllOperation from '@services/contract-operations/generative-nft/set-approval-for-all';
-import { getMakeOffers, getMarketplaceStats } from '@services/marketplace';
+import {
+  getListing,
+  getMakeOffers,
+  getMarketplaceStats,
+} from '@services/marketplace';
 import { getTokenUri } from '@services/token-uri';
 import log from '@utils/logger';
 import { useRouter } from 'next/router';
@@ -31,6 +35,7 @@ import React, {
 } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import Web3 from 'web3';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
 
@@ -122,6 +127,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   const [showMakeOfferModal, setShowMakeOfferModal] = useState(false);
   const [listingStep, setListingStep] = useState(ListingStep.InputInfo);
   const [listingPrice, setListingPrice] = useState(0);
+  const [listingOffers, setListingOffers] = useState<Array<TokenOffer>>([]);
   const [marketplaceStats, setMarketplaceStats] =
     useState<MarketplaceStats | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -325,21 +331,50 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     }
   };
 
+  const handleFetchListingToken = async () => {
+    try {
+      if (tokenData && tokenData.genNFTAddr) {
+        const listingTokens = await getListing(
+          {
+            genNFTAddr: tokenData.genNFTAddr,
+            tokenId: tokenID,
+          },
+          {
+            closed: false,
+            sort_by: 'newest',
+            sort: -1,
+          }
+        );
+        if (listingTokens && listingTokens.result[0]) {
+          setListingOffers(listingTokens.result);
+          setListingPrice(
+            Number(Web3.utils.fromWei(listingTokens.result[0].price, 'ether'))
+          );
+        }
+      }
+    } catch (e) {
+      log('can not fetch price', LogLevel.Error, '');
+    }
+  };
+
   const isTokenOwner = useMemo(() => {
     if (!user.walletAddress || !tokenData?.ownerAddr) return false;
     return user.walletAddress === tokenData?.ownerAddr;
   }, [tokenData, user]);
 
   const isTokenListing = useMemo(() => {
-    if (!user.walletAddress || !tokenOffers.length) return false;
-    return tokenOffers.some(
-      (offer: TokenOffer) => offer.seller === user.walletAddress
-    );
-  }, [user, tokenOffers]);
+    if (!user.walletAddress || !listingOffers || listingOffers.length === 0)
+      return false;
+    return listingOffers.length > 0;
+  }, [user, listingOffers]);
 
   useEffect(() => {
     fetchTokenData();
   }, [tokenID]);
+
+  useEffect(() => {
+    handleFetchListingToken();
+  }, [tokenData, tokenID]);
 
   useEffect(() => {
     fetchTokenOffers();
