@@ -330,7 +330,12 @@
 }
 
 @mixin calcFontAuto($min-font-size, $max-font-size) {
-  font-size: rem($max-font-size);
+
+  font-size: rem($min-font-size);
+
+  @include tablet {
+    font-size: rem($max-font-size);
+  }
 
   @include min-pc {
     font-size: calc-auto(1200px, 1920px, $min-font-size, $max-font-size);

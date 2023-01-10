@@ -2,8 +2,8 @@
   letter-spacing: -0.02em;
 
   &:is(h1) {
-    font-size: rem(56px);
-    line-height: rem(66px);
+    line-height: (66/56);
+    @include calcFontAuto(40px, 56px);
   }
 
   &:is(h2) {

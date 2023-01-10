@@ -19,7 +19,6 @@ import { AnimFade } from '@animations/fade';
 import { PAGE_ENTER } from '@constants/common';
 import { useSelector } from 'react-redux';
 import { pageLoadStatus } from '@redux/general/selector';
-import { BlockContent } from '@containers/Benefit/components/BlockContent';
 import Heading from '@components/Heading';
 
 export const CreatePageSection = (): JSX.Element => {
@@ -95,12 +94,26 @@ export const CreatePageSection = (): JSX.Element => {
                 className={'spacing__large'}
                 fontWeight="regular"
                 as="p"
-                animOption={{ screen: 0, offset: 0, type: 'paragraph' }}
+                animOption={{ screen: 0.4, offset: 0, type: 'paragraph' }}
               >
                 Express your creativity to the world! Generative gives you the
                 tools to transform your creative code into a variety of
                 generative art that evolves with each minting of a collection.
               </Text>
+              <AnimFade screen={0.6}>
+                <ButtonIcon
+                  onClick={onClick}
+                  sizes={'medium'}
+                  variants={'secondary'}
+                  endIcon={
+                    <SvgInset
+                      svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
+                    />
+                  }
+                >
+                  Start upload
+                </ButtonIcon>
+              </AnimFade>
             </div>
           </Col>
           <Col

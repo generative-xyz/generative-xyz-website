@@ -1,5 +1,4 @@
 .imageContent {
-
   @include min-tablet {
     gap: vw(100px);
     :global(.col-md-6) {
@@ -29,14 +28,21 @@
   }
 
   &_desc {
-    margin-bottom: rem(80px);
+    margin-bottom: rem(40px);
+   @include min-tablet{
+     margin-bottom: rem(80px);
+   }
   }
 
   &:not(:first-child) {
-    margin-top: rem(-40px);
+    @include min-tablet{
+      margin-top: rem(-40px);
+    }
 
     .imageContent_heading {
-      margin-top: rem(156px);
+      @include min-tablet{
+        margin-top: rem(156px);
+      }
     }
   }
 }

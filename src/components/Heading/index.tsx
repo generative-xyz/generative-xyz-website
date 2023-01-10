@@ -66,7 +66,7 @@ const Heading = ({
           case 'heading':
             comp.current.classList.add(`is-handle`);
             refDom.current.texts = new SplitType(comp.current, {
-              types: 'chars',
+              types: 'words, chars',
             });
 
             refDom.current.resizeObserver = new ResizeObserver(
