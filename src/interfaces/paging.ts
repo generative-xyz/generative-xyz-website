@@ -5,6 +5,6 @@ export interface IPagingResponse {
 }
 
 export interface IPagingParams {
-  limit: number;
-  page: number;
+  limit?: number;
+  page?: number;
 }

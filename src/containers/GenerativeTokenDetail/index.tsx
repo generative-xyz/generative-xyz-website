@@ -18,10 +18,10 @@ import React, { useContext, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { v4 } from 'uuid';
 import ListingTokenModal from './ListingTokenModal';
+import MakeOfferModal from './MakeOfferModal';
 import MoreItemsSection from './MoreItemsSection';
 import TokenActivities from './TokenActivities';
 import s from './styles.module.scss';
-import MakeOfferModal from './MakeOfferModal';
 
 // const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -36,6 +36,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     handlePurchaseToken,
     isTokenOwner,
     isTokenListing,
+    listingPrice,
+    // setListingPrice,
   } = useContext(GenerativeTokenDetailContext);
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
@@ -130,6 +132,17 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                 0.2 ETH
               </Heading>
             </div> */}
+              {isTokenListing && (
+                <div>
+                  <Text size="12" fontWeight="bold">
+                    Price
+                  </Text>
+                  <Heading as="h4" fontWeight="bold">
+                    Ξ {listingPrice}
+                  </Heading>
+                </div>
+              )}
+
               <div>
                 <Text size="12" fontWeight="bold">
                   Royalty

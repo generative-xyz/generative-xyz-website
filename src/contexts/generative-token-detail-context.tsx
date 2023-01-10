@@ -1,39 +1,45 @@
-import { Token, TokenOffer } from '@interfaces/token';
-import React, {
-  createContext,
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { NETWORK_CHAIN_ID } from '@constants/config';
 import {
   GENERATIVE_MARKETPLACE_CONTRACT,
   GENERATIVE_PROJECT_CONTRACT,
   WETH_ADDRESS,
 } from '@constants/contract-address';
-import { NETWORK_CHAIN_ID } from '@constants/config';
+import { ListingStep } from '@enums/listing-generative';
+import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
+import { MarketplaceStats } from '@interfaces/marketplace';
+import { Token, TokenOffer } from '@interfaces/token';
+import { getUserSelector } from '@redux/user/selector';
+import IncreaseAllowanceOperation from '@services/contract-operations/erc20/increase-allowance';
 import ListingToSaleTokenOperation from '@services/contract-operations/generative-marketplace/list-to-sale-token';
+import MakeTokenOfferOperation from '@services/contract-operations/generative-marketplace/make-token-offer';
+import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
 import IsApprrovedForAllOperation from '@services/contract-operations/generative-nft/is-approved-for-all';
 import SetApprrovalForAllOperation from '@services/contract-operations/generative-nft/set-approval-for-all';
-import { LogLevel } from '@enums/log-level';
-import log from '@utils/logger';
-import { ListingStep } from '@enums/listing-generative';
-import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
-import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/router';
-import { getTokenUri } from '@services/token-uri';
-import { getMakeOffers } from '@services/marketplace';
-import { getUserSelector } from '@redux/user/selector';
-import { useSelector } from 'react-redux';
-import MakeTokenOfferOperation from '@services/contract-operations/generative-marketplace/make-token-offer';
-import IncreaseAllowanceOperation from '@services/contract-operations/erc20/increase-allowance';
 import AcceptTokenOfferOperation from '@services/contract-operations/generative-marketplace/accept-token-offer';
-import { ErrorMessage } from '@enums/error-message';
 import CancelTokenOfferOperation from '@services/contract-operations/generative-marketplace/cancel-token-offer';
 import TransferTokenOperation from '@services/contract-operations/generative-nft/transfer-token';
+import {
+  getListing,
+  getMakeOffers,
+  getMarketplaceStats,
+} from '@services/marketplace';
+import { getTokenUri } from '@services/token-uri';
+import log from '@utils/logger';
+import { useRouter } from 'next/router';
+import React, {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  createContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { toast } from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import { ErrorMessage } from '@enums/error-message';
+import Web3 from 'web3';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
 
@@ -44,6 +50,8 @@ export interface IGenerativeTokenDetailContext {
   openListingModal: () => void;
   hideListingModal: () => void;
   handleListingToken: (_: string) => Promise<void>;
+  marketplaceStats: MarketplaceStats | null;
+  setMarketplaceStats: Dispatch<SetStateAction<MarketplaceStats | null>>;
   errorMessage: string | null;
   setErrorMessage: Dispatch<SetStateAction<string | null>>;
   listingStep: ListingStep;
@@ -81,6 +89,10 @@ const initialValue: IGenerativeTokenDetailContext = {
   handleListingToken: _ => new Promise(r => r()),
   listingStep: ListingStep.InputInfo,
   setListingStep: _ => {
+    return;
+  },
+  marketplaceStats: null,
+  setMarketplaceStats: () => {
     return;
   },
   listingPrice: 0,
@@ -125,7 +137,11 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   const [showMakeOfferModal, setShowMakeOfferModal] = useState(false);
   const [listingStep, setListingStep] = useState(ListingStep.InputInfo);
   const [listingPrice, setListingPrice] = useState(0);
+  const [listingOffers, setListingOffers] = useState<Array<TokenOffer>>([]);
+  const [marketplaceStats, setMarketplaceStats] =
+    useState<MarketplaceStats | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const [txHash, setTxHash] = useState<string | null>(null);
   const user = useSelector(getUserSelector);
   const { call: listToken } = useContractOperation(
@@ -400,24 +416,67 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     }
   };
 
+  const handleFetchMarketplaceStats = async () => {
+    try {
+      if (tokenData && tokenData?.genNFTAddr) {
+        const res = await getMarketplaceStats({
+          collectionAddr: tokenData?.genNFTAddr,
+        });
+        if (res) setMarketplaceStats(res?.stats);
+      }
+    } catch (e) {
+      log('can not fetch price', LogLevel.Error, '');
+    }
+  };
+
+  const handleFetchListingToken = async () => {
+    try {
+      if (tokenData && tokenData.genNFTAddr) {
+        const listingTokens = await getListing(
+          {
+            genNFTAddr: tokenData.genNFTAddr,
+            tokenId: tokenID,
+          },
+          {
+            closed: false,
+            sort_by: 'newest',
+            sort: -1,
+          }
+        );
+        if (listingTokens && listingTokens.result[0]) {
+          setListingOffers(listingTokens.result);
+          setListingPrice(
+            Number(Web3.utils.fromWei(listingTokens.result[0].price, 'ether'))
+          );
+        }
+      }
+    } catch (e) {
+      log('can not fetch price', LogLevel.Error, '');
+    }
+  };
+
   const isTokenOwner = useMemo(() => {
     if (!user.walletAddress || !tokenData?.ownerAddr) return false;
     return user.walletAddress === tokenData?.ownerAddr;
   }, [tokenData, user]);
 
   const isTokenListing = useMemo(() => {
-    if (!user.walletAddress || !tokenOffers.length) return false;
-    return tokenOffers.some(
-      (offer: TokenOffer) => offer.seller === user.walletAddress
-    );
-  }, [user, tokenOffers]);
+    if (!user.walletAddress || !listingOffers || listingOffers.length === 0)
+      return false;
+    return listingOffers.length > 0;
+  }, [user, listingOffers]);
 
   useEffect(() => {
     fetchTokenData();
   }, [tokenID]);
 
   useEffect(() => {
+    handleFetchListingToken();
+  }, [tokenData, tokenID]);
+
+  useEffect(() => {
     fetchTokenOffers();
+    handleFetchMarketplaceStats();
   }, [tokenData]);
 
   const contextValues = useMemo((): IGenerativeTokenDetailContext => {
@@ -426,6 +485,8 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       setTokenData,
       showListingModal,
       handleListingToken,
+      marketplaceStats,
+      setMarketplaceStats,
       listingStep,
       setListingStep,
       listingPrice,
@@ -454,6 +515,8 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     setTokenData,
     showListingModal,
     handleListingToken,
+    marketplaceStats,
+    setMarketplaceStats,
     listingStep,
     setListingStep,
     listingPrice,
