@@ -13,7 +13,7 @@ export const ProjectList = ({ listData }: { listData?: Project[] }) => {
           ))}
         </div>
       ) : (
-        <Empty />
+        listData && <Empty />
       )}
     </>
   );

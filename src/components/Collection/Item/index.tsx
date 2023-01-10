@@ -89,7 +89,8 @@ const CollectionItem = ({ data }: { data: Token }) => {
               direction="horizontal"
             >
               <Heading as={'h4'} className="token_id ml-auto">
-                {currentUser && `${data.name} `}#{formatTokenId(tokenID)}
+                {currentUser && `${data.project.name} `}#
+                {formatTokenId(tokenID)}
               </Heading>
               {listingTokenPrice !== '0' && (
                 <Stack
