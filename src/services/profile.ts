@@ -43,14 +43,37 @@ export const getProfileProjects =
     }
   };
 
-export const getProfileTokens = async ({
+export const getProfileProjectsByWallet = async ({
   walletAddress,
+  limit = 10,
+  page = 1,
 }: {
   walletAddress: string;
+  limit?: number;
+  page?: number;
+}): Promise<IGetProjectItemsResponse> => {
+  try {
+    return await get<IGetProjectItemsResponse>(
+      `${API_PATH}/wallet/${walletAddress}/projects?limit=${limit}&page=${page}`
+    );
+  } catch (err: unknown) {
+    log('failed to get profile', LogLevel.Error, LOG_PREFIX);
+    throw Error('Failed to get profile');
+  }
+};
+
+export const getProfileTokens = async ({
+  walletAddress,
+  limit = 10,
+  page = 1,
+}: {
+  walletAddress: string;
+  limit?: number;
+  page?: number;
 }): Promise<IGetProfileTokensResponse> => {
   try {
     return await get<IGetProfileTokensResponse>(
-      `${API_PATH}/wallet/${walletAddress}/nfts`
+      `${API_PATH}/wallet/${walletAddress}/nfts?limit=${limit}&page=${page}`
     );
   } catch (err: unknown) {
     log('failed to get profile nfts', LogLevel.Error, LOG_PREFIX);

@@ -1,6 +1,6 @@
 import s from './Owned.module.scss';
 import { Loading } from '@components/Loading';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import TokenTopFilter from '@containers/GenerativeProjectDetail/TokenTopFilter';
 import { calculateFloorDifference, convertToETH } from '@utils/currency';
 import Link from '@components/Link';
@@ -9,7 +9,6 @@ import { formatAddress } from '@utils/format';
 import ButtonIcon from '@components/ButtonIcon';
 import Table from '@components/Table';
 import { ProfileContext } from '@contexts/profile-context';
-import useAsyncEffect from 'use-async-effect';
 import { useAppSelector } from '@redux';
 import { getUserSelector } from '@redux/user/selector';
 
@@ -22,17 +21,9 @@ const TABLE_OFFERS_HEADING = [
 ];
 
 export const OfferTab = (): JSX.Element => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const user = useAppSelector(getUserSelector);
-  const { profileMakeOffer, handleFetchMakeOffers } =
+  const { isLoadedProfileMakeOffer, profileMakeOffer } =
     useContext(ProfileContext);
-
-  useAsyncEffect(async () => {
-    if (handleFetchMakeOffers) {
-      await handleFetchMakeOffers();
-      setIsLoaded(true);
-    }
-  }, []);
 
   const offerDatas = profileMakeOffer?.result?.map(offer => {
     return {
@@ -79,8 +70,8 @@ export const OfferTab = (): JSX.Element => {
           />
         </div>
         <div className={s.tokenListWrapper}>
-          <Loading isLoaded={isLoaded} />
-          {isLoaded && (
+          <Loading isLoaded={isLoadedProfileMakeOffer} />
+          {isLoadedProfileMakeOffer && (
             <Table
               tableHead={TABLE_OFFERS_HEADING}
               data={offerDatas || undefined}

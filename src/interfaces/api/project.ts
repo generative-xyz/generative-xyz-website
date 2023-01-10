@@ -1,6 +1,5 @@
 import { IPagingParams, IPagingResponse } from '@interfaces/paging';
 import { Project } from '@interfaces/project';
-import { Token } from '@interfaces/token';
 export interface IGetProjectDetailParams {
   contractAddress: string;
   projectID: string;
@@ -20,7 +19,7 @@ export interface IGetProjectItemsQuery extends IPagingParams {
 }
 
 export interface IGetProjectItemsResponse extends IPagingResponse {
-  result: Token[];
+  result: Project[];
 }
 
 export interface ICreateProjectMetadataPayload {

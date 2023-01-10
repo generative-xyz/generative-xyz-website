@@ -1,3 +1,4 @@
+import { Loading } from '@components/Loading';
 import { PAGE_ENTER, PAGE_LOADED } from '@constants/common';
 import { useAppDispatch } from '@redux';
 import { setPageLoadStatus } from '@redux/general/action';
@@ -18,9 +19,13 @@ interface IProcessing {
 
 interface IProp {
   theme?: 'dark' | 'light';
+  isCssLoading?: boolean;
 }
 
-export const SimpleLoading = ({ theme = 'light' }: IProp): JSX.Element => {
+export const SimpleLoading = ({
+  theme = 'light',
+  isCssLoading = false,
+}: IProp): JSX.Element => {
   const dispatch = useAppDispatch();
   const refLoading = useRef<HTMLDivElement>(null);
   const loadingCounter = useSelector(animationRegister);
@@ -87,5 +92,13 @@ export const SimpleLoading = ({ theme = 'light' }: IProp): JSX.Element => {
     };
   }, [loadingCounter]);
 
-  return <div ref={refLoading} className={classNames(s.loading, s[theme])} />;
+  return (
+    <div ref={refLoading} className={classNames(s.loading, s[theme])}>
+      {isCssLoading && (
+        <div className={s.loading_inner}>
+          <Loading isLoaded={false} />
+        </div>
+      )}
+    </div>
+  );
 };

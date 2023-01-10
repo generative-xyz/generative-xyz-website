@@ -1,21 +1,14 @@
 import s from './Owned.module.scss';
 import { Loading } from '@components/Loading';
 import CollectionList from '@components/Collection/List';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import TokenTopFilter from '@containers/GenerativeProjectDetail/TokenTopFilter';
 import { ProfileContext } from '@contexts/profile-context';
-import useAsyncEffect from 'use-async-effect';
+import { TriggerLoad } from '@components/TriggerLoader';
 
 export const OwnedTab = (): JSX.Element => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
-  const { profileTokens, handleFetchTokens } = useContext(ProfileContext);
-  useAsyncEffect(async () => {
-    if (handleFetchTokens) {
-      await handleFetchTokens();
-      setIsLoaded(true);
-    }
-  }, []);
+  const { isLoadedProfileTokens, profileTokens, handleFetchTokens } =
+    useContext(ProfileContext);
 
   return (
     <>
@@ -33,13 +26,18 @@ export const OwnedTab = (): JSX.Element => {
           />
         </div>
         <div className={s.tokenListWrapper}>
-          <Loading isLoaded={isLoaded} />
-          {isLoaded && (
-            <div className={s.tokenList}>
-              <CollectionList listData={profileTokens?.result} />
-              <div className={s.trigger} />
-            </div>
+          {!profileTokens?.total && (
+            <Loading isLoaded={isLoadedProfileTokens} />
           )}
+          <div className={s.tokenList}>
+            <CollectionList listData={profileTokens?.result} />
+            <TriggerLoad
+              len={profileTokens?.result.length || 0}
+              total={profileTokens?.total || 0}
+              isLoaded={isLoadedProfileTokens}
+              onEnter={handleFetchTokens}
+            />
+          </div>
         </div>
       </div>
     </>
