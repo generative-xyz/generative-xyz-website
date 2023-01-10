@@ -5,6 +5,7 @@ import React, { useEffect, useRef } from 'react';
 import { MaskerEnd } from '@animations/masker-end';
 import { ScrollFixed } from '@animations/scroll-fixed';
 import { isMobileAndTablet } from '@helpers/anim.helpers';
+import { CDN_URL } from '@constants/config';
 
 export const Artworks = (): JSX.Element => {
   const comp = useRef<HTMLDivElement>(null);
@@ -66,11 +67,11 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://cdn.generative.xyz/pages/home/videos/Block2%20Frame%20Mid-1.webm"
+                src={`${CDN_URL}/pages/home/videos/Block2%20Frame%20Mid-1.webm`}
                 type="video/webm"
               />
               <source
-                src="https://cdn.generative.xyz/pages/home/Block2_Mid-1.mp4"
+                src={`${CDN_URL}/pages/home/Block2_Mid-1.mp4`}
                 type="video/mp4"
               />
             </video>
@@ -80,11 +81,11 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://cdn.generative.xyz/pages/home/videos/Square-1.webm"
+                src={`${CDN_URL}/pages/home/videos/Square-1.webm`}
                 type="video/webm"
               />
               <source
-                src="https://cdn.generative.xyz/pages/home/videos/Square-1.mp4"
+                src={`${CDN_URL}/pages/home/videos/Square-1.mp4`}
                 type="video/mp4"
               />
             </video>
@@ -94,11 +95,11 @@ export const Artworks = (): JSX.Element => {
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
               <source
-                src="https://cdn.generative.xyz/pages/home/videos/Block2%20Frame%20Right-1.webm"
+                src={`${CDN_URL}/pages/home/videos/Block2%20Frame%20Right-1.webm`}
                 type="video/webm"
               />
               <source
-                src="https://cdn.generative.xyz/pages/home/Block2_Right-1.mp4"
+                src={`${CDN_URL}/pages/home/Block2_Right-1.mp4`}
                 type="video/mp4"
               />
             </video>

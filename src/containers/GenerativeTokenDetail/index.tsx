@@ -29,7 +29,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const {
     tokenData,
-    tokenOffers,
     tokenID,
     openListingModal,
     openMakeOfferModal,
@@ -37,7 +36,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     isTokenOwner,
     isTokenListing,
     listingPrice,
-    // setListingPrice,
+    listingOffers,
   } = useContext(GenerativeTokenDetailContext);
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
@@ -100,7 +99,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   const handleBuyToken = () => {
     setIsBuying(true);
-    handlePurchaseToken(tokenOffers[0]);
+    handlePurchaseToken(listingOffers[0]);
     setIsBuying(false);
   };
 
@@ -170,7 +169,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               {!isTokenOwner && isTokenListing && (
                 <>
                   <ButtonIcon
-                    disabled={!tokenOffers.length || isBuying}
+                    disabled={!listingOffers.length || isBuying}
                     onClick={handleBuyToken}
                   >
                     Buy

@@ -1,10 +1,12 @@
 @import 'src/styles/_themes/mixins';
 
 header {
+  
   .headerWrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @include calcFontAuto(13px, 16px);
 
     h1 {
       font-size: 36px;
@@ -27,6 +29,8 @@ header {
 }
 
 .footer {
+
+  @include calcFontAuto(13px, 16px);
 
   border: 1px solid $black-10;
   background-color: $primary-brand;

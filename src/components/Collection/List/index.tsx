@@ -9,7 +9,7 @@ const CollectionList = ({
   projectInfo,
 }: {
   listData?: Token[];
-  projectInfo: Project | null;
+  projectInfo?: Project;
 }) => {
   return (
     <>

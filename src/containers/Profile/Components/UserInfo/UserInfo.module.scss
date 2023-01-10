@@ -1,0 +1,80 @@
+.userInfo {
+  margin-bottom: rem(60px);
+
+  &_cover {
+    height: rem(240px);
+    background: $primary-brand;
+    overflow: hidden;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &_content {
+    position: relative;
+
+    &_avatar {
+      position: absolute;
+      bottom: 100%;
+      background: $white;
+      border-radius: 50%;
+      overflow: hidden;
+      border: rem(6px) solid $white;
+
+      height: rem(200px);
+      width: rem(200px);
+
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1/1;
+      }
+    }
+
+    &_wallet {
+      margin-top: rem(50px);
+      padding-top: rem(32px);
+    }
+
+    &_display {
+      display: flex;
+
+      .userName{
+        margin-right: rem(20px);
+      }
+    }
+  }
+
+  &_socials {
+    &_list {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      padding-top: rem(32px);
+    }
+
+    &_item a {
+      height: rem(40px);
+      width: rem(40px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid $black-20;
+      border-radius: 2px;
+      transition: background-color .4s $easeOutCubic;
+
+      &:hover{
+        background: $black-20
+      }
+
+      img, svg {
+        width: rem(24px);
+        height: rem(24px);
+      }
+    }
+  }
+}

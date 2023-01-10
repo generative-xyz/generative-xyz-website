@@ -6,6 +6,7 @@ import { pageLoadStatus } from '@redux/general/selector';
 import { gsap } from 'gsap';
 import { PAGE_ENTER } from '@constants/common';
 import { Anim } from '@animations/anim';
+import { CDN_URL } from '@constants/config';
 
 interface IProp {
   title: string;
@@ -101,7 +102,7 @@ export const BenchmarkItem = ({
           {isCine ? (
             <>
               <img
-                src="https://cdn.generative.xyz/pages/home/icons/cin.png"
+                src={`${CDN_URL}/pages/home/icons/cin.png`}
                 width={20}
                 height={20}
               />
@@ -110,7 +111,7 @@ export const BenchmarkItem = ({
           ) : (
             <>
               <img
-                src="https://cdn.generative.xyz/pages/home/icons/gfx.png"
+                src={`${CDN_URL}/pages/home/icons/gfx.png`}
                 width={20}
                 height={20}
               />

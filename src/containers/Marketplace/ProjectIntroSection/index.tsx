@@ -38,7 +38,7 @@ import s from './styles.module.scss';
 const LOG_PREFIX = 'ProjectIntroSection';
 
 type Props = {
-  project: IGetProjectDetailResponse | null;
+  project?: IGetProjectDetailResponse;
 };
 
 const ProjectIntroSection = ({ project }: Props) => {

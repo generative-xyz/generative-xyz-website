@@ -23,33 +23,15 @@
   /* Button font sizes */
   &.large,
   &.medium {
-
-    font-size: rem(16px);
     line-height: (26/16);
-
-    @include min-pc {
-      font-size: calc-auto(1200px, 1920px, 12px, 16px);
-    }
-
-    @include min-pc-wide{
-      font-size: rem(16px);
-    }
-
+    @include calcFontAuto(13px, 16px);
   }
 
   &.small,
   &.xsmall {
 
-    font-size: rem(14px);
     line-height: (24/14);
-
-    @include min-pc {
-      font-size: calc-auto(1200px, 1920px, 12px, 14px);
-    }
-
-    @include min-pc-wide{
-      font-size: rem(14px);
-    }
+    @include calcFontAuto(12px, 14px);
 
   }
 

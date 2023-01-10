@@ -84,7 +84,7 @@ export const MarketplaceSection = (): JSX.Element => {
             <div className={s.marketplace_content}>
               <Heading
                 as={'h5'}
-                color={'blue-c'}
+                color={'purple-a'}
                 className={'spacing__small'}
                 fontWeight={'semibold'}
                 animOption={{ screen: 0, offset: 0, type: 'random' }}
@@ -95,28 +95,31 @@ export const MarketplaceSection = (): JSX.Element => {
                 as={'h2'}
                 color={'white'}
                 className={'spacing__small'}
-                fontWeight={'medium'}
+                fontWeight={'semibold'}
                 size={'d3'}
                 animOption={{ screen: 0, offset: 0, type: 'heading' }}
               >
-                Discover & buy Gen.art.
+                Community owned & operated.
               </Text>
               <Text
-                size="24"
+                size="20"
                 color={'white-80'}
                 className={'spacing__large'}
                 fontWeight="regular"
                 as="p"
                 animOption={{ screen: 0, offset: 0, type: 'paragraph' }}
               >
-                World-renowned artists. A hand-crafted experience for
-                discovering art you love. 100% verified collections. And
-                industry-leading 1% fees when {`you're`} ready to buy.
+                A permissionless platform where anyone can create and monetize
+                generative artworks. 100% of the platform fees are securely
+                transferred to the Generative DAO treasury controlled by the
+                community through governance. Artists and collectors can co-own
+                the platform and work together to build upon and shape its
+                direction.
               </Text>
               <AnimFade offset={0.25}>
                 <ButtonIcon
                   onClick={onClick}
-                  sizes={'medium'}
+                  sizes={'large'}
                   variants={'secondary'}
                   endIcon={
                     <SvgInset

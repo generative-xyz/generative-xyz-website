@@ -1,3 +1,5 @@
+import { CDN_URL } from '@constants/config';
+
 declare global {
   interface IHardwareInfo {
     subtitle: string;
@@ -31,8 +33,7 @@ export const HARDWARE_CONTENTS: IHardwareItem[] = [
     desc: 'A big, beautiful window into new worlds, Generative Display draws you in from the moment you turn it on. Spectacularly detailed generative art springs to life.',
     video:
       'https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block_37c36c34606.mp4',
-    poster:
-      'https://cdn.generative.xyz/pages/home/videos/the-monitor-hardware-poster.jpeg',
+    poster: `${CDN_URL}/pages/home/videos/the-monitor-hardware-poster.jpeg`,
     options: [
       {
         subtitle: 'LCD Display',
@@ -62,7 +63,7 @@ export const HARDWARE_CONTENTS: IHardwareItem[] = [
     desc: 'NVIDIA Ampere Streaming multiprocessor - the most efficient GPU in the world - delivers 2X the throughput of FP32 and improves power efficiency. It also features 2nd Gen RT Cores and 3rd Gen Tensor Cores to push performance to unparalleled levels.',
     video:
       'https://cdn.autonomous.ai/static/upload/images/common/upload/20221228/Block_3_16a42e497f2.mp4',
-    poster: 'https://cdn.generative.xyz/pages/home/videos/gpu-poster.jpeg',
+    poster: `${CDN_URL}/pages/home/videos/gpu-poster.jpeg`,
     options: [
       {
         subtitle: 'CUDA Cores',

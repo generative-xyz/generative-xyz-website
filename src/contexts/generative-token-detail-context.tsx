@@ -56,6 +56,7 @@ export interface IGenerativeTokenDetailContext {
   setErrorMessage: Dispatch<SetStateAction<string | null>>;
   listingStep: ListingStep;
   setListingStep: Dispatch<SetStateAction<ListingStep>>;
+  listingOffers: Array<TokenOffer>;
   listingPrice: number;
   setListingPrice: Dispatch<SetStateAction<number>>;
   txHash: string | null;
@@ -99,6 +100,7 @@ const initialValue: IGenerativeTokenDetailContext = {
   setListingPrice: _ => {
     return;
   },
+  listingOffers: [],
   errorMessage: null,
   setErrorMessage: _ => {
     return;
@@ -489,6 +491,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       setMarketplaceStats,
       listingStep,
       setListingStep,
+      listingOffers,
       listingPrice,
       setListingPrice,
       openListingModal,
@@ -517,6 +520,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     handleListingToken,
     marketplaceStats,
     setMarketplaceStats,
+    listingOffers,
     listingStep,
     setListingStep,
     listingPrice,

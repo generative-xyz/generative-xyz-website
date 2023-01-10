@@ -23,7 +23,7 @@ type TText = {
   as?: 'p' | 'span' | 'strong' | 'em' | 'sub' | 'h2' | 'h3' | 'h4' | 'a';
   fontWeight?: 'bold' | 'semibold' | 'medium' | 'regular' | 'light';
   style?: CSSProperties;
-  size?: '12' | '14' | '16' | '18' | '24' | 'd1' | 'd2' | 'd3';
+  size?: '12' | '14' | '16' | '18' | '20' | '24' | 'd1' | 'd2' | 'd3';
   color?: string;
   className?: string;
   animOption?: {
@@ -70,7 +70,7 @@ const Text = ({
           case 'heading':
             comp.current.classList.add(`is-handle`);
             refDom.current.texts = new SplitType(comp.current, {
-              types: 'lines, chars',
+              types: 'words, chars',
             });
 
             refDom.current.resizeObserver = new ResizeObserver(

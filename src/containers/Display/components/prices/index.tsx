@@ -11,6 +11,7 @@ import useAsyncEffect from 'use-async-effect';
 import { FrameItem } from '../frame-item';
 import s from './prices.module.scss';
 import Button from '@components/Button';
+import { CDN_URL } from '@constants/config';
 
 const LOG_PREFIX = 'Prices';
 
@@ -224,7 +225,7 @@ export const Prices = (): JSX.Element => {
                   <td className={s.dimensions}>
                     <span className={s.Home_specTitle}>Dimensions</span>
                     <img
-                      src="https://cdn.generative.xyz/pages/landingpage/30_.svg"
+                      src={`${CDN_URL}/pages/landingpage/30_.svg`}
                       alt="30_"
                       className={s.Home_specDimension}
                     />
@@ -239,7 +240,7 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td className={s.dimensions}>
                     <img
-                      src="https://cdn.generative.xyz/pages/home/icons/55_.svg"
+                      src={`${CDN_URL}/pages/home/icons/55_.svg`}
                       alt="55_"
                       className={s.Home_specDimension}
                     />
@@ -254,7 +255,7 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td className={s.dimensions}>
                     <img
-                      src="https://cdn.generative.xyz/pages/home/icons/43_.svg"
+                      src={`${CDN_URL}/pages/home/icons/43_.svg`}
                       alt="43_"
                       className={s.Home_specDimension}
                     />
