@@ -1,11 +1,10 @@
-import Profile from '@containers/Profile';
+import EditProfile from '@containers/EditProfile';
 import MarketplaceLayout from '@layouts/Marketplace';
-import React from 'react';
 
 const EditProfilePage = () => {
   return (
     <MarketplaceLayout>
-      <Profile />
+      <EditProfile />
     </MarketplaceLayout>
   );
 };

@@ -1,11 +1,11 @@
-import s from './styles.module.scss';
-import React, { ChangeEvent, useEffect, useState } from 'react';
 import cs from 'classnames';
 import Image from 'next/image';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import s from './styles.module.scss';
 
 interface IProps {
-  file: File | null;
-  onFileChange: (f: File | null) => void;
+  file: any;
+  // onFileChange: (f: File | null) => void;
   className?: string;
   placeHolderHtml?: JSX.Element;
   previewHtml?: JSX.Element;
@@ -13,12 +13,15 @@ interface IProps {
 
 const ImagePreviewInput: React.FC<IProps> = ({
   file,
-  onFileChange,
+  // onFileChange,
   className,
   placeHolderHtml,
   previewHtml,
 }: IProps): React.ReactElement => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [currentImage, setCurrentImage] = useState<JSX.Element | null>(
+    previewHtml || null
+  );
 
   useEffect(() => {
     if (!file) {
@@ -26,19 +29,21 @@ const ImagePreviewInput: React.FC<IProps> = ({
       return;
     }
 
-    const objectUrl = URL.createObjectURL(file);
-    setPreview(objectUrl);
+    setPreview(file);
 
-    return () => URL.revokeObjectURL(objectUrl);
+    return () => URL.revokeObjectURL(file);
   }, [file]);
 
   const onSelectFile = (evt: ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files || evt.target.files.length === 0) {
-      onFileChange(null);
+      setCurrentImage(previewHtml || null);
       return;
     }
+    const newFile = evt.target.files[0];
 
-    onFileChange(evt.target.files[0]);
+    // onFileChange(newFile);
+    setPreview(URL.createObjectURL(newFile));
+    setCurrentImage(null);
   };
 
   return (
@@ -47,7 +52,7 @@ const ImagePreviewInput: React.FC<IProps> = ({
         <>
           {preview ? (
             <>
-              {previewHtml ? (
+              {currentImage ? (
                 previewHtml
               ) : (
                 <div className={s.previewWrapper}>
@@ -77,8 +82,16 @@ const ImagePreviewInput: React.FC<IProps> = ({
         id="fileInput"
         className={s.fileInput}
         type="file"
+        accept="image/*"
         onChange={onSelectFile}
       />
+      {/* <ButtonIcon
+        variants="secondary"
+        className={s.change_btn}
+        onClick={e => e.stopPropagation()}
+      >
+        Changes
+      </ButtonIcon> */}
     </div>
   );
 };

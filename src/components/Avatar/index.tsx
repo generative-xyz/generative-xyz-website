@@ -10,19 +10,24 @@ type Props = {
   imgSrcs: string | string[];
   width?: number;
   height?: number;
+  fill?: boolean;
 };
 
-const Avatar = ({ imgSrcs, width = 48, height = 48 }: Props) => {
+const Avatar = ({ imgSrcs, width = 48, height = 48, fill = false }: Props) => {
   const SingleAvatar = ({ src }: { src: string }) => {
     return (
       <div style={{ width, height, borderRadius: '50%', overflow: 'hidden' }}>
         {src ? (
-          <Image
-            src={convertIpfsToHttp(src)}
-            alt="user avatar"
-            width={width}
-            height={height}
-          />
+          fill ? (
+            <Image src={convertIpfsToHttp(src)} alt="user avatar" fill />
+          ) : (
+            <Image
+              src={convertIpfsToHttp(src)}
+              alt="user avatar"
+              width={width}
+              height={height}
+            />
+          )
         ) : (
           <div className={styles.defaultAvatar}>
             <SvgInset
