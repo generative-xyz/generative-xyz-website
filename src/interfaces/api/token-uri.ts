@@ -27,4 +27,5 @@ export interface IGetGenerativeTokenAttributesResponse {
 export interface IGetProfileTokensResponse {
   result: Array<Token>;
   total: number;
+  page: number;
 }

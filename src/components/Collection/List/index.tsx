@@ -20,7 +20,7 @@ const CollectionList = ({
           ))}
         </div>
       ) : (
-        <Empty projectInfo={projectInfo} />
+        listData && <Empty projectInfo={projectInfo} />
       )}
     </>
   );

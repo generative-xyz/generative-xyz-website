@@ -112,10 +112,17 @@ const Text = ({
           if (refDom.current) {
             comp.current?.classList.remove(`is-handle`);
             refDom.current?.texts && refDom.current.texts?.revert();
-            comp.current &&
+
+            if (
+              comp &&
+              comp.current &&
+              refDom.current.resizeObserver &&
+              refDom.current.resizeObserver?.unobserve
+            ) {
               refDom.current?.resizeObserver?.unobserve(
                 comp.current as HTMLElement
               );
+            }
           }
           break;
         case 'paragraph':
@@ -124,9 +131,16 @@ const Text = ({
               `is-handle`,
               `${s['anim-paragraph']}`
             );
-            refDom.current?.resizeObserver?.unobserve(
-              comp.current as HTMLElement
-            );
+            if (
+              comp &&
+              comp.current &&
+              refDom.current.resizeObserver &&
+              refDom.current.resizeObserver?.unobserve
+            ) {
+              refDom.current?.resizeObserver?.unobserve(
+                comp.current as HTMLElement
+              );
+            }
             if (refDom.current.texts)
               gsap.set(refDom.current.texts?.words, { y: '0' });
           }

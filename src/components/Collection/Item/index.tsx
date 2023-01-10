@@ -4,7 +4,7 @@ import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import { ROUTE_PATH } from '@constants/route-path';
 import { User } from '@interfaces/user';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 import s from './styles.module.scss';
 import { formatTokenId, getProjectIdFromTokenId } from '@utils/format';
@@ -13,11 +13,13 @@ import Web3 from 'web3';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { Token } from '@interfaces/token';
+import { ProfileContext } from '@contexts/profile-context';
 
 const CollectionItem = ({ data }: { data: Token }) => {
   const router = useRouter();
   const tokenID = useMemo(() => data.name.split('#')[1], [data.name]);
   const [listingTokenPrice, setListingTokenPrice] = useState('0');
+  const { currentUser } = useContext(ProfileContext);
 
   const handleFetchListingTokenPrice = async () => {
     try {
@@ -87,7 +89,7 @@ const CollectionItem = ({ data }: { data: Token }) => {
               direction="horizontal"
             >
               <Heading as={'h4'} className="token_id ml-auto">
-                #{formatTokenId(tokenID)}
+                {currentUser && `${data.name} `}#{formatTokenId(tokenID)}
               </Heading>
               {listingTokenPrice !== '0' && (
                 <Stack

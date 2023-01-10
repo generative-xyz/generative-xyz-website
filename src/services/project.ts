@@ -6,9 +6,9 @@ import {
   IGetProjectDetailResponse,
   IGetProjectItemsParams,
   IGetProjectItemsQuery,
-  IGetProjectItemsResponse,
   IGetProjectListParams,
   IGetProjectListResponse,
+  IGetProjectTokensResponse,
 } from '@interfaces/api/project';
 import { get, post } from '@services/http-client';
 import log from '@utils/logger';
@@ -46,10 +46,10 @@ export const getRandomProject =
 export const getProjectItems = async (
   params: IGetProjectItemsParams,
   query: IGetProjectItemsQuery
-): Promise<IGetProjectItemsResponse> => {
+): Promise<IGetProjectTokensResponse> => {
   try {
     const qs = '?' + querystring.stringify(query);
-    const res = await get<IGetProjectItemsResponse>(
+    const res = await get<IGetProjectTokensResponse>(
       `${API_PATH}/${params.contractAddress}/tokens${qs}`
     );
     return res;

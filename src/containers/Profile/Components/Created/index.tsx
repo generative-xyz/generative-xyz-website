@@ -1,22 +1,15 @@
 import { useContext } from 'react';
-import s from './Owned.module.scss';
+import s from './Created.module.scss';
 import { Loading } from '@components/Loading';
-import CollectionList from '@components/Collection/List';
-import React, { useState } from 'react';
+import React from 'react';
 import TokenTopFilter from '@containers/GenerativeProjectDetail/TokenTopFilter';
 import { ProfileContext } from '@contexts/profile-context';
-import useAsyncEffect from 'use-async-effect';
+import { ProjectList } from '@components/ProjectLists';
+import { TriggerLoad } from '@components/TriggerLoader';
 
 export const CreatedTab = (): JSX.Element => {
-  const { profileProjects, handleFetchProjects } = useContext(ProfileContext);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
-  useAsyncEffect(async () => {
-    if (handleFetchProjects) {
-      await handleFetchProjects();
-      setIsLoaded(true);
-    }
-  }, []);
+  const { isLoadedProfileProjects, profileProjects, handleFetchProjects } =
+    useContext(ProfileContext);
 
   return (
     <>
@@ -34,13 +27,18 @@ export const CreatedTab = (): JSX.Element => {
           />
         </div>
         <div className={s.tokenListWrapper}>
-          <Loading isLoaded={isLoaded} />
-          {isLoaded && (
-            <div className={s.tokenList}>
-              <CollectionList listData={profileProjects?.result} />
-              <div className={s.trigger} />
-            </div>
+          {!profileProjects?.total && (
+            <Loading isLoaded={isLoadedProfileProjects} />
           )}
+          <div className={s.tokenList}>
+            <ProjectList listData={profileProjects?.result} />
+            <TriggerLoad
+              len={profileProjects?.result.length || 0}
+              total={profileProjects?.total || 0}
+              isLoaded={isLoadedProfileProjects}
+              onEnter={handleFetchProjects}
+            />
+          </div>
         </div>
       </div>
     </>
