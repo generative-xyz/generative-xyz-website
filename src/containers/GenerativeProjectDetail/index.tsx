@@ -25,7 +25,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { projectID } = router.query as { projectID: string };
-  const [projectInfo, setProjectInfo] = useState<Project | null>(null);
+  const [projectInfo, setProjectInfo] = useState<Project | undefined>();
 
   const [listItems, setListItems] = useState<Token[]>([]);
 

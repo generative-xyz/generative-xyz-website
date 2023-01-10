@@ -12,7 +12,7 @@ import s from './Marketplace.module.scss';
 const LOG_PREFIX = 'Marketplace';
 
 const Marketplace = () => {
-  const [projectInfo, setProjectInfo] = useState<Project | null>(null);
+  const [projectInfo, setProjectInfo] = useState<Project | undefined>();
 
   const fetchRandomProject = async () => {
     try {
