@@ -18,6 +18,7 @@ import { isTestnet } from '@utils/chain';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@redux/user/selector';
 import BN from 'bn.js';
+import { ErrorMessage } from '@enums/error-message';
 
 const LOG_PREFIX = 'Empty';
 
@@ -95,7 +96,7 @@ export const Empty = ({
   useEffect(() => {
     if (errorMessage) {
       toast.remove();
-      toast.error('Oops. Something went wrong. Please try again later.');
+      toast.error(ErrorMessage.DEFAULT);
       resetMintToken();
     }
   }, [errorMessage]);

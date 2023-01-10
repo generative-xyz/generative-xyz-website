@@ -16,6 +16,9 @@ import MakeTokenOfferOperation from '@services/contract-operations/generative-ma
 import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
 import IsApprrovedForAllOperation from '@services/contract-operations/generative-nft/is-approved-for-all';
 import SetApprrovalForAllOperation from '@services/contract-operations/generative-nft/set-approval-for-all';
+import AcceptTokenOfferOperation from '@services/contract-operations/generative-marketplace/accept-token-offer';
+import CancelTokenOfferOperation from '@services/contract-operations/generative-marketplace/cancel-token-offer';
+import TransferTokenOperation from '@services/contract-operations/generative-nft/transfer-token';
 import {
   getListing,
   getMakeOffers,
@@ -35,6 +38,7 @@ import React, {
 } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { ErrorMessage } from '@enums/error-message';
 import Web3 from 'web3';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
@@ -65,7 +69,10 @@ export interface IGenerativeTokenDetailContext {
   showMakeOfferModal: boolean;
   openMakeOfferModal: () => void;
   hideMakeOffergModal: () => void;
-  handleMakeTokenOffer: (_p: string, _d: number) => Promise<void>;
+  handleMakeTokenOffer: (_price: string, _duration: number) => Promise<void>;
+  handleAcceptOffer: (_: TokenOffer) => Promise<void>;
+  handleCancelOffer: (_: TokenOffer) => Promise<void>;
+  handleTransferToken: (_tokenID: string, _addr: string) => Promise<void>;
 }
 
 const initialValue: IGenerativeTokenDetailContext = {
@@ -115,6 +122,9 @@ const initialValue: IGenerativeTokenDetailContext = {
     return;
   },
   handleMakeTokenOffer: (_p: string, _d: number) => new Promise(r => r()),
+  handleAcceptOffer: _ => new Promise(r => r()),
+  handleCancelOffer: _ => new Promise(r => r()),
+  handleTransferToken: (_tokenID, _addr) => new Promise(r => r()),
 };
 
 export const GenerativeTokenDetailContext =
@@ -158,6 +168,18 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   );
   const { call: increaseAllowance } = useContractOperation(
     IncreaseAllowanceOperation,
+    true
+  );
+  const { call: acceptOffer } = useContractOperation(
+    AcceptTokenOfferOperation,
+    true
+  );
+  const { call: cancelOffer } = useContractOperation(
+    CancelTokenOfferOperation,
+    true
+  );
+  const { call: transferToken } = useContractOperation(
+    TransferTokenOperation,
     true
   );
   const router = useRouter();
@@ -235,7 +257,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     });
 
     if (!tx) {
-      setErrorMessage('Oops. Something went wrong. Please try again later.');
+      setErrorMessage(ErrorMessage.DEFAULT);
       log('listing token transaction error.', LogLevel.Error, LOG_PREFIX);
       return;
     } else {
@@ -255,7 +277,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       chainID: NETWORK_CHAIN_ID,
     });
     if (!tx) {
-      toast.error('Oops. Something went wrong. Please try again later.');
+      toast.error(ErrorMessage.DEFAULT);
       log('purchase token transaction error.', LogLevel.Error, LOG_PREFIX);
     } else {
       toast.success('You has bought this art successfully');
@@ -285,7 +307,83 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
 
     if (!tx) {
       log('Make token offer transaction error.', LogLevel.Error, LOG_PREFIX);
-      throw Error('Oops. Something went wrong. Please try again');
+      throw Error(ErrorMessage.DEFAULT);
+    }
+
+    setShowMakeOfferModal(false);
+  };
+
+  const handleAcceptOffer = async (offer: TokenOffer): Promise<void> => {
+    if (!tokenData) {
+      return;
+    }
+
+    // Check if token's already been approved
+    const isTokenApproved = await checkTokenIsApproved({
+      marketplaceAddress: GENERATIVE_MARKETPLACE_CONTRACT,
+      chainID: NETWORK_CHAIN_ID,
+      collectionAddress: tokenData.genNFTAddr,
+    });
+    if (isTokenApproved === null) {
+      setErrorMessage('Transaction rejected.');
+      log('listing token transaction error.', LogLevel.Error, LOG_PREFIX);
+      return;
+    }
+    if (!isTokenApproved) {
+      const status = await setApprovalForAll({
+        marketplaceAddress: GENERATIVE_MARKETPLACE_CONTRACT,
+        chainID: NETWORK_CHAIN_ID,
+        collectionAddress: tokenData.genNFTAddr,
+      });
+      if (!status) {
+        setErrorMessage('Transaction rejected.');
+        log('listing token transaction error.', LogLevel.Error, LOG_PREFIX);
+        return;
+      }
+    }
+
+    // Accept offer
+    const tx = await acceptOffer({
+      offerId: offer.offeringID,
+      chainID: NETWORK_CHAIN_ID,
+    });
+
+    if (!tx) {
+      log('Accept token offer transaction error.', LogLevel.Error, LOG_PREFIX);
+      throw Error(ErrorMessage.DEFAULT);
+    }
+  };
+
+  const handleCancelOffer = async (offer: TokenOffer): Promise<void> => {
+    const tx = await cancelOffer({
+      offerId: offer.offeringID,
+      chainID: NETWORK_CHAIN_ID,
+    });
+
+    if (!tx) {
+      log('Cancel token offer transaction error.', LogLevel.Error, LOG_PREFIX);
+      throw Error(ErrorMessage.DEFAULT);
+    }
+  };
+
+  const handleTransferToken = async (
+    tokenID: string,
+    toAddress: string
+  ): Promise<void> => {
+    if (!tokenData) {
+      return;
+    }
+
+    const tx = await transferToken({
+      chainID: NETWORK_CHAIN_ID,
+      toAddress,
+      tokenID,
+      collectionAddress: tokenData?.genNFTAddr,
+    });
+
+    if (!tx) {
+      log('Cancel token offer transaction error.', LogLevel.Error, LOG_PREFIX);
+      throw Error(ErrorMessage.DEFAULT);
     }
   };
 
@@ -411,6 +509,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       openMakeOfferModal,
       hideMakeOffergModal,
       handleMakeTokenOffer,
+      handleAcceptOffer,
+      handleCancelOffer,
+      handleTransferToken,
     };
   }, [
     tokenData,
@@ -439,6 +540,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     openMakeOfferModal,
     hideMakeOffergModal,
     handleMakeTokenOffer,
+    handleAcceptOffer,
+    handleCancelOffer,
+    handleTransferToken,
   ]);
 
   return (

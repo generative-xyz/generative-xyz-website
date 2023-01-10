@@ -10,6 +10,7 @@ import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
 import { CDN_URL, NETWORK_CHAIN_ID } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
+import { ErrorMessage } from '@enums/error-message';
 import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
 import { IGetProjectDetailResponse } from '@interfaces/api/project';
@@ -390,7 +391,7 @@ const ProjectIntroSection = ({ project }: Props) => {
   useEffect(() => {
     if (errorMessage) {
       toast.remove();
-      toast.error('Oops. Something went wrong. Please try again later.');
+      toast.error(ErrorMessage.DEFAULT);
       resetMintToken();
     }
   }, [errorMessage]);

@@ -4,11 +4,11 @@ import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/generative-marketplace.json';
 import { GENERATIVE_MARKETPLACE_CONTRACT } from '@constants/contract-address';
-import { IPurchaseTokenParams } from '@interfaces/contract-operations/purchase-token';
+import { ICancelTokenOfferParams } from '@interfaces/contract-operations/cancel-token-offer';
 import { ErrorMessage } from '@enums/error-message';
 
-class PurchaseTokenOperation extends ContractOperation<
-  IPurchaseTokenParams,
+class CancelTokenOfferOperation extends ContractOperation<
+  ICancelTokenOfferParams,
   TransactionReceipt
 > {
   contract: Contract | null = null;
@@ -26,17 +26,17 @@ class PurchaseTokenOperation extends ContractOperation<
       throw Error('Contract not found');
     }
 
-    const { offerId, price } = this.params;
+    const { offerId } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
-    const buyTokenIdBytes32 = '0x' + offerId;
+    const tokenIdBytes32 = '0x' + offerId;
 
     const data = await this.contract.methods
-      .purchaseToken(buyTokenIdBytes32)
+      .cancelMakeOffer(tokenIdBytes32)
       .send({
         from: walletAddress,
         to: this.contractAddress,
-        value: price,
+        value: '0',
       });
 
     return data;
@@ -51,4 +51,4 @@ class PurchaseTokenOperation extends ContractOperation<
   }
 }
 
-export default PurchaseTokenOperation;
+export default CancelTokenOfferOperation;
