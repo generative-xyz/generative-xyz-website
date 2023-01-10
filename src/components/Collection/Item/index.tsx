@@ -21,11 +21,17 @@ const CollectionItem = ({ data }: { data: Token }) => {
 
   const handleFetchListingTokenPrice = async () => {
     try {
-      const listingTokens = await getListing({
-        genNFTAddr: data.genNFTAddr,
-        tokenId: tokenID,
-        closed: false,
-      });
+      const listingTokens = await getListing(
+        {
+          genNFTAddr: data.genNFTAddr,
+          tokenId: tokenID,
+        },
+        {
+          closed: false,
+          sort_by: 'newest',
+          sort: -1,
+        }
+      );
       if (listingTokens && listingTokens.result[0]) {
         setListingTokenPrice(
           Web3.utils.fromWei(listingTokens.result[0].price, 'ether')

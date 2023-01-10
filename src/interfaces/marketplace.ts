@@ -9,5 +9,5 @@ export interface MarketplaceStats {
 export interface IMakeOffers {
   genNFTAddr: string;
   tokenId: string;
-  closed: boolean;
+  closed?: boolean;
 }

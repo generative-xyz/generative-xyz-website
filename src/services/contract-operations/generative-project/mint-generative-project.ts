@@ -9,6 +9,7 @@ import {
   GENERATIVE_PROJECT_CONTRACT,
   ROOT_ADDRESS,
 } from '@constants/contract-address';
+import { ErrorMessage } from '@enums/error-message';
 
 class MintGenerativeProjectOperation extends ContractOperation<
   IMintGenerativeProjectParams,
@@ -111,7 +112,7 @@ class MintGenerativeProjectOperation extends ContractOperation<
   }
 
   error(): string {
-    return 'Oops, banana!';
+    return ErrorMessage.DEFAULT;
   }
 }
 

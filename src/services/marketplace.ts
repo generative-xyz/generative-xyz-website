@@ -6,24 +6,22 @@ import {
   ITokenOfferListResponse,
   IMarketplaceStatsResponse,
   IMakeOffersParams,
+  IMakeOffersQuery,
 } from '@interfaces/api/marketplace';
+import queryString from 'query-string';
 
 const LOG_PREFIX = 'MarketplaceService';
 
 const API_PATH = '/marketplace';
 
-export const getListing = async ({
-  genNFTAddr,
-  tokenId,
-  closed = false,
-}: {
-  genNFTAddr: string;
-  tokenId: string;
-  closed: boolean;
-}): Promise<IListingTokensResponse> => {
+export const getListing = async (
+  params: IMakeOffersParams,
+  query: IMakeOffersQuery
+): Promise<IListingTokensResponse> => {
   try {
+    const qs = '?' + queryString.stringify(query);
     return await get<IListingTokensResponse>(
-      `${API_PATH}/listing/${genNFTAddr}/token/${tokenId}?closed=${closed}`
+      `${API_PATH}/listing/${params.genNFTAddr}/token/${params.tokenId}${qs}`
     );
   } catch (err: unknown) {
     log('failed to get listing token', LogLevel.Error, LOG_PREFIX);

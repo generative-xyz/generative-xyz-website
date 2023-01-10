@@ -9,6 +9,7 @@ import {
   ROOT_ADDRESS,
 } from '@constants/contract-address';
 import Web3 from 'web3';
+import { ErrorMessage } from '@enums/error-message';
 
 class ListingToSaleTokenOperation extends ContractOperation<
   IListingTokenParams,
@@ -67,7 +68,7 @@ class ListingToSaleTokenOperation extends ContractOperation<
   }
 
   error(): string {
-    return 'Oops, banana!';
+    return ErrorMessage.DEFAULT;
   }
 }
 

@@ -62,6 +62,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
   const activePath = router.asPath.split('/')[1];
   const [openProfile, setOpenProfile] = useState(false);
   const [balance, setBalance] = useState('');
+
   const handleBalance = async (walletAddr: string) => {
     if (walletAddr && walletAddr.length > 0) {
       const walletManagerInstance = new WalletManager();
