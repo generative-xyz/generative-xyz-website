@@ -30,7 +30,7 @@ export type TokenOffer = {
   collectionContract: string;
   erc20Token: string;
   finished: boolean;
-  durationTime: number;
+  durationTime: string;
   token?: Token;
   buyer?: string;
 };

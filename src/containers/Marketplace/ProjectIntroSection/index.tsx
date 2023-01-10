@@ -28,7 +28,7 @@ import BN from 'bn.js';
 import dayjs from 'dayjs';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import Web3 from 'web3';
@@ -133,15 +133,15 @@ const ProjectIntroSection = ({ project }: Props) => {
 
   const isProjectDetailPage = !!router.query.projectID;
 
-  const offerAvailable = useMemo(() => {
-    if (project?.mintingInfo?.index && project?.maxSupply) {
-      return (
-        project?.mintingInfo?.index > 0 &&
-        project?.mintingInfo?.index <= project?.maxSupply
-      );
-    }
-    return false;
-  }, [project?.mintingInfo?.index, project?.maxSupply]);
+  // const offerAvailable = useMemo(() => {
+  //   if (project?.mintingInfo?.index && project?.maxSupply) {
+  //     return (
+  //       project?.mintingInfo?.index > 0 &&
+  //       project?.mintingInfo?.index <= project?.maxSupply
+  //     );
+  //   }
+  //   return false;
+  // }, [project?.mintingInfo?.index, project?.maxSupply]);
 
   useEffect(() => {
     handleFetchMarketplaceStats();
@@ -235,7 +235,7 @@ const ProjectIntroSection = ({ project }: Props) => {
               </Heading>
             </div>
           </div>
-          {offerAvailable && (
+          {/* {offerAvailable && (
             <div className={s.CTA}>
               <ButtonIcon sizes="large" variants="outline">
                 Make collection offer
@@ -248,7 +248,7 @@ const ProjectIntroSection = ({ project }: Props) => {
                 Make offer for any NFT from this collection
               </Text>
             </div>
-          )}
+          )} */}
           <div className={s.accordion_list}>
             {project?.desc && (
               <Accordion
