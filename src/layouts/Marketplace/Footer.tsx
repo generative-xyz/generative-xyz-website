@@ -14,13 +14,19 @@ const Footer: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
     if (!refFooter.current) return;
     const resize = new ResizeObserver(() => {
       if (!refFooter || !refFooter.current) return;
-      refFooter.current?.classList.remove(styles['isFixed']);
-      const bottom = refFooter?.current?.getBoundingClientRect().bottom || 0;
-      if (bottom < window.innerHeight) {
+
+      const scrollHeight =
+        (document.querySelector('main')?.scrollHeight || 0) +
+        (document.querySelector('header')?.scrollHeight || 0) +
+        refFooter?.current?.getBoundingClientRect().height;
+
+      if (scrollHeight < window.innerHeight) {
         refFooter.current?.classList.add(styles['isFixed']);
+      } else {
+        refFooter.current?.classList.remove(styles['isFixed']);
       }
     });
-    resize.observe(document.body);
+    resize.observe(document.querySelector('main') || document.body);
   }, []);
 
   return (

@@ -5,6 +5,7 @@ import ContractOperation from '@services/contract-operations/contract-operation'
 import ContractABI from '@services/contract-abis/generative-marketplace.json';
 import { GENERATIVE_MARKETPLACE_CONTRACT } from '@constants/contract-address';
 import { IPurchaseTokenParams } from '@interfaces/contract-operations/purchase-token';
+import { ErrorMessage } from '@enums/error-message';
 
 class PurchaseTokenOperation extends ContractOperation<
   IPurchaseTokenParams,
@@ -46,7 +47,7 @@ class PurchaseTokenOperation extends ContractOperation<
   }
 
   error(): string {
-    return 'Oops, banana!';
+    return ErrorMessage.DEFAULT;
   }
 }
 

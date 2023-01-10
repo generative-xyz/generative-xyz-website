@@ -6,6 +6,7 @@ import ContractABI from '@services/contract-abis/generative-marketplace.json';
 import { GENERATIVE_MARKETPLACE_CONTRACT } from '@constants/contract-address';
 import { IMakeTokenOfferParams } from '@interfaces/contract-operations/make-token-offer';
 import Web3 from 'web3';
+import { ErrorMessage } from '@enums/error-message';
 
 class MakeTokenOfferOperation extends ContractOperation<
   IMakeTokenOfferParams,
@@ -59,7 +60,7 @@ class MakeTokenOfferOperation extends ContractOperation<
   }
 
   error(): string {
-    return 'Oops, banana!';
+    return ErrorMessage.DEFAULT;
   }
 }
 

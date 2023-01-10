@@ -22,10 +22,6 @@ import _get from 'lodash/get';
 import { createProjectMetadata } from '@services/project';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { isTestnet } from '@utils/chain';
-import { WalletManager } from '@services/wallet';
-import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
-import { getUserSelector } from '@redux/user/selector';
 
 const LOG_PREFIX = 'SetPrice';
 
@@ -37,7 +33,6 @@ type ISetPriceFormValue = {
 
 const SetPrice = () => {
   const router = useRouter();
-  const user = useSelector(getUserSelector);
   const {
     formValues,
     setFormValues,
@@ -55,7 +50,7 @@ const SetPrice = () => {
   const { call: getParamControl } = useContractOperation<
     IGetParameterControlParams,
     number
-  >(GetParamControlOperation, false);
+  >(GetParamControlOperation, true);
   const [isMinting, setIsMinting] = useState(false);
 
   const validateForm = (values: ISetPriceFormValue): Record<string, string> => {
@@ -95,7 +90,6 @@ const SetPrice = () => {
   };
 
   const handleSubmit = async (): Promise<void> => {
-    // TODO Show error
     if (!filesSandbox) {
       log('No sandbox files', LogLevel.Debug, LOG_PREFIX);
       return;
@@ -172,27 +166,6 @@ const SetPrice = () => {
         mintFee: mintFee,
       };
 
-      if (mintFee > 0) {
-        const walletManagerInstance = new WalletManager();
-        if (walletManagerInstance) {
-          const check = await walletManagerInstance.checkInsufficient(
-            user.walletAddress,
-            '0x0000000000000000000000000000000000000000',
-            mintFee.toString()
-          );
-          if (!check) {
-            if (isTestnet()) {
-              toast.error(
-                'Insufficient funds testnet. Go to profile and get testnet faucet'
-              );
-            } else {
-              toast.error('Insufficient funds.');
-            }
-            return;
-          }
-        }
-      }
-
       const mintTx = await mintProject(projectPayload);
 
       if (!mintTx) {
@@ -222,7 +195,7 @@ const SetPrice = () => {
         shallow: true,
       });
     } catch (err: unknown) {
-      log(err as Error, LogLevel.Debug, LOG_PREFIX);
+      log(err as Error, LogLevel.Error, LOG_PREFIX);
       setShowErrorAlert({ open: true, message: null });
     } finally {
       setIsMinting(false);

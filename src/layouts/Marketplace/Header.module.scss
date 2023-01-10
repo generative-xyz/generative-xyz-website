@@ -1,6 +1,13 @@
 @import 'src/styles/_themes/mixins';
 
 .header {
+  position: sticky;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background-color: $white;
+
   &.dark {
     background: $primary-brand;
 
@@ -65,14 +72,15 @@
       flex-wrap: wrap;
       font-weight: 600;
       color: $black-40;
+      line-height: (26/16);
 
       @include min-tablet {
         display: flex;
         gap: rem(24px);
-        font-size: rem(16px);
-        line-height: rem(26px);
         margin-left: rem(60px);
       }
+
+      @include calcFontAuto(13px, 16px);
 
       li {
         @include mobile {
@@ -134,7 +142,7 @@
       border-radius: 8px;
       border: 2px solid $black-10;
       overflow: hidden;
-      width: rem(188);
+      min-width: rem(188);
       box-shadow: 8px 7px 24px 0 #00000026;
       position: absolute;
       right: 0;

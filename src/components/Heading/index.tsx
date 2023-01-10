@@ -20,8 +20,8 @@ import {
 } from '@helpers/anim.helpers';
 
 type THeading = {
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
-  fontWeight?: 'bold' | 'semibold' | 'medium' | 'normal' | 'light';
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  fontWeight?: 'bold' | 'semibold' | 'medium' | 'normal' | 'light' | 'regular';
   style?: CSSProperties;
   className?: string;
   color?: string;
@@ -66,7 +66,7 @@ const Heading = ({
           case 'heading':
             comp.current.classList.add(`is-handle`);
             refDom.current.texts = new SplitType(comp.current, {
-              types: 'lines, chars',
+              types: 'words, chars',
             });
 
             refDom.current.resizeObserver = new ResizeObserver(
@@ -103,7 +103,14 @@ const Heading = ({
         case 'heading':
           comp.current?.classList.remove(`is-handle`);
           refDom.current?.texts && refDom.current.texts?.revert();
-          refDom.current.resizeObserver?.unobserve(comp.current as HTMLElement);
+          if (
+            refDom.current.resizeObserver &&
+            refDom.current.resizeObserver?.unobserve
+          ) {
+            refDom.current.resizeObserver?.unobserve(
+              comp.current as HTMLElement
+            );
+          }
           break;
         case 'random':
           if (comp.current)
@@ -131,6 +138,7 @@ const Heading = ({
                 from: 'random',
               },
               onComplete: () => {
+                // setTimeout(() => refDom.current.texts?.revert(), 150);
                 refDom.current.resizeObserver?.unobserve(
                   comp.current as HTMLElement
                 );

@@ -10,6 +10,7 @@ import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
 import { CDN_URL, NETWORK_CHAIN_ID } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
+import { ErrorMessage } from '@enums/error-message';
 import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
 import { IGetProjectDetailResponse } from '@interfaces/api/project';
@@ -28,7 +29,7 @@ import BN from 'bn.js';
 import dayjs from 'dayjs';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import Web3 from 'web3';
@@ -38,7 +39,7 @@ import s from './styles.module.scss';
 const LOG_PREFIX = 'ProjectIntroSection';
 
 type Props = {
-  project: IGetProjectDetailResponse | null;
+  project?: IGetProjectDetailResponse;
 };
 
 const ProjectIntroSection = ({ project }: Props) => {
@@ -133,15 +134,15 @@ const ProjectIntroSection = ({ project }: Props) => {
 
   const isProjectDetailPage = !!router.query.projectID;
 
-  const offerAvailable = useMemo(() => {
-    if (project?.mintingInfo?.index && project?.maxSupply) {
-      return (
-        project?.mintingInfo?.index > 0 &&
-        project?.mintingInfo?.index <= project?.maxSupply
-      );
-    }
-    return false;
-  }, [project?.mintingInfo?.index, project?.maxSupply]);
+  // const offerAvailable = useMemo(() => {
+  //   if (project?.mintingInfo?.index && project?.maxSupply) {
+  //     return (
+  //       project?.mintingInfo?.index > 0 &&
+  //       project?.mintingInfo?.index <= project?.maxSupply
+  //     );
+  //   }
+  //   return false;
+  // }, [project?.mintingInfo?.index, project?.maxSupply]);
 
   useEffect(() => {
     handleFetchMarketplaceStats();
@@ -235,7 +236,7 @@ const ProjectIntroSection = ({ project }: Props) => {
               </Heading>
             </div>
           </div>
-          {offerAvailable && (
+          {/* {offerAvailable && (
             <div className={s.CTA}>
               <ButtonIcon sizes="large" variants="outline">
                 Make collection offer
@@ -248,7 +249,7 @@ const ProjectIntroSection = ({ project }: Props) => {
                 Make offer for any NFT from this collection
               </Text>
             </div>
-          )}
+          )} */}
           <div className={s.accordion_list}>
             {project?.desc && (
               <Accordion
@@ -390,7 +391,7 @@ const ProjectIntroSection = ({ project }: Props) => {
   useEffect(() => {
     if (errorMessage) {
       toast.remove();
-      toast.error('Oops. Something went wrong. Please try again later.');
+      toast.error(ErrorMessage.DEFAULT);
       resetMintToken();
     }
   }, [errorMessage]);

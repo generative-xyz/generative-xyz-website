@@ -9,8 +9,8 @@ export const calculateFloorDifference = (
   floor: string,
   amount: string
 ): string => {
-  if (floor === '0') return '0';
-  const diff = (Number(floor) - Number(amount)) / Number(amount);
+  if (floor === '0') return '-';
+  const diff = (Number(amount) - Number(floor)) / Number(amount);
   if (diff === 0) {
     return '0%';
   } else if (diff < 0) {

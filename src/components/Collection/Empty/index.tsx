@@ -18,13 +18,14 @@ import { isTestnet } from '@utils/chain';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@redux/user/selector';
 import BN from 'bn.js';
+import { ErrorMessage } from '@enums/error-message';
 
 const LOG_PREFIX = 'Empty';
 
 export const Empty = ({
   projectInfo,
 }: {
-  projectInfo: Project | null;
+  projectInfo?: Project;
 }): JSX.Element => {
   const user = useSelector(getUserSelector);
   const router = useRouter();
@@ -95,13 +96,13 @@ export const Empty = ({
   useEffect(() => {
     if (errorMessage) {
       toast.remove();
-      toast.error('Oops. Something went wrong. Please try again later.');
+      toast.error(ErrorMessage.DEFAULT);
       resetMintToken();
     }
   }, [errorMessage]);
 
   return (
-    <div className={s.empty}>
+    <div className={`${s.empty} empty`}>
       <div className={s.empty_inner}>
         <div className={s.empty_thumb}>
           <img src={`${CDN_URL}/pages/marketplace/empty.svg`} alt="empty.svg" />
@@ -109,16 +110,18 @@ export const Empty = ({
         <div className={s.empty_desc}>
           Bring your unique vision to life. Mint your first NFT now
         </div>
-        <ButtonIcon
-          onClick={handleMintToken}
-          sizes="large"
-          disabled={isMinting}
-          endIcon={
-            <SvgInset svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`} />
-          }
-        >
-          {isMinting ? 'Minting...' : 'Mint now'}
-        </ButtonIcon>
+        {projectInfo && (
+          <ButtonIcon
+            onClick={handleMintToken}
+            sizes="large"
+            disabled={isMinting}
+            endIcon={
+              <SvgInset svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`} />
+            }
+          >
+            {isMinting ? 'Minting...' : 'Mint now'}
+          </ButtonIcon>
+        )}
       </div>
     </div>
   );

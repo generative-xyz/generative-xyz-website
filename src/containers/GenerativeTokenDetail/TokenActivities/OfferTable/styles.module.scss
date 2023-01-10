@@ -1,5 +1,10 @@
-.action_btn {
+.actionWrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: 10px;
+
+  .actionBtn {
+    height: 34px;
+  }
 }

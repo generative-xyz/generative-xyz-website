@@ -32,28 +32,22 @@ const LOG_PREFIX = 'MarketplaceHeader';
 
 const MENU_HEADER = [
   {
-    id: 'menu-1',
-    name: 'create',
-    route: ROUTE_PATH.CREATE_PROJECT,
-    activePath: 'mint-generative',
-  },
-  {
-    id: 'menu-2',
-    name: 'marketplace',
-    route: ROUTE_PATH.MARKETPLACE,
-    activePath: 'marketplace',
-  },
-  {
     id: 'menu-4',
     name: 'display',
     route: ROUTE_PATH.DISPLAY,
     activePath: 'display',
   },
   {
-    id: 'menu-3',
-    name: 'sandbox',
-    route: ROUTE_PATH.SANDBOX,
-    activePath: 'sandbox',
+    id: 'menu-1',
+    name: 'create',
+    route: ROUTE_PATH.BENEFIT,
+    activePath: 'benefit',
+  },
+  {
+    id: 'menu-2',
+    name: 'marketplace',
+    route: ROUTE_PATH.MARKETPLACE,
+    activePath: 'marketplace',
   },
 ];
 
@@ -68,6 +62,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
   const activePath = router.asPath.split('/')[1];
   const [openProfile, setOpenProfile] = useState(false);
   const [balance, setBalance] = useState('');
+
   const handleBalance = async (walletAddr: string) => {
     if (walletAddr && walletAddr.length > 0) {
       const walletManagerInstance = new WalletManager();
@@ -188,7 +183,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
   const onWinScrolling = () => {
     if (refData.current.lock) return;
     const scrollTop = getScrollTop();
-    if (scrollTop - refData.current.scrollCurrent > 0) {
+    if (scrollTop - refData.current.scrollCurrent > 0 && scrollTop > 100) {
       if (!refData.current.isHide) {
         hideMenu();
       }
@@ -229,7 +224,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
   }, [disabledMenu]);
 
   return (
-    <header className={`${styles.header} ${styles[theme]}`}>
+    <header ref={refHeader} className={`${styles.header} ${styles[theme]}`}>
       <Container>
         <div className={styles.headerWrapper}>
           <div className="d-flex align-items-center justify-content-between w-100">
