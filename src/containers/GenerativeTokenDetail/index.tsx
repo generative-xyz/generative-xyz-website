@@ -29,7 +29,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const {
     tokenData,
-    tokenOffers,
     tokenID,
     openListingModal,
     openMakeOfferModal,
@@ -38,7 +37,6 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     isTokenListing,
     listingPrice,
     listingOffers,
-    // setListingPrice,
   } = useContext(GenerativeTokenDetailContext);
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
@@ -99,9 +97,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     router.push(`${ROUTE_PATH.PROFILE}`);
   };
 
-  const handleBuyToken = () => {
+  const handleBuyToken = async (): Promise<void> => {
     setIsBuying(true);
-    handlePurchaseToken(tokenOffers[0]);
+    await handlePurchaseToken(listingOffers[0]);
     setIsBuying(false);
   };
 

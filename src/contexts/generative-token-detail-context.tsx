@@ -2,6 +2,7 @@ import { NETWORK_CHAIN_ID } from '@constants/config';
 import {
   GENERATIVE_MARKETPLACE_CONTRACT,
   GENERATIVE_PROJECT_CONTRACT,
+  MAX_HEX_VALUE,
   WETH_ADDRESS,
 } from '@constants/contract-address';
 import { ListingStep } from '@enums/listing-generative';
@@ -10,7 +11,7 @@ import useContractOperation from '@hooks/useContractOperation';
 import { MarketplaceStats } from '@interfaces/marketplace';
 import { Token, TokenOffer } from '@interfaces/token';
 import { getUserSelector } from '@redux/user/selector';
-import IncreaseAllowanceOperation from '@services/contract-operations/erc20/increase-allowance';
+import ApproveTokenAmountOperation from '@services/contract-operations/erc20/approve-token-amount';
 import ListingToSaleTokenOperation from '@services/contract-operations/generative-marketplace/list-to-sale-token';
 import MakeTokenOfferOperation from '@services/contract-operations/generative-marketplace/make-token-offer';
 import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
@@ -40,6 +41,7 @@ import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { ErrorMessage } from '@enums/error-message';
 import Web3 from 'web3';
+import GetAllowanceAmountOperation from '@services/contract-operations/erc20/get-allowance-amount';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
 
@@ -166,8 +168,12 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     MakeTokenOfferOperation,
     true
   );
-  const { call: increaseAllowance } = useContractOperation(
-    IncreaseAllowanceOperation,
+  const { call: approveTokenAmount } = useContractOperation(
+    ApproveTokenAmountOperation,
+    true
+  );
+  const { call: getAllowanceAmount } = useContractOperation(
+    GetAllowanceAmountOperation,
     true
   );
   const { call: acceptOffer } = useContractOperation(
@@ -289,12 +295,29 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       return;
     }
 
-    await increaseAllowance({
-      contractAddress: WETH_ADDRESS,
-      chainID: NETWORK_CHAIN_ID,
+    const allowanceAmount = await getAllowanceAmount({
       consumerAddress: GENERATIVE_MARKETPLACE_CONTRACT,
-      amount: price,
+      chainID: NETWORK_CHAIN_ID,
+      contractAddress: WETH_ADDRESS,
     });
+
+    if (allowanceAmount === null) {
+      log('Can not get allowanceAmount.', LogLevel.Error, LOG_PREFIX);
+      throw Error(ErrorMessage.DEFAULT);
+    }
+
+    if (BigInt(allowanceAmount) < BigInt(MAX_HEX_VALUE)) {
+      const approveTokenTx = await approveTokenAmount({
+        contractAddress: WETH_ADDRESS,
+        chainID: NETWORK_CHAIN_ID,
+        consumerAddress: GENERATIVE_MARKETPLACE_CONTRACT,
+      });
+
+      if (!approveTokenTx) {
+        log('User rejected WETH permission.', LogLevel.Error, LOG_PREFIX);
+        throw Error(ErrorMessage.DEFAULT);
+      }
+    }
 
     const tx = await makeTokenOffer({
       collectionAddress: tokenData.genNFTAddr,

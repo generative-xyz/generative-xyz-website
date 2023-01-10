@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-properties */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // #region Global Imports
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';

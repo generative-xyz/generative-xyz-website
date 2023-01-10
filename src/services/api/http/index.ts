@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getTokensFromLocalStorage } from '@helpers/auth';
 import axios from 'axios';
 import 'whatwg-fetch';

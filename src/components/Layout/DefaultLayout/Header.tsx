@@ -1,9 +1,9 @@
 import styles from './Header.module.scss';
-import Button from '@components/Button';
+import Button from '@components/ButtonIcon';
 import Link from '@components/Link';
 import { ROUTE_PATH } from '@constants/route-path';
 import { WalletContext } from '@contexts/wallet-context';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Container, Stack } from 'react-bootstrap';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
@@ -16,12 +16,16 @@ const LOG_PREFIX = 'Header';
 const Header: React.FC = (): React.ReactElement => {
   const walletCtx = useContext(WalletContext);
   const user = useAppSelector(getUserSelector);
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const handleConnectWallet = async (): Promise<void> => {
     try {
+      setIsConnecting(true);
       await walletCtx.connect();
     } catch (err: unknown) {
       log(err as Error, LogLevel.Debug, LOG_PREFIX);
+    } finally {
+      setIsConnecting(false);
     }
   };
 
@@ -50,7 +54,9 @@ const Header: React.FC = (): React.ReactElement => {
                 </Link>
               </div>
             ) : (
-              <Button onClick={handleConnectWallet}>Connect wallet</Button>
+              <Button disabled={isConnecting} onClick={handleConnectWallet}>
+                Connect wallet
+              </Button>
             )}
           </div>
         </div>
