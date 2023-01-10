@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24px);
+}
+
+.input_nickname {
+  margin-bottom: rem(8px);
+}
+
+.input_social {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16px);
+}
+
+.submit_btn {
+  width: fit-content;
+}
