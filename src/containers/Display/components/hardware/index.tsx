@@ -8,6 +8,7 @@ import { Frames } from '@animations/frames';
 import { HARDWARE_CONTENTS } from '@constants/frame';
 import { useRef, useEffect } from 'react';
 import { Benchmark } from './benchmark';
+import { CDN_URL } from '@constants/config';
 
 export const HardWare = (): JSX.Element => {
   const refOptions = useRef({ isCPUIn: false, isFirst: false });
@@ -93,10 +94,8 @@ export const HardWare = (): JSX.Element => {
               width={1920}
               height={1080}
               className={s.hardWare_content_main}
-              urlFrame={
-                'https://cdn.generative.xyz/pages/home/frame-3/block-3-v2-%d.png'
-              }
-              webmFrame={`https://cdn.generative.xyz/pages/home/frame-3/block-3-v2-%d.png.webp`}
+              urlFrame={`${CDN_URL}/pages/home/frame-3/block-3-v2-%d.png`}
+              webmFrame={`${CDN_URL}/pages/home/frame-3/block-3-v2-%d.png.webp`}
               totalFrames={111}
               onProcessing={processing}
             >

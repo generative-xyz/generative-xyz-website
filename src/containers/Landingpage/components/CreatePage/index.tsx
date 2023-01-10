@@ -78,7 +78,7 @@ export const CreatePageSection = (): JSX.Element => {
             <div className={s.createPage_content}>
               <Heading
                 as={'h5'}
-                color={'blue-c'}
+                color={'purple-a'}
                 className={'spacing__small'}
                 fontWeight={'semibold'}
                 animOption={{ screen: 0, offset: 0, type: 'random' }}
@@ -88,7 +88,7 @@ export const CreatePageSection = (): JSX.Element => {
               <Text
                 as={'h2'}
                 color={'white'}
-                fontWeight={'medium'}
+                fontWeight={'semibold'}
                 className={'spacing__small'}
                 size={'d3'}
                 animOption={{ screen: 0.2, offset: 0, type: 'heading' }}
@@ -96,24 +96,21 @@ export const CreatePageSection = (): JSX.Element => {
                 Where imagination comes to life.
               </Text>
               <Text
-                size="24"
+                size="20"
                 color={'white-80'}
                 className={'spacing__large'}
                 fontWeight="regular"
                 as="p"
                 animOption={{ screen: 0.4, offset: 0, type: 'paragraph' }}
               >
-                World-renowned artists. A hand-crafted experience for
-                discovering art you love.{' '}
-                <strong className={'text-blue-c'}>
-                  100% verified collections
-                </strong>
-                . And industry-leading 1% fees when {`you're`} ready to buy.
+                A tailored experience for learning about and appreciating
+                generative art. Authentic collections by pioneering artists with
+                platform fees as low as 1%.
               </Text>
               <AnimFade screen={0.5}>
                 <ButtonIcon
                   onClick={onClick}
-                  sizes={'medium'}
+                  sizes={'large'}
                   variants={'secondary'}
                   endIcon={
                     <SvgInset

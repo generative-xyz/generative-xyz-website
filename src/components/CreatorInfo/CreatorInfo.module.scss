@@ -21,8 +21,8 @@
 
   &_displayName {
     font-weight: 600;
-    font-size: rem(16px);
-    line-height: rem(26px);
+    line-height: (26/16);
     color: $primary-brand;
+    @include calcFontAuto(13px, 16px);
   }
 }

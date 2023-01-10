@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { AnimHeading } from '@animations/heading';
 import { useAppDispatch } from '@redux';
 import { setIsScrolling } from '@redux/general/action';
+import { CDN_URL } from '@constants/config';
 
 export const SectionHero = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -41,14 +42,14 @@ export const SectionHero = (): JSX.Element => {
           muted
           playsInline
           preload="auto"
-          poster="https://cdn.generative.xyz/pages/home/videos/video-hero-block-1-poster.jpeg"
+          poster={`${CDN_URL}/pages/home/videos/video-hero-block-1-poster.jpeg`}
         >
           <source
-            src="https://cdn.generative.xyz/pages/home/videos/Block%201-1.webm"
+            src={`${CDN_URL}/pages/home/videos/Block%201-1.webm`}
             type="video/webm"
           />
           <source
-            src="https://cdn.generative.xyz/pages/home/Block-v2-1-1.mp4"
+            src={`${CDN_URL}/pages/home/Block-v2-1-1.mp4`}
             type="video/mp4"
           />
         </video>

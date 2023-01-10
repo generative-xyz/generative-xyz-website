@@ -1,0 +1,28 @@
+.benefit {
+  background-color: #0F0F11;
+  padding: {
+    bottom: rem(80px);
+  }
+  @include tablet {
+    padding: {
+      bottom: rem(240px);
+    }
+  }
+  @include min-pc {
+    padding: {
+      bottom: rem(184px);
+    }
+  }
+  &_rows {
+    display: flex;
+    justify-content: center;
+
+    &_inner {
+
+     max-width: 964px;
+      @include min-pc {
+        max-width: rem(964);
+      }
+    }
+  }
+}

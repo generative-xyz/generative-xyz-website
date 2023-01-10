@@ -8,6 +8,9 @@
   --bs-nav-tabs-link-active-border-color: transparent transparent transparent;
   border-bottom: 1px solid $black-10;
 
+  --bs-nav-link-color: #{rgba(#000, .4)};
+  --bs-nav-link-hover-color: #{$primary-brand};
+
   :global(.active) {
     &:after {
       width: 100%;
@@ -22,6 +25,9 @@
 
   font-size: rem(18px);
   line-height: (28/18);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-right: rem(48px);
 
   @include min-pc {
     font-size: calc-auto(1200px, 1920px, 16px, 18px);
@@ -42,5 +48,12 @@
     left: 50%;
     width: 0;
     transform: translateX(-50%);
+  }
+}
+
+.profile{
+  :global(.empty){
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
 }
