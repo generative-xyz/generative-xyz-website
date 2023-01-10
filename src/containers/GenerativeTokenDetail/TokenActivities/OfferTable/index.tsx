@@ -68,7 +68,7 @@ const OfferTable = () => {
         ),
         expired_date:
           offer?.durationTime === '0'
-            ? 'On Time'
+            ? 'All Time'
             : endDate.format('MMM DD, YYYY'),
         buyer:
           user.walletAddress === offer?.buyer ? (
