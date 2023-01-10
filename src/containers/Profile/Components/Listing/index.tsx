@@ -1,19 +1,20 @@
 import s from './Owned.module.scss';
 import { Loading } from '@components/Loading';
 import CollectionList from '@components/Collection/List';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TokenTopFilter from '@containers/GenerativeProjectDetail/TokenTopFilter';
-// import useAsyncEffect from 'use-async-effect';
-// import { ProfileContext } from '@contexts/profile-context';
+import { ProfileContext } from '@contexts/profile-context';
+import useAsyncEffect from 'use-async-effect';
 
 export const ListingTab = (): JSX.Element => {
-  // const context = useContext(ProfileContext);
-  //todo
+  const { profileListing, handleFetchListingTokens } =
+    useContext(ProfileContext);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // useAsyncEffect(async () => {
-  //   await
-  // }, []);
+  useAsyncEffect(async () => {
+    await handleFetchListingTokens();
+    setIsLoaded(true);
+  }, []);
   return (
     <>
       <div className={s.tabContent}>
@@ -33,7 +34,7 @@ export const ListingTab = (): JSX.Element => {
           <Loading isLoaded={isLoaded} />
           {isLoaded && (
             <div className={s.tokenList}>
-              <CollectionList listData={tokens?.result} />
+              <CollectionList listData={profileListing?.result} />
               <div className={s.trigger} />
             </div>
           )}
