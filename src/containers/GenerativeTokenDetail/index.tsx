@@ -37,6 +37,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     isTokenOwner,
     isTokenListing,
     listingPrice,
+    listingOffers,
     // setListingPrice,
   } = useContext(GenerativeTokenDetailContext);
   const scanURL = getScanUrl();
@@ -170,7 +171,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               {!isTokenOwner && isTokenListing && (
                 <>
                   <ButtonIcon
-                    disabled={!tokenOffers.length || isBuying}
+                    disabled={!listingOffers.length || isBuying}
                     onClick={handleBuyToken}
                   >
                     Buy
