@@ -24,7 +24,7 @@ const ListingForm: React.FC = (): React.ReactElement => {
     if (!values.price.toString()) {
       errors.price = 'Price is required.';
     } else if (values.price < 0) {
-      errors.mintPrice = 'Invalid number. Must be greater than 0.';
+      errors.price = 'Invalid number. Must be greater than 0.';
     } else {
       // Calculate earning
       const totalEarning =

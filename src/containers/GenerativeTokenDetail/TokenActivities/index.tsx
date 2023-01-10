@@ -1,52 +1,28 @@
-import { GenerativeTokenDetailContext } from '@contexts/generative-token-detail-context';
-import { LogLevel } from '@enums/log-level';
-import { getMakeOffers } from '@services/marketplace';
-import log from '@utils/logger';
-import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
+import OfferTable from './OfferTable';
 import s from './styles.module.scss';
-
-const LOG_PREFIX = 'TokenActivities';
+import TableActivities from './ActivitiesTable';
+import { useContext } from 'react';
+import { GenerativeTokenDetailContext } from '@contexts/generative-token-detail-context';
 
 const TokenActivities = () => {
-  const router = useRouter();
-  const { tokenID } = router.query as {
-    tokenID: string;
-  };
-
-  // const [makeOffers, setMakeOffers] = useState<IMakeOffers | null>(null);
-
-  const { tokenData } = useContext(GenerativeTokenDetailContext);
-  const handleFetchMakeOffers = async () => {
-    try {
-      if (tokenData && tokenData.genNFTAddr && tokenID) {
-        const makeOffers = await getMakeOffers({
-          genNFTAddr: tokenData?.genNFTAddr ? tokenData?.genNFTAddr : '',
-          tokenId: tokenID,
-          closed: false,
-        });
-        if (makeOffers && makeOffers.result[0]) {
-          // setMakeOffers(makeOffers);
-        }
-      }
-    } catch (e) {
-      log('can not fetch price', LogLevel.Error, LOG_PREFIX);
-      throw Error('failed to fetch item detail');
-    }
-  };
-
-  useEffect(() => {
-    handleFetchMakeOffers();
-  }, [tokenData]);
+  const { tokenOffers } = useContext(GenerativeTokenDetailContext);
 
   return (
     <div className={s.wrapper}>
-      {/* {makeOffers?.result[0].offeringID} */}
       <Tabs className={s.tabs} defaultActiveKey="offers">
-        <Tab tabClassName={s.tab} eventKey="offers" title="Offers">
+        <Tab
+          tabClassName={s.tab}
+          eventKey="offers"
+          title={`Offers (${tokenOffers.length})`}
+        >
           <div className={s.activities_table}>
-            {/* <Table data={}></Table> */}
+            <OfferTable></OfferTable>
+          </div>
+        </Tab>
+        <Tab tabClassName={s.tab} eventKey="activities" title="Activities">
+          <div className={s.activities_table}>
+            <TableActivities></TableActivities>
           </div>
         </Tab>
       </Tabs>

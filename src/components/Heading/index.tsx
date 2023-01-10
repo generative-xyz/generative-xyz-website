@@ -66,7 +66,7 @@ const Heading = ({
           case 'heading':
             comp.current.classList.add(`is-handle`);
             refDom.current.texts = new SplitType(comp.current, {
-              types: 'lines, chars',
+              types: 'chars',
             });
 
             refDom.current.resizeObserver = new ResizeObserver(
@@ -138,6 +138,7 @@ const Heading = ({
                 from: 'random',
               },
               onComplete: () => {
+                // setTimeout(() => refDom.current.texts?.revert(), 150);
                 refDom.current.resizeObserver?.unobserve(
                   comp.current as HTMLElement
                 );

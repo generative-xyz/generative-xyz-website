@@ -10,8 +10,7 @@ import useAsyncEffect from 'use-async-effect';
 import { getCategoryList } from '@services/category';
 import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { useRouter } from 'next/router';
-
-type SelectOption = { value: string; label: string };
+import { SelectOption } from '@interfaces/select-input';
 
 type IProductDetailFormValue = {
   name: string;

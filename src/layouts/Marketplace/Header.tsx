@@ -26,23 +26,11 @@ import { Container, Stack } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Web3 from 'web3';
 import styles from './Header.module.scss';
-import { getFaucet, isTestnet } from '@utils/chain';
+import { getFaucetLink, isTestnet } from '@utils/chain';
 
 const LOG_PREFIX = 'MarketplaceHeader';
 
 const MENU_HEADER = [
-  {
-    id: 'menu-1',
-    name: 'create',
-    route: ROUTE_PATH.CREATE_PROJECT,
-    activePath: 'mint-generative',
-  },
-  {
-    id: 'menu-2',
-    name: 'marketplace',
-    route: ROUTE_PATH.MARKETPLACE,
-    activePath: 'marketplace',
-  },
   {
     id: 'menu-4',
     name: 'display',
@@ -50,10 +38,16 @@ const MENU_HEADER = [
     activePath: 'display',
   },
   {
-    id: 'menu-3',
-    name: 'sandbox',
-    route: ROUTE_PATH.SANDBOX,
-    activePath: 'sandbox',
+    id: 'menu-1',
+    name: 'create',
+    route: ROUTE_PATH.BENEFIT,
+    activePath: 'benefit',
+  },
+  {
+    id: 'menu-2',
+    name: 'marketplace',
+    route: ROUTE_PATH.MARKETPLACE,
+    activePath: 'marketplace',
   },
 ];
 
@@ -96,7 +90,7 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
       id: 'faucet',
       name: 'Get faucet testnet',
       onClick: () => {
-        const faucet = getFaucet();
+        const faucet = getFaucetLink();
         if (faucet) {
           window.open(faucet, '_blank');
         }

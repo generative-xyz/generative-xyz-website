@@ -1,4 +1,5 @@
 import { User } from '@interfaces/user';
+import { MarketplaceStats } from './marketplace';
 
 export type ProjectSocial = {
   web: string;
@@ -39,7 +40,5 @@ export type Project = {
   };
   creatorProfile?: User;
   mintedTime: number;
-  stats: {
-    uniqueOwnerCount: number;
-  };
+  stats: MarketplaceStats;
 };

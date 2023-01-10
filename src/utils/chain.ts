@@ -34,7 +34,7 @@ export const getScanUrl = (): string | null => {
   return chain.scanUrl;
 };
 
-export const getFaucet = (): string | null => {
+export const getFaucetLink = (): string | null => {
   const chain = EVM_CHAINS.find(
     (item: Chain) => item.chainID === NETWORK_CHAIN_ID
   );

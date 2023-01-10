@@ -12,8 +12,8 @@
   }
 
   &:is(h3) {
-    font-size: rem(40px);
-    line-height: rem(50px);
+    line-height: (50/40);
+    @include calcFontAuto(24px, 40px);
   }
 
   &:is(h4) {

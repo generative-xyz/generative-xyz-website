@@ -5,45 +5,41 @@ import { Loading } from '@components/Loading';
 import Stats from '@components/Stats';
 import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
-import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { ROUTE_PATH } from '@constants/route-path';
 import {
   GenerativeTokenDetailContext,
   GenerativeTokenDetailProvider,
 } from '@contexts/generative-token-detail-context';
-import { LogLevel } from '@enums/log-level';
-import { getUserSelector } from '@redux/user/selector';
-import { getTokenUri } from '@services/token-uri';
 import { getChainName, getScanUrl } from '@utils/chain';
 import { formatAddress, formatTokenId } from '@utils/format';
-import log from '@utils/logger';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 import ListingTokenModal from './ListingTokenModal';
 import MoreItemsSection from './MoreItemsSection';
 import TokenActivities from './TokenActivities';
 import s from './styles.module.scss';
-import { getMakeOffers } from '@services/marketplace';
-import { TokenOffer } from '@interfaces/token';
+import MakeOfferModal from './MakeOfferModal';
 
-const LOG_PREFIX = 'GenerativeTokenDetail';
+// const LOG_PREFIX = 'GenerativeTokenDetail';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
-  const [tokenOffers, setTokenOffers] = useState<Array<TokenOffer>>([]);
-  const { tokenData, setTokenData, openListingModal, handlePurchaseToken } =
-    useContext(GenerativeTokenDetailContext);
-  const user = useSelector(getUserSelector);
-  const { tokenID } = router.query as {
-    projectID: string;
-    tokenID: string;
-  };
+  const {
+    tokenData,
+    tokenOffers,
+    tokenID,
+    openListingModal,
+    openMakeOfferModal,
+    handlePurchaseToken,
+    isTokenOwner,
+    isTokenListing,
+  } = useContext(GenerativeTokenDetailContext);
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
+  const [isBuying, setIsBuying] = useState(false);
   const tokenInfos = [
     {
       id: 'contract-address',
@@ -71,32 +67,12 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     },
   ];
 
-  const checkOwnership = useCallback(
-    (address: string) => {
-      if (!address) return false;
-      return address === user?.walletAddress;
-    },
-    [user.walletAddress]
-  );
-
-  const fetchTokenOffers = async () => {
-    try {
-      if (tokenData && tokenData.genNFTAddr && tokenID) {
-        const { result } = await getMakeOffers({
-          genNFTAddr: tokenData.genNFTAddr,
-          tokenId: tokenID,
-          closed: false,
-        });
-        if (result) {
-          setTokenOffers(result);
-        }
-      }
-    } catch (e) {
-      log('can not fetch offers', LogLevel.Error, LOG_PREFIX);
-    }
-  };
   const handleOpenListingTokenModal = (): void => {
     openListingModal();
+  };
+
+  const handleOpenMakeOfferModal = (): void => {
+    openMakeOfferModal();
   };
 
   const featuresList = () => {
@@ -116,35 +92,15 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const tokenDescription =
     tokenData?.description || tokenData?.project?.desc || '';
 
-  const fetchTokenData = async (): Promise<void> => {
-    try {
-      if (tokenID) {
-        const res = await getTokenUri({
-          contractAddress: GENERATIVE_PROJECT_CONTRACT,
-          tokenID,
-        });
-        setTokenData(res);
-      }
-    } catch (err: unknown) {
-      log('failed to fetch item detail', LogLevel.Error, LOG_PREFIX);
-    }
-  };
-
   const handleLinkProfile = () => {
     router.push(`${ROUTE_PATH.PROFILE}`);
   };
 
   const handleBuyToken = () => {
+    setIsBuying(true);
     handlePurchaseToken(tokenOffers[0]);
+    setIsBuying(false);
   };
-
-  useEffect(() => {
-    fetchTokenData();
-  }, [tokenID]);
-
-  useEffect(() => {
-    fetchTokenOffers();
-  }, [tokenData]);
 
   return (
     <>
@@ -185,24 +141,38 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
             </div>
             <div className={s.CTA_btn}>
               {/* Due to owner and status of this token to render appropriate action */}
-              <ButtonIcon
-                disabled={!tokenData}
-                onClick={handleOpenListingTokenModal}
-              >
-                List for sale
-              </ButtonIcon>
-              <ButtonIcon disabled={!tokenData} variants="outline">
-                Transfer
-              </ButtonIcon>
-              <ButtonIcon
-                disabled={!tokenOffers.length}
-                onClick={handleBuyToken}
-              >
-                Buy
-              </ButtonIcon>
-              <ButtonIcon disabled={!tokenData} variants="outline">
-                Make offer
-              </ButtonIcon>
+              {isTokenOwner && !isTokenListing && (
+                <ButtonIcon
+                  disabled={!tokenData}
+                  onClick={handleOpenListingTokenModal}
+                >
+                  List for sale
+                </ButtonIcon>
+              )}
+              {isTokenOwner && (
+                <ButtonIcon disabled={!tokenData} variants="outline">
+                  Transfer
+                </ButtonIcon>
+              )}
+              {!isTokenOwner && isTokenListing && (
+                <>
+                  <ButtonIcon
+                    disabled={!tokenOffers.length || isBuying}
+                    onClick={handleBuyToken}
+                  >
+                    Buy
+                  </ButtonIcon>
+                </>
+              )}
+              {!isTokenOwner && (
+                <ButtonIcon
+                  onClick={handleOpenMakeOfferModal}
+                  disabled={!tokenData}
+                  variants="outline"
+                >
+                  Make offer
+                </ButtonIcon>
+              )}
             </div>
             <div className={s.accordions}>
               {!!tokenDescription && (
@@ -242,7 +212,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                           tokenData?.owner?.walletAddress ||
                           ''
                       )}
-                    {checkOwnership(tokenData?.ownerAddr || '') && ' (by you)'}
+                    {isTokenOwner && ' (by you)'}
                   </Text>
                 }
               ></Accordion>
@@ -257,8 +227,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   >
                     {tokenData?.creator?.displayName ||
                       formatAddress(tokenData?.creator?.walletAddress || '')}
-                    {checkOwnership(tokenData?.creator?.walletAddress || '') &&
-                      ' (by you)'}
+                    {isTokenOwner && ' (by you)'}
                   </Text>
                 }
               ></Accordion>
@@ -282,6 +251,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
         )}
       </Container>
       <ListingTokenModal />
+      <MakeOfferModal />
     </>
   );
 };

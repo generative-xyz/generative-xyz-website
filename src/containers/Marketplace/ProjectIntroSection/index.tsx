@@ -1,6 +1,10 @@
+import Accordion from '@components/Accordion';
 import ButtonIcon from '@components/ButtonIcon';
 import Heading from '@components/Heading';
+import Link from '@components/Link';
+import { Loading } from '@components/Loading';
 import ProgressBar from '@components/ProgressBar';
+import Skeleton from '@components/Skeleton';
 import SvgInset from '@components/SvgInset';
 import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
@@ -10,13 +14,18 @@ import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
 import { IGetProjectDetailResponse } from '@interfaces/api/project';
 import { IMintGenerativeNFTParams } from '@interfaces/contract-operations/mint-generative-nft';
+import { MarketplaceStats } from '@interfaces/marketplace';
+import { Token } from '@interfaces/token';
 import { getUserSelector } from '@redux/user/selector';
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
+import { getMarketplaceStats } from '@services/marketplace';
 import { WalletManager } from '@services/wallet';
 import { isTestnet } from '@utils/chain';
+import { convertToETH } from '@utils/currency';
 import { base64ToUtf8, formatAddress } from '@utils/format';
 import log from '@utils/logger';
 import BN from 'bn.js';
+import dayjs from 'dayjs';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
@@ -25,19 +34,11 @@ import { useSelector } from 'react-redux';
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-eth';
 import s from './styles.module.scss';
-import Accordion from '@components/Accordion';
-import Link from '@components/Link';
-import dayjs from 'dayjs';
-import Skeleton from '@components/Skeleton';
-import { Token } from '@interfaces/token';
-import { Loading } from '@components/Loading';
-import { IMarketplaceStatsResponse } from '@interfaces/api/marketplace';
-import { getMarketplaceStats } from '@services/marketplace';
 
 const LOG_PREFIX = 'ProjectIntroSection';
 
 type Props = {
-  project?: IGetProjectDetailResponse;
+  project: IGetProjectDetailResponse | null;
 };
 
 const ProjectIntroSection = ({ project }: Props) => {
@@ -45,7 +46,7 @@ const ProjectIntroSection = ({ project }: Props) => {
   const router = useRouter();
   const [projectDetail, setProjectDetail] = useState<Omit<Token, 'owner'>>();
   const [marketplaceStats, setMarketplaceStats] =
-    useState<IMarketplaceStatsResponse | null>(null);
+    useState<MarketplaceStats | null>(null);
   const mintedTime = project?.mintedTime;
   let mintDate = dayjs();
   if (mintedTime) {
@@ -65,10 +66,10 @@ const ProjectIntroSection = ({ project }: Props) => {
   const handleFetchMarketplaceStats = async () => {
     try {
       if (projectDetail && project?.genNFTAddr) {
-        const stats = await getMarketplaceStats({
+        const res = await getMarketplaceStats({
           collectionAddr: project?.genNFTAddr,
         });
-        setMarketplaceStats(stats);
+        if (res) setMarketplaceStats(res?.stats);
       }
     } catch (e) {
       log('can not fetch price', LogLevel.Error, '');
@@ -205,7 +206,7 @@ const ProjectIntroSection = ({ project }: Props) => {
                 Total Volume
               </Text>
               <Heading as="h4" fontWeight="bold">
-                {marketplaceStats?.stats.totalTradingVolumn}
+                {convertToETH(marketplaceStats?.totalTradingVolumn || '')}
               </Heading>
             </div>
             <div className={s.stats_item}>
@@ -213,11 +214,7 @@ const ProjectIntroSection = ({ project }: Props) => {
                 Floor price
               </Text>
               <Heading as="h4" fontWeight="bold">
-                Ξ{' '}
-                {Web3.utils.fromWei(
-                  marketplaceStats?.stats?.floorPrice || '',
-                  'ether'
-                )}
+                {convertToETH(marketplaceStats?.floorPrice || '')}
               </Heading>
             </div>
             <div className={s.stats_item}>
@@ -225,7 +222,7 @@ const ProjectIntroSection = ({ project }: Props) => {
                 Percent Listed
               </Text>
               <Heading as="h4" fontWeight="bold">
-                {marketplaceStats?.stats.listedPercent}%
+                {marketplaceStats?.listedPercent}%
               </Heading>
             </div>
 

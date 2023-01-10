@@ -5,13 +5,12 @@ import ClientOnly from '@components/Utils/ClientOnly';
 import { OwnedTab } from '@containers/Profile/Components/OwnedTab';
 import { UserInfo } from '@containers/Profile/Components/UserInfo';
 import { OfferTab } from '@containers/Profile/Components/Offer';
-import { ListingTab } from '@containers/Profile/Components/Listing';
 import { ProfileContext, ProfileProvider } from '@contexts/profile-context';
 
 // const LOG_PREFIX = 'Profile';
 
 const Profile: React.FC = (): React.ReactElement => {
-  const { profileTokens, profileProjects, profileListing, profileMakeOffer } =
+  const { profileTokens, profileProjects, profileMakeOffer } =
     useContext(ProfileContext);
 
   return (
@@ -43,14 +42,6 @@ const Profile: React.FC = (): React.ReactElement => {
                 title={`Offer (${profileMakeOffer?.total || 0})`}
               >
                 <OfferTab />
-              </Tab>
-
-              <Tab
-                tabClassName={s.tab}
-                eventKey="listing"
-                title={`Listing (${profileListing?.total})`}
-              >
-                <ListingTab />
               </Tab>
             </Tabs>
           </ClientOnly>

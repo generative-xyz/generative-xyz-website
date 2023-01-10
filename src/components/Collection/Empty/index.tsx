@@ -101,7 +101,7 @@ export const Empty = ({
   }, [errorMessage]);
 
   return (
-    <div className={s.empty}>
+    <div className={`${s.empty} empty`}>
       <div className={s.empty_inner}>
         <div className={s.empty_thumb}>
           <img src={`${CDN_URL}/pages/marketplace/empty.svg`} alt="empty.svg" />
@@ -109,16 +109,18 @@ export const Empty = ({
         <div className={s.empty_desc}>
           Bring your unique vision to life. Mint your first NFT now
         </div>
-        <ButtonIcon
-          onClick={handleMintToken}
-          sizes="large"
-          disabled={isMinting}
-          endIcon={
-            <SvgInset svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`} />
-          }
-        >
-          {isMinting ? 'Minting...' : 'Mint now'}
-        </ButtonIcon>
+        {projectInfo && (
+          <ButtonIcon
+            onClick={handleMintToken}
+            sizes="large"
+            disabled={isMinting}
+            endIcon={
+              <SvgInset svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`} />
+            }
+          >
+            {isMinting ? 'Minting...' : 'Mint now'}
+          </ButtonIcon>
+        )}
       </div>
     </div>
   );

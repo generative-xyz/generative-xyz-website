@@ -14,7 +14,6 @@ export type Token = {
   attributes: Array<TokenAttribute>;
   genNFTAddr: string;
   owner: User;
-  ownerAddress: string;
   project: Project;
   mintedTime: string;
   creatorProfile?: User;
@@ -26,11 +25,12 @@ export type Token = {
 export type TokenOffer = {
   offeringID: string;
   price: string;
-  seller: string;
+  seller?: string;
   closed: boolean;
   collectionContract: string;
   erc20Token: string;
   finished: boolean;
   durationTime: number;
   token?: Token;
+  buyer?: string;
 };

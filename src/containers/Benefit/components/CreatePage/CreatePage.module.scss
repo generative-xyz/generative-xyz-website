@@ -9,13 +9,13 @@
   @include tablet {
     padding: {
       top: rem(80px);
-      bottom: rem(240px);
+      bottom: rem(120px);
     }
   }
   @include min-pc {
     padding: {
       top: rem(164px);
-      bottom: rem(184px);
+      bottom: rem(150px);
     }
   }
 

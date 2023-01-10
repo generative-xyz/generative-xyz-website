@@ -1,0 +1,12 @@
+.notFound {
+  display: grid;
+  place-items: center;
+
+  &_image {
+    margin-bottom: rem(32px);
+  }
+
+  h5 {
+    color: $black-40;
+  }
+}

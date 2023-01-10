@@ -162,11 +162,11 @@ export const ProfileProvider: React.FC<PropsWithChildren> = ({
       router.push(ROUTE_PATH.PROFILE);
       return;
     } else {
+      setCurrentUser(user);
       setUserWalletAddress(walletAddress);
       handleFetchProfileByWallet();
     }
 
-    handleFetchListingTokens();
     handleFetchMakeOffers();
     handleFetchProjects();
     handleFetchTokens();

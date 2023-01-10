@@ -11,6 +11,7 @@ import { WalletContext } from '@contexts/wallet-context';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { WalletError } from '@enums/wallet-error';
+import { METAMASK_DOWNLOAD_PAGE } from '@constants/common';
 
 const LOG_PREFIX = 'useContractOperation';
 
@@ -94,6 +95,7 @@ const useContractOperation = <
         statusCallback(ContractOperationStatus.ERROR, {
           message: WalletError.NO_METAMASK,
         });
+        window.open(METAMASK_DOWNLOAD_PAGE);
         return null;
       }
 

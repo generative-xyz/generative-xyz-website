@@ -28,12 +28,15 @@ class PurchaseTokenOperation extends ContractOperation<
     const { offerId, price } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
+    const buyTokenIdBytes32 = '0x' + offerId;
 
-    const data = await this.contract.methods.purchaseToken(offerId).send({
-      from: walletAddress,
-      to: this.contractAddress,
-      value: price,
-    });
+    const data = await this.contract.methods
+      .purchaseToken(buyTokenIdBytes32)
+      .send({
+        from: walletAddress,
+        to: this.contractAddress,
+        value: price,
+      });
 
     return data;
   }
