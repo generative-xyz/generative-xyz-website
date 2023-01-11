@@ -22,7 +22,12 @@ import MakeOfferModal from './MakeOfferModal';
 import MoreItemsSection from './MoreItemsSection';
 import TokenActivities from './TokenActivities';
 import CancelListingModal from './CancelListingModal';
+import TransferTokenModal from './TransferTokenModal';
 import s from './styles.module.scss';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@redux/user/selector';
+import { TokenOffer } from '@interfaces/token';
+import { toast } from 'react-hot-toast';
 
 // const LOG_PREFIX = 'GenerativeTokenDetail';
 
@@ -33,6 +38,8 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     tokenID,
     openListingModal,
     openMakeOfferModal,
+    openTransferTokenModal,
+    openCancelListingModal,
     handlePurchaseToken,
     isTokenOwner,
     isTokenListing,
@@ -40,6 +47,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     listingOffers,
   } = useContext(GenerativeTokenDetailContext);
   const scanURL = getScanUrl();
+  const user = useSelector(getUserSelector);
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
   const [isBuying, setIsBuying] = useState(false);
   const tokenInfos = [
@@ -75,6 +83,21 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
 
   const handleOpenMakeOfferModal = (): void => {
     openMakeOfferModal();
+  };
+
+  const handleOpenCancelListingTokenModal = (): void => {
+    const userListingOffer = listingOffers.find(
+      (offer: TokenOffer) => offer.seller === user.walletAddress
+    );
+    if (userListingOffer) {
+      openCancelListingModal(userListingOffer);
+    } else {
+      toast.error('Listing offer not found');
+    }
+  };
+
+  const handleOpenTransferTokenModal = (): void => {
+    openTransferTokenModal();
   };
 
   const featuresList = () => {
@@ -162,8 +185,20 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   List for sale
                 </ButtonIcon>
               )}
+              {isTokenOwner && isTokenListing && (
+                <ButtonIcon
+                  disabled={!tokenData}
+                  onClick={handleOpenCancelListingTokenModal}
+                >
+                  Cancel listing
+                </ButtonIcon>
+              )}
               {isTokenOwner && (
-                <ButtonIcon disabled={!tokenData} variants="outline">
+                <ButtonIcon
+                  onClick={handleOpenTransferTokenModal}
+                  disabled={!tokenData}
+                  variants="outline"
+                >
                   Transfer
                 </ButtonIcon>
               )}
@@ -267,6 +302,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
       <ListingTokenModal />
       <MakeOfferModal />
       <CancelListingModal />
+      <TransferTokenModal />
     </>
   );
 };

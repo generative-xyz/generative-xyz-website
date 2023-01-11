@@ -1,0 +1,197 @@
+.transferTokenModal {
+  .backdrop {
+    background: $white-40;
+    backdrop-filter: blur(5px);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    z-index: 10;
+  }
+
+  .modalWrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    right: -445px;
+    width: 444px;
+    background: #ffffff;
+    border-left: 1px solid $black-10;
+    box-shadow: -10px 0px 40px $black-20;
+    transition: all 0.2s ease-in;
+    z-index: 20;
+  }
+
+  .modalHeader {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .closeBtn {
+    padding: 0;
+    background-color: transparent !important;
+
+    &:hover {
+      .closeIcon {
+        transform: rotate(90deg);
+        transition: all 0.3s;
+
+        :global(svg path) {
+          fill: $black-100;
+          fill-opacity: 1;
+        }
+      }
+    }
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 34px;
+    color: $black-100;
+    margin-bottom: 16px;
+  }
+
+  .tokenInfoWrapper {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .tokenName {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    color: $black-100;
+  }
+
+  .collectionName {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    color: $black-60;
+  }
+
+  .formItem {
+    margin-bottom: 24px;
+  }
+
+  .label {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 20px;
+    color: $black-40;
+    display: block;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .input {
+    background-color: $white-100;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    color: $black-100;
+    padding: 11px 14px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    width: 100%;
+    resize: none;
+
+    &::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: $black-40;
+      opacity: 1; /* Firefox */
+    }
+
+    &:input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: $black-40;
+    }
+
+    &::input-placeholder {
+      /* Microsoft Edge */
+      color: $black-40;
+    }
+  }
+
+  .requiredTag {
+    color: $secondary-red;
+  }
+
+  .error {
+    font-size: 14px;
+    font-weight: 400;
+    color: $secondary-red;
+    line-height: 20px;
+    margin-top: 6px;
+  }
+
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.01em;
+  }
+
+  .errorWrapper {
+    margin-top: 20px;
+  }
+
+  .errorContainer {
+    background: rgb(255 71 71 / 6%);
+    border-radius: 2px;
+    padding: 10px 20px;
+    border: 2px solid $secondary-red;
+    display: flex;
+    gap: 16px;
+  }
+
+  .iconWrapper {
+    flex-basis: 24px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 14px;
+  }
+
+  .errorTitle {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    color: $secondary-red;
+    margin: 0;
+  }
+
+  .errorMessage {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: $secondary-red;
+    margin: 0;
+  }
+
+  .modalBody {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  &__show {
+    display: block;
+
+    .backdrop {
+      display: block;
+    }
+
+    .modalWrapper {
+      right: 0;
+    }
+  }
+}

@@ -43,6 +43,7 @@ const CancelListingModal: React.FC = (): React.ReactElement => {
                 variants="ghost"
               >
                 <SvgInset
+                  size={28}
                   className={s.closeIcon}
                   svgUrl={`${CDN_URL}/icons/ic-x-circle-contained-28x28.svg`}
                 />
@@ -62,6 +63,7 @@ const CancelListingModal: React.FC = (): React.ReactElement => {
                   variants="ghost"
                 >
                   <SvgInset
+                    size={18}
                     svgUrl={`${CDN_URL}/icons/ic-arrow-left-18x18.svg`}
                   />
                   Go back
