@@ -1,21 +1,22 @@
 import { LogLevel } from '@enums/log-level';
-import { registerLoading, unRegisterLoading } from '@helpers/anim.helpers';
 import { useAppDispatch } from '@redux';
 import { setCheckoutProduct } from '@redux/general/action';
 import { getProductList } from '@services/api/product';
 import log from '@utils/logger';
 import { default as classNames, default as cn } from 'classnames';
-import { useState, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { AnimHeading } from 'src/animations/heading';
 import useAsyncEffect from 'use-async-effect';
 import { FrameItem } from '../frame-item';
 import s from './prices.module.scss';
 import Button from '@components/Button';
 import { CDN_URL } from '@constants/config';
+import { LoadingContext } from '@contexts/loading-context';
 
 const LOG_PREFIX = 'Prices';
 
 export const Prices = (): JSX.Element => {
+  const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
   const dispatch = useAppDispatch();
   const [products, setProducts] = useState<IFrame[]>([]);
 
@@ -23,21 +24,22 @@ export const Prices = (): JSX.Element => {
     dispatch(setCheckoutProduct(product));
   };
 
-  useEffect(() => {
-    registerLoading();
-  }, []);
-
   useAsyncEffect(async () => {
     try {
+      registerLoading('Prices2');
       const { data } = await getProductList();
       if (data.products) {
+        unRegisterLoading('Prices2');
         setProducts(data.products);
       }
     } catch (_: unknown) {
+      unRegisterLoading('Prices2');
       log('failed to get products', LogLevel.Error, LOG_PREFIX);
-    } finally {
-      unRegisterLoading();
     }
+
+    return () => {
+      unRegisterLoading('Prices2');
+    };
   }, []);
 
   if (products.length === 0) return <></>;
@@ -73,6 +75,39 @@ export const Prices = (): JSX.Element => {
                         'image__fit'
                       )}
                     >
+                      <img src={products[0].image} alt="ethf4d1101ffd" />
+                    </div>
+                    <div
+                      className={cn(
+                        s.Home_specContent,
+                        s.highlight,
+                        s.highlight__name
+                      )}
+                    >
+                      55 inches (diagonal) OLED display
+                    </div>
+                    <div className={s.Home_specContent}>
+                      Display Resolution: 4K (3840x2160 pixels)
+                    </div>
+                    <div className={s.Home_specContent}>Aspect Ratio 16:9</div>
+                    <div className={s.Home_specContent}>
+                      Brightness (Typ.,cd/m²) 800 unit
+                    </div>
+                    <div className={s.Home_specContent}>
+                      Contrast Ratio 1,000,000:1
+                    </div>
+                    <div className={s.Home_specContent}>
+                      Adaptive refresh rates up to 120Hz
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      className={classNames(
+                        s.screen,
+                        s.screen__55,
+                        'image__fit'
+                      )}
+                    >
                       <img src={products[2].image_left} alt="ethf4d1101ffd" />
                     </div>
                     <div
@@ -101,39 +136,6 @@ export const Prices = (): JSX.Element => {
                     </div>
                     <div className={s.Home_specContent}>
                       Color depth a-Si TFT-LCD 16.7M color
-                    </div>
-                  </td>
-                  <td>
-                    <div
-                      className={classNames(
-                        s.screen,
-                        s.screen__55,
-                        'image__fit'
-                      )}
-                    >
-                      <img src={products[0].image} alt="ethf4d1101ffd" />
-                    </div>
-                    <div
-                      className={cn(
-                        s.Home_specContent,
-                        s.highlight,
-                        s.highlight__name
-                      )}
-                    >
-                      55 inches (diagonal) OLED display
-                    </div>
-                    <div className={s.Home_specContent}>
-                      Display Resolution: 4K (3840x2160 pixels)
-                    </div>
-                    <div className={s.Home_specContent}>Aspect Ratio 16:9</div>
-                    <div className={s.Home_specContent}>
-                      Brightness (Typ.,cd/m²) 800 unit
-                    </div>
-                    <div className={s.Home_specContent}>
-                      Contrast Ratio 1,000,000:1
-                    </div>
-                    <div className={s.Home_specContent}>
-                      Adaptive refresh rates up to 120Hz
                     </div>
                   </td>
                   <td>
@@ -179,19 +181,7 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <span className={s.Home_specTitle}>Price</span>
-                    <div className={cn(s.Home_specContent, s.price)}>
-                      <span>
-                        {products[2].eth_price || products[2].price} ETH
-                      </span>
-                    </div>
-                    <Button
-                      className={s.buy_now}
-                      onClick={() => openCheckoutPopup(products[2])}
-                    >
-                      Buy
-                    </Button>
-                  </td>
-                  <td>
+
                     <div className={cn(s.Home_specContent, s.price)}>
                       <span>
                         {products[0].eth_price || products[0].price} ETH
@@ -200,6 +190,19 @@ export const Prices = (): JSX.Element => {
                     <Button
                       className={s.buy_now}
                       onClick={() => openCheckoutPopup(products[0])}
+                    >
+                      Buy
+                    </Button>
+                  </td>
+                  <td>
+                    <div className={cn(s.Home_specContent, s.price)}>
+                      <span>
+                        {products[2].eth_price || products[2].price} ETH
+                      </span>
+                    </div>
+                    <Button
+                      className={s.buy_now}
+                      onClick={() => openCheckoutPopup(products[2])}
                     >
                       Buy
                     </Button>
@@ -225,21 +228,6 @@ export const Prices = (): JSX.Element => {
                   <td className={s.dimensions}>
                     <span className={s.Home_specTitle}>Dimensions</span>
                     <img
-                      src={`${CDN_URL}/pages/landingpage/30_.svg`}
-                      alt="30_"
-                      className={s.Home_specDimension}
-                    />
-                    <div
-                      className={classNames(
-                        s.Home_specContent,
-                        s.Home_specContent_specDimension
-                      )}
-                    >
-                      Weight: 66 lbs
-                    </div>
-                  </td>
-                  <td className={s.dimensions}>
-                    <img
                       src={`${CDN_URL}/pages/home/icons/55_.svg`}
                       alt="55_"
                       className={s.Home_specDimension}
@@ -251,6 +239,21 @@ export const Prices = (): JSX.Element => {
                       )}
                     >
                       Weight: 70 lbs
+                    </div>
+                  </td>
+                  <td className={s.dimensions}>
+                    <img
+                      src={`${CDN_URL}/pages/landingpage/30_.svg`}
+                      alt="30_"
+                      className={s.Home_specDimension}
+                    />
+                    <div
+                      className={classNames(
+                        s.Home_specContent,
+                        s.Home_specContent_specDimension
+                      )}
+                    >
+                      Weight: 66 lbs
                     </div>
                   </td>
                   <td className={s.dimensions}>
@@ -276,7 +279,7 @@ export const Prices = (): JSX.Element => {
                   <td>
                     <span className={s.Home_specTitle}>In the box</span>
                     <div className={s.Home_specContent}>
-                      Generative Display 30”
+                      Generative Display 55”
                     </div>
                     <div className={s.Home_specContent}>
                       16 ft cable - Adapted to USA, EU, UK sockets
@@ -284,7 +287,7 @@ export const Prices = (): JSX.Element => {
                   </td>
                   <td>
                     <div className={s.Home_specContent}>
-                      Generative Display 55”
+                      Generative Display 30”
                     </div>
                     <div className={s.Home_specContent}>
                       16 ft cable - Adapted to USA, EU, UK sockets
@@ -309,16 +312,17 @@ export const Prices = (): JSX.Element => {
                     <span className={s.Home_specTitle}>
                       Shipping dimensions
                     </span>
-                    <div
-                      className={s.Home_specContent}
-                    >{`33.5" L x 33.5" W x 8.3" H`}</div>
-                    <div className={s.Home_specContent}>Weight: 65 lbs</div>
-                  </td>
-                  <td>
+
                     <div
                       className={s.Home_specContent}
                     >{`58.8" L x 38.1" W x 5.7" H`}</div>
                     <div className={s.Home_specContent}>Weight: 85 lbs</div>
+                  </td>
+                  <td>
+                    <div
+                      className={s.Home_specContent}
+                    >{`33.5" L x 33.5" W x 8.3" H`}</div>
+                    <div className={s.Home_specContent}>Weight: 65 lbs</div>
                   </td>
                   <td>
                     <div
@@ -573,14 +577,14 @@ export const Prices = (): JSX.Element => {
         >
           <div className="col-xl-4 col-sm-6 col-12">
             <FrameItem
-              data={products[2]}
-              openCheckoutPopup={() => openCheckoutPopup(products[2])}
+              data={products[0]}
+              openCheckoutPopup={() => openCheckoutPopup(products[0])}
             />
           </div>
           <div className="col-xl-4 col-sm-6 col-12">
             <FrameItem
-              data={products[0]}
-              openCheckoutPopup={() => openCheckoutPopup(products[0])}
+              data={products[2]}
+              openCheckoutPopup={() => openCheckoutPopup(products[2])}
             />
           </div>
           <div className="col-xl-4 col-sm-6 col-12">

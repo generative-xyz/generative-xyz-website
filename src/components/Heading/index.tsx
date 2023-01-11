@@ -139,9 +139,10 @@ const Heading = ({
               },
               onComplete: () => {
                 // setTimeout(() => refDom.current.texts?.revert(), 150);
-                refDom.current.resizeObserver?.unobserve(
-                  comp.current as HTMLElement
-                );
+                comp.current &&
+                  refDom.current.resizeObserver?.unobserve(
+                    comp.current as HTMLElement
+                  );
               },
             });
             break;

@@ -118,8 +118,12 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const tokenDescription =
     tokenData?.description || tokenData?.project?.desc || '';
 
-  const handleLinkProfile = () => {
-    router.push(`${ROUTE_PATH.PROFILE}`);
+  const handleLinkProfile = (walletAddress?: string) => {
+    if (user.walletAddress === walletAddress) {
+      router.push(`${ROUTE_PATH.PROFILE}`);
+    } else {
+      router.push(`${ROUTE_PATH.PROFILE}/${walletAddress}`);
+    }
   };
 
   const handleBuyToken = async (): Promise<void> => {
@@ -253,7 +257,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                     size="18"
                     fontWeight="medium"
                     className={s.walletAddress}
-                    onClick={handleLinkProfile}
+                    onClick={() => handleLinkProfile(tokenData?.ownerAddr)}
                   >
                     {tokenData?.owner?.displayName ||
                       formatAddress(
@@ -272,7 +276,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                     size="18"
                     fontWeight="medium"
                     className={s.walletAddress}
-                    onClick={handleLinkProfile}
+                    onClick={() =>
+                      handleLinkProfile(tokenData?.creator?.walletAddress)
+                    }
                   >
                     {tokenData?.creator?.displayName ||
                       formatAddress(tokenData?.creator?.walletAddress || '')}

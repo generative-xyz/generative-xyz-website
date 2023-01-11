@@ -1,3 +1,4 @@
+import Skeleton from '@components/Skeleton';
 import cs from 'classnames';
 import Image from 'next/image';
 import React, {
@@ -8,7 +9,6 @@ import React, {
   useState,
 } from 'react';
 import s from './styles.module.scss';
-import Skeleton from '@components/Skeleton';
 
 interface IProps {
   file: any;
@@ -85,13 +85,6 @@ const ImagePreviewInput: React.FC<IProps> = ({
         accept="image/*"
         onChange={onSelectFile}
       />
-      {/* <ButtonIcon
-        variants="secondary"
-        className={s.change_btn}
-        onClick={e => e.stopPropagation()}
-      >
-        Changes
-      </ButtonIcon> */}
     </div>
   );
 };
