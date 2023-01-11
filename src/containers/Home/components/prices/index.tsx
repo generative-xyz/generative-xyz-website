@@ -19,13 +19,11 @@ export const Prices = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [products, setProducts] = useState<IFrame[]>([]);
 
-  registerLoading();
   const openCheckoutPopup = (product: IFrame) => {
     dispatch(setCheckoutProduct(product));
   };
 
   useAsyncEffect(async () => {
-    unRegisterLoading();
     try {
       registerLoading();
       const { data } = await getProductList();

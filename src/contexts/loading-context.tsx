@@ -23,8 +23,10 @@ export const LoadingProvider: React.FC<PropsWithChildren> = ({
   // console.log('___init', 'LoadingContext');
 
   const registerLoading = (): void => {
-    counter.current += 1;
-    // console.log('___ ++', counter.current);
+    if (typeof window !== undefined) {
+      counter.current += 1;
+      // console.log('___ ++', counter.current);
+    }
   };
 
   const unRegisterLoading = (): void => {
