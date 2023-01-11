@@ -3,12 +3,15 @@ import ButtonIcon from '@components/ButtonIcon';
 import Input from '@components/Formik/Input';
 import Heading from '@components/Heading';
 import ImagePreviewInput from '@components/ImagePreviewInput';
+import Skeleton from '@components/Skeleton';
 import Text from '@components/Text';
 import { WalletContext } from '@contexts/wallet-context';
 import { LogLevel } from '@enums/log-level';
+import { IUpdateProfilePayload } from '@interfaces/api/profile';
 import { useAppSelector } from '@redux';
 import { getUserSelector } from '@redux/user/selector';
-import { formatAddress } from '@utils/format';
+import { updateProfile } from '@services/profile';
+import { formatAddress, toBase64 } from '@utils/format';
 import log from '@utils/logger';
 import { Formik } from 'formik';
 import { useContext, useState } from 'react';
@@ -33,7 +36,23 @@ const FormEditProfile = () => {
 
   const [avatar] = useState(file);
 
-  const handleSubmit = () => {
+  const [newFile, setNewFile] = useState<File | null | undefined>();
+
+  const handleSubmit = async (values: any) => {
+    const payload: IUpdateProfilePayload = {
+      avatar: newFile ? await toBase64(newFile) : '',
+      bio: values.bio || '',
+      displayName: values.nickname,
+      profileSocial: {
+        web: values.website || '',
+        twitter: values.twitter || '',
+        discord: values.discord || '',
+        instagram: values.instagram || '',
+      },
+    };
+
+    await updateProfile(payload);
+
     try {
       return;
     } catch (err: unknown) {
@@ -47,7 +66,7 @@ const FormEditProfile = () => {
       initialValues={{
         nickname: user.displayName || '',
         bio: user.bio || '',
-        avatar: user.avatar || '',
+        avatar: avatar || '',
         website: user.profileSocial?.web || '',
         instagram: user.profileSocial?.instagram || '',
         discord: user.profileSocial?.discord || '',
@@ -63,7 +82,14 @@ const FormEditProfile = () => {
           <div className={s.account_avatar}>
             <ImagePreviewInput
               file={avatar}
-              previewHtml={<Avatar imgSrcs={user?.avatar || ''} fill />}
+              onFileChange={setNewFile}
+              previewHtml={
+                user?.avatar ? (
+                  <Avatar imgSrcs={user?.avatar || ''} fill />
+                ) : (
+                  <Skeleton fill></Skeleton>
+                )
+              }
             />
           </div>
           <div className={s.account_form}>
@@ -81,7 +107,7 @@ const FormEditProfile = () => {
                 ></Input>
                 <Text size="14" className="text-secondary-color">
                   Other users will see your nickname instead of your wallet
-                  address on OG website.
+                  address.
                 </Text>
               </div>
               <div className={s.input_item}>

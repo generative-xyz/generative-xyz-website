@@ -1,9 +1,13 @@
 import { LogLevel } from '@enums/log-level';
-import { IGetProfileResponse } from '@interfaces/api/profile';
-import { get } from '@services/http-client';
-import log from '@utils/logger';
+import {
+  IGetProfileResponse,
+  IUpdateProfilePayload,
+  IUpdateProfileResponse,
+} from '@interfaces/api/profile';
 import { IGetProjectItemsResponse } from '@interfaces/api/project';
 import { IGetProfileTokensResponse } from '@interfaces/api/token-uri';
+import { get, put } from '@services/http-client';
+import log from '@utils/logger';
 
 const LOG_PREFIX = 'ProfileService';
 
@@ -55,5 +59,20 @@ export const getProfileTokens = async ({
   } catch (err: unknown) {
     log('failed to get profile nfts', LogLevel.Error, LOG_PREFIX);
     throw Error('Failed to get profile nfts');
+  }
+};
+
+export const updateProfile = async (
+  payload: IUpdateProfilePayload
+): Promise<IUpdateProfileResponse> => {
+  try {
+    const res = await put<IUpdateProfilePayload, IUpdateProfileResponse>(
+      API_PATH,
+      payload
+    );
+    return res;
+  } catch (err: unknown) {
+    log('failed to update profile', LogLevel.Error, LOG_PREFIX);
+    throw Error();
   }
 };

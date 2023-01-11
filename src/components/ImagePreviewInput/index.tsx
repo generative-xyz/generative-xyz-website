@@ -1,11 +1,18 @@
 import cs from 'classnames';
 import Image from 'next/image';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import s from './styles.module.scss';
+import Skeleton from '@components/Skeleton';
 
 interface IProps {
   file: any;
-  // onFileChange: (f: File | null) => void;
+  onFileChange: Dispatch<SetStateAction<File | null | undefined>>;
   className?: string;
   placeHolderHtml?: JSX.Element;
   previewHtml?: JSX.Element;
@@ -13,9 +20,9 @@ interface IProps {
 
 const ImagePreviewInput: React.FC<IProps> = ({
   file,
-  // onFileChange,
   className,
   placeHolderHtml,
+  onFileChange,
   previewHtml,
 }: IProps): React.ReactElement => {
   const [preview, setPreview] = useState<string | null>(null);
@@ -40,8 +47,7 @@ const ImagePreviewInput: React.FC<IProps> = ({
       return;
     }
     const newFile = evt.target.files[0];
-
-    // onFileChange(newFile);
+    onFileChange(newFile);
     setPreview(URL.createObjectURL(newFile));
     setCurrentImage(null);
   };
@@ -67,13 +73,7 @@ const ImagePreviewInput: React.FC<IProps> = ({
             </>
           ) : (
             <>
-              {placeHolderHtml ? (
-                placeHolderHtml
-              ) : (
-                <div className={s.placeHolder}>
-                  <span>Upload an image</span>
-                </div>
-              )}
+              {placeHolderHtml ? placeHolderHtml : <Skeleton fill></Skeleton>}
             </>
           )}
         </>
