@@ -75,7 +75,7 @@ const OfferTable = () => {
             <Link href={ROUTE_PATH.PROFILE}>You</Link>
           ) : (
             // TODO: Update to correct profile
-            <Link href={ROUTE_PATH.PROFILE}>
+            <Link href={`${ROUTE_PATH.PROFILE}/${offer?.buyer}`}>
               {formatAddress(offer?.buyer || '')}
             </Link>
           ),

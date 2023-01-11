@@ -20,6 +20,14 @@
     aspect-ratio: 1 / 1;
     overflow: hidden;
 
+    .change_btn {
+      position: absolute;
+      bottom: rem(32px);
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: rem(100px);
+    }
+
     @include max-tablet {
       align-self: center;
     }

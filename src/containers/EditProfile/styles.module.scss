@@ -1,8 +1,12 @@
 .wrapper {
   display: flex;
-  margin-top: rem(60px);
+  margin-top: rem(18px);
   gap: rem(90px);
   margin-bottom: rem(141px);
+}
+
+.back_btn {
+  margin-top: rem(16px);
 }
 
 .setting {

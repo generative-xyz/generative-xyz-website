@@ -74,6 +74,7 @@ const FormEditProfile = () => {
         website: user.profileSocial?.web || '',
         instagram: user.profileSocial?.instagram || '',
         discord: user.profileSocial?.discord || '',
+        etherScan: user.profileSocial?.etherScan || '',
         twitter: user.profileSocial?.twitter || '',
       }}
       // validate={validateForm}
@@ -95,6 +96,15 @@ const FormEditProfile = () => {
                 )
               }
             />
+            {user?.avatar && (
+              <ButtonIcon
+                variants="secondary"
+                className={s.change_btn}
+                style={{ pointerEvents: 'none' }}
+              >
+                Changes
+              </ButtonIcon>
+            )}
           </div>
           <div className={s.account_form}>
             <Heading as="h4" fontWeight="bold">
@@ -151,6 +161,13 @@ const FormEditProfile = () => {
                     name={'discord'}
                     label={'discord'}
                     placeholder="Discord"
+                    className={s.input_website}
+                    useFormik
+                  ></Input>
+                  <Input
+                    name={'etherScan'}
+                    label={'etherScan'}
+                    placeholder="Etherscan"
                     className={s.input_website}
                     useFormik
                   ></Input>

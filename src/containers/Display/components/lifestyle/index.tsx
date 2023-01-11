@@ -3,13 +3,15 @@ import { SectionInfo } from '../section-info';
 import s from './lifestyle.module.scss';
 import classNames from 'classnames';
 import { MaskerStart } from '@animations/masker-start';
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { gsap } from 'gsap';
 import { CDN_URL } from '@constants/config';
+import { LoadingContext } from '@contexts/loading-context';
 
 export const LifeStyle = () => {
   const refOptions = useRef({ isIn: false });
   const refContent = useRef(null);
+  const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
 
   const processing = (frame: number) => {
     if (frame < 18) {
@@ -59,6 +61,8 @@ export const LifeStyle = () => {
             webmFrame={`${CDN_URL}/pages/home/frame-4-v4/block-4-v4-%d.png.webp`}
             totalFrames={124}
             onProcessing={processing}
+            start={registerLoading}
+            end={unRegisterLoading}
           >
             <div className={classNames(s.lifeStyle_fame, 'js-frames')} />
             <div className={s.lifeStyle_endContent}>
