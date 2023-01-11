@@ -85,7 +85,10 @@ const ProjectIntroSection = ({ project }: Props) => {
         return;
       }
 
-      if (walletBalance < parseFloat(project.mintPrice.toString())) {
+      if (
+        walletBalance <
+        parseFloat(Web3.utils.fromWei(project.mintPrice.toString()))
+      ) {
         if (isTestnet()) {
           toast.error(
             'Insufficient funds testnet. Go to profile and get testnet faucet'
