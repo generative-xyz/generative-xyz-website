@@ -79,12 +79,12 @@ export const Artworks = (): JSX.Element => {
             className={`${s.artWork_fame} ${s.artWork_fame__big} js-fame__big`}
           >
             <video muted autoPlay preload={'auto'} playsInline loop>
+              {/*<source*/}
+              {/*  src="https://cdn.generative.xyz/pages/home/videos/Square-1.webm"*/}
+              {/*  type="video/webm"*/}
+              {/*/>*/}
               <source
-                src="https://cdn.generative.xyz/pages/home/videos/Square-1.webm"
-                type="video/webm"
-              />
-              <source
-                src="https://cdn.generative.xyz/pages/home/videos/Square-1.mp4"
+                src="https://cdn.generative.xyz/pages/home/videos/square_v21.mp4"
                 type="video/mp4"
               />
             </video>
