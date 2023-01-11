@@ -183,7 +183,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
           </div>
         </div>
         <div className={s.disclaimerWrapper}>
-          <Text fontWeight="bold" className={s.disclaimer}>
+          <Text fontWeight="semibold" className={s.disclaimer}>
             This is a space in which you can drop a .zip of your project and see
             how it would behave when it will be minted on Generative. If your
             artwork does not behave properly in the setup thumbnail image are,
@@ -198,7 +198,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
               Guide to build a Generative Token.
             </Link>
           </Text>
-          <p className={s.disclaimer}>
+          <Text fontWeight="medium" className={s.disclaimer}>
             Please make sure that your project follows our&nbsp;
             <Link
               className={s.link}
@@ -208,7 +208,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
             >
               Code of Conduct.
             </Link>
-          </p>
+          </Text>
         </div>
       </>
     ),
