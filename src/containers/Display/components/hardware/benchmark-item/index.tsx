@@ -1,12 +1,11 @@
 import s from './benchmark-item.module.scss';
 import classNames from 'classnames';
-import { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { pageLoadStatus } from '@redux/general/selector';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { gsap } from 'gsap';
 import { PAGE_ENTER } from '@constants/common';
 import { Anim } from '@animations/anim';
 import { CDN_URL } from '@constants/config';
+import { LoadingContext } from '@contexts/loading-context';
 
 interface IProp {
   title: string;
@@ -45,7 +44,8 @@ export const BenchmarkItem = ({
     target1: { value: 0 },
     target2: { value: 0 },
   });
-  const loadStatus = useSelector(pageLoadStatus);
+
+  const { pageLoadStatus } = useContext(LoadingContext);
 
   useEffect(() => {
     const anim = gsap.context(() => {
@@ -65,7 +65,7 @@ export const BenchmarkItem = ({
   }, []);
 
   useEffect(() => {
-    if (comp.current && loadStatus === PAGE_ENTER) {
+    if (comp.current && pageLoadStatus === PAGE_ENTER) {
       new Anim(comp.current, () => {
         gsap.to(refData.current.target1, {
           value: target1.value,
@@ -92,7 +92,7 @@ export const BenchmarkItem = ({
         });
       });
     }
-  }, [loadStatus]);
+  }, [pageLoadStatus]);
 
   return (
     <div ref={comp} className={classNames(s.benchmark, className)}>

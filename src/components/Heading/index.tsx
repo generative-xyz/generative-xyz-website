@@ -1,13 +1,12 @@
 import React, {
   CSSProperties,
   PropsWithChildren,
+  useContext,
   useEffect,
   useRef,
 } from 'react';
 import s from './styles.module.scss';
 import cs from 'classnames';
-import { useSelector } from 'react-redux';
-import { pageLoadStatus } from '@redux/general/selector';
 import { gsap } from 'gsap';
 import SplitType from 'split-type';
 import { debounce } from 'lodash';
@@ -18,6 +17,7 @@ import {
   getRandomArbitrary,
   getRandomArbitraryFloat,
 } from '@helpers/anim.helpers';
+import { LoadingContext } from '@contexts/loading-context';
 
 type THeading = {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -56,7 +56,7 @@ const Heading = ({
 
   const comp = useRef<HTMLHeadingElement>(null);
   const refDom = useRef<IProRefDom>({});
-  const loadStatus = useSelector(pageLoadStatus);
+  const { pageLoadStatus } = useContext(LoadingContext);
 
   useEffect(() => {
     if (!animOption) return;
@@ -123,7 +123,7 @@ const Heading = ({
   useEffect(() => {
     if (!animOption) return;
     let anim: Anim | undefined;
-    if (comp.current && loadStatus === PAGE_ENTER) {
+    if (comp.current && pageLoadStatus === PAGE_ENTER) {
       anim = new Anim(comp.current, () => {
         const delay = getDelay(animOption.screen, animOption.offset);
         switch (animOption.type) {
@@ -200,7 +200,7 @@ const Heading = ({
     return () => {
       anim && anim.kill();
     };
-  }, [loadStatus]);
+  }, [pageLoadStatus]);
 
   return (
     <Text

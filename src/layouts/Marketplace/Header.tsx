@@ -21,7 +21,7 @@ import { gsap } from 'gsap';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Container, Stack } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import styles from './Header.module.scss';
 import { getFaucetLink, isTestnet } from '@utils/chain';
@@ -31,37 +31,43 @@ const LOG_PREFIX = 'MarketplaceHeader';
 const MENU_HEADER = [
   {
     id: 'menu-4',
-    name: 'display',
+    name: 'Display',
     route: ROUTE_PATH.DISPLAY,
     activePath: 'display',
   },
   {
     id: 'menu-1',
-    name: 'create',
+    name: 'Create',
     route: ROUTE_PATH.BENEFIT,
     activePath: 'benefit',
+    sup: 'Testnet',
   },
   {
     id: 'menu-2',
-    name: 'marketplace',
+    name: 'Collect',
     route: ROUTE_PATH.MARKETPLACE,
     activePath: 'marketplace',
+    sup: 'Testnet',
   },
 ];
 
 interface IProp {
   theme?: 'light' | 'dark';
+  isShowFaucet?: boolean;
 }
 
-const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
+const Header: React.FC<IProp> = ({
+  theme = 'light',
+  isShowFaucet = false,
+}): React.ReactElement => {
   const { connect, disconnect, walletBalance } = useContext(WalletContext);
   const user = useAppSelector(getUserSelector);
   const router = useRouter();
   const activePath = router.asPath.split('/')[1];
   const [openProfile, setOpenProfile] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
-
   const dropdownRef = useRef<HTMLUListElement>(null);
+  const [isFaucet, setIsFaucet] = useState<boolean>();
 
   const PROFILE_MENU = [
     {
@@ -191,6 +197,9 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
   };
 
   useEffect(() => {
+    const lcStoreFaucet = localStorage.getItem('close_faucet');
+    setIsFaucet(!lcStoreFaucet && isShowFaucet);
+
     window.addEventListener('scroll', onWinScrolling);
     return () => {
       if (refHeader.current)
@@ -212,19 +221,35 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
 
   return (
     <header ref={refHeader} className={`${styles.header} ${styles[theme]}`}>
-      <Container>
-        <div className={styles.headerWrapper}>
-          <div className="d-flex align-items-center justify-content-between w-100">
-            <Stack direction="horizontal">
-              <Link href={ROUTE_PATH.HOME}>
-                <Image
-                  className={styles.header_logo}
-                  src={LOGO_GENERATIVE}
-                  alt="LOGO_GENERATIVE"
-                  width={64}
-                  height={64}
-                />
-              </Link>
+      {isFaucet && (
+        <div className={styles.testNet}>
+          <img
+            src={`${CDN_URL}/icons/star-shooting-horizontal.svg`}
+            alt="star-shooting-horizontal"
+          />
+          You’re on the Generative testnet network. Need ETHs for testing? Just
+          request them
+          <a
+            href={'https://mumbaifaucet.com/'}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {' here.'}
+          </a>
+          <button
+            onClick={() => {
+              localStorage.setItem('close_faucet', '1');
+              setIsFaucet(false);
+            }}
+          >
+            <img src={`${CDN_URL}/icons/x-02.svg`} alt="x-v" />
+          </button>
+        </div>
+      )}
+      <div className={styles.header_inner}>
+        <Container>
+          <div className={styles.headerWrapper}>
+            <div className="d-flex align-items-center justify-content-between w-100">
               <ul className={`${styles.navBar} ${styles[theme]}`}>
                 {MENU_HEADER?.length > 0 &&
                   MENU_HEADER.map(item => (
@@ -234,42 +259,53 @@ const Header: React.FC<IProp> = ({ theme = 'light' }): React.ReactElement => {
                       )}
                       key={`header-${item.id}`}
                     >
-                      <Link href={item.route}>{item.name}</Link>
+                      <Link href={item.route}>
+                        {item.name} {item.sup && <sup>{item.sup}</sup>}
+                      </Link>
                     </li>
                   ))}
               </ul>
-            </Stack>
 
-            {user.id ? (
-              <div className="position-relative">
-                <AvatarInfo
-                  imgSrc={user.avatar}
-                  width={48}
-                  height={48}
-                  leftContent={renderProfileHeader()}
-                  onClick={() => setOpenProfile(!openProfile)}
-                  wrapperStyle={{ cursor: 'pointer' }}
+              <Link className={styles.logo} href={ROUTE_PATH.HOME}>
+                <Image
+                  className={styles.header_logo}
+                  src={LOGO_GENERATIVE}
+                  alt="LOGO_GENERATIVE"
+                  width={64}
+                  height={64}
                 />
-                {openProfile && <ProfileDropdown />}
-              </div>
-            ) : (
-              <div className={'d-md-block d-none'}>
-                <ButtonIcon
-                  disabled={isConnecting}
-                  sizes="small"
-                  variants={theme === 'dark' ? 'secondary' : 'primary'}
-                  onClick={handleConnectWallet}
-                >
-                  Connect wallet
-                </ButtonIcon>
-              </div>
-            )}
+              </Link>
+
+              {user.id ? (
+                <div className="position-relative">
+                  <AvatarInfo
+                    imgSrc={user.avatar}
+                    width={48}
+                    height={48}
+                    leftContent={renderProfileHeader()}
+                    onClick={() => setOpenProfile(!openProfile)}
+                    wrapperStyle={{ cursor: 'pointer' }}
+                  />
+                  {openProfile && <ProfileDropdown />}
+                </div>
+              ) : (
+                <div className={'d-md-block d-none'}>
+                  <ButtonIcon
+                    disabled={isConnecting}
+                    sizes="small"
+                    variants={theme === 'dark' ? 'secondary' : 'primary'}
+                    onClick={handleConnectWallet}
+                  >
+                    Connect wallet
+                  </ButtonIcon>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
       <div className="divider"></div>
     </header>
   );
 };
-
 export default Header;

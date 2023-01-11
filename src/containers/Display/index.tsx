@@ -6,13 +6,12 @@ import { Artworks } from '@containers/Display/components/artworks';
 import { HardWare } from './components/hardware';
 import { LifeStyle } from '@containers/Display/components/lifestyle';
 import { Prices } from '@containers/Display/components/prices';
-import { ScrollTriggerHelper } from '@containers/Display/scrolltrigger-helper';
 import { LoadingContext, LoadingProvider } from '@contexts/loading-context';
+
 const Display: React.FC = (): JSX.Element => {
   const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
   registerLoading('Display');
   useEffect(() => {
-    new ScrollTriggerHelper();
     const html = document.querySelector('html');
     if (html) {
       html.classList.add('is-landing');

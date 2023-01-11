@@ -1,19 +1,24 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import s from './Benefit.module.scss';
 import { CreatePageSection } from '@containers/Benefit/components/CreatePage';
 import { ImageContent } from '@containers/Benefit/components/ImageContent';
 import { CDN_URL } from '@constants/config';
 import { Container } from 'react-bootstrap';
-import { LoadingProvider } from '@contexts/loading-context';
+import { LoadingContext, LoadingProvider } from '@contexts/loading-context';
 
 const BenefitPage = (): JSX.Element => {
+  const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
+
+  registerLoading();
   useEffect(() => {
+    unRegisterLoading();
     const html = document.querySelector('html');
     if (html) {
       html.classList.add('is-landing');
     }
 
     return () => {
+      unRegisterLoading();
       if (html) {
         html.classList.remove('is-landing');
       }
@@ -60,7 +65,7 @@ const BenefitPage = (): JSX.Element => {
 
 const BenefitWrapper = (): JSX.Element => {
   return (
-    <LoadingProvider>
+    <LoadingProvider simple={{ theme: 'dark', isCssLoading: false }}>
       <BenefitPage />
     </LoadingProvider>
   );

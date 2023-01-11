@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import s from './404.module.scss';
-import { SimpleLoading } from '@components/SimpleLoading';
 import Heading from '@components/Heading';
 import ButtonIcon from '@components/ButtonIcon';
 import { useAppSelector } from '@redux';
@@ -11,9 +10,12 @@ import { WalletContext } from '@contexts/wallet-context';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@constants/route-path';
 import { AnimFade } from '@animations/fade';
+import { LoadingContext, LoadingProvider } from '@contexts/loading-context';
+
 const LOG_PREFIX = 'Marketplace404';
 
-export const Page404 = (): JSX.Element => {
+const Page404 = (): JSX.Element => {
+  // const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
   const user = useAppSelector(getUserSelector);
   const walletCtx = useContext(WalletContext);
   const router = useRouter();
@@ -45,7 +47,6 @@ export const Page404 = (): JSX.Element => {
 
   return (
     <div className={s.error404}>
-      <SimpleLoading theme={'light'} />
       <div className={s.error404_inner}>
         <Heading
           as="h1"
@@ -86,3 +87,13 @@ export const Page404 = (): JSX.Element => {
     </div>
   );
 };
+
+const Wrapper404 = (): JSX.Element => {
+  return (
+    <LoadingProvider simple={{ theme: 'light', isCssLoading: false }}>
+      <Page404 />
+    </LoadingProvider>
+  );
+};
+
+export default Wrapper404;

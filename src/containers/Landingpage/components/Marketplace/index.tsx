@@ -7,18 +7,17 @@ import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
 import Image from 'next/image';
 import classNames from 'classnames';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { AnimFade } from '@animations/fade';
-import { useSelector } from 'react-redux';
-import { pageLoadStatus } from '@redux/general/selector';
 import { ROUTE_PATH } from '@constants/route-path';
 import { gsap } from 'gsap';
 import { Anim } from '@animations/anim';
 import { PAGE_ENTER } from '@constants/common';
 import { useRouter } from 'next/router';
+import { LoadingContext } from '@contexts/loading-context';
 
 export const MarketplaceSection = (): JSX.Element => {
-  const loadStatus = useSelector(pageLoadStatus);
+  const { pageLoadStatus } = useContext(LoadingContext);
   const refAnim = useRef<HTMLDivElement | null>(null);
 
   const refImg1 = useRef<HTMLDivElement | null>(null);
@@ -39,7 +38,7 @@ export const MarketplaceSection = (): JSX.Element => {
 
   useEffect(() => {
     let anim: Anim | undefined;
-    if (refAnim.current && loadStatus === PAGE_ENTER) {
+    if (refAnim.current && pageLoadStatus === PAGE_ENTER) {
       anim = new Anim(
         refAnim.current,
         () => {
@@ -74,7 +73,7 @@ export const MarketplaceSection = (): JSX.Element => {
     return () => {
       anim && anim.kill();
     };
-  }, [loadStatus]);
+  }, [pageLoadStatus]);
 
   return (
     <div className={s.marketplace}>

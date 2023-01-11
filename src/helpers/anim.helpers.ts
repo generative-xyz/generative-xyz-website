@@ -9,7 +9,7 @@ export const checkPageScrolled = () => {
 };
 
 export const getDelay = (screen: number, offset: number) => {
-  if (checkPageScrolled()) {
+  if (checkPageScrolled() > 50) {
     return offset;
   }
   return screen;

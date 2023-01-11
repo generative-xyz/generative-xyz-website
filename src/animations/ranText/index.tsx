@@ -1,15 +1,14 @@
-import { createElement, ReactNode, useEffect, useRef } from 'react';
+import { createElement, ReactNode, useContext, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 import { PAGE_ENTER } from '@constants/common';
-import { useSelector } from 'react-redux';
-import { pageLoadStatus } from '@redux/general/selector';
 import { Anim } from '../anim';
 import {
   getDelay,
   getRandomArbitrary,
   getRandomArbitraryFloat,
 } from '@helpers/anim.helpers';
+import { LoadingContext } from '@contexts/loading-context';
 
 interface IProps {
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'p';
@@ -39,7 +38,7 @@ export const AnimRanText = ({
 }: IProps): JSX.Element => {
   const comp = useRef<HTMLElement>(null);
   const refDom = useRef<IProRefDom>({ kill: false });
-  const loadStatus = useSelector(pageLoadStatus);
+  const { pageLoadStatus } = useContext(LoadingContext);
 
   useEffect(() => {
     const anim = gsap.context(() => {
@@ -61,7 +60,7 @@ export const AnimRanText = ({
 
   useEffect(() => {
     if (
-      (comp.current && loadStatus === PAGE_ENTER && !isIn) ||
+      (comp.current && pageLoadStatus === PAGE_ENTER && !isIn) ||
       (comp.current && isIn)
     ) {
       comp.current.textContent = '';
@@ -117,7 +116,7 @@ export const AnimRanText = ({
       refDom.current.kill = false;
       if (comp.current) comp.current.textContent = refDom.current.text || null;
     };
-  }, [loadStatus, isIn]);
+  }, [pageLoadStatus, isIn]);
 
   return createElement(tag, { className, ref: comp }, children);
 };
