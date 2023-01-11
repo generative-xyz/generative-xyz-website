@@ -35,6 +35,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     openMakeOfferModal,
     handlePurchaseToken,
     isTokenOwner,
+    isTokenCreator,
     isTokenListing,
     listingPrice,
     listingOffers,
@@ -240,7 +241,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   >
                     {tokenData?.creator?.displayName ||
                       formatAddress(tokenData?.creator?.walletAddress || '')}
-                    {isTokenOwner && ' (by you)'}
+                    {isTokenCreator && ' (by you)'}
                   </Text>
                 }
               ></Accordion>
