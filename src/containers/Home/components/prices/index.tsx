@@ -25,12 +25,12 @@ export const Prices = (): JSX.Element => {
   };
 
   useAsyncEffect(async () => {
+    unRegisterLoading();
     try {
-      setTimeout(() => {
-        unRegisterLoading();
-      }, 1000);
+      registerLoading();
       const { data } = await getProductList();
       if (data.products) {
+        unRegisterLoading();
         setProducts(data.products);
       }
     } catch (_: unknown) {
