@@ -17,6 +17,7 @@ import { Formik } from 'formik';
 import { useContext, useState } from 'react';
 import s from './styles.module.scss';
 import { setUser } from '@redux/user/action';
+import { toast } from 'react-hot-toast';
 
 const LOG_PREFIX = 'FormEditProfile';
 
@@ -51,16 +52,20 @@ const FormEditProfile = () => {
         twitter: values.twitter || '',
         discord: values.discord || '',
         instagram: values.instagram || '',
+        etherScan: values.etherScan || '',
       },
     };
 
     const res = await updateProfile(payload);
-    if (res) dispatch(setUser(res));
+    if (res) {
+      dispatch(setUser(res));
+      toast.success('Update successfully');
+    }
 
     try {
       return;
     } catch (err: unknown) {
-      log('Not implemented ', LogLevel.Error, LOG_PREFIX);
+      log('Failed to update profile ', LogLevel.Error, LOG_PREFIX);
     }
   };
 

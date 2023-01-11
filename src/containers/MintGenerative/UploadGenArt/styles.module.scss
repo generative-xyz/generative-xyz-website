@@ -1,11 +1,11 @@
 .uploadGenArt {
+  position: relative;
   .uploadWrapper {
     margin: auto;
     max-width: 500px;
     text-align: center;
-    padding: 48px 64px 64px;
+    padding: rem(48px) rem(64px) rem(80px);
     box-shadow: 35px 15px 120px $black-10;
-    border-radius: 24px;
     margin-bottom: 42px;
   }
 
@@ -23,13 +23,22 @@
     display: inline-block;
   }
 
-  .dropZoneWrapper {
-    margin-bottom: 32px;
+  .dropZoneContainer {
+    cursor: pointer;
   }
 
   .disclaimerWrapper {
     margin: auto;
-    max-width: 422px;
+    max-width: rem(343px);
+    position: absolute;
+    top: 0;
+    left: calc(100% + rem(66px));
+    width: max-content;
+
+    @include max-tablet {
+      position: relative;
+      left: 0;
+    }
   }
 
   .disclaimer {

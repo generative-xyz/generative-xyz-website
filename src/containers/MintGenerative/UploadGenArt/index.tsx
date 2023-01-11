@@ -7,7 +7,7 @@ import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
 import { processSandboxZipFile, readSandboxFileContent } from '@utils/sandbox';
 import { prettyPrintBytes } from '@utils/units';
-import { ReactElement, useContext, useMemo, useState } from 'react';
+import { ReactElement, useContext, useEffect, useMemo, useState } from 'react';
 import { EXTERNAL_LINK } from '@constants/external-link';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
@@ -16,6 +16,7 @@ import Checkbox from '@components/Checkbox';
 import { useRouter } from 'next/router';
 import { MintGenerativeStep } from '@enums/mint-generative';
 import { SandboxFileError } from '@enums/sandbox';
+import Text from '@components/Text';
 
 const LOG_PREFIX = 'UploadGenArt';
 
@@ -59,14 +60,14 @@ const UploadGenArt: React.FC = (): ReactElement => {
     }
   };
 
-  const handleChangeFile = (files: File[] | null): void => {
-    setZipFile(files && files.length > 0 ? files[0] : null);
-  };
-
   const handleProccessFile = (): void => {
     if (zipFile) {
       processFile(zipFile);
     }
+  };
+
+  const handleChangeFile = (files: File[] | null): void => {
+    setZipFile(files && files.length > 0 ? files[0] : null);
   };
 
   const handleGoToNextStep = (): void => {
@@ -180,16 +181,9 @@ const UploadGenArt: React.FC = (): ReactElement => {
               files={zipFile ? [zipFile] : null}
             />
           </div>
-          <Button
-            disabled={!zipFile}
-            className={s.uploadBtn}
-            onClick={handleProccessFile}
-          >
-            Upload Project
-          </Button>
         </div>
         <div className={s.disclaimerWrapper}>
-          <p className={s.disclaimer}>
+          <Text fontWeight="bold" className={s.disclaimer}>
             This is a space in which you can drop a .zip of your project and see
             how it would behave when it will be minted on Generative. If your
             artwork does not behave properly in the setup thumbnail image are,
@@ -203,7 +197,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
             >
               Guide to build a Generative Token.
             </Link>
-          </p>
+          </Text>
           <p className={s.disclaimer}>
             Please make sure that your project follows our&nbsp;
             <Link
@@ -220,6 +214,10 @@ const UploadGenArt: React.FC = (): ReactElement => {
     ),
     [zipFile]
   );
+
+  useEffect(() => {
+    handleProccessFile();
+  }, [zipFile]);
 
   return (
     <section className={s.uploadGenArt}>
