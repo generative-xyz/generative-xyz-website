@@ -1,11 +1,7 @@
-import { useState, useRef, useContext } from 'react';
+import { useRef, useContext } from 'react';
 import { gsap } from 'gsap';
 import s from './CreatePage.module.scss';
-import { getRandomProject } from '@services/project';
-import log from '@utils/logger';
-import { LogLevel } from '@enums/log-level';
 import { useEffect } from 'react';
-import { Project } from '@interfaces/project';
 import Text from '@components/Text';
 import { Col, Container, Row } from 'react-bootstrap';
 import { DATA_CREATE_PAGE_SECTIONS } from '@constants/landing';
@@ -21,21 +17,21 @@ import Heading from '@components/Heading';
 import { LoadingContext } from '@contexts/loading-context';
 
 export const CreatePageSection = (): JSX.Element => {
-  const [_, setProject] = useState<Project | null>(null);
+  // const [_, setProject] = useState<Project | null>(null);
   const router = useRouter();
   const refAnim = useRef<HTMLDivElement | null>(null);
   const refList = useRef<any>([]);
   const { pageLoadStatus } = useContext(LoadingContext);
 
-  const fetchRandomProject = async () => {
-    try {
-      const res = await getRandomProject();
-      setProject(res);
-    } catch (err: unknown) {
-      log('failed to fetch random project', LogLevel.Error);
-      throw Error();
-    }
-  };
+  // const fetchRandomProject = async () => {
+  //   try {
+  //     const res = await getRandomProject();
+  //     setProject(res);
+  //   } catch (err: unknown) {
+  //     log('failed to fetch random project', LogLevel.Error);
+  //     throw Error();
+  //   }
+  // };
 
   const onClick = () => {
     router.push(ROUTE_PATH.CREATE_PROJECT);

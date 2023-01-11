@@ -10,12 +10,11 @@ import { WalletContext } from '@contexts/wallet-context';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@constants/route-path';
 import { AnimFade } from '@animations/fade';
-import { LoadingContext, LoadingProvider } from '@contexts/loading-context';
+import { LoadingProvider } from '@contexts/loading-context';
 
 const LOG_PREFIX = 'Marketplace404';
 
 const Page404 = (): JSX.Element => {
-  // const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
   const user = useAppSelector(getUserSelector);
   const walletCtx = useContext(WalletContext);
   const router = useRouter();
