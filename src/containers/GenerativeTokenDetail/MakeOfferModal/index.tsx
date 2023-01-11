@@ -6,13 +6,18 @@ import Image from 'next/image';
 import { formatTokenId } from '@utils/format';
 import Button from '@components/ButtonIcon';
 import SvgInset from '@components/SvgInset';
-import { CDN_URL } from '@constants/config';
+import { CDN_URL, NETWORK_CHAIN_ID } from '@constants/config';
 import { Formik } from 'formik';
 import Select, { SingleValue } from 'react-select';
 import { SelectOption } from '@interfaces/select-input';
 import Link from 'next/link';
 import { getFaucetLink } from '@utils/chain';
 import dayjs from 'dayjs';
+import useContractOperation from '@hooks/useContractOperation';
+import GetTokenBalanceOperation from '@services/contract-operations/erc20/get-token-balance';
+import useAsyncEffect from 'use-async-effect';
+import { WETH_ADDRESS } from '@constants/contract-address';
+import Web3 from 'web3';
 
 interface IFormValues {
   offerPrice: number;
@@ -41,12 +46,13 @@ const MakeOfferModal: React.FC = (): React.ReactElement => {
     handleMakeTokenOffer,
     hideMakeOffergModal,
   } = useContext(GenerativeTokenDetailContext);
+  const { call: getTokenBalance } = useContractOperation(
+    GetTokenBalanceOperation,
+    false
+  );
+  const [wethBalance, setWETHBalance] = useState<number | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  if (!tokenData) {
-    return <></>;
-  }
 
   const handleClose = (): void => {
     hideMakeOffergModal();
@@ -87,6 +93,20 @@ const MakeOfferModal: React.FC = (): React.ReactElement => {
     }
   };
 
+  useAsyncEffect(async () => {
+    const balance = await getTokenBalance({
+      chainID: NETWORK_CHAIN_ID,
+      erc20TokenAddress: WETH_ADDRESS,
+    });
+    if (balance) {
+      setWETHBalance(balance);
+    }
+  }, []);
+
+  if (!tokenData) {
+    return <></>;
+  }
+
   return (
     <div
       className={cs(s.makeOfferModal, {
@@ -126,6 +146,30 @@ const MakeOfferModal: React.FC = (): React.ReactElement => {
                 </p>
                 <p className={s.collectionName}>{tokenData.project.name}</p>
               </div>
+            </div>
+            <div className={s.balanceWrapper}>
+              {wethBalance ? (
+                <div className={s.balanceItem}>
+                  <div className={s.balanceLabel}>
+                    <Image
+                      src={`${CDN_URL}/icons/ic-wallet-01-24x24.svg`}
+                      alt="wallet icon"
+                      width={24}
+                      height={24}
+                    />
+                    <span>Balance</span>
+                  </div>
+                  <div className={s.balanceValue}>
+                    <span>
+                      {Web3.utils.fromWei(wethBalance.toString())} WETH
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <p className={s.balanceGuide}>
+                  Connect wallet to see your balance
+                </p>
+              )}
             </div>
             <div className={s.listingForm}>
               <Formik

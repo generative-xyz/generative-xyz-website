@@ -11,6 +11,8 @@ import { getCategoryList } from '@services/category';
 import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { useRouter } from 'next/router';
 import { SelectOption } from '@interfaces/select-input';
+import { THIRD_PARTY_SCRIPTS } from '@constants/mint-generative';
+import UploadThumbnailButton from '../UploadThumbnailButton';
 
 type IProductDetailFormValue = {
   name: string;
@@ -21,37 +23,15 @@ type IProductDetailFormValue = {
   thirdPartyScripts: Array<SelectOption>;
 };
 
-const THIRD_PARTY_SCRIPTS = [
-  {
-    label: 'p5js@1.5.0',
-    value: 'p5js@1.5.0',
-  },
-  {
-    label: 'threejs@r124',
-    value: 'threejs@r124',
-  },
-  {
-    label: 'tonejs@14.8.49',
-    value: 'tonejs@14.8.49',
-  },
-  {
-    label: 'c2.min.js@1.0.0',
-    value: 'c2.min.js@1.0.0',
-  },
-  {
-    label: 'chromajs@2.4.2',
-    value: 'chromajs@2.4.2',
-  },
-  {
-    label: 'p5.grain.js@0.6.1',
-    value: 'p5.grain.js@0.6.1',
-  },
-];
-
 const ProjectDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
-  const { formValues, setFormValues, thumbnailFile, setShowErrorAlert } =
-    useContext(MintGenerativeContext);
+  const {
+    formValues,
+    setFormValues,
+    thumbnailFile,
+    setShowErrorAlert,
+    currentStep,
+  } = useContext(MintGenerativeContext);
   const [categoryOptions, setCategoryOptions] = useState<Array<SelectOption>>(
     []
   );
@@ -147,47 +127,48 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
         handleSubmit,
         setFieldValue,
       }) => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={s.projectDetail_form}>
           <div className={s.projectDetail}>
-            <div className={s.formWrapper}>
-              <div className={s.formItem}>
-                <label className={s.label} htmlFor="name">
-                  Name of the piece <sup className={s.requiredTag}>*</sup>
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.name}
-                  className={s.input}
-                  placeholder="Provide a detailed description of your item."
-                />
-                {errors.name && touched.name && (
-                  <p className={s.error}>{errors.name}</p>
-                )}
-              </div>
-              <div className={s.formItem}>
-                <label className={s.label} htmlFor="tokenDescription">
-                  Generative token description{' '}
-                  <sup className={s.requiredTag}>*</sup>
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.description}
-                  className={s.input}
-                  rows={4}
-                  placeholder="Provide a description of your item. &#10;Markdown language supported."
-                />
-                {errors.description && touched.description && (
-                  <p className={s.error}>{errors.description}</p>
-                )}
-              </div>
-              {/* <div className={s.formItem}>
+            <div>
+              <div className={s.formWrapper}>
+                <div className={s.formItem}>
+                  <label className={s.label} htmlFor="name">
+                    Name of the piece <sup className={s.requiredTag}>*</sup>
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.name}
+                    className={s.input}
+                    placeholder="Provide a detailed description of your item."
+                  />
+                  {errors.name && touched.name && (
+                    <p className={s.error}>{errors.name}</p>
+                  )}
+                </div>
+                <div className={s.formItem}>
+                  <label className={s.label} htmlFor="tokenDescription">
+                    Generative token description{' '}
+                    <sup className={s.requiredTag}>*</sup>
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.description}
+                    className={s.input}
+                    rows={4}
+                    placeholder="Provide a description of your item. &#10;Markdown language supported."
+                  />
+                  {errors.description && touched.description && (
+                    <p className={s.error}>{errors.description}</p>
+                  )}
+                </div>
+                {/* <div className={s.formItem}>
                 <label className={s.label} htmlFor="description">
                   Collected NFTs description{' '}
                   <sup className={s.requiredTag}>*</sup>
@@ -206,25 +187,25 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
                   <p className={s.error}>{errors.description}</p>
                 )}
               </div> */}
-              <div className={s.formItem}>
-                <label className={s.label} htmlFor="thirdPartyScripts">
-                  Third party lib
-                </label>
-                <Select
-                  id="thirdPartyScripts"
-                  isMulti
-                  name="thirdPartyScripts"
-                  options={THIRD_PARTY_SCRIPTS}
-                  className={s.selectInput}
-                  classNamePrefix="select"
-                  onChange={(val: MultiValue<SelectOption>) => {
-                    setFieldValue('thirdPartyScripts', val);
-                  }}
-                  onBlur={handleBlur}
-                  placeholder="Select library"
-                />
-              </div>
-              {/* <div className={s.formItem}>
+                <div className={s.formItem}>
+                  <label className={s.label} htmlFor="thirdPartyScripts">
+                    Third party lib
+                  </label>
+                  <Select
+                    id="thirdPartyScripts"
+                    isMulti
+                    name="thirdPartyScripts"
+                    options={THIRD_PARTY_SCRIPTS}
+                    className={s.selectInput}
+                    classNamePrefix="select"
+                    onChange={(val: MultiValue<SelectOption>) => {
+                      setFieldValue('thirdPartyScripts', val);
+                    }}
+                    onBlur={handleBlur}
+                    placeholder="Select library"
+                  />
+                </div>
+                {/* <div className={s.formItem}>
                 <label className={s.label} htmlFor="tags">
                   Hashtag
                 </label>
@@ -314,22 +295,29 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
                   placeholder="Select category"
                 />
               </div> */}
+              </div>
+              <div className={s.uploadPreviewWrapper}>
+                {currentStep > 1 && currentStep < 3 && (
+                  <UploadThumbnailButton />
+                )}
+              </div>
             </div>
-          </div>
 
-          <div className={s.stepFooterWrapper}>
-            <footer className={s.stepFooter}>
-              <div className={s.container}>
-                <div className={s.actionWrapper}>
-                  <Button type="submit" className={s.nextBtn} sizes="small">
+            <div className={s.container}>
+              <div className={s.actionWrapper}>
+                <Button
+                  type="submit"
+                  className={s.nextBtn}
+                  endIcon={
                     <SvgInset
-                      size={18}
                       svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
                     />
-                  </Button>
-                </div>
+                  }
+                >
+                  Next step
+                </Button>
               </div>
-            </footer>
+            </div>
           </div>
         </form>
       )}

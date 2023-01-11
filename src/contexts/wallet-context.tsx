@@ -212,7 +212,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
   }, [walletManager]);
 
   useEffect(() => {
-    if (walletManager) {
+    if (walletManager && walletManager.isConnected()) {
       refreshWalletBalance();
     }
   }, [walletManager]);

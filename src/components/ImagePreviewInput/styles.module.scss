@@ -24,12 +24,4 @@
   .previewImage {
     object-fit: cover;
   }
-
-  .change_btn {
-    position: absolute;
-    bottom: rem(32px);
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: rem(100px);
-  }
 }

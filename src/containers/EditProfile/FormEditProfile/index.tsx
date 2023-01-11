@@ -17,6 +17,7 @@ import { Formik } from 'formik';
 import { useContext, useState } from 'react';
 import s from './styles.module.scss';
 import { setUser } from '@redux/user/action';
+import { toast } from 'react-hot-toast';
 
 const LOG_PREFIX = 'FormEditProfile';
 
@@ -51,16 +52,20 @@ const FormEditProfile = () => {
         twitter: values.twitter || '',
         discord: values.discord || '',
         instagram: values.instagram || '',
+        etherScan: values.etherScan || '',
       },
     };
 
     const res = await updateProfile(payload);
-    if (res) dispatch(setUser(res));
+    if (res) {
+      dispatch(setUser(res));
+      toast.success('Update successfully');
+    }
 
     try {
       return;
     } catch (err: unknown) {
-      log('Not implemented ', LogLevel.Error, LOG_PREFIX);
+      log('Failed to update profile ', LogLevel.Error, LOG_PREFIX);
     }
   };
 
@@ -74,6 +79,7 @@ const FormEditProfile = () => {
         website: user.profileSocial?.web || '',
         instagram: user.profileSocial?.instagram || '',
         discord: user.profileSocial?.discord || '',
+        etherScan: user.profileSocial?.etherScan || '',
         twitter: user.profileSocial?.twitter || '',
       }}
       // validate={validateForm}
@@ -95,6 +101,15 @@ const FormEditProfile = () => {
                 )
               }
             />
+            {user?.avatar && (
+              <ButtonIcon
+                variants="secondary"
+                className={s.change_btn}
+                style={{ pointerEvents: 'none' }}
+              >
+                Changes
+              </ButtonIcon>
+            )}
           </div>
           <div className={s.account_form}>
             <Heading as="h4" fontWeight="bold">
@@ -151,6 +166,13 @@ const FormEditProfile = () => {
                     name={'discord'}
                     label={'discord'}
                     placeholder="Discord"
+                    className={s.input_website}
+                    useFormik
+                  ></Input>
+                  <Input
+                    name={'etherScan'}
+                    label={'etherScan'}
+                    placeholder="Etherscan"
                     className={s.input_website}
                     useFormik
                   ></Input>
