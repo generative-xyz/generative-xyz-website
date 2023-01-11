@@ -105,7 +105,7 @@ const TransferTokenModal: React.FC = () => {
             </div>
             <div className={s.listingForm}>
               <Formik
-                key="makeOfferForm"
+                key="transferTokenForm"
                 initialValues={{
                   toAddress: '',
                 }}

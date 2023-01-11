@@ -289,4 +289,32 @@
     color: $secondary-red;
     margin: 0;
   }
+
+  .balanceWrapper {
+    margin-bottom: 24px;
+  }
+
+  .balanceItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .balanceLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+    color: $black-100;
+  }
+
+  .balanceValue,
+  .balanceGuide {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+    color: $black-100;
+  }
 }
