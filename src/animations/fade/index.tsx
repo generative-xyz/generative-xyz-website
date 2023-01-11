@@ -1,11 +1,10 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useContext, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 import { PAGE_ENTER } from '@constants/common';
-import { useSelector } from 'react-redux';
-import { pageLoadStatus } from '@redux/general/selector';
 import { getDelay } from '@helpers/anim.helpers';
 import { Anim } from '../anim';
+import { LoadingContext } from '@contexts/loading-context';
 
 interface IProps {
   children: ReactNode;
@@ -25,7 +24,7 @@ export const AnimFade = ({
   isIn = true,
 }: IProps): JSX.Element => {
   const comp = useRef<HTMLDivElement>(null);
-  const loadStatus = useSelector(pageLoadStatus);
+  const { pageLoadStatus } = useContext(LoadingContext);
 
   useEffect(() => {
     const anim = gsap.context(() => {
@@ -43,7 +42,7 @@ export const AnimFade = ({
   }, []);
 
   useEffect(() => {
-    if (comp.current && loadStatus === PAGE_ENTER) {
+    if (comp.current && pageLoadStatus === PAGE_ENTER) {
       new Anim(
         comp.current,
         () => {
@@ -59,7 +58,7 @@ export const AnimFade = ({
         threshold
       );
     }
-  }, [loadStatus, isIn]);
+  }, [pageLoadStatus, isIn]);
 
   return (
     <div ref={comp} className={className}>

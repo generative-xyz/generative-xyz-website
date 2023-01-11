@@ -4,6 +4,11 @@
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 2px;
+    transition: box-shadow .4s $easeOutCubic;
+
+    &:hover {
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+    }
   }
 
   &_thumb {

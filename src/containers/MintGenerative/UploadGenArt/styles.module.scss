@@ -1,12 +1,22 @@
 .uploadGenArt {
+  position: relative;
+  height: 100%;
   .uploadWrapper {
     margin: auto;
     max-width: 500px;
     text-align: center;
-    padding: 48px 64px 64px;
+    padding: rem(48px) rem(64px) rem(80px);
     box-shadow: 35px 15px 120px $black-10;
-    border-radius: 24px;
     margin-bottom: 42px;
+  }
+
+  .uploadSuccessWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-top: rem(40px);
+    padding-bottom: rem(30px);
   }
 
   .sectionTitle {
@@ -23,21 +33,27 @@
     display: inline-block;
   }
 
-  .dropZoneWrapper {
-    margin-bottom: 32px;
+  .dropZoneContainer {
+    cursor: pointer;
   }
 
   .disclaimerWrapper {
     margin: auto;
-    max-width: 422px;
+    max-width: rem(343px);
+    position: absolute;
+    top: 0;
+    left: calc(100% + rem(66px));
+    width: max-content;
+
+    @include max-tablet {
+      position: relative;
+      left: 0;
+    }
   }
 
   .disclaimer {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 20px;
-    color: $black-40;
     margin-bottom: 16px;
+    color: $black-60;
   }
 
   .link {
@@ -109,12 +125,8 @@
     border-top: 1px solid $black-10;
   }
 
-  .container {
-    max-width: 1016px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .checkboxWrapper {
+    margin-bottom: rem(24px);
   }
 
   .checkbox {
@@ -130,9 +142,12 @@
     }
   }
 
-  .nextBtn {
-    width: 48px;
-    height: 48px;
-    justify-content: center;
+  .actionWrapper {
+    button:disabled,
+    button[disabled] {
+      svg path {
+        stroke: $black-10;
+      }
+    }
   }
 }

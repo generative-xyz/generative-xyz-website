@@ -1,14 +1,13 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useContext, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 import { debounce } from 'lodash';
 import SplitType from 'split-type';
-import { pageLoadStatus } from '@redux/general/selector';
 import { PAGE_ENTER } from '@constants/common';
-import { useSelector } from 'react-redux';
 import { getDelay } from '@helpers/anim.helpers';
 import { Anim } from '../anim';
 import s from './paragraph.module.scss';
+import { LoadingContext } from '@contexts/loading-context';
 
 interface IProps {
   children: ReactNode;
@@ -30,7 +29,7 @@ export const AnimParagraph = ({
 }: IProps): JSX.Element => {
   const comp = useRef<HTMLDivElement>(null);
   const refDom = useRef<IProRefDom>({});
-  const loadStatus = useSelector(pageLoadStatus);
+  const { pageLoadStatus } = useContext(LoadingContext);
 
   useEffect(() => {
     const anim = gsap.context(() => {
@@ -68,7 +67,7 @@ export const AnimParagraph = ({
   }, []);
 
   useEffect(() => {
-    if (comp.current && loadStatus === PAGE_ENTER) {
+    if (comp.current && pageLoadStatus === PAGE_ENTER) {
       new Anim(comp.current, () => {
         let delay = getDelay(screen, offset);
 
@@ -92,7 +91,7 @@ export const AnimParagraph = ({
         }
       });
     }
-  }, [loadStatus]);
+  }, [pageLoadStatus]);
 
   return (
     <div ref={comp} className={className}>

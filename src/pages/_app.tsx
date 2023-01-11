@@ -70,10 +70,9 @@ export default function App({ Component, pageProps }: MyAppProps) {
         />
         <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#fff" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="theme-color" content="#ffffff"></meta>
-        <link rel="shortcut icon" href="/images/favicon.ico" />
-        <link rel="icon" sizes="16x16 32x32 64x64" href="/images/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico" />
         <link
           rel="icon"
           type="image/png"
@@ -152,10 +151,7 @@ export default function App({ Component, pageProps }: MyAppProps) {
           href="/images/favicon-180.png"
         />
         <meta name="msapplication-TileColor" content="#FFFFFF" />
-        <meta
-          name="msapplication-TileImage"
-          content="/images/favicon-144.png"
-        />
+        <meta name="msapplication-TileImage" content="images/favicon-144.png" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </Head>
 

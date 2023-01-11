@@ -1,10 +1,10 @@
 import { NextPage } from 'next';
 import MarketplaceLayout from '@layouts/Marketplace';
-import { Page404 } from '@containers/404';
+import Page404 from '@containers/404';
 
 const ErrorPage: NextPage = () => {
   return (
-    <MarketplaceLayout>
+    <MarketplaceLayout isHideFaucet={true}>
       <Page404 />
     </MarketplaceLayout>
   );

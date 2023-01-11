@@ -1,0 +1,73 @@
+.dropDownWrapper {
+  .selectInput {
+    :global(.select__control) {
+      background-color: $white-100;
+      outline: none;
+      box-shadow: none;
+      border-radius: 0;
+      border: 2px solid $black-20;
+      min-width: rem(250px);
+      @include calcPropertyAuto(height, 36px, 48px);
+    }
+
+    :global(.select__indicator-separator) {
+      display: none;
+    }
+
+    :global(.select__placeholder) {
+      color: $black-40;
+      font-weight: 500;
+      line-height: (26/16);
+      @include calcFontAuto(14px, 16px);
+    }
+
+    :global(.select__multi-value__label) {
+      font-weight: 400;
+      line-height: 1;
+      @include calcFontAuto(12px, 14px);
+    }
+
+    :global(.select__input-container) {
+      color: $black-100;
+      font-weight: 500;
+      line-height: (26/16);
+      @include calcFontAuto(14px, 16px);
+    }
+
+    :global(.select__dropdown-indicator) {
+      color: $black;
+    }
+
+    :global(.select__menu) {
+      border-radius: 2px;
+      background: #FFFFFF;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 8px 7px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    :global(.select__menu-list) {
+      padding: 0;
+    }
+
+    :global(.select__option) {
+      background-color: #FFFFFF;
+      color: rgba($black, .6);
+      padding: 0 rem(16px);
+      display: flex;
+      align-items: center;
+      @include calcPropertyAuto(height, 36px, 48px);
+
+      &:hover {
+        color: $primary-brand;
+        background: #F2F2F2;
+        cursor: pointer;
+      }
+    }
+
+    :global(.select__option--is-selected) {
+      color: $primary-brand;
+      background: #F2F2F2;
+    }
+
+  }
+}

@@ -2,7 +2,7 @@
   overflow: hidden;
 
   &_recentWorks {
-    background: $primary-light;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     overflow: hidden;
     padding: {
       top: rem(100px);

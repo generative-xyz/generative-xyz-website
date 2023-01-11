@@ -70,8 +70,9 @@ export const UserInfo = (): JSX.Element => {
                   <>
                     <div className={s.editProfile}>
                       <ButtonIcon
+                        sizes="large"
                         variants={'ghost'}
-                        endIcon={<SvgInset svgUrl={IC_EDIT_PROFILE} />}
+                        startIcon={<SvgInset svgUrl={IC_EDIT_PROFILE} />}
                         onClick={() => router.push(ROUTE_PATH.EDIT_PROFILE)}
                       >
                         Edit profile
@@ -79,8 +80,9 @@ export const UserInfo = (): JSX.Element => {
                     </div>
                     <div className={s.offerSetting}>
                       <ButtonIcon
+                        sizes="large"
                         variants={'ghost'}
-                        endIcon={<SvgInset svgUrl={IC_OFFER_SETTING} />}
+                        startIcon={<SvgInset svgUrl={IC_OFFER_SETTING} />}
                       >
                         Offer setting
                       </ButtonIcon>

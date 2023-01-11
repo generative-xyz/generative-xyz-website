@@ -345,3 +345,34 @@
     font-size: rem($max-font-size);
   }
 }
+
+@mixin calcFontAutoSmall($min-font-size, $max-font-size) {
+
+  font-size: rem($max-font-size);
+
+  @include min-pc {
+    font-size: calc-auto(1200px, 1920px, $min-font-size, $max-font-size);
+  }
+
+  @include min-pc-superWide {
+    font-size: rem($max-font-size);
+  }
+}
+
+@mixin calcPropertyAuto($property, $min-font-size, $max-font-size) {
+
+  #{$property}: rem($min-font-size);
+
+  @include tablet {
+    #{$property}: rem($max-font-size);
+  }
+
+  @include min-pc {
+    #{$property}: calc-auto(1200px, 1920px, $min-font-size, $max-font-size);
+  }
+
+  @include min-pc-superWide {
+    #{$property}: rem($max-font-size);
+  }
+}
+
