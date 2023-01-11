@@ -1,5 +1,6 @@
 .uploadGenArt {
   position: relative;
+  height: 100%;
   .uploadWrapper {
     margin: auto;
     max-width: 500px;
@@ -7,6 +8,15 @@
     padding: rem(48px) rem(64px) rem(80px);
     box-shadow: 35px 15px 120px $black-10;
     margin-bottom: 42px;
+  }
+
+  .uploadSuccessWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-top: rem(40px);
+    padding-bottom: rem(30px);
   }
 
   .sectionTitle {
@@ -115,12 +125,8 @@
     border-top: 1px solid $black-10;
   }
 
-  .container {
-    max-width: 1016px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .checkboxWrapper {
+    margin-bottom: rem(24px);
   }
 
   .checkbox {
@@ -136,9 +142,12 @@
     }
   }
 
-  .nextBtn {
-    width: 48px;
-    height: 48px;
-    justify-content: center;
+  .actionWrapper {
+    button:disabled,
+    button[disabled] {
+      svg path {
+        stroke: $black-10;
+      }
+    }
   }
 }

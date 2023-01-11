@@ -92,41 +92,67 @@ const UploadGenArt: React.FC = (): ReactElement => {
     return (
       <>
         <div className={s.uploadSuccessWrapper}>
-          <div className={s.uploadFiles}>
-            <div className={s.zipFileInfo}>
-              <Image
-                className={s.folderIcon}
-                alt="folder icon"
-                width={28}
-                height={28}
-                src={`${CDN_URL}/icons/ic-folder-code-28x28.svg`}
-              ></Image>
-              <span className={s.zipFileName}>
-                {zipFile?.name} ({prettyPrintBytes(zipFile?.size || 0)})
-              </span>
+          <div>
+            <div className={s.uploadFiles}>
+              <div className={s.zipFileInfo}>
+                <Image
+                  className={s.folderIcon}
+                  alt="folder icon"
+                  width={28}
+                  height={28}
+                  src={`${CDN_URL}/icons/ic-folder-code-28x28.svg`}
+                ></Image>
+                <span className={s.zipFileName}>
+                  {zipFile?.name} ({prettyPrintBytes(zipFile?.size || 0)})
+                </span>
+              </div>
+              <ul className={s.zipFileList}>
+                {fileList?.map((fileName: string) => (
+                  <li key={fileName} className={s.fileItem}>
+                    <Image
+                      className={s.codeIcon}
+                      alt="folder icon"
+                      width={18}
+                      height={18}
+                      src={`${CDN_URL}/icons/ic-code-18x18.svg`}
+                    ></Image>
+                    <span className={s.fileName}>{fileName}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className={s.zipFileList}>
-              {fileList?.map((fileName: string) => (
-                <li key={fileName} className={s.fileItem}>
-                  <Image
-                    className={s.codeIcon}
-                    alt="folder icon"
-                    width={18}
-                    height={18}
-                    src={`${CDN_URL}/icons/ic-code-18x18.svg`}
-                  ></Image>
-                  <span className={s.fileName}>{fileName}</span>
-                </li>
-              ))}
-            </ul>
+            <div className={s.actionWrapper}>
+              <Button sizes="small" variants="outline" onClick={handleReupload}>
+                Update zip file
+              </Button>
+            </div>
           </div>
-          <div className={s.actionWrapper}>
-            <Button sizes="small" variants="outline" onClick={handleReupload}>
-              Update zip file
-            </Button>
+          <div className={s.container}>
+            <div className={s.checkboxWrapper}>
+              <Checkbox
+                checked={isProjectWork}
+                onClick={handleChangeIsProjectWork}
+                className={s.checkbox}
+                id="workProperly"
+                label="My Generative Token works properly."
+              />
+            </div>
+            <div className={s.actionWrapper}>
+              <Button
+                disabled={!isProjectWork || !filesSandbox}
+                onClick={handleGoToNextStep}
+                endIcon={
+                  <SvgInset
+                    svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
+                  />
+                }
+              >
+                Next step
+              </Button>
+            </div>
           </div>
         </div>
-        <div className={s.stepFooterWrapper}>
+        {/* <div className={s.stepFooterWrapper}>
           <footer className={s.stepFooter}>
             <div className={s.container}>
               <div className={s.checkboxWrapper}>
@@ -153,7 +179,7 @@ const UploadGenArt: React.FC = (): ReactElement => {
               </div>
             </div>
           </footer>
-        </div>
+        </div> */}
       </>
     );
   };

@@ -99,10 +99,10 @@ const ProjectPreview = () => {
               variants="outline"
             >
               <Image
-                alt="play icon"
+                alt="variation icon"
                 width={14}
                 height={14}
-                src={`${CDN_URL}/icons/ic-shuffle-24x24.svg`}
+                src={`${CDN_URL}/icons/ic-variation.svg`}
               />
             </Button>
             {canPlay && (
