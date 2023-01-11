@@ -20,6 +20,10 @@ export interface IGetProjectItemsQuery extends IPagingParams {
 }
 
 export interface IGetProjectItemsResponse extends IPagingResponse {
+  result: Project[];
+}
+
+export interface IGetProjectTokensResponse extends IPagingResponse {
   result: Token[];
 }
 

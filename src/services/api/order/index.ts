@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ApiFactory, { DEFAULT_RESPONSE } from '../http';
 
 const ORDER_API = '/v1/order';

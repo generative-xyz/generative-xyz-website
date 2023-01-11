@@ -122,11 +122,13 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
         tags: formValues.tags ?? [],
         categories: formValues.categories
           ? formValues.categories.map(cat => {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               return categoryOptions.find(op => cat === op.value)!;
             })
           : [],
         thirdPartyScripts: formValues.thirdPartyScripts
           ? formValues.thirdPartyScripts.map(lib => {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               return THIRD_PARTY_SCRIPTS.find(script => lib === script.value)!;
             })
           : [],
@@ -215,7 +217,7 @@ const ProjectDetail: React.FC = (): React.ReactElement => {
                   options={THIRD_PARTY_SCRIPTS}
                   className={s.selectInput}
                   classNamePrefix="select"
-                  onChange={(val: MultiValue<any>) => {
+                  onChange={(val: MultiValue<SelectOption>) => {
                     setFieldValue('thirdPartyScripts', val);
                   }}
                   onBlur={handleBlur}

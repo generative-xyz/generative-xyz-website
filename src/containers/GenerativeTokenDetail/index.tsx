@@ -21,6 +21,7 @@ import ListingTokenModal from './ListingTokenModal';
 import MakeOfferModal from './MakeOfferModal';
 import MoreItemsSection from './MoreItemsSection';
 import TokenActivities from './TokenActivities';
+import CancelListingModal from './CancelListingModal';
 import s from './styles.module.scss';
 
 // const LOG_PREFIX = 'GenerativeTokenDetail';
@@ -29,16 +30,15 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const {
     tokenData,
-    tokenOffers,
     tokenID,
     openListingModal,
     openMakeOfferModal,
     handlePurchaseToken,
     isTokenOwner,
+    isTokenCreator,
     isTokenListing,
     listingPrice,
     listingOffers,
-    // setListingPrice,
   } = useContext(GenerativeTokenDetailContext);
   const scanURL = getScanUrl();
   const mintedDate = dayjs(tokenData?.mintedTime).format('MMM DD, YYYY');
@@ -99,9 +99,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     router.push(`${ROUTE_PATH.PROFILE}`);
   };
 
-  const handleBuyToken = () => {
+  const handleBuyToken = async (): Promise<void> => {
     setIsBuying(true);
-    handlePurchaseToken(tokenOffers[0]);
+    await handlePurchaseToken(listingOffers[0]);
     setIsBuying(false);
   };
 
@@ -241,7 +241,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                   >
                     {tokenData?.creator?.displayName ||
                       formatAddress(tokenData?.creator?.walletAddress || '')}
-                    {isTokenOwner && ' (by you)'}
+                    {isTokenCreator && ' (by you)'}
                   </Text>
                 }
               ></Accordion>
@@ -264,8 +264,10 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
           <MoreItemsSection genNFTAddr={tokenData.project.genNFTAddr} />
         )}
       </Container>
+
       <ListingTokenModal />
       <MakeOfferModal />
+      <CancelListingModal />
     </>
   );
 };

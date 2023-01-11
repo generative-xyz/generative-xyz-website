@@ -58,7 +58,8 @@ export const AnimParagraph = ({
       anim.revert();
       if (comp.current) {
         comp.current.classList.remove(`is-handle`, `${s['anim-paragraph']}`);
-        refDom.current.resizeObserver?.unobserve(comp.current as HTMLElement);
+        comp.current &&
+          refDom.current.resizeObserver?.unobserve(comp.current as HTMLElement);
         if (refDom.current.texts)
           gsap.set(refDom.current.texts?.words, { y: '0' });
       }

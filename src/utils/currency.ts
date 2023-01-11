@@ -14,8 +14,8 @@ export const calculateFloorDifference = (
   if (diff === 0) {
     return '0%';
   } else if (diff < 0) {
-    return `${Math.abs(diff) * 100}% below`;
+    return `${(Math.abs(diff) * 100).toFixed(1)}% below`;
   } else {
-    return `${Math.abs(diff) * 100}% above`;
+    return `${(Math.abs(diff) * 100).toFixed(1)}% above`;
   }
 };

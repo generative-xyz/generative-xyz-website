@@ -3,14 +3,13 @@ import React, {
   useCallback,
   useMemo,
   useState,
-  useEffect,
 } from 'react';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
 import { useAppSelector } from '@redux';
 import {
   getProfileByWallet,
-  getProfileProjects,
+  getProfileProjectsByWallet,
   getProfileTokens,
 } from '@services/profile';
 import { User } from '@interfaces/user';
@@ -26,7 +25,7 @@ import {
   ITokenOfferListResponse,
 } from '@interfaces/api/marketplace';
 import { useRouter } from 'next/router';
-import { ROUTE_PATH } from '@constants/route-path';
+import useAsyncEffect from 'use-async-effect';
 
 const LOG_PREFIX = 'ProfileContext';
 
@@ -37,6 +36,14 @@ export interface IProfileContext {
   profileProjects?: IGetProjectItemsResponse;
   profileMakeOffer?: ITokenOfferListResponse;
   profileListing?: IListingTokensResponse;
+
+  isLoaded: boolean;
+
+  isLoadedProfileTokens: boolean;
+  isLoadedProfileProjects: boolean;
+  isLoadedProfileMakeOffer: boolean;
+  // isLoadedProfileListing: boolean;
+
   handleFetchTokens: () => void;
   handleFetchProjects: () => void;
   handleFetchMakeOffers: () => void;
@@ -45,6 +52,11 @@ export interface IProfileContext {
 
 const initialValue: IProfileContext = {
   currentUser: undefined,
+  isLoaded: false,
+  isLoadedProfileTokens: false,
+  isLoadedProfileProjects: false,
+  isLoadedProfileMakeOffer: false,
+  // isLoadedProfileListing: false,
   handleFetchTokens: () => new Promise<void>(r => r()),
   handleFetchProjects: () => new Promise<void>(r => r()),
   handleFetchMakeOffers: () => new Promise<void>(r => r()),
@@ -64,42 +76,69 @@ export const ProfileProvider: React.FC<PropsWithChildren> = ({
   >();
   const { walletAddress } = router.query as { walletAddress: string };
   const [currentUser, setCurrentUser] = useState<User>(user);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const [profileTokens, setProfileTokens] = useState<
     IGetProfileTokensResponse | undefined
   >();
 
+  const [isLoadedProfileTokens, setIsLoadedProfileTokens] =
+    useState<boolean>(false);
+
   const [profileProjects, setProfileProjects] = useState<
     IGetProjectItemsResponse | undefined
   >();
+
+  const [isLoadedProfileProjects, setIsLoadedProfileProjects] =
+    useState<boolean>(false);
 
   const [profileMakeOffer, setProfileMakeOffer] = useState<
     ITokenOfferListResponse | undefined
   >();
 
+  const [isLoadedProfileMakeOffer, setIsLoadedProfileMakeOffer] =
+    useState<boolean>(false);
+
   const [profileListing, setProfileListing] = useState<
     IListingTokensResponse | undefined
   >();
 
+  // const [isLoadedProfileListing, setIsLoadedProfileListing] =
+  //   useState<boolean>(false);
+
   const handleFetchProjects = useCallback(async () => {
     try {
-      if (user.walletAddress) {
-        const projects = await getProfileProjects();
+      if (currentUser.walletAddress) {
+        let page = (profileProjects && profileProjects?.page) || 0;
+        page += 1;
+
+        setIsLoadedProfileProjects(false);
+        const projects = await getProfileProjectsByWallet({
+          walletAddress: currentUser.walletAddress,
+          page,
+          limit: 12,
+        });
+
         if (projects) {
+          if (profileProjects && profileProjects?.result) {
+            projects.result = [...profileProjects.result, ...projects.result];
+          }
+
           setProfileProjects(projects);
+          setIsLoadedProfileProjects(true);
         }
       }
     } catch (ex) {
       log('can not fetch created collections', LogLevel.Error, LOG_PREFIX);
-      // throw Error('failed to fetch item detail');
+      setIsLoadedProfileProjects(true);
     }
-  }, []);
+  }, [currentUser, profileProjects]);
 
   const handleFetchListingTokens = useCallback(async () => {
     try {
-      if (user.walletAddress) {
+      if (currentUser.walletAddress) {
         const listingTokens = await getListingTokensByWallet({
-          walletAddress: user.walletAddress,
+          walletAddress: currentUser.walletAddress,
           closed: false,
         });
         if (listingTokens && listingTokens) {
@@ -109,47 +148,62 @@ export const ProfileProvider: React.FC<PropsWithChildren> = ({
     } catch (ex) {
       log('can not fetch listing tokens', LogLevel.Error, LOG_PREFIX);
     }
-  }, []);
+  }, [currentUser]);
 
   const handleFetchMakeOffers = useCallback(async () => {
     try {
-      if (user.walletAddress) {
+      if (currentUser.walletAddress) {
+        setIsLoadedProfileMakeOffer(false);
         const makeOffers = await getMakeOffersByWallet({
-          walletAddress: user.walletAddress,
+          walletAddress: currentUser.walletAddress,
           closed: false,
         });
         if (makeOffers) {
           setProfileMakeOffer(makeOffers);
+          setIsLoadedProfileMakeOffer(true);
         }
       }
     } catch (ex) {
       log('can not fetch listing tokens', LogLevel.Error, LOG_PREFIX);
+      setIsLoadedProfileMakeOffer(true);
     }
-  }, []);
+  }, [currentUser]);
 
   const handleFetchTokens = useCallback(async () => {
     try {
-      if (user.walletAddress) {
+      if (currentUser.walletAddress) {
+        let page = (profileTokens && profileTokens?.page) || 0;
+        page += 1;
+
+        setIsLoadedProfileTokens(false);
         const tokens = await getProfileTokens({
-          walletAddress: user.walletAddress,
+          walletAddress: currentUser.walletAddress,
+          limit: 12,
+          page,
         });
         if (tokens) {
+          if (profileTokens && profileTokens?.result) {
+            tokens.result = [...profileTokens.result, ...tokens.result];
+          }
+
           setProfileTokens(tokens);
+          setIsLoadedProfileTokens(true);
         }
       }
     } catch (ex) {
       log('can not fetch tokens', LogLevel.Error, LOG_PREFIX);
+      setIsLoadedProfileTokens(true);
     }
-  }, []);
+  }, [currentUser, profileTokens]);
 
   const handleFetchProfileByWallet = useCallback(async () => {
     try {
-      if (user.walletAddress) {
-        const user = await getProfileByWallet({
-          walletAddress: walletAddress,
+      if (walletAddress) {
+        const getUser = await getProfileByWallet({
+          walletAddress: walletAddress.toLowerCase(),
         });
-        if (user) {
-          setCurrentUser(user);
+        if (getUser && getUser.id !== '') {
+          setCurrentUser(getUser);
         }
       }
     } catch (ex) {
@@ -157,20 +211,29 @@ export const ProfileProvider: React.FC<PropsWithChildren> = ({
     }
   }, [walletAddress]);
 
-  useEffect(() => {
-    if (user.walletAddress === walletAddress) {
-      router.push(ROUTE_PATH.PROFILE);
-      return;
-    } else {
-      setCurrentUser(user);
+  useAsyncEffect(async () => {
+    if (walletAddress) {
+      setIsLoaded(false);
       setUserWalletAddress(walletAddress);
-      handleFetchProfileByWallet();
+      await handleFetchProfileByWallet();
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 400);
+    }
+  }, [walletAddress]);
+
+  useAsyncEffect(async () => {
+    if (!walletAddress) {
+      setCurrentUser(user);
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 400);
     }
 
     handleFetchMakeOffers();
     handleFetchProjects();
     handleFetchTokens();
-  }, [user.walletAddress, walletAddress]);
+  }, [currentUser, user]);
 
   const contextValues = useMemo((): IProfileContext => {
     return {
@@ -180,6 +243,14 @@ export const ProfileProvider: React.FC<PropsWithChildren> = ({
       profileProjects,
       profileMakeOffer,
       profileListing,
+
+      isLoaded,
+
+      isLoadedProfileTokens,
+      isLoadedProfileProjects,
+      isLoadedProfileMakeOffer,
+      // isLoadedProfileListing,
+
       handleFetchTokens,
       handleFetchProjects,
       handleFetchMakeOffers,
@@ -192,6 +263,14 @@ export const ProfileProvider: React.FC<PropsWithChildren> = ({
     profileProjects,
     profileMakeOffer,
     profileListing,
+
+    isLoaded,
+
+    isLoadedProfileTokens,
+    isLoadedProfileProjects,
+    isLoadedProfileMakeOffer,
+    // isLoadedProfileListing,
+
     handleFetchTokens,
     handleFetchProjects,
     handleFetchMakeOffers,

@@ -10,6 +10,7 @@ import Text from '@components/Text';
 import ThumbnailPreview from '@components/ThumbnailPreview';
 import { CDN_URL, NETWORK_CHAIN_ID } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
+import { WalletContext } from '@contexts/wallet-context';
 import { ErrorMessage } from '@enums/error-message';
 import { LogLevel } from '@enums/log-level';
 import useContractOperation from '@hooks/useContractOperation';
@@ -20,16 +21,14 @@ import { Token } from '@interfaces/token';
 import { getUserSelector } from '@redux/user/selector';
 import MintGenerativeNFTOperation from '@services/contract-operations/generative-nft/mint-generative-nft';
 import { getMarketplaceStats } from '@services/marketplace';
-import { WalletManager } from '@services/wallet';
 import { isTestnet } from '@utils/chain';
 import { convertToETH } from '@utils/currency';
 import { base64ToUtf8, formatAddress } from '@utils/format';
 import log from '@utils/logger';
-import BN from 'bn.js';
 import dayjs from 'dayjs';
 import _get from 'lodash/get';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import Web3 from 'web3';
@@ -43,6 +42,7 @@ type Props = {
 };
 
 const ProjectIntroSection = ({ project }: Props) => {
+  const { walletBalance } = useContext(WalletContext);
   const user = useSelector(getUserSelector);
   const router = useRouter();
   const [projectDetail, setProjectDetail] = useState<Omit<Token, 'owner'>>();
@@ -85,26 +85,18 @@ const ProjectIntroSection = ({ project }: Props) => {
         return;
       }
 
-      // check balance
-      if (new BN(project.mintPrice).cmp(new BN(0)) == 1) {
-        const walletManagerInstance = new WalletManager();
-        if (walletManagerInstance) {
-          const check = await walletManagerInstance.checkInsufficient(
-            user.walletAddress,
-            '0x0000000000000000000000000000000000000000',
-            project.mintPrice.toString()
+      if (
+        walletBalance <
+        parseFloat(Web3.utils.fromWei(project.mintPrice.toString()))
+      ) {
+        if (isTestnet()) {
+          toast.error(
+            'Insufficient funds testnet. Go to profile and get testnet faucet'
           );
-          if (!check) {
-            if (isTestnet()) {
-              toast.error(
-                'Insufficient funds testnet. Go to profile and get testnet faucet'
-              );
-            } else {
-              toast.error('Insufficient funds.');
-            }
-            return;
-          }
+        } else {
+          toast.error('Insufficient funds.');
         }
+        return;
       }
 
       const mintTx = await mintToken({
@@ -114,7 +106,7 @@ const ProjectIntroSection = ({ project }: Props) => {
       });
 
       if (!mintTx) {
-        toast.error('Something went wrong. Please try again.');
+        toast.error(ErrorMessage.DEFAULT);
         return;
       }
 

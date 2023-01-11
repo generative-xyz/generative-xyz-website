@@ -8,6 +8,7 @@ import {
 } from '@constants/config';
 import { datadogLogs } from '@datadog/browser-logs';
 import { datadogRum } from '@datadog/browser-rum';
+import { ApplicationEnvironment } from '@enums/config';
 
 class DatadogService {
   private static instance: DatadogService | null = null;
@@ -20,7 +21,7 @@ class DatadogService {
   }
 
   init(): void {
-    if (APP_ENV === 'production' && ENABLE_DD) {
+    if (APP_ENV === ApplicationEnvironment.PRODUCTION && ENABLE_DD) {
       // Datadog RUM
       datadogRum.init({
         applicationId: DD_APP_ID,
@@ -45,14 +46,14 @@ class DatadogService {
 
   startRUMTracking(): void {
     // Only track on production
-    if (APP_ENV === 'production') {
+    if (APP_ENV === ApplicationEnvironment.PRODUCTION) {
       datadogRum.startSessionReplayRecording();
     }
   }
 
   stopRUMTracking(): void {
     // Only track on production
-    if (APP_ENV === 'production') {
+    if (APP_ENV === ApplicationEnvironment.PRODUCTION) {
       datadogRum.stopSessionReplayRecording();
     }
   }

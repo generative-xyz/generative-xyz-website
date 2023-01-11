@@ -1,8 +1,7 @@
 import { ContractOperationRequiredParams } from '@interfaces/contract';
 
-export interface IIncreaseAllowanceParams
+export interface IApproveTokenAmountParams
   extends ContractOperationRequiredParams {
   contractAddress: string;
   consumerAddress: string;
-  amount: string;
 }

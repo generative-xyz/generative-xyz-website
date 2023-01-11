@@ -66,9 +66,11 @@ export const AnimHeading = ({
       anim.revert();
       refDom.current.heading?.classList.remove(`is-handle`);
       refDom.current?.texts && refDom.current.texts?.revert();
-      refDom.current.resizeObserver?.unobserve(
-        refDom.current?.heading as HTMLElement
-      );
+
+      refDom.current?.heading &&
+        refDom.current.resizeObserver?.unobserve(
+          refDom.current?.heading as HTMLElement
+        );
     };
   }, []);
 

@@ -104,12 +104,12 @@ const Heading = ({
           comp.current?.classList.remove(`is-handle`);
           refDom.current?.texts && refDom.current.texts?.revert();
           if (
+            comp &&
+            comp.current &&
             refDom.current.resizeObserver &&
             refDom.current.resizeObserver?.unobserve
           ) {
-            refDom.current.resizeObserver?.unobserve(
-              comp.current as HTMLElement
-            );
+            refDom.current.resizeObserver?.unobserve(comp.current);
           }
           break;
         case 'random':

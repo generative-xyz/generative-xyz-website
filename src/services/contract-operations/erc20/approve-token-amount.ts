@@ -2,21 +2,20 @@ import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
 import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
-import ContractABI from '@services/contract-abis/generative-marketplace.json';
-import { GENERATIVE_MARKETPLACE_CONTRACT } from '@constants/contract-address';
-import { IAcceptTokenOfferParams } from '@interfaces/contract-operations/accept-token-offer';
+import ContractABI from '@services/contract-abis/erc20.json';
+import { IApproveTokenAmountParams } from '@interfaces/contract-operations/approve-token-amount';
 import { ErrorMessage } from '@enums/error-message';
+import { MAX_HEX_VALUE } from '@constants/contract-address';
 
-class AcceptTokenOfferOperation extends ContractOperation<
-  IAcceptTokenOfferParams,
+class ApproveTokenAmountOperation extends ContractOperation<
+  IApproveTokenAmountParams,
   TransactionReceipt
 > {
   contract: Contract | null = null;
-  contractAddress = GENERATIVE_MARKETPLACE_CONTRACT;
 
   async prepare(): Promise<void> {
     this.contract = await this.walletManager.getContract(
-      this.contractAddress,
+      this.params.contractAddress,
       ContractABI.abi as Array<AbiItem>
     );
   }
@@ -26,16 +25,15 @@ class AcceptTokenOfferOperation extends ContractOperation<
       throw Error('Contract not found');
     }
 
-    const { offerId } = this.params;
+    const { consumerAddress, contractAddress } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
-    const offerIdBytes32 = '0x' + offerId;
 
     const data = await this.contract.methods
-      .acceptMakeOffer(offerIdBytes32)
+      .approve(consumerAddress, MAX_HEX_VALUE)
       .send({
         from: walletAddress,
-        to: this.contractAddress,
+        to: contractAddress,
         value: '0',
       });
 
@@ -51,4 +49,4 @@ class AcceptTokenOfferOperation extends ContractOperation<
   }
 }
 
-export default AcceptTokenOfferOperation;
+export default ApproveTokenAmountOperation;
