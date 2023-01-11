@@ -5,7 +5,7 @@ import Link from '@components/Link';
 import { MintGenerativeContext } from '@contexts/mint-generative-context';
 import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
-import { processSandboxZipFile, readSandboxFileContent } from '@utils/sandbox';
+import { detectUsedLibs, processSandboxZipFile } from '@utils/sandbox';
 import { prettyPrintBytes } from '@utils/units';
 import { ReactElement, useContext, useMemo, useState } from 'react';
 import { EXTERNAL_LINK } from '@constants/external-link';
@@ -36,9 +36,9 @@ const UploadGenArt: React.FC = (): ReactElement => {
 
   const processFile = async (file: File) => {
     try {
-      const files = await processSandboxZipFile(file);
-      readSandboxFileContent(files);
-      setFilesSandbox(files);
+      const sandboxFiles = await processSandboxZipFile(file);
+      setFilesSandbox(sandboxFiles);
+      detectUsedLibs(sandboxFiles);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
       let errorMessage =

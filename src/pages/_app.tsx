@@ -35,7 +35,7 @@ export default function App({ Component, pageProps }: MyAppProps) {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
-        .register('/caching.sw.js', { scope: '/' })
+        .register('/sw.js', { scope: '/' })
         .catch(function (err) {
           log(err as Error, LogLevel.Error, 'App');
         });

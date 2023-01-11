@@ -1,5 +1,10 @@
 import FileType from 'file-type/browser';
-import { JS_EXTENSION, NAIVE_MIMES, ZIP_MIMES } from '@constants/file';
+import {
+  HTML_EXTENSION,
+  JS_EXTENSION,
+  NAIVE_MIMES,
+  ZIP_MIMES,
+} from '@constants/file';
 import { SandboxFileError } from '@enums/sandbox';
 import { SandboxFileContent, SandboxFiles } from '@interfaces/sandbox';
 import { getFileExtensionByFileName, unzipFile } from '@utils/file';
@@ -115,4 +120,31 @@ export const readSandboxFileContent = async (
   }
 
   return fileContents;
+};
+
+export const detectUsedLibs = async (
+  sandBoxFiles: SandboxFiles
+): Promise<Array<string>> => {
+  const detectedLibs: Array<string> = [];
+
+  for (const [fileName, { url }] of Object.entries(sandBoxFiles)) {
+    const fileExt = getFileExtensionByFileName(fileName);
+    if (fileExt && url) {
+      const blob = await fetch(url);
+      const fileContent = await blob.text();
+
+      if (fileExt === HTML_EXTENSION) {
+        const commentCodes = fileContent.match(/<!--(?:.|\n|\r)*?-->/g);
+        const scriptCode = fileContent.match(
+          /<script ([^>]*src="(.*(cdnjs)+.*)")*><\/script>/
+        );
+        // eslint-disable-next-line no-console
+        console.log(commentCodes);
+        // eslint-disable-next-line no-console
+        console.log(scriptCode);
+      }
+    }
+  }
+
+  return detectedLibs;
 };
