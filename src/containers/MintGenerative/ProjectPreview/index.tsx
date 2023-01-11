@@ -1,19 +1,18 @@
-import s from './styles.module.scss';
+import Button from '@components/ButtonIcon';
+import Skeleton from '@components/Skeleton';
+import ClientOnly from '@components/Utils/ClientOnly';
+import { CDN_URL } from '@constants/config';
 import SandboxPreview from '@containers/Sandbox/SandboxPreview';
 import { MintGenerativeContext } from '@contexts/mint-generative-context';
-import { ISandboxRef } from '@interfaces/sandbox';
-import { generateHash } from '@utils/generate-data';
-import { useContext, useMemo, useRef, useState } from 'react';
-import Button from '@components/ButtonIcon';
-import Image from 'next/image';
-import { CDN_URL } from '@constants/config';
 import { PreviewDisplayMode } from '@enums/mint-generative';
-import { useSelector } from 'react-redux';
+import { ISandboxRef } from '@interfaces/sandbox';
 import { getUserSelector } from '@redux/user/selector';
 import { formatAddress } from '@utils/format';
-import Skeleton from '@components/Skeleton';
-import UploadThumbnailButton from '../UploadThumbnailButton';
-import ClientOnly from '@components/Utils/ClientOnly';
+import { generateHash } from '@utils/generate-data';
+import Image from 'next/image';
+import { useContext, useMemo, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import s from './styles.module.scss';
 
 const ProjectPreview = () => {
   const user = useSelector(getUserSelector);
@@ -89,7 +88,7 @@ const ProjectPreview = () => {
         </div>
         <div className={s.actionWrapper}>
           <div className={s.uploadPreviewWrapper}>
-            {currentStep > 1 && currentStep < 3 && <UploadThumbnailButton />}
+            {/* {currentStep > 1 && currentStep < 3 && <UploadThumbnailButton />} */}
           </div>
           <div className={s.sandboxControls}>
             <Button

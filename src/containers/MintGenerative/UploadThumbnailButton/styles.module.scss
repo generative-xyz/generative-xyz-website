@@ -2,9 +2,11 @@
   display: flex;
   gap: 6px !important;
   align-items: center;
-  padding: 5px 10px !important;
-  border-radius: 6px;
+  padding: 11px 0 !important;
   background-color: $black-5;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: rem(36px);
 
   .fileName {
     text-transform: uppercase;
