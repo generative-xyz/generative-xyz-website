@@ -1,4 +1,4 @@
-.wrapper {
+.account_form_wrapper {
   display: flex;
   flex-direction: column;
   gap: rem(24px);
@@ -8,13 +8,21 @@
   display: flex;
   gap: rem(90px);
   flex: 1;
+  @include max-tablet {
+    flex-direction: column;
+  }
 
   &_avatar {
     position: relative;
     width: rem(300px);
     height: rem(300px);
     border-radius: 50%;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
+
+    @include max-tablet {
+      align-self: center;
+    }
   }
 
   &_form {

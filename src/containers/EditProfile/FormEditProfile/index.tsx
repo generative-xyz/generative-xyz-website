@@ -8,7 +8,7 @@ import Text from '@components/Text';
 import { WalletContext } from '@contexts/wallet-context';
 import { LogLevel } from '@enums/log-level';
 import { IUpdateProfilePayload } from '@interfaces/api/profile';
-import { useAppSelector } from '@redux';
+import { useAppDispatch, useAppSelector } from '@redux';
 import { getUserSelector } from '@redux/user/selector';
 import { updateProfile } from '@services/profile';
 import { formatAddress, toBase64 } from '@utils/format';
@@ -16,11 +16,14 @@ import log from '@utils/logger';
 import { Formik } from 'formik';
 import { useContext, useState } from 'react';
 import s from './styles.module.scss';
+import { setUser } from '@redux/user/action';
 
 const LOG_PREFIX = 'FormEditProfile';
 
 const FormEditProfile = () => {
   const user = useAppSelector(getUserSelector);
+  const dispatch = useAppDispatch();
+
   const walletCtx = useContext(WalletContext);
 
   const handleConnectWallet = async (): Promise<void> => {
@@ -51,7 +54,8 @@ const FormEditProfile = () => {
       },
     };
 
-    await updateProfile(payload);
+    const res = await updateProfile(payload);
+    if (res) dispatch(setUser(res));
 
     try {
       return;
@@ -77,7 +81,7 @@ const FormEditProfile = () => {
       validateOnChange
       enableReinitialize
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, isSubmitting, dirty }) => (
         <form className={s.account}>
           <div className={s.account_avatar}>
             <ImagePreviewInput
@@ -96,7 +100,7 @@ const FormEditProfile = () => {
             <Heading as="h4" fontWeight="bold">
               Account Info
             </Heading>
-            <div className={s.wrapper}>
+            <div className={s.account_form_wrapper}>
               <div className={s.input_item}>
                 <Input
                   name={'nickname'}
@@ -160,6 +164,7 @@ const FormEditProfile = () => {
                   <ButtonIcon
                     onClick={() => handleSubmit()}
                     className={s.submit_btn}
+                    disabled={isSubmitting || (!dirty && !newFile)}
                   >
                     Save changes
                   </ButtonIcon>
