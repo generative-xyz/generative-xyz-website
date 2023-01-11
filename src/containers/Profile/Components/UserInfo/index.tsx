@@ -15,8 +15,11 @@ import Heading from '@components/Heading';
 import { Row, Container, Col } from 'react-bootstrap';
 import { useContext } from 'react';
 import { ProfileContext } from '@contexts/profile-context';
+import { useAppSelector } from '@redux';
+import { getUserSelector } from '@redux/user/selector';
 
 export const UserInfo = (): JSX.Element => {
+  const user = useAppSelector(getUserSelector);
   const { currentUser } = useContext(ProfileContext);
 
   return (
@@ -59,22 +62,26 @@ export const UserInfo = (): JSX.Element => {
                       formatAddress(currentUser?.walletAddress || '')}
                   </Heading>
                 </div>
-                <div className={s.editProfile}>
-                  <ButtonIcon
-                    variants={'ghost'}
-                    endIcon={<SvgInset svgUrl={IC_EDIT_PROFILE} />}
-                  >
-                    Edit profile
-                  </ButtonIcon>
-                </div>
-                <div className={s.offerSetting}>
-                  <ButtonIcon
-                    variants={'ghost'}
-                    endIcon={<SvgInset svgUrl={IC_OFFER_SETTING} />}
-                  >
-                    Offer setting
-                  </ButtonIcon>
-                </div>
+                {currentUser?.id === user?.id && (
+                  <>
+                    <div className={s.editProfile}>
+                      <ButtonIcon
+                        variants={'ghost'}
+                        endIcon={<SvgInset svgUrl={IC_EDIT_PROFILE} />}
+                      >
+                        Edit profile
+                      </ButtonIcon>
+                    </div>
+                    <div className={s.offerSetting}>
+                      <ButtonIcon
+                        variants={'ghost'}
+                        endIcon={<SvgInset svgUrl={IC_OFFER_SETTING} />}
+                      >
+                        Offer setting
+                      </ButtonIcon>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </Col>

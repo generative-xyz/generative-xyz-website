@@ -20,6 +20,22 @@
     visibility: visible;
   }
 
+  &.isPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    &.light {
+      background-color: #ffffff;
+    }
+
+    &.dark {
+      background-color: $primary-brand;
+    }
+  }
+
   &_inner {
     background: rgba(0, 0, 0, 0.4);
     border-radius: 50%;

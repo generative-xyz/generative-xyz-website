@@ -29,10 +29,10 @@ class CancelTokenOfferOperation extends ContractOperation<
     const { offerId } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
-    const tokenIdBytes32 = '0x' + offerId;
+    const offerIdBytes32 = '0x' + offerId;
 
     const data = await this.contract.methods
-      .cancelMakeOffer(tokenIdBytes32)
+      .cancelMakeOffer(offerIdBytes32)
       .send({
         from: walletAddress,
         to: this.contractAddress,

@@ -61,7 +61,7 @@ const GenerativeProjectDetail: React.FC = (): React.ReactElement => {
             // maxPrice: '3000000',
           }
         );
-        setListItems(res.result);
+        res.result && setListItems(res.result);
         setIsLoaded(true);
       } catch (_: unknown) {
         log('failed to fetch project items data', LogLevel.Error, LOG_PREFIX);

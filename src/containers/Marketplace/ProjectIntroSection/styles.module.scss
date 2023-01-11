@@ -48,6 +48,11 @@
   column-gap: rem(24px);
   flex-wrap: wrap;
 
+  .mint_btn {
+    min-width: rem(218px);  
+    justify-content: center;
+  }
+
   .explore_btn {
     flex: 1;
     white-space: nowrap;

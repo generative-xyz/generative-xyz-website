@@ -9,7 +9,7 @@
     height: 100vh;
     width: 100vw;
     display: none;
-    z-index: 1;
+    z-index: 10;
   }
 
   .modalWrapper {
@@ -23,7 +23,7 @@
     border-left: 1px solid $black-10;
     box-shadow: -10px 0px 40px $black-20;
     transition: all 0.2s ease-in;
-    z-index: 2;
+    z-index: 20;
   }
 
   .modalHeader {

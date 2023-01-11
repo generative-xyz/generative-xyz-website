@@ -2,6 +2,7 @@ import { NETWORK_CHAIN_ID } from '@constants/config';
 import {
   GENERATIVE_MARKETPLACE_CONTRACT,
   GENERATIVE_PROJECT_CONTRACT,
+  MAX_HEX_VALUE,
   WETH_ADDRESS,
 } from '@constants/contract-address';
 import { ListingStep } from '@enums/listing-generative';
@@ -10,7 +11,7 @@ import useContractOperation from '@hooks/useContractOperation';
 import { MarketplaceStats } from '@interfaces/marketplace';
 import { Token, TokenOffer } from '@interfaces/token';
 import { getUserSelector } from '@redux/user/selector';
-import IncreaseAllowanceOperation from '@services/contract-operations/erc20/increase-allowance';
+import ApproveTokenAmountOperation from '@services/contract-operations/erc20/approve-token-amount';
 import ListingToSaleTokenOperation from '@services/contract-operations/generative-marketplace/list-to-sale-token';
 import MakeTokenOfferOperation from '@services/contract-operations/generative-marketplace/make-token-offer';
 import PurchaseTokenOperation from '@services/contract-operations/generative-marketplace/purchase-token';
@@ -40,6 +41,8 @@ import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { ErrorMessage } from '@enums/error-message';
 import Web3 from 'web3';
+import GetAllowanceAmountOperation from '@services/contract-operations/erc20/get-allowance-amount';
+import CancelListingTokenOperation from '@services/contract-operations/generative-marketplace/cancel-listing-token';
 
 const LOG_PREFIX = 'GenerativeTokenDetailContext';
 
@@ -73,6 +76,10 @@ export interface IGenerativeTokenDetailContext {
   handleAcceptOffer: (_: TokenOffer) => Promise<void>;
   handleCancelOffer: (_: TokenOffer) => Promise<void>;
   handleTransferToken: (_tokenID: string, _addr: string) => Promise<void>;
+  showCancelListingModal: { open: boolean; offer: TokenOffer | null };
+  openCancelListingModal: (_: TokenOffer) => void;
+  hideCancelListingModal: () => void;
+  handleCancelListingOffer: (_: TokenOffer) => Promise<void>;
 }
 
 const initialValue: IGenerativeTokenDetailContext = {
@@ -125,6 +132,14 @@ const initialValue: IGenerativeTokenDetailContext = {
   handleAcceptOffer: _ => new Promise(r => r()),
   handleCancelOffer: _ => new Promise(r => r()),
   handleTransferToken: (_tokenID, _addr) => new Promise(r => r()),
+  showCancelListingModal: { open: false, offer: null },
+  openCancelListingModal: _ => {
+    return;
+  },
+  hideCancelListingModal: () => {
+    return;
+  },
+  handleCancelListingOffer: _ => new Promise(r => r()),
 };
 
 export const GenerativeTokenDetailContext =
@@ -137,6 +152,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   const [tokenOffers, setTokenOffers] = useState<Array<TokenOffer>>([]);
   const [showListingModal, setShowListingModal] = useState(false);
   const [showMakeOfferModal, setShowMakeOfferModal] = useState(false);
+  const [showCancelListingModal, setShowCancelListingModal] = useState<{
+    open: boolean;
+    offer: TokenOffer | null;
+  }>({ open: false, offer: null });
   const [listingStep, setListingStep] = useState(ListingStep.InputInfo);
   const [listingPrice, setListingPrice] = useState(0);
   const [listingOffers, setListingOffers] = useState<Array<TokenOffer>>([]);
@@ -166,8 +185,12 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     MakeTokenOfferOperation,
     true
   );
-  const { call: increaseAllowance } = useContractOperation(
-    IncreaseAllowanceOperation,
+  const { call: approveTokenAmount } = useContractOperation(
+    ApproveTokenAmountOperation,
+    true
+  );
+  const { call: getAllowanceAmount } = useContractOperation(
+    GetAllowanceAmountOperation,
     true
   );
   const { call: acceptOffer } = useContractOperation(
@@ -180,6 +203,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   );
   const { call: transferToken } = useContractOperation(
     TransferTokenOperation,
+    true
+  );
+  const { call: cancelListingToken } = useContractOperation(
+    CancelListingTokenOperation,
     true
   );
   const router = useRouter();
@@ -211,6 +238,20 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   const hideMakeOffergModal = () => {
     // Reset state
     setShowMakeOfferModal(false);
+    setTxHash(null);
+
+    // Recover scroll behavior
+    document.body.style.overflow = 'auto';
+  };
+
+  const openCancelListingModal = (offer: TokenOffer) => {
+    setShowCancelListingModal({ open: true, offer });
+    document.body.style.overflow = 'hidden';
+  };
+
+  const hideCancelListingModal = () => {
+    // Reset state
+    setShowCancelListingModal({ open: false, offer: null });
     setTxHash(null);
 
     // Recover scroll behavior
@@ -289,12 +330,29 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       return;
     }
 
-    await increaseAllowance({
-      contractAddress: WETH_ADDRESS,
-      chainID: NETWORK_CHAIN_ID,
+    const allowanceAmount = await getAllowanceAmount({
       consumerAddress: GENERATIVE_MARKETPLACE_CONTRACT,
-      amount: price,
+      chainID: NETWORK_CHAIN_ID,
+      contractAddress: WETH_ADDRESS,
     });
+
+    if (allowanceAmount === null) {
+      log('Can not get allowanceAmount.', LogLevel.Error, LOG_PREFIX);
+      throw Error(ErrorMessage.DEFAULT);
+    }
+
+    if (BigInt(allowanceAmount) < BigInt(MAX_HEX_VALUE)) {
+      const approveTokenTx = await approveTokenAmount({
+        contractAddress: WETH_ADDRESS,
+        chainID: NETWORK_CHAIN_ID,
+        consumerAddress: GENERATIVE_MARKETPLACE_CONTRACT,
+      });
+
+      if (!approveTokenTx) {
+        log('User rejected WETH permission.', LogLevel.Error, LOG_PREFIX);
+        throw Error(ErrorMessage.DEFAULT);
+      }
+    }
 
     const tx = await makeTokenOffer({
       collectionAddress: tokenData.genNFTAddr,
@@ -310,7 +368,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       throw Error(ErrorMessage.DEFAULT);
     }
 
-    setShowMakeOfferModal(false);
+    hideMakeOffergModal();
   };
 
   const handleAcceptOffer = async (offer: TokenOffer): Promise<void> => {
@@ -385,6 +443,24 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       log('Cancel token offer transaction error.', LogLevel.Error, LOG_PREFIX);
       throw Error(ErrorMessage.DEFAULT);
     }
+  };
+
+  const handleCancelListingOffer = async (offer: TokenOffer): Promise<void> => {
+    const tx = await cancelListingToken({
+      offerId: offer.offeringID,
+      chainID: NETWORK_CHAIN_ID,
+    });
+
+    if (!tx) {
+      log(
+        'Cancel listing token offer transaction error.',
+        LogLevel.Error,
+        LOG_PREFIX
+      );
+      throw Error(ErrorMessage.DEFAULT);
+    }
+
+    hideCancelListingModal();
   };
 
   const fetchTokenData = async (): Promise<void> => {
@@ -512,6 +588,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       handleAcceptOffer,
       handleCancelOffer,
       handleTransferToken,
+      showCancelListingModal,
+      openCancelListingModal,
+      hideCancelListingModal,
+      handleCancelListingOffer,
     };
   }, [
     tokenData,
@@ -543,6 +623,10 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     handleAcceptOffer,
     handleCancelOffer,
     handleTransferToken,
+    showCancelListingModal,
+    openCancelListingModal,
+    hideCancelListingModal,
+    handleCancelListingOffer,
   ]);
 
   return (

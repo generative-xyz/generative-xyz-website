@@ -1,15 +1,13 @@
 import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
-import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/erc20.json';
-import { IIncreaseAllowanceParams } from '@interfaces/contract-operations/increase-allowance';
-import Web3 from 'web3';
+import { IApproveTokenAmountParams } from '@interfaces/contract-operations/approve-token-amount';
 import { ErrorMessage } from '@enums/error-message';
 
-class IncreaseAllowanceOperation extends ContractOperation<
-  IIncreaseAllowanceParams,
-  TransactionReceipt
+class GetAllowanceAmountOperation extends ContractOperation<
+  IApproveTokenAmountParams,
+  number
 > {
   contract: Contract | null = null;
 
@@ -20,22 +18,18 @@ class IncreaseAllowanceOperation extends ContractOperation<
     );
   }
 
-  async call(): Promise<TransactionReceipt> {
+  async call(): Promise<number> {
     if (!this.contract) {
       throw Error('Contract not found');
     }
 
-    const { consumerAddress, amount, contractAddress } = this.params;
+    const { consumerAddress } = this.params;
 
     const walletAddress = await this.walletManager.connectedAddress();
 
     const data = await this.contract.methods
-      .increaseAllowance(consumerAddress, Web3.utils.toWei(amount))
-      .send({
-        from: walletAddress,
-        to: contractAddress,
-        value: '0',
-      });
+      .allowance(walletAddress, consumerAddress)
+      .call();
 
     return data;
   }
@@ -49,4 +43,4 @@ class IncreaseAllowanceOperation extends ContractOperation<
   }
 }
 
-export default IncreaseAllowanceOperation;
+export default GetAllowanceAmountOperation;
