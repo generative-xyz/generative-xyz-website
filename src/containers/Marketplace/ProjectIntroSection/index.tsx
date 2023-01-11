@@ -183,8 +183,6 @@ const ProjectIntroSection = ({ project }: Props) => {
           ) : (
             <></>
           )}
-          <div>{/*TODO marketplaceStats*/}</div>
-
           <div className={s.stats}>
             <div className={s.stats_item}>
               <Text size="12" fontWeight="bold">
@@ -267,7 +265,13 @@ const ProjectIntroSection = ({ project }: Props) => {
               header={'Creator'}
               content={
                 <>
-                  <Link href={ROUTE_PATH.PROFILE}>
+                  <Link
+                    href={
+                      user?.walletAddress === project?.creatorAddr
+                        ? ROUTE_PATH.PROFILE
+                        : `${ROUTE_PATH.PROFILE}/${project?.creatorAddr}`
+                    }
+                  >
                     <Text as="span" size="18" fontWeight="semibold">
                       {project?.creatorProfile?.displayName ||
                         formatAddress(
