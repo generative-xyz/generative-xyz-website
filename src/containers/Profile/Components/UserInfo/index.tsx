@@ -17,10 +17,13 @@ import Image from 'next/image';
 import { useContext } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import s from './UserInfo.module.scss';
+import { useRouter } from 'next/router';
+import { ROUTE_PATH } from '@constants/route-path';
 
 export const UserInfo = (): JSX.Element => {
   const user = useAppSelector(getUserSelector);
   const { currentUser } = useContext(ProfileContext);
+  const router = useRouter();
 
   return (
     <div className={s.userInfo}>
@@ -68,6 +71,7 @@ export const UserInfo = (): JSX.Element => {
                       <ButtonIcon
                         variants={'ghost'}
                         endIcon={<SvgInset svgUrl={IC_EDIT_PROFILE} />}
+                        onClick={() => router.push(ROUTE_PATH.EDIT_PROFILE)}
                       >
                         Edit profile
                       </ButtonIcon>
