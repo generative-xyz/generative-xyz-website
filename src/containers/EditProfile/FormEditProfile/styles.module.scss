@@ -1,0 +1,56 @@
+.account_form_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24px);
+}
+
+.account {
+  display: flex;
+  gap: rem(90px);
+  flex: 1;
+  @include max-tablet {
+    flex-direction: column;
+  }
+
+  &_avatar {
+    position: relative;
+    width: rem(300px);
+    height: rem(300px);
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+
+    @include max-tablet {
+      align-self: center;
+    }
+  }
+
+  &_form {
+    flex: 1;
+    max-width: rem(515px);
+
+    h4 {
+      margin-bottom: rem(32px);
+    }
+  }
+
+  &_wallet {
+    h4 {
+      margin-bottom: rem(26px);
+    }
+  }
+}
+
+.input_nickname {
+  margin-bottom: rem(8px);
+}
+
+.input_social {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16px);
+}
+
+.submit_btn {
+  width: fit-content;
+}

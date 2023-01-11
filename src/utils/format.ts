@@ -14,6 +14,26 @@ export const base64ToUtf8 = (str: string): string => {
   return decodeURIComponent(escape(window.atob(str)));
 };
 
+export const toBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+
+// export const getBase64 = (file: File): string | ArrayBuffer | null => {
+//   let reader = new FileReader();
+//   reader.readAsDataURL(file);
+//   reader.onload = function () {
+//     return reader.result;
+//   };
+//   reader.onerror = function (error) {
+//     return error;
+//   };
+//   return null;
+// };
+
 export const formatAddress = (address: string): string => {
   if (address.length < 14) return address;
   return `${address.substring(0, 7)}`;
