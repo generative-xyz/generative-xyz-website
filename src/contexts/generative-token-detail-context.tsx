@@ -68,6 +68,7 @@ export interface IGenerativeTokenDetailContext {
   tokenID: string;
   tokenOffers: Array<TokenOffer>;
   isTokenOwner: boolean;
+  isTokenCreator: boolean;
   isTokenListing: boolean;
   showMakeOfferModal: boolean;
   openMakeOfferModal: () => void;
@@ -80,6 +81,9 @@ export interface IGenerativeTokenDetailContext {
   openCancelListingModal: (_: TokenOffer) => void;
   hideCancelListingModal: () => void;
   handleCancelListingOffer: (_: TokenOffer) => Promise<void>;
+  showTransferTokenModal: boolean;
+  openTransferTokenModal: () => void;
+  hideTransferTokenModal: () => void;
 }
 
 const initialValue: IGenerativeTokenDetailContext = {
@@ -120,6 +124,7 @@ const initialValue: IGenerativeTokenDetailContext = {
   tokenID: '',
   tokenOffers: [],
   isTokenOwner: false,
+  isTokenCreator: false,
   isTokenListing: false,
   showMakeOfferModal: false,
   openMakeOfferModal: () => {
@@ -140,6 +145,13 @@ const initialValue: IGenerativeTokenDetailContext = {
     return;
   },
   handleCancelListingOffer: _ => new Promise(r => r()),
+  showTransferTokenModal: false,
+  openTransferTokenModal: () => {
+    return;
+  },
+  hideTransferTokenModal: () => {
+    return;
+  },
 };
 
 export const GenerativeTokenDetailContext =
@@ -152,6 +164,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   const [tokenOffers, setTokenOffers] = useState<Array<TokenOffer>>([]);
   const [showListingModal, setShowListingModal] = useState(false);
   const [showMakeOfferModal, setShowMakeOfferModal] = useState(false);
+  const [showTransferTokenModal, setShowTransferTokenModal] = useState(false);
   const [showCancelListingModal, setShowCancelListingModal] = useState<{
     open: boolean;
     offer: TokenOffer | null;
@@ -258,6 +271,20 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     document.body.style.overflow = 'auto';
   };
 
+  const openTransferTokenModal = () => {
+    setShowTransferTokenModal(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const hideTransferTokenModal = () => {
+    // Reset state
+    setShowTransferTokenModal(false);
+    setTxHash(null);
+
+    // Recover scroll behavior
+    document.body.style.overflow = 'auto';
+  };
+
   const handleListingToken = async (price: string): Promise<void> => {
     setErrorMessage(null);
 
@@ -304,6 +331,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     } else {
       setListingStep(ListingStep.Success);
       setTxHash(tx.transactionHash);
+
+      // Refresh listing offers
+      fetchListingTokenOffers();
     }
   };
 
@@ -322,6 +352,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       log('purchase token transaction error.', LogLevel.Error, LOG_PREFIX);
     } else {
       toast.success('You has bought this art successfully');
+
+      // Reload token data to update owner
+      fetchTokenData();
     }
   };
 
@@ -369,6 +402,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     }
 
     hideMakeOffergModal();
+
+    // Refresh offers data
+    fetchTokenOffers();
   };
 
   const handleAcceptOffer = async (offer: TokenOffer): Promise<void> => {
@@ -410,6 +446,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       log('Accept token offer transaction error.', LogLevel.Error, LOG_PREFIX);
       throw Error(ErrorMessage.DEFAULT);
     }
+
+    // Refresh offers data
+    fetchTokenOffers();
   };
 
   const handleCancelOffer = async (offer: TokenOffer): Promise<void> => {
@@ -422,6 +461,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       log('Cancel token offer transaction error.', LogLevel.Error, LOG_PREFIX);
       throw Error(ErrorMessage.DEFAULT);
     }
+
+    // Refresh offers data
+    fetchTokenOffers();
   };
 
   const handleTransferToken = async (
@@ -443,6 +485,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       log('Cancel token offer transaction error.', LogLevel.Error, LOG_PREFIX);
       throw Error(ErrorMessage.DEFAULT);
     }
+
+    // Refresh offers data
+    fetchTokenData();
   };
 
   const handleCancelListingOffer = async (offer: TokenOffer): Promise<void> => {
@@ -461,6 +506,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     }
 
     hideCancelListingModal();
+
+    // Refresh offers data
+    fetchListingTokenOffers();
   };
 
   const fetchTokenData = async (): Promise<void> => {
@@ -494,7 +542,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     }
   };
 
-  const handleFetchMarketplaceStats = async () => {
+  const fetchMarketplaceStats = async () => {
     try {
       if (tokenData && tokenData?.genNFTAddr) {
         const res = await getMarketplaceStats({
@@ -507,7 +555,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     }
   };
 
-  const handleFetchListingToken = async () => {
+  const fetchListingTokenOffers = async () => {
     try {
       if (tokenData && tokenData.genNFTAddr) {
         const listingTokens = await getListing(
@@ -538,6 +586,11 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     return user.walletAddress === tokenData?.ownerAddr;
   }, [tokenData, user]);
 
+  const isTokenCreator = useMemo(() => {
+    if (!user.walletAddress || !tokenData?.creator?.walletAddress) return false;
+    return user.walletAddress === tokenData?.creator?.walletAddress;
+  }, [tokenData, user]);
+
   const isTokenListing = useMemo(() => {
     if (!user.walletAddress || !listingOffers || listingOffers.length === 0)
       return false;
@@ -549,12 +602,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
   }, [tokenID]);
 
   useEffect(() => {
-    handleFetchListingToken();
-  }, [tokenData, tokenID]);
-
-  useEffect(() => {
     fetchTokenOffers();
-    handleFetchMarketplaceStats();
+    fetchListingTokenOffers();
+    fetchMarketplaceStats();
   }, [tokenData]);
 
   const contextValues = useMemo((): IGenerativeTokenDetailContext => {
@@ -580,6 +630,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       tokenID,
       tokenOffers,
       isTokenOwner,
+      isTokenCreator,
       isTokenListing,
       showMakeOfferModal,
       openMakeOfferModal,
@@ -592,6 +643,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
       openCancelListingModal,
       hideCancelListingModal,
       handleCancelListingOffer,
+      showTransferTokenModal,
+      openTransferTokenModal,
+      hideTransferTokenModal,
     };
   }, [
     tokenData,
@@ -615,6 +669,7 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     tokenID,
     tokenOffers,
     isTokenOwner,
+    isTokenCreator,
     isTokenListing,
     showMakeOfferModal,
     openMakeOfferModal,
@@ -627,6 +682,9 @@ export const GenerativeTokenDetailProvider: React.FC<PropsWithChildren> = ({
     openCancelListingModal,
     hideCancelListingModal,
     handleCancelListingOffer,
+    showTransferTokenModal,
+    openTransferTokenModal,
+    hideTransferTokenModal,
   ]);
 
   return (
