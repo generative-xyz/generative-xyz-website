@@ -96,6 +96,15 @@ const FormEditProfile = () => {
                 )
               }
             />
+            {user?.avatar && (
+              <ButtonIcon
+                variants="secondary"
+                className={s.change_btn}
+                style={{ pointerEvents: 'none' }}
+              >
+                Changes
+              </ButtonIcon>
+            )}
           </div>
           <div className={s.account_form}>
             <Heading as="h4" fontWeight="bold">
