@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import s from './404.module.scss';
 import { SimpleLoading } from '@components/SimpleLoading';
-import { registerLoading } from '@helpers/anim.helpers';
 import Heading from '@components/Heading';
 import ButtonIcon from '@components/ButtonIcon';
 import { useAppSelector } from '@redux';
@@ -20,7 +19,6 @@ export const Page404 = (): JSX.Element => {
   const router = useRouter();
 
   useEffect(() => {
-    registerLoading(1);
     const html = document.querySelector('html');
     if (html) {
       html.classList.add('is-landing');

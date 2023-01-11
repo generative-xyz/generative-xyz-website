@@ -6,11 +6,14 @@ import classNames from 'classnames';
 import { MaskerStart } from 'src/animations/masker-start';
 import { Frames } from '@animations/frames';
 import { HARDWARE_CONTENTS } from '@constants/frame';
-import { useRef, useEffect } from 'react';
+import { useContext, useRef, useEffect } from 'react';
 import { Benchmark } from './benchmark';
+import { LoadingContext } from '@contexts/loading-context';
 import { CDN_URL } from '@constants/config';
 
 export const HardWare = (): JSX.Element => {
+  const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
+
   const refOptions = useRef({ isCPUIn: false, isFirst: false });
   const refMain = useRef<HTMLDivElement>(null);
   const refScreen = useRef(null);
@@ -98,6 +101,8 @@ export const HardWare = (): JSX.Element => {
               webmFrame={`${CDN_URL}/pages/home/frame-3/block-3-v2-%d.png.webp`}
               totalFrames={111}
               onProcessing={processing}
+              start={registerLoading}
+              end={unRegisterLoading}
             >
               <div className={`${s.hardWare_content_detail}`}>
                 <div className={s.hardWare_content_detail_inner}>

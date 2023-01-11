@@ -2,14 +2,12 @@ import { useEffect } from 'react';
 import s from './Benefit.module.scss';
 import { CreatePageSection } from '@containers/Benefit/components/CreatePage';
 import { SimpleLoading } from '@components/SimpleLoading';
-import { registerLoading } from '@helpers/anim.helpers';
 import { ImageContent } from '@containers/Benefit/components/ImageContent';
 import { CDN_URL } from '@constants/config';
 import { Container } from 'react-bootstrap';
 
 export const BenefitPage = (): JSX.Element => {
   useEffect(() => {
-    registerLoading(1);
     const html = document.querySelector('html');
     if (html) {
       html.classList.add('is-landing');
