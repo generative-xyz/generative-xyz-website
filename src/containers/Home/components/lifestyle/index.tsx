@@ -3,12 +3,14 @@ import { SectionInfo } from '../section-info';
 import s from './lifestyle.module.scss';
 import classNames from 'classnames';
 import { MaskerStart } from '@animations/masker-start';
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { gsap } from 'gsap';
+import { LoadingContext } from '@contexts/loading-context';
 
 export const LifeStyle = () => {
   const refOptions = useRef({ isIn: false });
   const refContent = useRef(null);
+  const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
 
   const processing = (frame: number) => {
     if (frame < 18) {
@@ -54,6 +56,8 @@ export const LifeStyle = () => {
             width={1920}
             height={1080}
             className={s.lifeStyle_canvas_main}
+            start={registerLoading}
+            end={unRegisterLoading}
             urlFrame={
               'https://cdn.generative.xyz/pages/home/frame-4-v4/block-4-v4-%d.png'
             }

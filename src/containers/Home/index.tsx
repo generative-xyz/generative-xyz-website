@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import s from './Home.module.scss';
 import { SectionHero } from '@containers/Home/components/hero';
-import { registerLoading, unRegisterLoading } from '@helpers/anim.helpers';
-import { Loading } from '@containers/Home/components/loading';
 import { Artworks } from '@containers/Home/components/artworks';
 import { HardWare } from './components/hardware';
 import { LifeStyle } from '@containers/Home/components/lifestyle';
 import { Prices } from '@containers/Home/components/prices';
 import { ScrollTriggerHelper } from '@containers/Home/scrolltrigger-helper';
+import { LoadingContext, LoadingProvider } from '@contexts/loading-context';
 
 const Home: React.FC = (): JSX.Element => {
+  const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
+
   registerLoading();
   useEffect(() => {
     new ScrollTriggerHelper();
@@ -20,17 +21,16 @@ const Home: React.FC = (): JSX.Element => {
     }
 
     unRegisterLoading();
-
     return () => {
       if (html) {
         html.classList.remove('is-landing');
       }
+      unRegisterLoading();
     };
   }, []);
 
   return (
     <div className={`${s.Home} desc__body`}>
-      <Loading />
       <SectionHero />
       <Artworks />
       <HardWare />
@@ -39,5 +39,12 @@ const Home: React.FC = (): JSX.Element => {
     </div>
   );
 };
+const WrapHome = (): JSX.Element => {
+  return (
+    <LoadingProvider>
+      <Home />
+    </LoadingProvider>
+  );
+};
 
-export default Home;
+export default WrapHome;

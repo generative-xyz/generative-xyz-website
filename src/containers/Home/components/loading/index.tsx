@@ -1,11 +1,10 @@
 import { gsap } from 'gsap';
 import s from './loading.module.scss';
-import { useSelector } from 'react-redux';
-import { animationRegister } from '@redux/general/selector';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useAppDispatch } from '@redux';
 import { setPageLoadStatus } from '@redux/general/action';
 import { PAGE_LOADED, PAGE_ENTER, LOGO_URL } from '@constants/common';
+import { LoadingContext } from '@contexts/loading-context';
 
 interface IProcessing {
   value: number;
@@ -17,9 +16,10 @@ interface IProcessing {
 
 export const Loading = (): JSX.Element => {
   const dispatch = useAppDispatch();
+
+  const { getCounter } = useContext(LoadingContext);
   const refLoading = useRef<HTMLDivElement>(null);
   const refPersent = useRef<HTMLSpanElement>(null);
-  const loadingCounter = useSelector(animationRegister);
   const processing = useRef<IProcessing>({
     value: 0,
     delta: 1,
@@ -61,7 +61,7 @@ export const Loading = (): JSX.Element => {
       loadingComplete();
     }
 
-    if (!processing.current.loaded) {
+    if (getCounter() !== 0) {
       processing.current.delta *= 0.9;
       processing.current.onHold += 0.0005;
       if (processing.current.onHold >= 1) {
@@ -77,9 +77,6 @@ export const Loading = (): JSX.Element => {
     document.body.classList.add('is-loading', 'hide-scroller');
     const loadContent = gsap.context(() => {
       gsap.ticker.add(looper);
-      if (loadingCounter <= 0 && refLoading.current) {
-        processing.current.loaded = true;
-      }
     }, refLoading);
 
     return () => {
@@ -87,7 +84,7 @@ export const Loading = (): JSX.Element => {
       gsap.ticker.remove(looper);
       loadContent.revert();
     };
-  }, [loadingCounter]);
+  }, []);
 
   return (
     <div ref={refLoading} className={s.loading}>
