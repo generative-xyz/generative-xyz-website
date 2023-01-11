@@ -115,8 +115,9 @@ const ProjectIntroSection = ({ project }: Props) => {
         'events.Transfer.returnValues.tokenId',
         null
       );
-
-      router.push(`/generative/${project.tokenID}/${tokenID}`);
+      setTimeout(() => {
+        router.push(`/generative/${project.tokenID}/${tokenID}`);
+      }, 1000);
     } catch (err: unknown) {
       log(err as Error, LogLevel.Error, LOG_PREFIX);
     } finally {
