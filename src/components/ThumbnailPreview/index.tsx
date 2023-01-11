@@ -28,7 +28,7 @@ const ThumbnailPreview = (props: Props) => {
 
   const sandboxRef = useRef<ISandboxRef>(null);
   const [displayMode, setDisplayMode] = useState<PreviewDisplayMode>(
-    PreviewDisplayMode.Thumbnail
+    PreviewDisplayMode.Animation
   );
   const [hash, setHash] = useState<string>(generateHash());
 
