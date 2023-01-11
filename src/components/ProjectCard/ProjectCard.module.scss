@@ -8,6 +8,11 @@
     background: #FFFFFF;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 2px;
+    transition: box-shadow .4s $easeOutCubic;
+
+    &:hover {
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+    }
   }
 
   &_thumb {
@@ -36,12 +41,14 @@
       display: block;
       margin-top: rem(10px);
       margin-bottom: rem(10px);
+
       h4 {
         font-weight: 600;
         font-size: rem(24px);
         line-height: rem(34px);
       }
     }
+
     :global(.useInfo) {
       margin-bottom: rem(10px);
     }

@@ -1,14 +1,21 @@
 import { gsap } from 'gsap';
 
 export class ScrollTriggerHelper {
+  resizeObserver: ResizeObserver;
   constructor() {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const ScrollTrigger = require('gsap/ScrollTrigger').default;
     gsap.registerPlugin(ScrollTrigger);
 
-    const resizeObserver = new ResizeObserver(() => {
+    this.resizeObserver = new ResizeObserver(() => {
       ScrollTrigger.refresh();
     });
-    resizeObserver.observe(document.body);
+    const main = document.querySelector('main');
+    main && this.resizeObserver.observe(main);
+  }
+
+  kill() {
+    const main = document.querySelector('main');
+    main && this.resizeObserver.unobserve(main);
   }
 }

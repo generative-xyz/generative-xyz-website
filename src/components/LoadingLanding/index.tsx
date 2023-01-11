@@ -2,8 +2,6 @@ import { LOGO_GENERATIVE, PAGE_ENTER, PAGE_LOADED } from '@constants/common';
 import { gsap } from 'gsap';
 import s from './loading.module.scss';
 import { useContext, useEffect, useRef } from 'react';
-import { useAppDispatch } from '@redux';
-import { setPageLoadStatus } from '@redux/general/action';
 import { LoadingContext } from '@contexts/loading-context';
 import Image from 'next/image';
 
@@ -16,9 +14,7 @@ interface IProcessing {
 }
 
 export const LoadingLanding = (): JSX.Element => {
-  const dispatch = useAppDispatch();
-
-  const { getCounter } = useContext(LoadingContext);
+  const { getCounter, setPageLoadStatus } = useContext(LoadingContext);
   const refLoading = useRef<HTMLDivElement>(null);
   const refPersent = useRef<HTMLSpanElement>(null);
   const processing = useRef<IProcessing>({
@@ -30,7 +26,7 @@ export const LoadingLanding = (): JSX.Element => {
   });
 
   const loadingComplete = () => {
-    dispatch(setPageLoadStatus(PAGE_LOADED));
+    setPageLoadStatus(PAGE_LOADED);
     gsap.to(refLoading.current, {
       clipPath: 'inset(0 0 100% 0)',
       ease: 'power3.inOut',
@@ -43,7 +39,7 @@ export const LoadingLanding = (): JSX.Element => {
       },
     });
 
-    setTimeout(() => dispatch(setPageLoadStatus(PAGE_ENTER)), 500);
+    setTimeout(() => setPageLoadStatus(PAGE_ENTER), 500);
   };
 
   const looper = () => {
@@ -62,7 +58,7 @@ export const LoadingLanding = (): JSX.Element => {
       loadingComplete();
     }
 
-    if (getCounter() !== 0) {
+    if (getCounter() > 0) {
       processing.current.delta *= 0.9;
       processing.current.onHold += 0.0005;
       if (processing.current.onHold >= 1) {

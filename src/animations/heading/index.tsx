@@ -1,13 +1,12 @@
-import { useEffect, useRef, createElement, ReactNode } from 'react';
+import { useEffect, useRef, createElement, ReactNode, useContext } from 'react';
 import { gsap } from 'gsap';
 
 import { debounce } from 'lodash';
 import SplitType from 'split-type';
-import { pageLoadStatus } from '@redux/general/selector';
 import { PAGE_ENTER } from '@constants/common';
-import { useSelector } from 'react-redux';
 import { getDelay } from '@helpers/anim.helpers';
 import { Anim } from '../anim';
+import { LoadingContext } from '@contexts/loading-context';
 
 interface IProps {
   tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'div';
@@ -36,7 +35,7 @@ export const AnimHeading = ({
 }: IProps): JSX.Element => {
   const comp = useRef<HTMLHeadingElement>(null);
   const refDom = useRef<IProRefDom>({ heading: null });
-  const loadStatus = useSelector(pageLoadStatus);
+  const { pageLoadStatus } = useContext(LoadingContext);
 
   useEffect(() => {
     const anim = gsap.context(() => {
@@ -75,7 +74,7 @@ export const AnimHeading = ({
   }, []);
 
   useEffect(() => {
-    if (refDom.current.heading && loadStatus === PAGE_ENTER) {
+    if (refDom.current.heading && pageLoadStatus === PAGE_ENTER) {
       new Anim(refDom.current.heading, () => {
         const delay = getDelay(screen, offset);
 
@@ -97,7 +96,7 @@ export const AnimHeading = ({
         });
       });
     }
-  }, [loadStatus, isIn]);
+  }, [pageLoadStatus, isIn]);
 
   return createElement(tag, { className, ref: comp }, children);
 };

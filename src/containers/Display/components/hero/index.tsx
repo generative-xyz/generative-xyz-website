@@ -45,11 +45,7 @@ export const SectionHero = (): JSX.Element => {
           poster={`${CDN_URL}/pages/home/videos/video-hero-block-1-poster.jpeg`}
         >
           <source
-            src={`${CDN_URL}/pages/home/videos/Block%201-1.webm`}
-            type="video/webm"
-          />
-          <source
-            src={`${CDN_URL}/pages/home/Block-v2-1-1.mp4`}
+            src={`${CDN_URL}/pages/home/videos/Video%20Top%20Banner%2016X9-compress.mp4`}
             type="video/mp4"
           />
         </video>

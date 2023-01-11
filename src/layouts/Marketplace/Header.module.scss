@@ -8,6 +8,11 @@
   z-index: 9;
   background-color: $white;
 
+  &_inner {
+    padding: rem(5px) 0;
+    position: relative;
+  }
+
   &.dark {
     background: $primary-brand;
 
@@ -67,7 +72,6 @@
 
       margin-bottom: 0;
       padding: 0;
-      text-transform: uppercase;
       display: none;
       flex-wrap: wrap;
       font-weight: 600;
@@ -93,6 +97,17 @@
         @include mobile {
           text-align: center;
           display: block;
+        }
+
+        sup {
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 16px;
+          letter-spacing: 0.01em;
+          color: #FF7E21;
+          display: inline-block;
+          transform: translateY(-.6em);
+          text-transform: none;
         }
       }
 
@@ -149,6 +164,46 @@
       transform: translateY(11px);
       transition: all 0.2s;
       z-index: 10;
+    }
+  }
+}
+
+
+.logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.testNet {
+  background: #4F43E2;
+  font-style: normal;
+  font-weight: 500;
+  line-height: (24/14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  padding: rem(8px) rem(16px);
+
+  @include calcFontAutoSmall(12px, 14px);
+
+  button {
+    background: none;
+    position: absolute;
+    right: vw(72px);
+  }
+
+  img {
+    margin-right: 6px;
+  }
+
+  a {
+    display: inline-block;
+    margin-left: 6px;
+    &:hover{
+      color: rgba($white, .8);
     }
   }
 }

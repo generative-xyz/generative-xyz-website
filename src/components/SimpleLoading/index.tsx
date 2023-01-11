@@ -1,13 +1,12 @@
 import { Loading } from '@components/Loading';
 import { PAGE_ENTER, PAGE_LOADED } from '@constants/common';
-import { useAppDispatch } from '@redux';
-import { setPageLoadStatus } from '@redux/general/action';
 import { animationRegister } from '@redux/general/selector';
 import classNames from 'classnames';
 import { gsap } from 'gsap';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import s from './loading.module.scss';
+import { LoadingContext } from '@contexts/loading-context';
 
 interface IProcessing {
   value: number;
@@ -26,7 +25,7 @@ export const SimpleLoading = ({
   theme = 'light',
   isCssLoading = false,
 }: IProp): JSX.Element => {
-  const dispatch = useAppDispatch();
+  const { getCounter, setPageLoadStatus } = useContext(LoadingContext);
   const refLoading = useRef<HTMLDivElement>(null);
   const loadingCounter = useSelector(animationRegister);
   const processing = useRef<IProcessing>({
@@ -38,7 +37,7 @@ export const SimpleLoading = ({
   });
 
   const loadingComplete = () => {
-    dispatch(setPageLoadStatus(PAGE_LOADED));
+    setPageLoadStatus(PAGE_LOADED);
     gsap.to(refLoading.current, {
       opacity: 0,
       ease: 'power3.inOut',
@@ -50,7 +49,7 @@ export const SimpleLoading = ({
         document.body.classList.remove('is-loading');
       },
     });
-    setTimeout(() => dispatch(setPageLoadStatus(PAGE_ENTER)), 100);
+    setTimeout(() => setPageLoadStatus(PAGE_ENTER), 100);
   };
 
   const looper = () => {
@@ -64,7 +63,7 @@ export const SimpleLoading = ({
       loadingComplete();
     }
 
-    if (!processing.current.loaded) {
+    if (getCounter() > 0) {
       processing.current.delta *= 0.9;
       processing.current.onHold += 0.0005;
       if (processing.current.onHold >= 1) {

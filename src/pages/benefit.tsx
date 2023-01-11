@@ -1,14 +1,14 @@
 import { NextPage } from 'next';
 
 import MarketplaceLayout from '@layouts/Marketplace';
-import { BenefitPage } from '@containers/Benefit';
+import Benefit from '@containers/Benefit';
 
-const HomePage: NextPage = () => {
+const BenefitTemplate: NextPage = () => {
   return (
     <MarketplaceLayout theme={'dark'}>
-      <BenefitPage />
+      <Benefit />
     </MarketplaceLayout>
   );
 };
 
-export default HomePage;
+export default BenefitTemplate;
