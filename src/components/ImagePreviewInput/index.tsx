@@ -1,11 +1,18 @@
-import s from './styles.module.scss';
-import React, { ChangeEvent, useEffect, useState } from 'react';
 import cs from 'classnames';
 import Image from 'next/image';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
+import s from './styles.module.scss';
+import Skeleton from '@components/Skeleton';
 
 interface IProps {
-  file: File | null;
-  onFileChange: (f: File | null) => void;
+  file: any;
+  onFileChange: Dispatch<SetStateAction<File | null | undefined>>;
   className?: string;
   placeHolderHtml?: JSX.Element;
   previewHtml?: JSX.Element;
@@ -13,12 +20,15 @@ interface IProps {
 
 const ImagePreviewInput: React.FC<IProps> = ({
   file,
-  onFileChange,
   className,
   placeHolderHtml,
+  onFileChange,
   previewHtml,
 }: IProps): React.ReactElement => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [currentImage, setCurrentImage] = useState<JSX.Element | null>(
+    previewHtml || null
+  );
 
   useEffect(() => {
     if (!file) {
@@ -26,19 +36,20 @@ const ImagePreviewInput: React.FC<IProps> = ({
       return;
     }
 
-    const objectUrl = URL.createObjectURL(file);
-    setPreview(objectUrl);
+    setPreview(file);
 
-    return () => URL.revokeObjectURL(objectUrl);
+    return () => URL.revokeObjectURL(file);
   }, [file]);
 
   const onSelectFile = (evt: ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files || evt.target.files.length === 0) {
-      onFileChange(null);
+      setCurrentImage(previewHtml || null);
       return;
     }
-
-    onFileChange(evt.target.files[0]);
+    const newFile = evt.target.files[0];
+    onFileChange(newFile);
+    setPreview(URL.createObjectURL(newFile));
+    setCurrentImage(null);
   };
 
   return (
@@ -47,7 +58,7 @@ const ImagePreviewInput: React.FC<IProps> = ({
         <>
           {preview ? (
             <>
-              {previewHtml ? (
+              {currentImage ? (
                 previewHtml
               ) : (
                 <div className={s.previewWrapper}>
@@ -62,13 +73,7 @@ const ImagePreviewInput: React.FC<IProps> = ({
             </>
           ) : (
             <>
-              {placeHolderHtml ? (
-                placeHolderHtml
-              ) : (
-                <div className={s.placeHolder}>
-                  <span>Upload an image</span>
-                </div>
-              )}
+              {placeHolderHtml ? placeHolderHtml : <Skeleton fill></Skeleton>}
             </>
           )}
         </>
@@ -77,8 +82,16 @@ const ImagePreviewInput: React.FC<IProps> = ({
         id="fileInput"
         className={s.fileInput}
         type="file"
+        accept="image/*"
         onChange={onSelectFile}
       />
+      {/* <ButtonIcon
+        variants="secondary"
+        className={s.change_btn}
+        onClick={e => e.stopPropagation()}
+      >
+        Changes
+      </ButtonIcon> */}
     </div>
   );
 };

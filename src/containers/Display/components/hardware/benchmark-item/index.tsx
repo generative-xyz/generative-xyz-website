@@ -105,6 +105,7 @@ export const BenchmarkItem = ({
                 src={`${CDN_URL}/pages/home/icons/cin.png`}
                 width={20}
                 height={20}
+                alt="Cinebench R20"
               />
               Cinebench R20
             </>
@@ -114,6 +115,7 @@ export const BenchmarkItem = ({
                 src={`${CDN_URL}/pages/home/icons/gfx.png`}
                 width={20}
                 height={20}
+                alt="GFXBench 4.0"
               />
               GFXBench 4.0 - Car Chase Offscreen
             </>

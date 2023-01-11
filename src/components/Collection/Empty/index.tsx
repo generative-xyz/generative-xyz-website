@@ -16,6 +16,7 @@ import _get from 'lodash/get';
 import { isTestnet } from '@utils/chain';
 import { ErrorMessage } from '@enums/error-message';
 import { WalletContext } from '@contexts/wallet-context';
+import Web3 from 'web3';
 
 const LOG_PREFIX = 'Empty';
 
@@ -44,7 +45,10 @@ export const Empty = ({
         return;
       }
 
-      if (walletBalance < parseFloat(projectInfo.mintPrice.toString())) {
+      if (
+        walletBalance <
+        parseFloat(Web3.utils.fromWei(projectInfo.mintPrice.toString()))
+      ) {
         if (isTestnet()) {
           toast.error(
             'Insufficient funds testnet. Go to profile and get testnet faucet'

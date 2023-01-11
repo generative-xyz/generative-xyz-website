@@ -4,11 +4,11 @@ import { TransactionReceipt } from 'web3-eth';
 import ContractOperation from '@services/contract-operations/contract-operation';
 import ContractABI from '@services/contract-abis/generative-marketplace.json';
 import { GENERATIVE_MARKETPLACE_CONTRACT } from '@constants/contract-address';
-import { IAcceptTokenOfferParams } from '@interfaces/contract-operations/accept-token-offer';
 import { ErrorMessage } from '@enums/error-message';
+import { ICancelListingOfferParams } from '@interfaces/contract-operations/cancel-listing-offer';
 
-class AcceptTokenOfferOperation extends ContractOperation<
-  IAcceptTokenOfferParams,
+class CancelListingTokenOperation extends ContractOperation<
+  ICancelListingOfferParams,
   TransactionReceipt
 > {
   contract: Contract | null = null;
@@ -32,7 +32,7 @@ class AcceptTokenOfferOperation extends ContractOperation<
     const offerIdBytes32 = '0x' + offerId;
 
     const data = await this.contract.methods
-      .acceptMakeOffer(offerIdBytes32)
+      .cancelListing(offerIdBytes32)
       .send({
         from: walletAddress,
         to: this.contractAddress,
@@ -51,4 +51,4 @@ class AcceptTokenOfferOperation extends ContractOperation<
   }
 }
 
-export default AcceptTokenOfferOperation;
+export default CancelListingTokenOperation;

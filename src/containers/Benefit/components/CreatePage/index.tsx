@@ -43,7 +43,6 @@ export const CreatePageSection = (): JSX.Element => {
   };
 
   useEffect(() => {
-    // unRegisterLoading();
     refAnim.current && gsap.set(refList.current, { opacity: 0, y: 100 });
     fetchRandomProject();
   }, []);

@@ -11,6 +11,7 @@ export const ROUTE_PATH = {
   BENEFIT: '/benefit',
   GENERATIVE: '/generative',
   PROFILE: '/profile',
+  EDIT_PROFILE: `/profile/edit`,
   SANDBOX: '/sandbox',
   DISPLAY: '/display',
 };

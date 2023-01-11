@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import s from './Display.module.scss';
 import { SectionHero } from '@containers/Display/components/hero';
-import { registerLoading, unRegisterLoading } from '@helpers/anim.helpers';
-import { Loading } from '@containers/Display/components/loading';
 import { Artworks } from '@containers/Display/components/artworks';
 import { HardWare } from './components/hardware';
 import { LifeStyle } from '@containers/Display/components/lifestyle';
 import { Prices } from '@containers/Display/components/prices';
 import { ScrollTriggerHelper } from '@containers/Display/scrolltrigger-helper';
-
+import { LoadingContext, LoadingProvider } from '@contexts/loading-context';
 const Display: React.FC = (): JSX.Element => {
-  registerLoading();
+  const { registerLoading, unRegisterLoading } = useContext(LoadingContext);
+  registerLoading('Display');
   useEffect(() => {
     new ScrollTriggerHelper();
     const html = document.querySelector('html');
@@ -19,18 +18,17 @@ const Display: React.FC = (): JSX.Element => {
       html.classList.add('is-landing');
     }
 
-    unRegisterLoading();
-
+    unRegisterLoading('Display');
     return () => {
       if (html) {
         html.classList.remove('is-landing');
       }
+      unRegisterLoading('Display');
     };
   }, []);
 
   return (
     <div className={`${s.Home} desc__body`}>
-      <Loading />
       <SectionHero />
       <Artworks />
       <HardWare />
@@ -39,5 +37,12 @@ const Display: React.FC = (): JSX.Element => {
     </div>
   );
 };
+const WrapDisplay = (): JSX.Element => {
+  return (
+    <LoadingProvider>
+      <Display />
+    </LoadingProvider>
+  );
+};
 
-export default Display;
+export default WrapDisplay;

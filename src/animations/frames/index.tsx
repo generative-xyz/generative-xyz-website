@@ -4,12 +4,7 @@ import { ScrollFixed } from '../scroll-fixed';
 import { MathLerp, MathMap } from '@helpers/functions.helpers';
 import classNames from 'classnames';
 import s from './frame.module.scss';
-import {
-  isMobileAndTablet,
-  registerLoading,
-  unRegisterLoading,
-  webpSupported,
-} from '@helpers/anim.helpers';
+import { isMobileAndTablet, webpSupported } from '@helpers/anim.helpers';
 
 interface IProps {
   className: string;
@@ -21,6 +16,8 @@ interface IProps {
   width: 1920;
   onProcessing?: (n: number) => void;
   onEnter?: () => void;
+  start?: () => void;
+  end?: () => void;
 }
 
 interface IRefDomFrames {
@@ -45,6 +42,8 @@ export const Frames = ({
   width = 1920,
   onProcessing,
   onEnter,
+  start,
+  end,
 }: IProps): JSX.Element => {
   const comp = useRef<HTMLDivElement>(null);
   const refDom = useRef<IRefDomFrames>({
@@ -56,18 +55,23 @@ export const Frames = ({
     ctx: null,
   });
 
-  const registerImgDom = (frame: number) => {
+  const registerImgDom = (frame: number, step = false) => {
     if (frame > totalFrames) return;
-    if (refDom.current.currentUrlFrame && !refDom.current.images[frame]) {
-      refDom.current.images[frame] = {
-        image: document.createElement('img'),
-        frame,
-      };
-      refDom.current.images[frame].image.src =
-        refDom.current.currentUrlFrame.replace(
-          '%d',
-          Math.floor(frame).toString()
-        );
+    for (let i = frame; i < frame + 25; i++) {
+      if (i > totalFrames) return;
+      if (refDom.current.currentUrlFrame && !refDom.current.images[i]) {
+        refDom.current.images[i] = {
+          image: document.createElement('img'),
+          frame: i,
+        };
+        refDom.current.images[i].image.src =
+          refDom.current.currentUrlFrame.replace(
+            '%d',
+            Math.floor(i).toString()
+          );
+      }
+
+      if (step) return;
     }
   };
 
@@ -90,7 +94,7 @@ export const Frames = ({
     }
 
     if (frame > totalFrames || refDom.current.images[frame]) return;
-    registerImgDom(frame);
+    registerImgDom(frame, true);
     refDom.current.images[frame].image.onload = () => {
       if (!onLoaded) {
         if (
@@ -105,13 +109,13 @@ export const Frames = ({
   };
 
   const loadFirstFrame = () => {
-    registerLoading();
+    start && start();
     const checkLoaded: Record<string, number> = { value: 0 };
     for (let i = 1; i <= refDom.current.framesFirstLoad; i++) {
       loadFrame(i, () => {
         checkLoaded.value++;
         if (checkLoaded.value >= refDom.current.framesFirstLoad) {
-          unRegisterLoading();
+          end && end();
           drawFrame(refDom.current.images[1].image);
         }
       });
@@ -195,7 +199,7 @@ export const Frames = ({
       refDom.current.canvas && refDom.current.canvas.remove();
       gsap.ticker.remove(runFrame);
       refDom.current.scrollFixed = undefined;
-      unRegisterLoading();
+      end && end();
     };
   }, []);
 
