@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import s from './Benefit.module.scss';
 import { CreatePageSection } from '@containers/Benefit/components/CreatePage';
-import { SimpleLoading } from '@components/SimpleLoading';
 import { ImageContent } from '@containers/Benefit/components/ImageContent';
 import { CDN_URL } from '@constants/config';
 import { Container } from 'react-bootstrap';
+import { LoadingProvider } from '@contexts/loading-context';
 
-export const BenefitPage = (): JSX.Element => {
+const BenefitPage = (): JSX.Element => {
   useEffect(() => {
     const html = document.querySelector('html');
     if (html) {
@@ -22,7 +22,6 @@ export const BenefitPage = (): JSX.Element => {
 
   return (
     <div className={s.benefit}>
-      <SimpleLoading theme={'dark'} />
       <CreatePageSection />
       <Container>
         <div className={s.benefit_rows}>
@@ -58,3 +57,13 @@ export const BenefitPage = (): JSX.Element => {
     </div>
   );
 };
+
+const BenefitWrapper = (): JSX.Element => {
+  return (
+    <LoadingProvider>
+      <BenefitPage />
+    </LoadingProvider>
+  );
+};
+
+export default BenefitWrapper;
