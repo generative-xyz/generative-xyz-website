@@ -333,22 +333,17 @@ const SetPrice = () => {
               </div>
             </div>
           </div>
-
-          <div className={s.stepFooterWrapper}>
-            <footer className={s.stepFooter}>
-              <div className={s.container}>
-                <div className={s.actionWrapper}>
-                  <Button
-                    disabled={isMinting}
-                    type="submit"
-                    className={s.nextBtn}
-                    sizes="medium"
-                  >
-                    {isMinting ? 'Minting...' : 'Publish project'}
-                  </Button>
-                </div>
-              </div>
-            </footer>
+          <div className={s.container}>
+            <div className={s.actionWrapper}>
+              <Button
+                disabled={isMinting}
+                type="submit"
+                className={s.nextBtn}
+                sizes="medium"
+              >
+                {isMinting ? 'Minting...' : 'Publish project'}
+              </Button>
+            </div>
           </div>
         </form>
       )}

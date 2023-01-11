@@ -1,6 +1,6 @@
 .button {
   cursor: pointer;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.01em;
   font-weight: 600;
   border-radius: rem(2px);
   transition: all 0.2s;
@@ -29,10 +29,8 @@
 
   &.small,
   &.xsmall {
-
     line-height: (24/14);
     @include calcFontAuto(12px, 14px);
-
   }
 
   /* Button sizes */
